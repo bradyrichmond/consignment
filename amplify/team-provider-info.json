@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-consignment-dev-134622-authRole",
+      "UnauthRoleArn": "arn:aws:iam::459525634969:role/amplify-consignment-dev-134622-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::459525634969:role/amplify-consignment-dev-134622-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-consignment-dev-134622-deployment",
+      "UnauthRoleName": "amplify-consignment-dev-134622-unauthRole",
+      "StackName": "amplify-consignment-dev-134622",
+      "StackId": "arn:aws:cloudformation:us-west-2:459525634969:stack/amplify-consignment-dev-134622/71553fa0-c829-11ed-8715-062b9e70d83b",
+      "AmplifyAppId": "d1l2yamygqryva"
+    },
+    "categories": {
+      "api": {
+        "consignment": {}
+      }
+    }
+  }
+}
