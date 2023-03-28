@@ -1,9 +1,10 @@
-import React, { ChangeEvent, ChangeEventHandler, useEffect, useState } from 'react';
+import React, { ChangeEvent, ChangeEventHandler, useContext, useEffect, useState } from 'react';
 import { DataStore, Predicates } from 'aws-amplify';
 import { Client } from '../../models';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridEventListener } from '@mui/x-data-grid';
 import { Box, Button, InputAdornment, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import { DrawerContext } from '../../App';
 
 const toTitleCase = (str: string) => {
     if (str.length > 0){
@@ -28,12 +29,13 @@ const formatPhoneNumber = (num: string) => {
 const Clients = () => {
     const [clients, setClients] = useState<Client[]>([]);
     const [page, setPage] = useState(0);
-    const [searchTerm, setSearchTerm] = useState('')
+    const [searchTerm, setSearchTerm] = useState('');
+    const { setDrawerContent, setDrawerClientId } = useContext(DrawerContext);
 
     useEffect(() => {
         const getClients = async () => {
             const fetchedClients = await DataStore.query(Client, Predicates.ALL, {
-                page,
+                page: 0,
                 limit: 100
             });
             setClients(fetchedClients);
@@ -76,7 +78,7 @@ const Clients = () => {
         {field: 'account', headerName: 'Account #', width: 100, editable: true},
         {field: 'phone', headerName: 'Phone #', width: 200, editable: true},
         {field: 'email', headerName: 'Email', width: 300, editable: true},
-        {field: 'createdTimestamp', headerName: 'Created TS', width: 300, editable: true},
+        {field: 'createTimestamp', headerName: 'Created TS', width: 300, editable: true},
         {field: 'activeTimestamp', headerName: 'Active TS', width: 300, editable: true},
         {field: 'inactiveTimestamp', headerName: 'Inactive TS', width: 300, editable: true},
     ];
@@ -226,32 +228,50 @@ const Clients = () => {
         setPage((currentPage) => currentPage--);
     }
 
+    const handleRowClick: GridEventListener<'rowClick'> = (
+        params,
+        event,
+        details,
+      ) => {
+        setDrawerClientId(params.id.toString());
+        setDrawerContent('clientOverview');
+    };
+
     return (
-        <Box height='100%'>
-            <Box marginLeft='2rem' marginRight='2rem' marginTop='2rem' display='flex' flexDirection='row'>
-                <Box paddingLeft='2rem'>
-                    <Button variant="contained" component="label">
-                        Bulk Upload Clients
-                        <input hidden accept=".csv" type="file" onChange={bulkAddClients} />
-                    </Button>
-                    <Button variant="contained" component="label">
-                        Merge Phone numbers to clients
-                        <input hidden accept=".csv" type="file" onChange={mergePhoneNumbers} />
-                    </Button>
-                    <Button variant="contained" component="label">
-                        Merge emails to clients
-                        <input hidden accept=".csv" type="file" onChange={mergeEmails} />
-                    </Button>
-                </Box>
-            </Box>
-            <Box width='100%'>
+        <Box height='100%' display='flex' flexDirection='column' padding='2rem'>
+            <Box paddingTop='2rem' paddingBottom='2rem' display='flex' flexDirection='row' width='100%' alignItems='center'>
                 <TextField InputProps={{
-                        endAdornment: <InputAdornment position="start"><SearchIcon /></InputAdornment>,
+                        endAdornment: <InputAdornment position="start"><SearchIcon style={{color: 'white'}}/></InputAdornment>,
                     }}
+                    fullWidth={true}
                     onChange={onSearchChange}
+                    style={{border: '1px solid white', borderRadius: '.25rem'}}
                 />
+                <ProcessCsvButton label='Bulk Upload Clients' action={bulkAddClients} />
+                <ProcessCsvButton label='Merge Phone numbers to Clients' action={mergePhoneNumbers} />
+                <ProcessCsvButton label='Merge Emails to  Clients' action={mergeEmails} />
             </Box>
-            <DataGrid columns={columns} rows={rows} />
+            <Box flex='1'>
+                <DataGrid columns={columns} rows={rows} onRowClick={handleRowClick} style={{color: 'white'}}/>
+            </Box>
+        </Box>
+    )
+}
+
+interface ProcessCsvButtonProps {
+    label: string
+    action: (e: ChangeEvent<HTMLInputElement>) => void
+}
+
+const ProcessCsvButton = (props: ProcessCsvButtonProps) => {
+    const { label, action } = props;
+
+    return (
+        <Box paddingLeft='2rem'>
+            <Button variant="contained" component="label" style={{backgroundColor: 'black', border: '1px solid white'}}>
+                {label}
+                <input hidden accept=".csv" type="file" onChange={action} />
+            </Button>
         </Box>
     )
 }
