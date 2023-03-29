@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 import { DrawerContext } from '../../App';
 import ClientOverview from './ClientOverview';
 import { Close } from '@mui/icons-material';
+import ItemOverview from './ItemOverview';
 
 const Drawer = () => {
     const { drawerContent, setDrawerContent } = useContext(DrawerContext);
@@ -29,6 +30,8 @@ const DrawerContentPicker = ({ drawerContent }: DrawerContentPickerProps) => {
     switch (drawerContent) {
         case 'clientOverview':
             return <ClientOverview />
+        case 'itemOverview':
+            return <ItemOverview />
         default:
             return <></>
     }

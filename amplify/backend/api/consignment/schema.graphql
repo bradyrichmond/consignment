@@ -23,9 +23,7 @@ type Client @model @searchable {
 
 type Item @model {
   itemId: String!
-  priceCodeId: String!
   userId: String!
-  commissionId: String!
   itemAcquireTypeId: String!
   categoryId: String!
   locationId: String!
@@ -33,10 +31,23 @@ type Item @model {
   statusId: String!
   taxTypeId: String!
   number: String!
-  name: String!
+  itemName: String!
   description: String!
+  receiveTimestamp: String!
+  donateIndicator: Boolean
   price: String!
-  cost: String!
+  cost: String
+  qty: Int
+  qtyTagPrint: Int
+  tagPrintedTimestamp: String!
+  commission: String!
+  itemAcquisitionTypeId: String!
+  brandId: String!
+  saleDetailId: String!
+  titleChanged: Boolean
+  modifiedTimestamp: String!
   modifiedBy: String!
-  consignmentId: String!
+  upcCode: String!
+  createTimestamp: String!
+  entryTimestamp: String
 }

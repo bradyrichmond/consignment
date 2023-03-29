@@ -3,6 +3,7 @@ import {
   createBrowserRouter,
   Navigate,
   RouterProvider,
+  useLocation,
   useNavigate,
 } from "react-router-dom";
 import Clients from './features/Clients';
@@ -14,6 +15,7 @@ import '@aws-amplify/ui-react/styles.css';
 import awsExports from './aws-exports';
 import Home from './features/Home';
 import { Box } from '@mui/material';
+import Items from './features/Items';
 Amplify.configure(awsExports);
 
 const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: string[]) => createBrowserRouter([
@@ -24,6 +26,10 @@ const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: string[]
       {
         path: 'clients',
         element: <Clients />
+      },
+      {
+        path: 'items',
+        element: <Items />
       }
     ]
   },
@@ -34,7 +40,14 @@ const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: string[]
 ]);
 
 export const CognitoContext = createContext({ userIsLoggedIn: false, setUserIsLoggedIn: (loggedIn: boolean) => {}, userGroups: [], setUserGroups: (groups: []) => {} });
-export const DrawerContext = createContext({ drawerContent: '', setDrawerContent: (drawerItem: string) => {}, drawerClientId: '', setDrawerClientId: (clientId: string) => {} });
+export const DrawerContext = createContext({ 
+  drawerContent: '', 
+  setDrawerContent: (drawerItem: string) => {}, 
+  drawerClientId: '', 
+  setDrawerClientId: (clientId: string) => {},
+  drawerItemId: '',
+  setDrawerItemId: (itemId: string) => {}
+});
 
 const App = () => {
   const pathname = window.location.pathname;
@@ -42,10 +55,11 @@ const App = () => {
   const [userGroups, setUserGroups] = useState([]);
   const [drawerContent, setDrawerContent] = useState('');
   const [drawerClientId, setDrawerClientId] = useState('');
+  const [drawerItemId, setDrawerItemId] = useState('');
 
   return (
     <CognitoContext.Provider value={{userIsLoggedIn, setUserIsLoggedIn, userGroups, setUserGroups}}>
-      <DrawerContext.Provider value={{drawerContent, setDrawerContent, drawerClientId, setDrawerClientId}}>
+      <DrawerContext.Provider value={{drawerContent, setDrawerContent, drawerClientId, setDrawerClientId, drawerItemId, setDrawerItemId}}>
         <CognitoContext.Consumer>
           { value => 
             <RouterProvider router={buildRoutes(value.userIsLoggedIn, pathname, value.userGroups)} />
@@ -59,11 +73,13 @@ const App = () => {
 const Login = () => {
   const navigate = useNavigate();
   const cognito = useContext(CognitoContext);
+  const location = useLocation();
+  const { goto } = location.state
 
   const userLoggedIn = (user: any) => {
     cognito.setUserIsLoggedIn(true);
     cognito.setUserGroups(user.signInUserSession.accessToken.payload['cognito:groups']);
-    navigate('/clients')
+    navigate(goto);
     return true;
   }
 

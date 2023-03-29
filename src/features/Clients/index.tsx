@@ -263,7 +263,7 @@ interface ProcessCsvButtonProps {
     action: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
-const ProcessCsvButton = (props: ProcessCsvButtonProps) => {
+export const ProcessCsvButton = (props: ProcessCsvButtonProps) => {
     const { label, action } = props;
 
     return (

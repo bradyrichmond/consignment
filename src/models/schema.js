@@ -155,22 +155,8 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "priceCodeId": {
-                    "name": "priceCodeId",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
                 "userId": {
                     "name": "userId",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "commissionId": {
-                    "name": "commissionId",
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
@@ -225,8 +211,8 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "name": {
-                    "name": "name",
+                "itemName": {
+                    "name": "itemName",
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
@@ -237,6 +223,20 @@ export const schema = {
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "receiveTimestamp": {
+                    "name": "receiveTimestamp",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "donateIndicator": {
+                    "name": "donateIndicator",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "price": {
@@ -250,6 +250,69 @@ export const schema = {
                     "name": "cost",
                     "isArray": false,
                     "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "qty": {
+                    "name": "qty",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "qtyTagPrint": {
+                    "name": "qtyTagPrint",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "tagPrintedTimestamp": {
+                    "name": "tagPrintedTimestamp",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "commission": {
+                    "name": "commission",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "itemAcquisitionTypeId": {
+                    "name": "itemAcquisitionTypeId",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "brandId": {
+                    "name": "brandId",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "saleDetailId": {
+                    "name": "saleDetailId",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "titleChanged": {
+                    "name": "titleChanged",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "modifiedTimestamp": {
+                    "name": "modifiedTimestamp",
+                    "isArray": false,
+                    "type": "String",
                     "isRequired": true,
                     "attributes": []
                 },
@@ -260,11 +323,25 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "consignmentId": {
-                    "name": "consignmentId",
+                "upcCode": {
+                    "name": "upcCode",
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "createTimestamp": {
+                    "name": "createTimestamp",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "entryTimestamp": {
+                    "name": "entryTimestamp",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "createdAt": {
@@ -297,5 +374,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.0",
-    "version": "1d59f8191fb58ee73ea41bc48d37374f"
+    "version": "e9d9c87d8d3e4451e88cbd1f5d069303"
 };
