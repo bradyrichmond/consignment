@@ -9,7 +9,7 @@ const Home = () => {
             <Box flex='1'>
                 <Outlet />
             </Box>
-            <Box maxWidth='25%' bgcolor='red' overflow='hidden'>
+            <Box maxWidth='25%' overflow='hidden'>
                 <Drawer />
             </Box>
         </Box>

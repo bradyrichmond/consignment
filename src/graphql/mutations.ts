@@ -24,29 +24,45 @@ export const createClient = /* GraphQL */ `
       inactiveTimestamp
       modifiedBy
       items {
-        itemId
-        priceCodeId
-        userId
-        commissionId
-        itemAcquireTypeId
-        categoryId
-        locationId
-        sectionId
-        statusId
-        taxTypeId
-        number
-        name
-        description
-        price
-        cost
-        modifiedBy
-        consignmentId
-        id
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
+        items {
+          itemId
+          userId
+          itemAcquireTypeId
+          categoryId
+          locationId
+          sectionId
+          statusId
+          taxTypeId
+          number
+          itemName
+          description
+          receiveTimestamp
+          donateIndicator
+          price
+          cost
+          qty
+          qtyTagPrint
+          tagPrintedTimestamp
+          commission
+          itemAcquisitionTypeId
+          brandId
+          saleDetailId
+          titleChanged
+          modifiedTimestamp
+          modifiedBy
+          upcCode
+          createTimestamp
+          entryTimestamp
+          id
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientItemsId
+        }
+        nextToken
+        startedAt
       }
       createdAt
       updatedAt
@@ -78,29 +94,45 @@ export const updateClient = /* GraphQL */ `
       inactiveTimestamp
       modifiedBy
       items {
-        itemId
-        priceCodeId
-        userId
-        commissionId
-        itemAcquireTypeId
-        categoryId
-        locationId
-        sectionId
-        statusId
-        taxTypeId
-        number
-        name
-        description
-        price
-        cost
-        modifiedBy
-        consignmentId
-        id
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
+        items {
+          itemId
+          userId
+          itemAcquireTypeId
+          categoryId
+          locationId
+          sectionId
+          statusId
+          taxTypeId
+          number
+          itemName
+          description
+          receiveTimestamp
+          donateIndicator
+          price
+          cost
+          qty
+          qtyTagPrint
+          tagPrintedTimestamp
+          commission
+          itemAcquisitionTypeId
+          brandId
+          saleDetailId
+          titleChanged
+          modifiedTimestamp
+          modifiedBy
+          upcCode
+          createTimestamp
+          entryTimestamp
+          id
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientItemsId
+        }
+        nextToken
+        startedAt
       }
       createdAt
       updatedAt
@@ -132,29 +164,45 @@ export const deleteClient = /* GraphQL */ `
       inactiveTimestamp
       modifiedBy
       items {
-        itemId
-        priceCodeId
-        userId
-        commissionId
-        itemAcquireTypeId
-        categoryId
-        locationId
-        sectionId
-        statusId
-        taxTypeId
-        number
-        name
-        description
-        price
-        cost
-        modifiedBy
-        consignmentId
-        id
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
+        items {
+          itemId
+          userId
+          itemAcquireTypeId
+          categoryId
+          locationId
+          sectionId
+          statusId
+          taxTypeId
+          number
+          itemName
+          description
+          receiveTimestamp
+          donateIndicator
+          price
+          cost
+          qty
+          qtyTagPrint
+          tagPrintedTimestamp
+          commission
+          itemAcquisitionTypeId
+          brandId
+          saleDetailId
+          titleChanged
+          modifiedTimestamp
+          modifiedBy
+          upcCode
+          createTimestamp
+          entryTimestamp
+          id
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientItemsId
+        }
+        nextToken
+        startedAt
       }
       createdAt
       updatedAt
@@ -171,9 +219,7 @@ export const createItem = /* GraphQL */ `
   ) {
     createItem(input: $input, condition: $condition) {
       itemId
-      priceCodeId
       userId
-      commissionId
       itemAcquireTypeId
       categoryId
       locationId
@@ -181,18 +227,58 @@ export const createItem = /* GraphQL */ `
       statusId
       taxTypeId
       number
-      name
+      itemName
       description
+      receiveTimestamp
+      donateIndicator
       price
       cost
+      qty
+      qtyTagPrint
+      tagPrintedTimestamp
+      commission
+      itemAcquisitionTypeId
+      brandId
+      saleDetailId
+      titleChanged
+      modifiedTimestamp
       modifiedBy
-      consignmentId
+      upcCode
+      createTimestamp
+      entryTimestamp
+      client {
+        id
+        clientId
+        clientTypeId
+        firstName
+        lastName
+        companyName
+        account
+        receiveMailInd
+        nextItemNumber
+        phone
+        email
+        createTimestamp
+        activeTimestamp
+        inactiveTimestamp
+        modifiedBy
+        items {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       id
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      clientItemsId
     }
   }
 `;
@@ -203,9 +289,7 @@ export const updateItem = /* GraphQL */ `
   ) {
     updateItem(input: $input, condition: $condition) {
       itemId
-      priceCodeId
       userId
-      commissionId
       itemAcquireTypeId
       categoryId
       locationId
@@ -213,18 +297,58 @@ export const updateItem = /* GraphQL */ `
       statusId
       taxTypeId
       number
-      name
+      itemName
       description
+      receiveTimestamp
+      donateIndicator
       price
       cost
+      qty
+      qtyTagPrint
+      tagPrintedTimestamp
+      commission
+      itemAcquisitionTypeId
+      brandId
+      saleDetailId
+      titleChanged
+      modifiedTimestamp
       modifiedBy
-      consignmentId
+      upcCode
+      createTimestamp
+      entryTimestamp
+      client {
+        id
+        clientId
+        clientTypeId
+        firstName
+        lastName
+        companyName
+        account
+        receiveMailInd
+        nextItemNumber
+        phone
+        email
+        createTimestamp
+        activeTimestamp
+        inactiveTimestamp
+        modifiedBy
+        items {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       id
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      clientItemsId
     }
   }
 `;
@@ -235,9 +359,7 @@ export const deleteItem = /* GraphQL */ `
   ) {
     deleteItem(input: $input, condition: $condition) {
       itemId
-      priceCodeId
       userId
-      commissionId
       itemAcquireTypeId
       categoryId
       locationId
@@ -245,18 +367,58 @@ export const deleteItem = /* GraphQL */ `
       statusId
       taxTypeId
       number
-      name
+      itemName
       description
+      receiveTimestamp
+      donateIndicator
       price
       cost
+      qty
+      qtyTagPrint
+      tagPrintedTimestamp
+      commission
+      itemAcquisitionTypeId
+      brandId
+      saleDetailId
+      titleChanged
+      modifiedTimestamp
       modifiedBy
-      consignmentId
+      upcCode
+      createTimestamp
+      entryTimestamp
+      client {
+        id
+        clientId
+        clientTypeId
+        firstName
+        lastName
+        companyName
+        account
+        receiveMailInd
+        nextItemNumber
+        phone
+        email
+        createTimestamp
+        activeTimestamp
+        inactiveTimestamp
+        modifiedBy
+        items {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       id
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      clientItemsId
     }
   }
 `;

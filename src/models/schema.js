@@ -108,6 +108,22 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "items": {
+                    "name": "items",
+                    "isArray": true,
+                    "type": {
+                        "model": "Item"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "clientItemsId"
+                        ]
+                    }
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -359,6 +375,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
+                },
+                "clientItemsId": {
+                    "name": "clientItemsId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -367,6 +390,15 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "gsi-Client.items",
+                        "fields": [
+                            "clientItemsId"
+                        ]
+                    }
                 }
             ]
         }
@@ -374,5 +406,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.0",
-    "version": "e9d9c87d8d3e4451e88cbd1f5d069303"
+    "version": "4fe66fe1abd538dae0f38f3b6a49b57a"
 };

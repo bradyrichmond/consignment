@@ -4,7 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { ProcessCsvButton } from '../Clients';
 import { DataGrid, GridColDef, GridEventListener } from '@mui/x-data-grid';
 import { DataStore } from 'aws-amplify';
-import { Item } from '../../models';
+import { Client, Item } from '../../models';
 import { DrawerContext } from '../../App';
 
 
@@ -54,64 +54,72 @@ const Items = () => {
                             const item = items[i].split(',');
             
                             const itemId = item[0];
-                            const userId = item[1];
-                            const itemAcquireTypeId = item[2];
-                            const categoryId = item[3];
-                            const locationId = item[4];
-                            const sectionId = item[5];
-                            const statusId = item[6];
-                            const taxTypeId = item[7];
-                            const number = item[8];
-                            const itemName = item[9];
-                            const description = item[10];
-                            const receiveTimestamp = item[11];
-                            const donateIndicator = !!item[12];
-                            const price = item[13];
-                            const cost = item[14];
-                            const qty = parseInt(item[15]);
-                            const qtyTagPrint = parseInt(item[16]);
-                            const tagPrintedTimestamp = item[17];
-                            const commission = item[18];
-                            const itemAcquisitionTypeId = item[19];
-                            const brandId = item[20];
-                            const saleDetailId = item[21];
-                            const titleChanged = !!item[22];
-                            const modifiedTimestamp = item[23];
-                            const modifiedBy = item[24];
-                            const upcCode = item[25];
-                            const createTimestamp = item[26];
-                            const entryTimestamp = item[27];
+                            const clientId = item[1]
+                            const userId = item[2];
+                            const itemAcquireTypeId = item[3];
+                            const categoryId = item[4];
+                            const locationId = item[5];
+                            const sectionId = item[6];
+                            const statusId = item[7];
+                            const taxTypeId = item[8];
+                            const number = item[9];
+                            const itemName = item[10];
+                            const description = item[11];
+                            const receiveTimestamp = item[12];
+                            const donateIndicator = !!item[13];
+                            const price = item[14];
+                            const cost = item[15];
+                            const qty = parseInt(item[16]);
+                            const qtyTagPrint = parseInt(item[17]);
+                            const tagPrintedTimestamp = item[18];
+                            const commission = item[19];
+                            const itemAcquisitionTypeId = item[20];
+                            const brandId = item[21];
+                            const saleDetailId = item[22];
+                            const titleChanged = !!item[23];
+                            const modifiedTimestamp = item[24];
+                            const modifiedBy = item[25];
+                            const upcCode = item[26];
+                            const createTimestamp = item[27];
+                            const entryTimestamp = item[28];
+
+                            const fetchedClient = await DataStore.query(Client, c => c.clientId.eq(clientId));
+                            const clientItemsId = fetchedClient[0].id;
+
+                            if (clientItemsId) {
                             
-                            await DataStore.save(new Item({ 
-                                itemId, 
-                                userId, 
-                                itemAcquireTypeId, 
-                                categoryId, 
-                                locationId, 
-                                sectionId, 
-                                statusId, 
-                                taxTypeId, 
-                                number, 
-                                itemName, 
-                                description, 
-                                receiveTimestamp, 
-                                donateIndicator, 
-                                price, 
-                                cost, 
-                                qty, 
-                                qtyTagPrint, 
-                                tagPrintedTimestamp, 
-                                commission, 
-                                itemAcquisitionTypeId, 
-                                brandId, 
-                                saleDetailId, 
-                                titleChanged, 
-                                modifiedTimestamp, 
-                                modifiedBy, 
-                                upcCode, 
-                                createTimestamp, 
-                                entryTimestamp 
-                            }));
+                                await DataStore.save(new Item({ 
+                                    itemId,
+                                    clientItemsId,
+                                    userId, 
+                                    itemAcquireTypeId, 
+                                    categoryId, 
+                                    locationId, 
+                                    sectionId, 
+                                    statusId, 
+                                    taxTypeId, 
+                                    number, 
+                                    itemName, 
+                                    description, 
+                                    receiveTimestamp, 
+                                    donateIndicator, 
+                                    price, 
+                                    cost, 
+                                    qty, 
+                                    qtyTagPrint, 
+                                    tagPrintedTimestamp, 
+                                    commission, 
+                                    itemAcquisitionTypeId, 
+                                    brandId, 
+                                    saleDetailId, 
+                                    titleChanged, 
+                                    modifiedTimestamp, 
+                                    modifiedBy, 
+                                    upcCode, 
+                                    createTimestamp, 
+                                    entryTimestamp 
+                                }));
+                            }
                         }
 
                         add();
@@ -132,15 +140,12 @@ const Items = () => {
         setDrawerContent('itemOverview');
     };
 
-    const mergeClientItemsToItems = (e:ChangeEvent<HTMLInputElement>) => {
-        
-    }
-
     const columns: GridColDef[] = [
         {field: 'itemId', headerName: 'Item Id', width: 200, editable: true},
         {field: 'description', headerName: 'Description', width: 400, editable: true},
         {field: 'price', headerName: 'Price', width: 200, editable: true},
         {field: 'upcCode', headerName: 'UPC', width: 200, editable: true},
+        {field: 'clientItemsId', headerName: 'client id', width: 400, editable: true},
     ];
 
     const rows = items ?? [];
@@ -156,7 +161,6 @@ const Items = () => {
                     style={{border: '1px solid white', borderRadius: '.25rem'}}
                 />
                 <ProcessCsvButton label='Bulk Upload Items' action={bulkAddItems} />
-                <ProcessCsvButton label='Merge Items with Client Items' action={mergeClientItemsToItems} />
             </Box>
             <Box flex='1'>
                 <DataGrid columns={columns} rows={rows} style={{color: 'white'}} onRowClick={handleRowClick}/>

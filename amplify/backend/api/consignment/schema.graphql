@@ -18,7 +18,7 @@ type Client @model @searchable {
   activeTimestamp: String
   inactiveTimestamp: String
   modifiedBy: String!
-  items: [Item]
+  items: [Item] @hasMany
 }
 
 type Item @model {
@@ -50,4 +50,5 @@ type Item @model {
   upcCode: String!
   createTimestamp: String!
   entryTimestamp: String
+  client: Client
 }
