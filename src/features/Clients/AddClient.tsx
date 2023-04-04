@@ -26,7 +26,7 @@ const AddClient = ({ close }: AddClientProps) => {
         const fetchedModifiedBy = await Auth.currentUserInfo();
         const modifiedBy = fetchedModifiedBy.username;
         
-        const newClient = await DataStore.save(new Client({ firstName, lastName, companyName, phone: phoneNumber, email, account, nextItemNumber: '1', receiveMailInd: false, modifiedBy, createTimestamp: format(Date.now(), "MM-dd-yyyy HH:mm:ss"), activeTimestamp: format(Date.now(), "MM-dd-yyyy HH:mm:ss"), inactiveTimestamp: format(add(new Date(2014, 8, 1, 10, 19, 50), {years: 1}), "MM-dd-yyyy HH:mm:ss") }));
+        const newClient = await DataStore.save(new Client({ firstName, lastName, companyName, phone: phoneNumber, email, account, nextItemNumber: '1', receiveMailInd: false, modifiedBy, createTimestamp: format(Date.now(), "MM-dd-yyyy HH:mm:ss"), activeTimestamp: format(Date.now(), "MM-dd-yyyy HH:mm:ss"), inactiveTimestamp: format(add(Date.now(), {years: 1}), "MM-dd-yyyy HH:mm:ss") }));
         await DataStore.save(new Address({ addressLabel, address1, address2, address3, city, state, zip: zipCode, clientAddressesId: newClient.id }));
         close();
     }
