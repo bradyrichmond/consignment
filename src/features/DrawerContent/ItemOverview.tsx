@@ -21,7 +21,7 @@ const ItemOverview = () => {
         }
 
         getItemData();
-    }, [])
+    }, [drawerItemId])
 
     return (
         <Box display='flex' flexDirection='column' padding='2rem' color='white' height='100%'>

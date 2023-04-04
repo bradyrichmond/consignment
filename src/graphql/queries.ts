@@ -22,7 +22,7 @@ export const searchClients = /* GraphQL */ `
       items {
         id
         clientId
-        clientTypeId
+        clientType
         firstName
         lastName
         companyName
@@ -36,6 +36,10 @@ export const searchClients = /* GraphQL */ `
         inactiveTimestamp
         modifiedBy
         items {
+          nextToken
+          startedAt
+        }
+        addresses {
           nextToken
           startedAt
         }
@@ -69,7 +73,7 @@ export const getClient = /* GraphQL */ `
     getClient(id: $id) {
       id
       clientId
-      clientTypeId
+      clientType
       firstName
       lastName
       companyName
@@ -84,6 +88,7 @@ export const getClient = /* GraphQL */ `
       modifiedBy
       items {
         items {
+          id
           itemId
           userId
           itemAcquireTypeId
@@ -112,13 +117,35 @@ export const getClient = /* GraphQL */ `
           upcCode
           createTimestamp
           entryTimestamp
-          id
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
           clientItemsId
+        }
+        nextToken
+        startedAt
+      }
+      addresses {
+        items {
+          id
+          addressId
+          addressLabel
+          label
+          address1
+          address2
+          address3
+          city
+          state
+          zip
+          primary
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientAddressesId
         }
         nextToken
         startedAt
@@ -141,7 +168,7 @@ export const listClients = /* GraphQL */ `
       items {
         id
         clientId
-        clientTypeId
+        clientType
         firstName
         lastName
         companyName
@@ -155,6 +182,10 @@ export const listClients = /* GraphQL */ `
         inactiveTimestamp
         modifiedBy
         items {
+          nextToken
+          startedAt
+        }
+        addresses {
           nextToken
           startedAt
         }
@@ -185,7 +216,7 @@ export const syncClients = /* GraphQL */ `
       items {
         id
         clientId
-        clientTypeId
+        clientType
         firstName
         lastName
         companyName
@@ -199,6 +230,10 @@ export const syncClients = /* GraphQL */ `
         inactiveTimestamp
         modifiedBy
         items {
+          nextToken
+          startedAt
+        }
+        addresses {
           nextToken
           startedAt
         }
@@ -216,6 +251,7 @@ export const syncClients = /* GraphQL */ `
 export const getItem = /* GraphQL */ `
   query GetItem($id: ID!) {
     getItem(id: $id) {
+      id
       itemId
       userId
       itemAcquireTypeId
@@ -244,33 +280,6 @@ export const getItem = /* GraphQL */ `
       upcCode
       createTimestamp
       entryTimestamp
-      client {
-        id
-        clientId
-        clientTypeId
-        firstName
-        lastName
-        companyName
-        account
-        receiveMailInd
-        nextItemNumber
-        phone
-        email
-        createTimestamp
-        activeTimestamp
-        inactiveTimestamp
-        modifiedBy
-        items {
-          nextToken
-          startedAt
-        }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      id
       createdAt
       updatedAt
       _version
@@ -288,6 +297,7 @@ export const listItems = /* GraphQL */ `
   ) {
     listItems(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
+        id
         itemId
         userId
         itemAcquireTypeId
@@ -316,29 +326,6 @@ export const listItems = /* GraphQL */ `
         upcCode
         createTimestamp
         entryTimestamp
-        client {
-          id
-          clientId
-          clientTypeId
-          firstName
-          lastName
-          companyName
-          account
-          receiveMailInd
-          nextItemNumber
-          phone
-          email
-          createTimestamp
-          activeTimestamp
-          inactiveTimestamp
-          modifiedBy
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        id
         createdAt
         updatedAt
         _version
@@ -365,6 +352,7 @@ export const syncItems = /* GraphQL */ `
       lastSync: $lastSync
     ) {
       items {
+        id
         itemId
         userId
         itemAcquireTypeId
@@ -393,10 +381,116 @@ export const syncItems = /* GraphQL */ `
         upcCode
         createTimestamp
         entryTimestamp
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        clientItemsId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getTransaction = /* GraphQL */ `
+  query GetTransaction($id: ID!) {
+    getTransaction(id: $id) {
+      id
+      clientTransId
+      client {
+        id
+        clientId
+        clientType
+        firstName
+        lastName
+        companyName
+        account
+        receiveMailInd
+        nextItemNumber
+        phone
+        email
+        createTimestamp
+        activeTimestamp
+        inactiveTimestamp
+        modifiedBy
+        items {
+          nextToken
+          startedAt
+        }
+        addresses {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      itemId
+      payoutId
+      transCdId
+      userId
+      actTransTimestamp
+      actTransDesc
+      actTransAmt
+      hold
+      glExportInd
+      syncInd
+      saleDetailId
+      location {
+        id
+        locationName
+        address {
+          id
+          addressId
+          addressLabel
+          label
+          address1
+          address2
+          address3
+          city
+          state
+          zip
+          primary
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientAddressesId
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        locationAddressId
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      transactionLocationId
+    }
+  }
+`;
+export const listTransactions = /* GraphQL */ `
+  query ListTransactions(
+    $filter: ModelTransactionFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTransactions(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        clientTransId
         client {
           id
           clientId
-          clientTypeId
+          clientType
           firstName
           lastName
           companyName
@@ -415,13 +509,688 @@ export const syncItems = /* GraphQL */ `
           _deleted
           _lastChangedAt
         }
+        itemId
+        payoutId
+        transCdId
+        userId
+        actTransTimestamp
+        actTransDesc
+        actTransAmt
+        hold
+        glExportInd
+        syncInd
+        saleDetailId
+        location {
+          id
+          locationName
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          locationAddressId
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        transactionLocationId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncTransactions = /* GraphQL */ `
+  query SyncTransactions(
+    $filter: ModelTransactionFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncTransactions(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        clientTransId
+        client {
+          id
+          clientId
+          clientType
+          firstName
+          lastName
+          companyName
+          account
+          receiveMailInd
+          nextItemNumber
+          phone
+          email
+          createTimestamp
+          activeTimestamp
+          inactiveTimestamp
+          modifiedBy
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        itemId
+        payoutId
+        transCdId
+        userId
+        actTransTimestamp
+        actTransDesc
+        actTransAmt
+        hold
+        glExportInd
+        syncInd
+        saleDetailId
+        location {
+          id
+          locationName
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          locationAddressId
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        transactionLocationId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getLocation = /* GraphQL */ `
+  query GetLocation($id: ID!) {
+    getLocation(id: $id) {
+      id
+      locationName
+      address {
+        id
+        addressId
+        addressLabel
+        label
+        address1
+        address2
+        address3
+        city
+        state
+        zip
+        primary
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        clientAddressesId
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      locationAddressId
+    }
+  }
+`;
+export const listLocations = /* GraphQL */ `
+  query ListLocations(
+    $filter: ModelLocationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listLocations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        locationName
+        address {
+          id
+          addressId
+          addressLabel
+          label
+          address1
+          address2
+          address3
+          city
+          state
+          zip
+          primary
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientAddressesId
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        locationAddressId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncLocations = /* GraphQL */ `
+  query SyncLocations(
+    $filter: ModelLocationFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncLocations(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        locationName
+        address {
+          id
+          addressId
+          addressLabel
+          label
+          address1
+          address2
+          address3
+          city
+          state
+          zip
+          primary
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientAddressesId
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        locationAddressId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getAddress = /* GraphQL */ `
+  query GetAddress($id: ID!) {
+    getAddress(id: $id) {
+      id
+      addressId
+      addressLabel
+      label
+      address1
+      address2
+      address3
+      city
+      state
+      zip
+      primary
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      clientAddressesId
+    }
+  }
+`;
+export const listAddresses = /* GraphQL */ `
+  query ListAddresses(
+    $filter: ModelAddressFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listAddresses(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        addressId
+        addressLabel
+        label
+        address1
+        address2
+        address3
+        city
+        state
+        zip
+        primary
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        clientAddressesId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncAddresses = /* GraphQL */ `
+  query SyncAddresses(
+    $filter: ModelAddressFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncAddresses(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        addressId
+        addressLabel
+        label
+        address1
+        address2
+        address3
+        city
+        state
+        zip
+        primary
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        clientAddressesId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getCity = /* GraphQL */ `
+  query GetCity($id: ID!) {
+    getCity(id: $id) {
+      cityId
+      zip
+      city
+      state
+      id
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listCities = /* GraphQL */ `
+  query ListCities(
+    $filter: ModelCityFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listCities(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        cityId
+        zip
+        city
+        state
         id
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        clientItemsId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncCities = /* GraphQL */ `
+  query SyncCities(
+    $filter: ModelCityFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncCities(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        cityId
+        zip
+        city
+        state
+        id
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getCategory = /* GraphQL */ `
+  query GetCategory($id: ID!) {
+    getCategory(id: $id) {
+      id
+      categoryId
+      parent {
+        id
+        categoryId
+        parent {
+          id
+          categoryId
+          productLineId
+          defCommissionId
+          categoryName
+          categoryLevel
+          active
+          visible
+          lastUpdateTimestamp
+          defaultWeight
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          categoryParentId
+        }
+        productLineId
+        defCommissionId
+        categoryName
+        categoryLevel
+        active
+        visible
+        lastUpdateTimestamp
+        defaultWeight
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        categoryParentId
+      }
+      productLineId
+      defCommissionId
+      categoryName
+      categoryLevel
+      active
+      visible
+      lastUpdateTimestamp
+      defaultWeight
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      categoryParentId
+    }
+  }
+`;
+export const listCategories = /* GraphQL */ `
+  query ListCategories(
+    $filter: ModelCategoryFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listCategories(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        categoryId
+        parent {
+          id
+          categoryId
+          productLineId
+          defCommissionId
+          categoryName
+          categoryLevel
+          active
+          visible
+          lastUpdateTimestamp
+          defaultWeight
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          categoryParentId
+        }
+        productLineId
+        defCommissionId
+        categoryName
+        categoryLevel
+        active
+        visible
+        lastUpdateTimestamp
+        defaultWeight
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        categoryParentId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncCategories = /* GraphQL */ `
+  query SyncCategories(
+    $filter: ModelCategoryFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncCategories(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        categoryId
+        parent {
+          id
+          categoryId
+          productLineId
+          defCommissionId
+          categoryName
+          categoryLevel
+          active
+          visible
+          lastUpdateTimestamp
+          defaultWeight
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          categoryParentId
+        }
+        productLineId
+        defCommissionId
+        categoryName
+        categoryLevel
+        active
+        visible
+        lastUpdateTimestamp
+        defaultWeight
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        categoryParentId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getPriceGuide = /* GraphQL */ `
+  query GetPriceGuide($id: ID!) {
+    getPriceGuide(id: $id) {
+      id
+      categoryPriceGuideId
+      category {
+        id
+        categoryId
+        parent {
+          id
+          categoryId
+          productLineId
+          defCommissionId
+          categoryName
+          categoryLevel
+          active
+          visible
+          lastUpdateTimestamp
+          defaultWeight
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          categoryParentId
+        }
+        productLineId
+        defCommissionId
+        categoryName
+        categoryLevel
+        active
+        visible
+        lastUpdateTimestamp
+        defaultWeight
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        categoryParentId
+      }
+      price
+      priceLevel
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      priceGuideCategoryId
+    }
+  }
+`;
+export const listPriceGuides = /* GraphQL */ `
+  query ListPriceGuides(
+    $filter: ModelPriceGuideFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPriceGuides(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        categoryPriceGuideId
+        category {
+          id
+          categoryId
+          productLineId
+          defCommissionId
+          categoryName
+          categoryLevel
+          active
+          visible
+          lastUpdateTimestamp
+          defaultWeight
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          categoryParentId
+        }
+        price
+        priceLevel
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        priceGuideCategoryId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncPriceGuides = /* GraphQL */ `
+  query SyncPriceGuides(
+    $filter: ModelPriceGuideFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncPriceGuides(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        categoryPriceGuideId
+        category {
+          id
+          categoryId
+          productLineId
+          defCommissionId
+          categoryName
+          categoryLevel
+          active
+          visible
+          lastUpdateTimestamp
+          defaultWeight
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          categoryParentId
+        }
+        price
+        priceLevel
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        priceGuideCategoryId
       }
       nextToken
       startedAt

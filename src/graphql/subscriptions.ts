@@ -7,7 +7,7 @@ export const onCreateClient = /* GraphQL */ `
     onCreateClient(filter: $filter) {
       id
       clientId
-      clientTypeId
+      clientType
       firstName
       lastName
       companyName
@@ -22,6 +22,7 @@ export const onCreateClient = /* GraphQL */ `
       modifiedBy
       items {
         items {
+          id
           itemId
           userId
           itemAcquireTypeId
@@ -50,13 +51,35 @@ export const onCreateClient = /* GraphQL */ `
           upcCode
           createTimestamp
           entryTimestamp
-          id
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
           clientItemsId
+        }
+        nextToken
+        startedAt
+      }
+      addresses {
+        items {
+          id
+          addressId
+          addressLabel
+          label
+          address1
+          address2
+          address3
+          city
+          state
+          zip
+          primary
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientAddressesId
         }
         nextToken
         startedAt
@@ -74,7 +97,7 @@ export const onUpdateClient = /* GraphQL */ `
     onUpdateClient(filter: $filter) {
       id
       clientId
-      clientTypeId
+      clientType
       firstName
       lastName
       companyName
@@ -89,6 +112,7 @@ export const onUpdateClient = /* GraphQL */ `
       modifiedBy
       items {
         items {
+          id
           itemId
           userId
           itemAcquireTypeId
@@ -117,13 +141,35 @@ export const onUpdateClient = /* GraphQL */ `
           upcCode
           createTimestamp
           entryTimestamp
-          id
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
           clientItemsId
+        }
+        nextToken
+        startedAt
+      }
+      addresses {
+        items {
+          id
+          addressId
+          addressLabel
+          label
+          address1
+          address2
+          address3
+          city
+          state
+          zip
+          primary
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientAddressesId
         }
         nextToken
         startedAt
@@ -141,7 +187,7 @@ export const onDeleteClient = /* GraphQL */ `
     onDeleteClient(filter: $filter) {
       id
       clientId
-      clientTypeId
+      clientType
       firstName
       lastName
       companyName
@@ -156,6 +202,7 @@ export const onDeleteClient = /* GraphQL */ `
       modifiedBy
       items {
         items {
+          id
           itemId
           userId
           itemAcquireTypeId
@@ -184,13 +231,35 @@ export const onDeleteClient = /* GraphQL */ `
           upcCode
           createTimestamp
           entryTimestamp
-          id
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
           clientItemsId
+        }
+        nextToken
+        startedAt
+      }
+      addresses {
+        items {
+          id
+          addressId
+          addressLabel
+          label
+          address1
+          address2
+          address3
+          city
+          state
+          zip
+          primary
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientAddressesId
         }
         nextToken
         startedAt
@@ -206,6 +275,7 @@ export const onDeleteClient = /* GraphQL */ `
 export const onCreateItem = /* GraphQL */ `
   subscription OnCreateItem($filter: ModelSubscriptionItemFilterInput) {
     onCreateItem(filter: $filter) {
+      id
       itemId
       userId
       itemAcquireTypeId
@@ -234,33 +304,6 @@ export const onCreateItem = /* GraphQL */ `
       upcCode
       createTimestamp
       entryTimestamp
-      client {
-        id
-        clientId
-        clientTypeId
-        firstName
-        lastName
-        companyName
-        account
-        receiveMailInd
-        nextItemNumber
-        phone
-        email
-        createTimestamp
-        activeTimestamp
-        inactiveTimestamp
-        modifiedBy
-        items {
-          nextToken
-          startedAt
-        }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      id
       createdAt
       updatedAt
       _version
@@ -273,6 +316,7 @@ export const onCreateItem = /* GraphQL */ `
 export const onUpdateItem = /* GraphQL */ `
   subscription OnUpdateItem($filter: ModelSubscriptionItemFilterInput) {
     onUpdateItem(filter: $filter) {
+      id
       itemId
       userId
       itemAcquireTypeId
@@ -301,33 +345,6 @@ export const onUpdateItem = /* GraphQL */ `
       upcCode
       createTimestamp
       entryTimestamp
-      client {
-        id
-        clientId
-        clientTypeId
-        firstName
-        lastName
-        companyName
-        account
-        receiveMailInd
-        nextItemNumber
-        phone
-        email
-        createTimestamp
-        activeTimestamp
-        inactiveTimestamp
-        modifiedBy
-        items {
-          nextToken
-          startedAt
-        }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      id
       createdAt
       updatedAt
       _version
@@ -340,6 +357,7 @@ export const onUpdateItem = /* GraphQL */ `
 export const onDeleteItem = /* GraphQL */ `
   subscription OnDeleteItem($filter: ModelSubscriptionItemFilterInput) {
     onDeleteItem(filter: $filter) {
+      id
       itemId
       userId
       itemAcquireTypeId
@@ -368,10 +386,26 @@ export const onDeleteItem = /* GraphQL */ `
       upcCode
       createTimestamp
       entryTimestamp
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      clientItemsId
+    }
+  }
+`;
+export const onCreateTransaction = /* GraphQL */ `
+  subscription OnCreateTransaction(
+    $filter: ModelSubscriptionTransactionFilterInput
+  ) {
+    onCreateTransaction(filter: $filter) {
+      id
+      clientTransId
       client {
         id
         clientId
-        clientTypeId
+        clientType
         firstName
         lastName
         companyName
@@ -388,19 +422,786 @@ export const onDeleteItem = /* GraphQL */ `
           nextToken
           startedAt
         }
+        addresses {
+          nextToken
+          startedAt
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
       }
+      itemId
+      payoutId
+      transCdId
+      userId
+      actTransTimestamp
+      actTransDesc
+      actTransAmt
+      hold
+      glExportInd
+      syncInd
+      saleDetailId
+      location {
+        id
+        locationName
+        address {
+          id
+          addressId
+          addressLabel
+          label
+          address1
+          address2
+          address3
+          city
+          state
+          zip
+          primary
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientAddressesId
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        locationAddressId
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      transactionLocationId
+    }
+  }
+`;
+export const onUpdateTransaction = /* GraphQL */ `
+  subscription OnUpdateTransaction(
+    $filter: ModelSubscriptionTransactionFilterInput
+  ) {
+    onUpdateTransaction(filter: $filter) {
+      id
+      clientTransId
+      client {
+        id
+        clientId
+        clientType
+        firstName
+        lastName
+        companyName
+        account
+        receiveMailInd
+        nextItemNumber
+        phone
+        email
+        createTimestamp
+        activeTimestamp
+        inactiveTimestamp
+        modifiedBy
+        items {
+          nextToken
+          startedAt
+        }
+        addresses {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      itemId
+      payoutId
+      transCdId
+      userId
+      actTransTimestamp
+      actTransDesc
+      actTransAmt
+      hold
+      glExportInd
+      syncInd
+      saleDetailId
+      location {
+        id
+        locationName
+        address {
+          id
+          addressId
+          addressLabel
+          label
+          address1
+          address2
+          address3
+          city
+          state
+          zip
+          primary
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientAddressesId
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        locationAddressId
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      transactionLocationId
+    }
+  }
+`;
+export const onDeleteTransaction = /* GraphQL */ `
+  subscription OnDeleteTransaction(
+    $filter: ModelSubscriptionTransactionFilterInput
+  ) {
+    onDeleteTransaction(filter: $filter) {
+      id
+      clientTransId
+      client {
+        id
+        clientId
+        clientType
+        firstName
+        lastName
+        companyName
+        account
+        receiveMailInd
+        nextItemNumber
+        phone
+        email
+        createTimestamp
+        activeTimestamp
+        inactiveTimestamp
+        modifiedBy
+        items {
+          nextToken
+          startedAt
+        }
+        addresses {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      itemId
+      payoutId
+      transCdId
+      userId
+      actTransTimestamp
+      actTransDesc
+      actTransAmt
+      hold
+      glExportInd
+      syncInd
+      saleDetailId
+      location {
+        id
+        locationName
+        address {
+          id
+          addressId
+          addressLabel
+          label
+          address1
+          address2
+          address3
+          city
+          state
+          zip
+          primary
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientAddressesId
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        locationAddressId
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      transactionLocationId
+    }
+  }
+`;
+export const onCreateLocation = /* GraphQL */ `
+  subscription OnCreateLocation($filter: ModelSubscriptionLocationFilterInput) {
+    onCreateLocation(filter: $filter) {
+      id
+      locationName
+      address {
+        id
+        addressId
+        addressLabel
+        label
+        address1
+        address2
+        address3
+        city
+        state
+        zip
+        primary
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        clientAddressesId
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      locationAddressId
+    }
+  }
+`;
+export const onUpdateLocation = /* GraphQL */ `
+  subscription OnUpdateLocation($filter: ModelSubscriptionLocationFilterInput) {
+    onUpdateLocation(filter: $filter) {
+      id
+      locationName
+      address {
+        id
+        addressId
+        addressLabel
+        label
+        address1
+        address2
+        address3
+        city
+        state
+        zip
+        primary
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        clientAddressesId
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      locationAddressId
+    }
+  }
+`;
+export const onDeleteLocation = /* GraphQL */ `
+  subscription OnDeleteLocation($filter: ModelSubscriptionLocationFilterInput) {
+    onDeleteLocation(filter: $filter) {
+      id
+      locationName
+      address {
+        id
+        addressId
+        addressLabel
+        label
+        address1
+        address2
+        address3
+        city
+        state
+        zip
+        primary
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        clientAddressesId
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      locationAddressId
+    }
+  }
+`;
+export const onCreateAddress = /* GraphQL */ `
+  subscription OnCreateAddress($filter: ModelSubscriptionAddressFilterInput) {
+    onCreateAddress(filter: $filter) {
+      id
+      addressId
+      addressLabel
+      label
+      address1
+      address2
+      address3
+      city
+      state
+      zip
+      primary
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      clientAddressesId
+    }
+  }
+`;
+export const onUpdateAddress = /* GraphQL */ `
+  subscription OnUpdateAddress($filter: ModelSubscriptionAddressFilterInput) {
+    onUpdateAddress(filter: $filter) {
+      id
+      addressId
+      addressLabel
+      label
+      address1
+      address2
+      address3
+      city
+      state
+      zip
+      primary
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      clientAddressesId
+    }
+  }
+`;
+export const onDeleteAddress = /* GraphQL */ `
+  subscription OnDeleteAddress($filter: ModelSubscriptionAddressFilterInput) {
+    onDeleteAddress(filter: $filter) {
+      id
+      addressId
+      addressLabel
+      label
+      address1
+      address2
+      address3
+      city
+      state
+      zip
+      primary
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      clientAddressesId
+    }
+  }
+`;
+export const onCreateCity = /* GraphQL */ `
+  subscription OnCreateCity($filter: ModelSubscriptionCityFilterInput) {
+    onCreateCity(filter: $filter) {
+      cityId
+      zip
+      city
+      state
       id
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      clientItemsId
+    }
+  }
+`;
+export const onUpdateCity = /* GraphQL */ `
+  subscription OnUpdateCity($filter: ModelSubscriptionCityFilterInput) {
+    onUpdateCity(filter: $filter) {
+      cityId
+      zip
+      city
+      state
+      id
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onDeleteCity = /* GraphQL */ `
+  subscription OnDeleteCity($filter: ModelSubscriptionCityFilterInput) {
+    onDeleteCity(filter: $filter) {
+      cityId
+      zip
+      city
+      state
+      id
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onCreateCategory = /* GraphQL */ `
+  subscription OnCreateCategory($filter: ModelSubscriptionCategoryFilterInput) {
+    onCreateCategory(filter: $filter) {
+      id
+      categoryId
+      parent {
+        id
+        categoryId
+        parent {
+          id
+          categoryId
+          productLineId
+          defCommissionId
+          categoryName
+          categoryLevel
+          active
+          visible
+          lastUpdateTimestamp
+          defaultWeight
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          categoryParentId
+        }
+        productLineId
+        defCommissionId
+        categoryName
+        categoryLevel
+        active
+        visible
+        lastUpdateTimestamp
+        defaultWeight
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        categoryParentId
+      }
+      productLineId
+      defCommissionId
+      categoryName
+      categoryLevel
+      active
+      visible
+      lastUpdateTimestamp
+      defaultWeight
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      categoryParentId
+    }
+  }
+`;
+export const onUpdateCategory = /* GraphQL */ `
+  subscription OnUpdateCategory($filter: ModelSubscriptionCategoryFilterInput) {
+    onUpdateCategory(filter: $filter) {
+      id
+      categoryId
+      parent {
+        id
+        categoryId
+        parent {
+          id
+          categoryId
+          productLineId
+          defCommissionId
+          categoryName
+          categoryLevel
+          active
+          visible
+          lastUpdateTimestamp
+          defaultWeight
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          categoryParentId
+        }
+        productLineId
+        defCommissionId
+        categoryName
+        categoryLevel
+        active
+        visible
+        lastUpdateTimestamp
+        defaultWeight
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        categoryParentId
+      }
+      productLineId
+      defCommissionId
+      categoryName
+      categoryLevel
+      active
+      visible
+      lastUpdateTimestamp
+      defaultWeight
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      categoryParentId
+    }
+  }
+`;
+export const onDeleteCategory = /* GraphQL */ `
+  subscription OnDeleteCategory($filter: ModelSubscriptionCategoryFilterInput) {
+    onDeleteCategory(filter: $filter) {
+      id
+      categoryId
+      parent {
+        id
+        categoryId
+        parent {
+          id
+          categoryId
+          productLineId
+          defCommissionId
+          categoryName
+          categoryLevel
+          active
+          visible
+          lastUpdateTimestamp
+          defaultWeight
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          categoryParentId
+        }
+        productLineId
+        defCommissionId
+        categoryName
+        categoryLevel
+        active
+        visible
+        lastUpdateTimestamp
+        defaultWeight
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        categoryParentId
+      }
+      productLineId
+      defCommissionId
+      categoryName
+      categoryLevel
+      active
+      visible
+      lastUpdateTimestamp
+      defaultWeight
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      categoryParentId
+    }
+  }
+`;
+export const onCreatePriceGuide = /* GraphQL */ `
+  subscription OnCreatePriceGuide(
+    $filter: ModelSubscriptionPriceGuideFilterInput
+  ) {
+    onCreatePriceGuide(filter: $filter) {
+      id
+      categoryPriceGuideId
+      category {
+        id
+        categoryId
+        parent {
+          id
+          categoryId
+          productLineId
+          defCommissionId
+          categoryName
+          categoryLevel
+          active
+          visible
+          lastUpdateTimestamp
+          defaultWeight
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          categoryParentId
+        }
+        productLineId
+        defCommissionId
+        categoryName
+        categoryLevel
+        active
+        visible
+        lastUpdateTimestamp
+        defaultWeight
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        categoryParentId
+      }
+      price
+      priceLevel
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      priceGuideCategoryId
+    }
+  }
+`;
+export const onUpdatePriceGuide = /* GraphQL */ `
+  subscription OnUpdatePriceGuide(
+    $filter: ModelSubscriptionPriceGuideFilterInput
+  ) {
+    onUpdatePriceGuide(filter: $filter) {
+      id
+      categoryPriceGuideId
+      category {
+        id
+        categoryId
+        parent {
+          id
+          categoryId
+          productLineId
+          defCommissionId
+          categoryName
+          categoryLevel
+          active
+          visible
+          lastUpdateTimestamp
+          defaultWeight
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          categoryParentId
+        }
+        productLineId
+        defCommissionId
+        categoryName
+        categoryLevel
+        active
+        visible
+        lastUpdateTimestamp
+        defaultWeight
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        categoryParentId
+      }
+      price
+      priceLevel
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      priceGuideCategoryId
+    }
+  }
+`;
+export const onDeletePriceGuide = /* GraphQL */ `
+  subscription OnDeletePriceGuide(
+    $filter: ModelSubscriptionPriceGuideFilterInput
+  ) {
+    onDeletePriceGuide(filter: $filter) {
+      id
+      categoryPriceGuideId
+      category {
+        id
+        categoryId
+        parent {
+          id
+          categoryId
+          productLineId
+          defCommissionId
+          categoryName
+          categoryLevel
+          active
+          visible
+          lastUpdateTimestamp
+          defaultWeight
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          categoryParentId
+        }
+        productLineId
+        defCommissionId
+        categoryName
+        categoryLevel
+        active
+        visible
+        lastUpdateTimestamp
+        defaultWeight
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        categoryParentId
+      }
+      price
+      priceLevel
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      priceGuideCategoryId
     }
   }
 `;

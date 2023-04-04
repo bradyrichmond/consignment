@@ -2,10 +2,16 @@
 # all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
 input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
 
+enum ClientType {
+  CLIENT
+  RETAIL_VENDOR
+  STORE_ACCOUNT
+}
+
 type Client @model @searchable {
   id: ID!
-  clientId: String!
-  clientTypeId: String!
+  clientId: String
+  clientType: ClientType
   firstName: String!
   lastName: String!
   companyName: String
@@ -19,9 +25,11 @@ type Client @model @searchable {
   inactiveTimestamp: String
   modifiedBy: String!
   items: [Item] @hasMany
+  addresses: [Address] @hasMany
 }
 
 type Item @model {
+  id: ID!
   itemId: String!
   userId: String!
   itemAcquireTypeId: String!
@@ -50,5 +58,71 @@ type Item @model {
   upcCode: String!
   createTimestamp: String!
   entryTimestamp: String
+}
+
+type Transaction @model {
+  id: ID!
+  clientTransId: String!
   client: Client
+  itemId: String!
+  payoutId: String
+  transCdId: String
+  userId: String!
+  actTransTimestamp: String
+  actTransDesc: String
+  actTransAmt: String
+  hold: Boolean
+  glExportInd: Boolean
+  syncInd: Boolean
+  saleDetailId: String
+  location: Location @hasOne
+}
+
+type Location @model {
+  id: ID!
+  locationName: String!
+  address: Address @hasOne
+}
+
+type Address @model {
+  id: ID!
+  addressId: String
+  addressLabel: String
+  label: String
+  address1: String
+  address2: String
+  address3: String
+  city: String
+  state: String
+  zip: String
+  primary: Boolean
+}
+
+type City @model {
+  cityId: String!
+  zip: String!
+  city: String!
+  state: String!
+}
+
+type Category @model {
+  id: ID!
+  categoryId: String!
+  parent: Category @hasOne
+  productLineId: String
+  defCommissionId: String
+  categoryName: String!
+  categoryLevel: Int!
+  active: Boolean!
+  visible: Boolean!
+  lastUpdateTimestamp: String!
+  defaultWeight: String!
+}
+
+type PriceGuide @model {
+  id: ID!
+  categoryPriceGuideId: String!
+  category: Category! @hasOne
+  price: String!
+  priceLevel: String!
 }

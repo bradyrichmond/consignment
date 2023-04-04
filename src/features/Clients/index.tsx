@@ -1,10 +1,11 @@
 import React, { ChangeEvent, ChangeEventHandler, useContext, useEffect, useState } from 'react';
 import { DataStore, Predicates } from 'aws-amplify';
-import { Client } from '../../models';
+import { Address, Client } from '../../models';
 import { DataGrid, GridColDef, GridEventListener } from '@mui/x-data-grid';
-import { Box, Button, InputAdornment, TextField } from '@mui/material';
+import { Box, Button, InputAdornment, Modal, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { DrawerContext } from '../../App';
+import AddClient from './AddClient';
 
 const toTitleCase = (str: string) => {
     if (str.length > 0){
@@ -28,6 +29,7 @@ const formatPhoneNumber = (num: string) => {
 
 const Clients = () => {
     const [clients, setClients] = useState<Client[]>([]);
+    const [isAddingClient, setIsAddingClient] = useState(false);
     const [page, setPage] = useState(0);
     const [searchTerm, setSearchTerm] = useState('');
     const { setDrawerContent, setDrawerClientId } = useContext(DrawerContext);
@@ -42,7 +44,7 @@ const Clients = () => {
         }
 
         getClients();
-    }, [])
+    }, [isAddingClient])
 
     useEffect(() => {
         const getData = setTimeout(searchChange, 250);
@@ -78,9 +80,9 @@ const Clients = () => {
         {field: 'account', headerName: 'Account #', width: 100, editable: true},
         {field: 'phone', headerName: 'Phone #', width: 200, editable: true},
         {field: 'email', headerName: 'Email', width: 300, editable: true},
-        {field: 'createTimestamp', headerName: 'Created TS', width: 300, editable: true},
-        {field: 'activeTimestamp', headerName: 'Active TS', width: 300, editable: true},
-        {field: 'inactiveTimestamp', headerName: 'Inactive TS', width: 300, editable: true},
+        {field: 'createTimestamp', headerName: 'Created TS', width: 300},
+        {field: 'activeTimestamp', headerName: 'Active TS', width: 300},
+        {field: 'inactiveTimestamp', headerName: 'Inactive TS', width: 300},
     ];
 
     const rows = clients ?? [];
@@ -101,7 +103,6 @@ const Clients = () => {
                         const add = async () => {
                             const client = clients[i].split(',');
                             const clientId = client[0] ?? "";
-                            const clientTypeId = client[3] ?? '1';
                             const firstName = client[7] ?? "";
                             const lastName = client[8] ?? "";
                             const companyName = client[9] ?? "";
@@ -112,13 +113,31 @@ const Clients = () => {
                             const activeTimestamp = client[14] ?? "";
                             const inactiveTimestamp = client[15] ?? "";
 
+                            const addressId = client[43];
+                            const addressLabel = client[44];
+                            const address1 = client[45];
+                            const address2 = client[46];
+                            const address3 = client[47];
+                            const city = client[48];
+                            const state = client[49];
+                            const zip = client[50];
+                            const primary = !!client[51];
+
                             const fetchedClients = await DataStore.query(Client, (c) => c.clientId.eq(clientId));
                             
                             if (fetchedClients.length < 1) {
                                 console.log(`Processing ${i} of ${clients.length}`);
-                                await DataStore.save(new Client({ clientId, clientTypeId, firstName, lastName, companyName, account, receiveMailInd, nextItemNumber, createTimestamp, activeTimestamp, inactiveTimestamp, modifiedBy: 'Bulk' }));
+                                
+                                const client = await DataStore.save(new Client({ clientId, firstName, lastName, companyName, account, receiveMailInd, nextItemNumber, createTimestamp, activeTimestamp, inactiveTimestamp, modifiedBy: 'Bulk' }));
+                                await DataStore.save(new Address({addressId, addressLabel, address1, address2, address3, city, state, zip, primary, clientAddressesId: client.id}))
                             } else {
                                 const original = fetchedClients[0];
+                                const fetchedAddresses = await DataStore.query(Address, (a) => a.addressId.eq(addressId));
+                                
+                                if (fetchedAddresses.length < 1) {
+                                    await DataStore.save(new Address({addressId, addressLabel, address1, address2, address3, city, state, zip, primary, clientAddressesId: original.id}));
+                                }
+
                                 await DataStore.save(
                                     Client.copyOf(original, updated => {
                                         updated.createTimestamp = createTimestamp;
@@ -228,6 +247,14 @@ const Clients = () => {
         setPage((currentPage) => currentPage--);
     }
 
+    const startAddingClient = () => {
+        setIsAddingClient(true);
+    }
+
+    const stopAddingClient = () => {
+        setIsAddingClient(false);
+    }
+
     const handleRowClick: GridEventListener<'rowClick'> = (
         params,
         event,
@@ -239,6 +266,14 @@ const Clients = () => {
 
     return (
         <Box height='100%' display='flex' flexDirection='column' padding='2rem'>
+            <Modal
+                open={isAddingClient}
+                onClose={stopAddingClient}
+            >
+                <Box>
+                    <AddClient close={stopAddingClient}/>
+                </Box>
+            </Modal>
             <Box paddingTop='2rem' paddingBottom='2rem' display='flex' flexDirection='row' width='100%' alignItems='center'>
                 <TextField InputProps={{
                         endAdornment: <InputAdornment position="start"><SearchIcon style={{color: 'white'}}/></InputAdornment>,
@@ -250,6 +285,11 @@ const Clients = () => {
                 <ProcessCsvButton label='Bulk Upload Clients' action={bulkAddClients} />
                 <ProcessCsvButton label='Merge Phone numbers to Clients' action={mergePhoneNumbers} />
                 <ProcessCsvButton label='Merge Emails to  Clients' action={mergeEmails} />
+                <Box paddingLeft='2rem'>
+                    <Button variant="contained" component="label" style={{backgroundColor: 'black', border: '1px solid white'}} onClick={startAddingClient}>
+                        Add Client
+                    </Button>
+                </Box>
             </Box>
             <Box flex='1'>
                 <DataGrid columns={columns} rows={rows} onRowClick={handleRowClick} style={{color: 'white'}}/>
