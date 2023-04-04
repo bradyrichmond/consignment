@@ -85,21 +85,21 @@ export const schema = {
                 "createTimestamp": {
                     "name": "createTimestamp",
                     "isArray": false,
-                    "type": "String",
+                    "type": "AWSDate",
                     "isRequired": false,
                     "attributes": []
                 },
                 "activeTimestamp": {
                     "name": "activeTimestamp",
                     "isArray": false,
-                    "type": "String",
+                    "type": "AWSDate",
                     "isRequired": false,
                     "attributes": []
                 },
                 "inactiveTimestamp": {
                     "name": "inactiveTimestamp",
                     "isArray": false,
-                    "type": "String",
+                    "type": "AWSDate",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -1038,5 +1038,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.0",
-    "version": "6255bdc95e8f83499ba603a8aa0e2187"
+    "version": "a309fdb8a2cce21ff08eb027db6fb564"
 };

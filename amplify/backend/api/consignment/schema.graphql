@@ -20,9 +20,9 @@ type Client @model @searchable {
   nextItemNumber: String!
   phone: String
   email: String
-  createTimestamp: String
-  activeTimestamp: String
-  inactiveTimestamp: String
+  createTimestamp: AWSDate
+  activeTimestamp: AWSDate
+  inactiveTimestamp: AWSDate
   modifiedBy: String!
   items: [Item] @hasMany
   addresses: [Address] @hasMany

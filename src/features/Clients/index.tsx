@@ -2,10 +2,11 @@ import React, { ChangeEvent, ChangeEventHandler, useContext, useEffect, useState
 import { DataStore, Predicates } from 'aws-amplify';
 import { Address, Client } from '../../models';
 import { DataGrid, GridColDef, GridEventListener } from '@mui/x-data-grid';
-import { Box, Button, InputAdornment, Modal, TextField } from '@mui/material';
+import { Box, Button, Checkbox, FormControlLabel, InputAdornment, Modal, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { DrawerContext } from '../../App';
 import AddClient from './AddClient';
+import { format } from 'date-fns';
 
 const toTitleCase = (str: string) => {
     if (str.length > 0){
@@ -32,6 +33,7 @@ const Clients = () => {
     const [isAddingClient, setIsAddingClient] = useState(false);
     const [page, setPage] = useState(0);
     const [searchTerm, setSearchTerm] = useState('');
+    const [filterInactiveClients, setFilterInactiveClients] = useState(true);
     const { setDrawerContent, setDrawerClientId } = useContext(DrawerContext);
 
     useEffect(() => {
@@ -40,7 +42,10 @@ const Clients = () => {
                 page: 0,
                 limit: 100
             });
-            setClients(fetchedClients);
+
+            const finalClients = filterInactiveClients ? fetchedClients.filter((c) => (c.inactiveTimestamp ?? format(Date.now(), "yyyy-MM-dd")) >= format(Date.now(), "yyyy-MM-dd")) : fetchedClients;
+
+            setClients(finalClients);
         }
 
         getClients();
@@ -50,7 +55,7 @@ const Clients = () => {
         const getData = setTimeout(searchChange, 250);
         
         return () => clearTimeout(getData)
-    }, [searchTerm])
+    }, [searchTerm, filterInactiveClients])
 
     const onSearchChange = (e:ChangeEvent<HTMLInputElement>) => {
         const changeSearchTerm = e.target.value;
@@ -58,20 +63,24 @@ const Clients = () => {
     }
 
     const searchChange = async () => {
-        const filteredClients = await DataStore.query(Client, (c) => c.or(c => [
-            c.firstName.contains(searchTerm.toUpperCase()),
-            c.lastName.contains(searchTerm.toUpperCase()),
-            c.email.contains(searchTerm.toUpperCase()),
-            c.firstName.contains(searchTerm.toLowerCase()),
-            c.lastName.contains(searchTerm.toLowerCase()),
-            c.email.contains(searchTerm.toLowerCase()),
-            c.firstName.contains(toTitleCase(searchTerm)),
-            c.lastName.contains(toTitleCase(searchTerm)),
-            c.phone.contains(formatPhoneNumber(searchTerm)),
-            c.account.contains(searchTerm)
-        ]));
+        const filteredClients = await DataStore.query(Client, (c) => c.or(
+            c => [
+                c.firstName.contains(searchTerm.toUpperCase()),
+                c.lastName.contains(searchTerm.toUpperCase()),
+                c.email.contains(searchTerm.toUpperCase()),
+                c.firstName.contains(searchTerm.toLowerCase()),
+                c.lastName.contains(searchTerm.toLowerCase()),
+                c.email.contains(searchTerm.toLowerCase()),
+                c.firstName.contains(toTitleCase(searchTerm)),
+                c.lastName.contains(toTitleCase(searchTerm)),
+                c.phone.contains(formatPhoneNumber(searchTerm)),
+                c.account.contains(searchTerm),
+            ])
+        );
 
-        setClients(filteredClients);
+        const finalClients = filterInactiveClients ? filteredClients.filter((c) => (c.inactiveTimestamp ?? format(Date.now(), "yyyy-MM-dd")) >= format(Date.now(), "yyyy-MM-dd")) : filteredClients;
+
+        setClients(finalClients);
     }
 
     const columns: GridColDef[] = [
@@ -264,6 +273,10 @@ const Clients = () => {
         setDrawerContent('clientOverview');
     };
 
+    const filterInactive = () => {
+        setFilterInactiveClients((cur) => !cur);
+    }
+
     return (
         <Box height='100%' display='flex' flexDirection='column' padding='2rem'>
             <Modal
@@ -291,8 +304,11 @@ const Clients = () => {
                     </Button>
                 </Box>
             </Box>
+            <Box paddingBottom='2rem'>
+                <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 28, border: '1px solid white', borderRadius: '.25rem' }, '&.Mui-checked': { color: 'white'}}} onChange={filterInactive} checked={filterInactiveClients} value={filterInactiveClients}/>} label="Active clients only" />
+            </Box>
             <Box flex='1'>
-                <DataGrid columns={columns} rows={rows} onRowClick={handleRowClick} style={{color: 'white'}}/>
+                <DataGrid columns={columns} rows={rows} onRowClick={handleRowClick} style={{color: 'white'}} />
             </Box>
         </Box>
     )
