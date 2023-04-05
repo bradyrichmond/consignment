@@ -11,7 +11,7 @@ const ModalContainer = (props: ModalContainerProps) => {
     const { children, onClose } = props;
 
     return (
-        <Box padding='2rem' borderRadius='2rem' bgcolor='rgba(0, 0, 0, 255)' minWidth='25%' minHeight='25%' maxHeight='90%' display='flex' flexDirection='row' overflow='auto'>
+        <Box padding='2rem' borderRadius='2rem' bgcolor='rgba(255, 255, 255, 0.5)' width='100%' height='100%' display='flex' flexDirection='row' overflow='auto'>
             <Box display='flex' flex='1' flexDirection='column'>
                 {children}
             </Box>

@@ -1,12 +1,13 @@
-import React, { ChangeEvent, ChangeEventHandler, useContext, useEffect, useState } from 'react';
+import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
 import { DataStore, Predicates } from 'aws-amplify';
 import { Address, Client } from '../../models';
-import { DataGrid, GridColDef, GridEventListener } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridEventListener, GridRenderCellParams, MuiEvent } from '@mui/x-data-grid';
 import { Box, Button, Checkbox, FormControlLabel, InputAdornment, Modal, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { DrawerContext } from '../../App';
 import AddClient from './AddClient';
 import { format } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 
 const toTitleCase = (str: string) => {
     if (str.length > 0){
@@ -31,10 +32,10 @@ const formatPhoneNumber = (num: string) => {
 const Clients = () => {
     const [clients, setClients] = useState<Client[]>([]);
     const [isAddingClient, setIsAddingClient] = useState(false);
-    const [page, setPage] = useState(0);
     const [searchTerm, setSearchTerm] = useState('');
     const [filterInactiveClients, setFilterInactiveClients] = useState(true);
     const { setDrawerContent, setDrawerClientId } = useContext(DrawerContext);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const getClients = async () => {
@@ -83,15 +84,25 @@ const Clients = () => {
         setClients(finalClients);
     }
 
+    const addItemsNavigation = (params: GridRenderCellParams<String>, event: MuiEvent<React.MouseEvent>) => {
+        event.stopPropagation();
+        navigate(`/add-items/${params.id}`);
+    }
+
     const columns: GridColDef[] = [
-        {field: 'firstName', headerName: 'First Name', width: 200, editable: true},
-        {field: 'lastName', headerName: 'Last Name', width: 200, editable: true},
-        {field: 'account', headerName: 'Account #', width: 100, editable: true},
-        {field: 'phone', headerName: 'Phone #', width: 200, editable: true},
-        {field: 'email', headerName: 'Email', width: 300, editable: true},
+        {field: 'firstName', headerName: 'First Name', width: 200},
+        {field: 'lastName', headerName: 'Last Name', width: 200},
+        {field: 'account', headerName: 'Account #', width: 100},
+        {field: 'phone', headerName: 'Phone #', width: 200},
+        {field: 'email', headerName: 'Email', width: 300},
         {field: 'createTimestamp', headerName: 'Created TS', width: 300},
         {field: 'activeTimestamp', headerName: 'Active TS', width: 300},
-        {field: 'inactiveTimestamp', headerName: 'Inactive TS', width: 300},
+        {field: 'inactiveTimestamp', headerName: 'InactiveTS', width: 300},
+        {field: '', headerName: 'Add Items', width: 200, editable: true, renderCell: (params: GridRenderCellParams<String>) => {
+            return (
+                <Button variant='outlined' onClick={(event: MuiEvent<React.MouseEvent>) => addItemsNavigation(params, event)} sx={{padding: '1rem', color: 'white', border: '1px solid white', borderRadius: '.25rem'}}>Add Items</Button>
+            )
+        }},
     ];
 
     const rows = clients ?? [];
@@ -131,13 +142,15 @@ const Clients = () => {
                             const state = client[49];
                             const zip = client[50];
                             const primary = !!client[51];
+                            const email = client[52];
+                            const phone = client[53];
 
                             const fetchedClients = await DataStore.query(Client, (c) => c.clientId.eq(clientId));
                             
                             if (fetchedClients.length < 1) {
                                 console.log(`Processing ${i} of ${clients.length}`);
                                 
-                                const client = await DataStore.save(new Client({ clientId, firstName, lastName, companyName, account, receiveMailInd, nextItemNumber, createTimestamp, activeTimestamp, inactiveTimestamp, modifiedBy: 'Bulk' }));
+                                const client = await DataStore.save(new Client({ clientId, firstName, lastName, companyName, account, receiveMailInd, nextItemNumber, createTimestamp, activeTimestamp, inactiveTimestamp, modifiedBy: 'Bulk', email, phone }));
                                 await DataStore.save(new Address({addressId, addressLabel, address1, address2, address3, city, state, zip, primary, clientAddressesId: client.id}))
                             } else {
                                 const original = fetchedClients[0];
@@ -167,95 +180,6 @@ const Clients = () => {
         }
     }
 
-    const mergePhoneNumbers = async (e: ChangeEvent<HTMLInputElement>) => {
-        const files = e.target?.files;
-
-        if (files) {
-            const file = files[0]
-            fileReader.onload = function (event) {
-                const csvOutput = event.target?.result;
-                const entries = csvOutput?.toString().split('\n');
-
-                if (entries) {
-                    for(let i = 1; i < entries?.length; i++) {
-                        const merge = async () => {
-                            const entry = entries[i].split(',');
-                            const clientId = entry[1];
-                            const phone = entry[3];
-                            if (phone) {
-                                const originals = await DataStore.query(Client, (c) => c.clientId.eq(clientId));
-                                const original = originals[0];
-                                if (original) {
-                                    await DataStore.save(
-                                        Client.copyOf(original, updated => {
-                                            updated.phone = phone
-                                        })
-                                    );
-                                }
-                            }
-                            console.log(`Processing ${i} of ${clients.length}`);
-                        }
-
-                        merge();
-                    }
-                }
-            };
-
-            fileReader.readAsText(file);
-        }
-    }
-
-    const mergeEmails = async (e: ChangeEvent<HTMLInputElement>) => {
-        const files = e.target?.files;
-
-        if (files) {
-            const file = files[0]
-            fileReader.onload = function (event) {
-                const csvOutput = event.target?.result;
-                const entries = csvOutput?.toString().split('\n');
-
-                if (entries) {
-                    for(let i = 1; i < entries?.length; i++) {
-                        const merge = async () => {
-                            const entry = entries[i].split(',');
-                            const clientId = entry[1];
-                            let email = entry[3];
-                            if (email) {
-                                const originals = await DataStore.query(Client, (c) => c.clientId.eq(clientId));
-                                const original = originals[0];
-
-                                if (email === "NULL" || email === 'Email' || email === 'Main') {
-                                    email = "";
-                                }
-
-                                if (original) {
-                                    await DataStore.save(
-                                        Client.copyOf(original, updated => {
-                                            updated.email = email
-                                        })
-                                    );
-                                }
-                            }
-                            console.log(`Processing ${i} of ${clients.length}`);
-                        }
-
-                        merge();
-                    }
-                }
-            };
-
-            fileReader.readAsText(file);
-        }
-    }
-
-    const nextPage = () => {
-        setPage((currentPage) => currentPage++);
-    }
-
-    const prevPage = () => {
-        setPage((currentPage) => currentPage--);
-    }
-
     const startAddingClient = () => {
         setIsAddingClient(true);
     }
@@ -283,10 +207,9 @@ const Clients = () => {
                 open={isAddingClient}
                 onClose={stopAddingClient}
             >
-                <Box>
-                    <AddClient close={stopAddingClient}/>
-                </Box>
+                <AddClient close={stopAddingClient}/>
             </Modal>
+
             <Box paddingTop='2rem' paddingBottom='2rem' display='flex' flexDirection='row' width='100%' alignItems='center'>
                 <TextField InputProps={{
                         endAdornment: <InputAdornment position="start"><SearchIcon style={{color: 'white'}}/></InputAdornment>,
@@ -296,8 +219,6 @@ const Clients = () => {
                     style={{border: '1px solid white', borderRadius: '.25rem'}}
                 />
                 <ProcessCsvButton label='Bulk Upload Clients' action={bulkAddClients} />
-                <ProcessCsvButton label='Merge Phone numbers to Clients' action={mergePhoneNumbers} />
-                <ProcessCsvButton label='Merge Emails to  Clients' action={mergeEmails} />
                 <Box paddingLeft='2rem'>
                     <Button variant="contained" component="label" style={{backgroundColor: 'black', border: '1px solid white'}} onClick={startAddingClient}>
                         Add Client
@@ -305,7 +226,7 @@ const Clients = () => {
                 </Box>
             </Box>
             <Box paddingBottom='2rem'>
-                <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 28, border: '1px solid white', borderRadius: '.25rem' }, '&.Mui-checked': { color: 'white'}}} onChange={filterInactive} checked={filterInactiveClients} value={filterInactiveClients}/>} label="Active clients only" />
+                <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 50, border: '1px solid white', borderRadius: '.25rem' }, '&.Mui-checked': { color: 'white'}}} onChange={filterInactive} checked={filterInactiveClients} value={filterInactiveClients}/>} label="Active clients only" />
             </Box>
             <Box flex='1'>
                 <DataGrid columns={columns} rows={rows} onRowClick={handleRowClick} style={{color: 'white'}} />
