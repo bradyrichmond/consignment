@@ -8,7 +8,7 @@ enum ClientType {
   STORE_ACCOUNT
 }
 
-type Client @model @searchable {
+type Client @model {
   id: ID!
   clientId: String
   clientType: ClientType
@@ -125,4 +125,12 @@ type PriceGuide @model {
   category: Category! @hasOne
   price: String!
   priceLevel: String!
+}
+
+type Brand @model {
+  id: ID!
+  brandId: String
+  description: String!
+  lastUpdateTimestamp: AWSDate!
+  inactive: Boolean
 }

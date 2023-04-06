@@ -165,10 +165,6 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
-                },
-                {
-                    "type": "searchable",
-                    "properties": {}
                 }
             ]
         },
@@ -1024,6 +1020,70 @@ export const schema = {
                     "properties": {}
                 }
             ]
+        },
+        "Brand": {
+            "name": "Brand",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "brandId": {
+                    "name": "brandId",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "description": {
+                    "name": "description",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "lastUpdateTimestamp": {
+                    "name": "lastUpdateTimestamp",
+                    "isArray": false,
+                    "type": "AWSDate",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "inactive": {
+                    "name": "inactive",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "Brands",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                }
+            ]
         }
     },
     "enums": {
@@ -1038,5 +1098,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.0",
-    "version": "a309fdb8a2cce21ff08eb027db6fb564"
+    "version": "02af79918db0302a485bb2eee98b4b4f"
 };

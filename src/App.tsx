@@ -17,6 +17,7 @@ import Home from './features/Home';
 import { Box } from '@mui/material';
 import Items from './features/Items';
 import AddItem from './features/Items/AddItem';
+import Brands from './features/Brands';
 Amplify.configure(awsExports);
 
 const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: string[]) => createBrowserRouter([
@@ -25,6 +26,14 @@ const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: string[]
     element: isLoggedIn ? <Home /> : <Navigate to='/login' state={{goto: pathname}}/>,
     children: [
       {
+        path: 'add-items/:id',
+        element: <AddItem />
+      },
+      {
+        path: 'brands',
+        element: <Brands />
+      },
+      {
         path: 'clients',
         element: <Clients />
       },
@@ -32,10 +41,6 @@ const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: string[]
         path: 'items',
         element: <Items />
       },
-      {
-        path: 'add-items/:id',
-        element: <AddItem />
-      }
     ]
   },
   {

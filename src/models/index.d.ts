@@ -403,3 +403,37 @@ export declare type PriceGuide = LazyLoading extends LazyLoadingDisabled ? Eager
 export declare const PriceGuide: (new (init: ModelInit<PriceGuide>) => PriceGuide) & {
   copyOf(source: PriceGuide, mutator: (draft: MutableModel<PriceGuide>) => MutableModel<PriceGuide> | void): PriceGuide;
 }
+
+type EagerBrand = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Brand, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly brandId?: string | null;
+  readonly description: string;
+  readonly lastUpdateTimestamp: string;
+  readonly inactive?: boolean | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyBrand = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Brand, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly brandId?: string | null;
+  readonly description: string;
+  readonly lastUpdateTimestamp: string;
+  readonly inactive?: boolean | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Brand = LazyLoading extends LazyLoadingDisabled ? EagerBrand : LazyBrand
+
+export declare const Brand: (new (init: ModelInit<Brand>) => Brand) & {
+  copyOf(source: Brand, mutator: (draft: MutableModel<Brand>) => MutableModel<Brand> | void): Brand;
+}

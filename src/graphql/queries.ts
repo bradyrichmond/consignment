@@ -2,72 +2,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const searchClients = /* GraphQL */ `
-  query SearchClients(
-    $filter: SearchableClientFilterInput
-    $sort: [SearchableClientSortInput]
-    $limit: Int
-    $nextToken: String
-    $from: Int
-    $aggregates: [SearchableClientAggregationInput]
-  ) {
-    searchClients(
-      filter: $filter
-      sort: $sort
-      limit: $limit
-      nextToken: $nextToken
-      from: $from
-      aggregates: $aggregates
-    ) {
-      items {
-        id
-        clientId
-        clientType
-        firstName
-        lastName
-        companyName
-        account
-        receiveMailInd
-        nextItemNumber
-        phone
-        email
-        createTimestamp
-        activeTimestamp
-        inactiveTimestamp
-        modifiedBy
-        items {
-          nextToken
-          startedAt
-        }
-        addresses {
-          nextToken
-          startedAt
-        }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      total
-      aggregateItems {
-        name
-        result {
-          ... on SearchableAggregateScalarResult {
-            value
-          }
-          ... on SearchableAggregateBucketResult {
-            buckets {
-              key
-              doc_count
-            }
-          }
-        }
-      }
-    }
-  }
-`;
 export const getClient = /* GraphQL */ `
   query GetClient($id: ID!) {
     getClient(id: $id) {
@@ -1191,6 +1125,76 @@ export const syncPriceGuides = /* GraphQL */ `
         _deleted
         _lastChangedAt
         priceGuideCategoryId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getBrand = /* GraphQL */ `
+  query GetBrand($id: ID!) {
+    getBrand(id: $id) {
+      id
+      brandId
+      description
+      lastUpdateTimestamp
+      inactive
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listBrands = /* GraphQL */ `
+  query ListBrands(
+    $filter: ModelBrandFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listBrands(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        brandId
+        description
+        lastUpdateTimestamp
+        inactive
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncBrands = /* GraphQL */ `
+  query SyncBrands(
+    $filter: ModelBrandFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncBrands(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        brandId
+        description
+        lastUpdateTimestamp
+        inactive
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
       startedAt

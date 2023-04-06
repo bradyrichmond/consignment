@@ -4,7 +4,7 @@
 
 export type CreateClientInput = {
   id?: string | null,
-  clientId: string,
+  clientId?: string | null,
   clientType?: ClientType | null,
   firstName: string,
   lastName: string,
@@ -103,7 +103,7 @@ export type ModelBooleanInput = {
 export type Client = {
   __typename: "Client",
   id: string,
-  clientId: string,
+  clientId?: string | null,
   clientType?: ClientType | null,
   firstName: string,
   lastName: string,
@@ -182,7 +182,7 @@ export type ModelAddressConnection = {
 export type Address = {
   __typename: "Address",
   id: string,
-  addressId: string,
+  addressId?: string | null,
   addressLabel?: string | null,
   label?: string | null,
   address1?: string | null,
@@ -487,7 +487,7 @@ export type DeleteLocationInput = {
 
 export type CreateAddressInput = {
   id?: string | null,
-  addressId: string,
+  addressId?: string | null,
   addressLabel?: string | null,
   label?: string | null,
   address1?: string | null,
@@ -706,185 +706,51 @@ export type DeletePriceGuideInput = {
   _version?: number | null,
 };
 
-export type SearchableClientFilterInput = {
-  id?: SearchableIDFilterInput | null,
-  clientId?: SearchableStringFilterInput | null,
-  firstName?: SearchableStringFilterInput | null,
-  lastName?: SearchableStringFilterInput | null,
-  companyName?: SearchableStringFilterInput | null,
-  account?: SearchableStringFilterInput | null,
-  receiveMailInd?: SearchableBooleanFilterInput | null,
-  nextItemNumber?: SearchableStringFilterInput | null,
-  phone?: SearchableStringFilterInput | null,
-  email?: SearchableStringFilterInput | null,
-  createTimestamp?: SearchableStringFilterInput | null,
-  activeTimestamp?: SearchableStringFilterInput | null,
-  inactiveTimestamp?: SearchableStringFilterInput | null,
-  modifiedBy?: SearchableStringFilterInput | null,
-  createdAt?: SearchableStringFilterInput | null,
-  updatedAt?: SearchableStringFilterInput | null,
-  _version?: SearchableIntFilterInput | null,
-  _deleted?: SearchableBooleanFilterInput | null,
-  _lastChangedAt?: SearchableIntFilterInput | null,
-  clientType?: SearchableStringFilterInput | null,
-  and?: Array< SearchableClientFilterInput | null > | null,
-  or?: Array< SearchableClientFilterInput | null > | null,
-  not?: SearchableClientFilterInput | null,
+export type CreateBrandInput = {
+  id?: string | null,
+  brandId?: string | null,
+  description: string,
+  lastUpdateTimestamp: string,
+  inactive?: boolean | null,
+  _version?: number | null,
 };
 
-export type SearchableIDFilterInput = {
-  ne?: string | null,
-  gt?: string | null,
-  lt?: string | null,
-  gte?: string | null,
-  lte?: string | null,
-  eq?: string | null,
-  match?: string | null,
-  matchPhrase?: string | null,
-  matchPhrasePrefix?: string | null,
-  multiMatch?: string | null,
-  exists?: boolean | null,
-  wildcard?: string | null,
-  regexp?: string | null,
-  range?: Array< string | null > | null,
+export type ModelBrandConditionInput = {
+  brandId?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  lastUpdateTimestamp?: ModelStringInput | null,
+  inactive?: ModelBooleanInput | null,
+  and?: Array< ModelBrandConditionInput | null > | null,
+  or?: Array< ModelBrandConditionInput | null > | null,
+  not?: ModelBrandConditionInput | null,
 };
 
-export type SearchableStringFilterInput = {
-  ne?: string | null,
-  gt?: string | null,
-  lt?: string | null,
-  gte?: string | null,
-  lte?: string | null,
-  eq?: string | null,
-  match?: string | null,
-  matchPhrase?: string | null,
-  matchPhrasePrefix?: string | null,
-  multiMatch?: string | null,
-  exists?: boolean | null,
-  wildcard?: string | null,
-  regexp?: string | null,
-  range?: Array< string | null > | null,
+export type Brand = {
+  __typename: "Brand",
+  id: string,
+  brandId?: string | null,
+  description: string,
+  lastUpdateTimestamp: string,
+  inactive?: boolean | null,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
 };
 
-export type SearchableBooleanFilterInput = {
-  eq?: boolean | null,
-  ne?: boolean | null,
+export type UpdateBrandInput = {
+  id: string,
+  brandId?: string | null,
+  description?: string | null,
+  lastUpdateTimestamp?: string | null,
+  inactive?: boolean | null,
+  _version?: number | null,
 };
 
-export type SearchableIntFilterInput = {
-  ne?: number | null,
-  gt?: number | null,
-  lt?: number | null,
-  gte?: number | null,
-  lte?: number | null,
-  eq?: number | null,
-  range?: Array< number | null > | null,
-};
-
-export type SearchableClientSortInput = {
-  field?: SearchableClientSortableFields | null,
-  direction?: SearchableSortDirection | null,
-};
-
-export enum SearchableClientSortableFields {
-  id = "id",
-  clientId = "clientId",
-  firstName = "firstName",
-  lastName = "lastName",
-  companyName = "companyName",
-  account = "account",
-  receiveMailInd = "receiveMailInd",
-  nextItemNumber = "nextItemNumber",
-  phone = "phone",
-  email = "email",
-  createTimestamp = "createTimestamp",
-  activeTimestamp = "activeTimestamp",
-  inactiveTimestamp = "inactiveTimestamp",
-  modifiedBy = "modifiedBy",
-  createdAt = "createdAt",
-  updatedAt = "updatedAt",
-  _version = "_version",
-  _deleted = "_deleted",
-  _lastChangedAt = "_lastChangedAt",
-}
-
-
-export enum SearchableSortDirection {
-  asc = "asc",
-  desc = "desc",
-}
-
-
-export type SearchableClientAggregationInput = {
-  name: string,
-  type: SearchableAggregateType,
-  field: SearchableClientAggregateField,
-};
-
-export enum SearchableAggregateType {
-  terms = "terms",
-  avg = "avg",
-  min = "min",
-  max = "max",
-  sum = "sum",
-}
-
-
-export enum SearchableClientAggregateField {
-  id = "id",
-  clientId = "clientId",
-  clientType = "clientType",
-  firstName = "firstName",
-  lastName = "lastName",
-  companyName = "companyName",
-  account = "account",
-  receiveMailInd = "receiveMailInd",
-  nextItemNumber = "nextItemNumber",
-  phone = "phone",
-  email = "email",
-  createTimestamp = "createTimestamp",
-  activeTimestamp = "activeTimestamp",
-  inactiveTimestamp = "inactiveTimestamp",
-  modifiedBy = "modifiedBy",
-  createdAt = "createdAt",
-  updatedAt = "updatedAt",
-  _version = "_version",
-  _deleted = "_deleted",
-  _lastChangedAt = "_lastChangedAt",
-}
-
-
-export type SearchableClientConnection = {
-  __typename: "SearchableClientConnection",
-  items:  Array<Client | null >,
-  nextToken?: string | null,
-  total?: number | null,
-  aggregateItems:  Array<SearchableAggregateResult | null >,
-};
-
-export type SearchableAggregateResult = {
-  __typename: "SearchableAggregateResult",
-  name: string,
-  result?: SearchableAggregateGenericResult | null,
-};
-
-export type SearchableAggregateGenericResult = SearchableAggregateScalarResult | SearchableAggregateBucketResult
-
-
-export type SearchableAggregateScalarResult = {
-  __typename: "SearchableAggregateScalarResult",
-  value: number,
-};
-
-export type SearchableAggregateBucketResult = {
-  __typename: "SearchableAggregateBucketResult",
-  buckets?:  Array<SearchableAggregateBucketResultItem | null > | null,
-};
-
-export type SearchableAggregateBucketResultItem = {
-  __typename: "SearchableAggregateBucketResultItem",
-  key: string,
-  doc_count: number,
+export type DeleteBrandInput = {
+  id: string,
+  _version?: number | null,
 };
 
 export type ModelClientFilterInput = {
@@ -1071,6 +937,24 @@ export type ModelPriceGuideConnection = {
   startedAt?: number | null,
 };
 
+export type ModelBrandFilterInput = {
+  id?: ModelIDInput | null,
+  brandId?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  lastUpdateTimestamp?: ModelStringInput | null,
+  inactive?: ModelBooleanInput | null,
+  and?: Array< ModelBrandFilterInput | null > | null,
+  or?: Array< ModelBrandFilterInput | null > | null,
+  not?: ModelBrandFilterInput | null,
+};
+
+export type ModelBrandConnection = {
+  __typename: "ModelBrandConnection",
+  items:  Array<Brand | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
 export type ModelSubscriptionClientFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   clientId?: ModelSubscriptionStringInput | null,
@@ -1246,6 +1130,16 @@ export type ModelSubscriptionPriceGuideFilterInput = {
   or?: Array< ModelSubscriptionPriceGuideFilterInput | null > | null,
 };
 
+export type ModelSubscriptionBrandFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  brandId?: ModelSubscriptionStringInput | null,
+  description?: ModelSubscriptionStringInput | null,
+  lastUpdateTimestamp?: ModelSubscriptionStringInput | null,
+  inactive?: ModelSubscriptionBooleanInput | null,
+  and?: Array< ModelSubscriptionBrandFilterInput | null > | null,
+  or?: Array< ModelSubscriptionBrandFilterInput | null > | null,
+};
+
 export type CreateClientMutationVariables = {
   input: CreateClientInput,
   condition?: ModelClientConditionInput | null,
@@ -1255,7 +1149,7 @@ export type CreateClientMutation = {
   createClient?:  {
     __typename: "Client",
     id: string,
-    clientId: string,
+    clientId?: string | null,
     clientType?: ClientType | null,
     firstName: string,
     lastName: string,
@@ -1317,7 +1211,7 @@ export type CreateClientMutation = {
       items:  Array< {
         __typename: "Address",
         id: string,
-        addressId: string,
+        addressId?: string | null,
         addressLabel?: string | null,
         label?: string | null,
         address1?: string | null,
@@ -1354,7 +1248,7 @@ export type UpdateClientMutation = {
   updateClient?:  {
     __typename: "Client",
     id: string,
-    clientId: string,
+    clientId?: string | null,
     clientType?: ClientType | null,
     firstName: string,
     lastName: string,
@@ -1416,7 +1310,7 @@ export type UpdateClientMutation = {
       items:  Array< {
         __typename: "Address",
         id: string,
-        addressId: string,
+        addressId?: string | null,
         addressLabel?: string | null,
         label?: string | null,
         address1?: string | null,
@@ -1453,7 +1347,7 @@ export type DeleteClientMutation = {
   deleteClient?:  {
     __typename: "Client",
     id: string,
-    clientId: string,
+    clientId?: string | null,
     clientType?: ClientType | null,
     firstName: string,
     lastName: string,
@@ -1515,7 +1409,7 @@ export type DeleteClientMutation = {
       items:  Array< {
         __typename: "Address",
         id: string,
-        addressId: string,
+        addressId?: string | null,
         addressLabel?: string | null,
         label?: string | null,
         address1?: string | null,
@@ -1694,7 +1588,7 @@ export type CreateTransactionMutation = {
     client?:  {
       __typename: "Client",
       id: string,
-      clientId: string,
+      clientId?: string | null,
       clientType?: ClientType | null,
       firstName: string,
       lastName: string,
@@ -1742,7 +1636,7 @@ export type CreateTransactionMutation = {
       address?:  {
         __typename: "Address",
         id: string,
-        addressId: string,
+        addressId?: string | null,
         addressLabel?: string | null,
         label?: string | null,
         address1?: string | null,
@@ -1788,7 +1682,7 @@ export type UpdateTransactionMutation = {
     client?:  {
       __typename: "Client",
       id: string,
-      clientId: string,
+      clientId?: string | null,
       clientType?: ClientType | null,
       firstName: string,
       lastName: string,
@@ -1836,7 +1730,7 @@ export type UpdateTransactionMutation = {
       address?:  {
         __typename: "Address",
         id: string,
-        addressId: string,
+        addressId?: string | null,
         addressLabel?: string | null,
         label?: string | null,
         address1?: string | null,
@@ -1882,7 +1776,7 @@ export type DeleteTransactionMutation = {
     client?:  {
       __typename: "Client",
       id: string,
-      clientId: string,
+      clientId?: string | null,
       clientType?: ClientType | null,
       firstName: string,
       lastName: string,
@@ -1930,7 +1824,7 @@ export type DeleteTransactionMutation = {
       address?:  {
         __typename: "Address",
         id: string,
-        addressId: string,
+        addressId?: string | null,
         addressLabel?: string | null,
         label?: string | null,
         address1?: string | null,
@@ -1976,7 +1870,7 @@ export type CreateLocationMutation = {
     address?:  {
       __typename: "Address",
       id: string,
-      addressId: string,
+      addressId?: string | null,
       addressLabel?: string | null,
       label?: string | null,
       address1?: string | null,
@@ -2015,7 +1909,7 @@ export type UpdateLocationMutation = {
     address?:  {
       __typename: "Address",
       id: string,
-      addressId: string,
+      addressId?: string | null,
       addressLabel?: string | null,
       label?: string | null,
       address1?: string | null,
@@ -2054,7 +1948,7 @@ export type DeleteLocationMutation = {
     address?:  {
       __typename: "Address",
       id: string,
-      addressId: string,
+      addressId?: string | null,
       addressLabel?: string | null,
       label?: string | null,
       address1?: string | null,
@@ -2089,7 +1983,7 @@ export type CreateAddressMutation = {
   createAddress?:  {
     __typename: "Address",
     id: string,
-    addressId: string,
+    addressId?: string | null,
     addressLabel?: string | null,
     label?: string | null,
     address1?: string | null,
@@ -2117,7 +2011,7 @@ export type UpdateAddressMutation = {
   updateAddress?:  {
     __typename: "Address",
     id: string,
-    addressId: string,
+    addressId?: string | null,
     addressLabel?: string | null,
     label?: string | null,
     address1?: string | null,
@@ -2145,7 +2039,7 @@ export type DeleteAddressMutation = {
   deleteAddress?:  {
     __typename: "Address",
     id: string,
-    addressId: string,
+    addressId?: string | null,
     addressLabel?: string | null,
     label?: string | null,
     address1?: string | null,
@@ -2599,69 +2493,66 @@ export type DeletePriceGuideMutation = {
   } | null,
 };
 
-export type SearchClientsQueryVariables = {
-  filter?: SearchableClientFilterInput | null,
-  sort?: Array< SearchableClientSortInput | null > | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  from?: number | null,
-  aggregates?: Array< SearchableClientAggregationInput | null > | null,
+export type CreateBrandMutationVariables = {
+  input: CreateBrandInput,
+  condition?: ModelBrandConditionInput | null,
 };
 
-export type SearchClientsQuery = {
-  searchClients?:  {
-    __typename: "SearchableClientConnection",
-    items:  Array< {
-      __typename: "Client",
-      id: string,
-      clientId: string,
-      clientType?: ClientType | null,
-      firstName: string,
-      lastName: string,
-      companyName?: string | null,
-      account: string,
-      receiveMailInd: boolean,
-      nextItemNumber: string,
-      phone?: string | null,
-      email?: string | null,
-      createTimestamp?: string | null,
-      activeTimestamp?: string | null,
-      inactiveTimestamp?: string | null,
-      modifiedBy: string,
-      items?:  {
-        __typename: "ModelItemConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      addresses?:  {
-        __typename: "ModelAddressConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    total?: number | null,
-    aggregateItems:  Array< {
-      __typename: "SearchableAggregateResult",
-      name: string,
-      result: ( {
-          __typename: "SearchableAggregateScalarResult",
-          value: number,
-        } | {
-          __typename: "SearchableAggregateBucketResult",
-          buckets?:  Array< {
-            __typename: string,
-            key: string,
-            doc_count: number,
-          } | null > | null,
-        }
-      ) | null,
-    } | null >,
+export type CreateBrandMutation = {
+  createBrand?:  {
+    __typename: "Brand",
+    id: string,
+    brandId?: string | null,
+    description: string,
+    lastUpdateTimestamp: string,
+    inactive?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type UpdateBrandMutationVariables = {
+  input: UpdateBrandInput,
+  condition?: ModelBrandConditionInput | null,
+};
+
+export type UpdateBrandMutation = {
+  updateBrand?:  {
+    __typename: "Brand",
+    id: string,
+    brandId?: string | null,
+    description: string,
+    lastUpdateTimestamp: string,
+    inactive?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type DeleteBrandMutationVariables = {
+  input: DeleteBrandInput,
+  condition?: ModelBrandConditionInput | null,
+};
+
+export type DeleteBrandMutation = {
+  deleteBrand?:  {
+    __typename: "Brand",
+    id: string,
+    brandId?: string | null,
+    description: string,
+    lastUpdateTimestamp: string,
+    inactive?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
@@ -2673,7 +2564,7 @@ export type GetClientQuery = {
   getClient?:  {
     __typename: "Client",
     id: string,
-    clientId: string,
+    clientId?: string | null,
     clientType?: ClientType | null,
     firstName: string,
     lastName: string,
@@ -2735,7 +2626,7 @@ export type GetClientQuery = {
       items:  Array< {
         __typename: "Address",
         id: string,
-        addressId: string,
+        addressId?: string | null,
         addressLabel?: string | null,
         label?: string | null,
         address1?: string | null,
@@ -2775,7 +2666,7 @@ export type ListClientsQuery = {
     items:  Array< {
       __typename: "Client",
       id: string,
-      clientId: string,
+      clientId?: string | null,
       clientType?: ClientType | null,
       firstName: string,
       lastName: string,
@@ -2823,7 +2714,7 @@ export type SyncClientsQuery = {
     items:  Array< {
       __typename: "Client",
       id: string,
-      clientId: string,
+      clientId?: string | null,
       clientType?: ClientType | null,
       firstName: string,
       lastName: string,
@@ -3020,7 +2911,7 @@ export type GetTransactionQuery = {
     client?:  {
       __typename: "Client",
       id: string,
-      clientId: string,
+      clientId?: string | null,
       clientType?: ClientType | null,
       firstName: string,
       lastName: string,
@@ -3068,7 +2959,7 @@ export type GetTransactionQuery = {
       address?:  {
         __typename: "Address",
         id: string,
-        addressId: string,
+        addressId?: string | null,
         addressLabel?: string | null,
         label?: string | null,
         address1?: string | null,
@@ -3117,7 +3008,7 @@ export type ListTransactionsQuery = {
       client?:  {
         __typename: "Client",
         id: string,
-        clientId: string,
+        clientId?: string | null,
         clientType?: ClientType | null,
         firstName: string,
         lastName: string,
@@ -3188,7 +3079,7 @@ export type SyncTransactionsQuery = {
       client?:  {
         __typename: "Client",
         id: string,
-        clientId: string,
+        clientId?: string | null,
         clientType?: ClientType | null,
         firstName: string,
         lastName: string,
@@ -3254,7 +3145,7 @@ export type GetLocationQuery = {
     address?:  {
       __typename: "Address",
       id: string,
-      addressId: string,
+      addressId?: string | null,
       addressLabel?: string | null,
       label?: string | null,
       address1?: string | null,
@@ -3296,7 +3187,7 @@ export type ListLocationsQuery = {
       address?:  {
         __typename: "Address",
         id: string,
-        addressId: string,
+        addressId?: string | null,
         addressLabel?: string | null,
         label?: string | null,
         address1?: string | null,
@@ -3342,7 +3233,7 @@ export type SyncLocationsQuery = {
       address?:  {
         __typename: "Address",
         id: string,
-        addressId: string,
+        addressId?: string | null,
         addressLabel?: string | null,
         label?: string | null,
         address1?: string | null,
@@ -3379,7 +3270,7 @@ export type GetAddressQuery = {
   getAddress?:  {
     __typename: "Address",
     id: string,
-    addressId: string,
+    addressId?: string | null,
     addressLabel?: string | null,
     label?: string | null,
     address1?: string | null,
@@ -3410,7 +3301,7 @@ export type ListAddressesQuery = {
     items:  Array< {
       __typename: "Address",
       id: string,
-      addressId: string,
+      addressId?: string | null,
       addressLabel?: string | null,
       label?: string | null,
       address1?: string | null,
@@ -3445,7 +3336,7 @@ export type SyncAddressesQuery = {
     items:  Array< {
       __typename: "Address",
       id: string,
-      addressId: string,
+      addressId?: string | null,
       addressLabel?: string | null,
       label?: string | null,
       address1?: string | null,
@@ -3862,6 +3753,81 @@ export type SyncPriceGuidesQuery = {
   } | null,
 };
 
+export type GetBrandQueryVariables = {
+  id: string,
+};
+
+export type GetBrandQuery = {
+  getBrand?:  {
+    __typename: "Brand",
+    id: string,
+    brandId?: string | null,
+    description: string,
+    lastUpdateTimestamp: string,
+    inactive?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type ListBrandsQueryVariables = {
+  filter?: ModelBrandFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListBrandsQuery = {
+  listBrands?:  {
+    __typename: "ModelBrandConnection",
+    items:  Array< {
+      __typename: "Brand",
+      id: string,
+      brandId?: string | null,
+      description: string,
+      lastUpdateTimestamp: string,
+      inactive?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncBrandsQueryVariables = {
+  filter?: ModelBrandFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncBrandsQuery = {
+  syncBrands?:  {
+    __typename: "ModelBrandConnection",
+    items:  Array< {
+      __typename: "Brand",
+      id: string,
+      brandId?: string | null,
+      description: string,
+      lastUpdateTimestamp: string,
+      inactive?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
 export type OnCreateClientSubscriptionVariables = {
   filter?: ModelSubscriptionClientFilterInput | null,
 };
@@ -3870,7 +3836,7 @@ export type OnCreateClientSubscription = {
   onCreateClient?:  {
     __typename: "Client",
     id: string,
-    clientId: string,
+    clientId?: string | null,
     clientType?: ClientType | null,
     firstName: string,
     lastName: string,
@@ -3932,7 +3898,7 @@ export type OnCreateClientSubscription = {
       items:  Array< {
         __typename: "Address",
         id: string,
-        addressId: string,
+        addressId?: string | null,
         addressLabel?: string | null,
         label?: string | null,
         address1?: string | null,
@@ -3968,7 +3934,7 @@ export type OnUpdateClientSubscription = {
   onUpdateClient?:  {
     __typename: "Client",
     id: string,
-    clientId: string,
+    clientId?: string | null,
     clientType?: ClientType | null,
     firstName: string,
     lastName: string,
@@ -4030,7 +3996,7 @@ export type OnUpdateClientSubscription = {
       items:  Array< {
         __typename: "Address",
         id: string,
-        addressId: string,
+        addressId?: string | null,
         addressLabel?: string | null,
         label?: string | null,
         address1?: string | null,
@@ -4066,7 +4032,7 @@ export type OnDeleteClientSubscription = {
   onDeleteClient?:  {
     __typename: "Client",
     id: string,
-    clientId: string,
+    clientId?: string | null,
     clientType?: ClientType | null,
     firstName: string,
     lastName: string,
@@ -4128,7 +4094,7 @@ export type OnDeleteClientSubscription = {
       items:  Array< {
         __typename: "Address",
         id: string,
-        addressId: string,
+        addressId?: string | null,
         addressLabel?: string | null,
         label?: string | null,
         address1?: string | null,
@@ -4303,7 +4269,7 @@ export type OnCreateTransactionSubscription = {
     client?:  {
       __typename: "Client",
       id: string,
-      clientId: string,
+      clientId?: string | null,
       clientType?: ClientType | null,
       firstName: string,
       lastName: string,
@@ -4351,7 +4317,7 @@ export type OnCreateTransactionSubscription = {
       address?:  {
         __typename: "Address",
         id: string,
-        addressId: string,
+        addressId?: string | null,
         addressLabel?: string | null,
         label?: string | null,
         address1?: string | null,
@@ -4396,7 +4362,7 @@ export type OnUpdateTransactionSubscription = {
     client?:  {
       __typename: "Client",
       id: string,
-      clientId: string,
+      clientId?: string | null,
       clientType?: ClientType | null,
       firstName: string,
       lastName: string,
@@ -4444,7 +4410,7 @@ export type OnUpdateTransactionSubscription = {
       address?:  {
         __typename: "Address",
         id: string,
-        addressId: string,
+        addressId?: string | null,
         addressLabel?: string | null,
         label?: string | null,
         address1?: string | null,
@@ -4489,7 +4455,7 @@ export type OnDeleteTransactionSubscription = {
     client?:  {
       __typename: "Client",
       id: string,
-      clientId: string,
+      clientId?: string | null,
       clientType?: ClientType | null,
       firstName: string,
       lastName: string,
@@ -4537,7 +4503,7 @@ export type OnDeleteTransactionSubscription = {
       address?:  {
         __typename: "Address",
         id: string,
-        addressId: string,
+        addressId?: string | null,
         addressLabel?: string | null,
         label?: string | null,
         address1?: string | null,
@@ -4582,7 +4548,7 @@ export type OnCreateLocationSubscription = {
     address?:  {
       __typename: "Address",
       id: string,
-      addressId: string,
+      addressId?: string | null,
       addressLabel?: string | null,
       label?: string | null,
       address1?: string | null,
@@ -4620,7 +4586,7 @@ export type OnUpdateLocationSubscription = {
     address?:  {
       __typename: "Address",
       id: string,
-      addressId: string,
+      addressId?: string | null,
       addressLabel?: string | null,
       label?: string | null,
       address1?: string | null,
@@ -4658,7 +4624,7 @@ export type OnDeleteLocationSubscription = {
     address?:  {
       __typename: "Address",
       id: string,
-      addressId: string,
+      addressId?: string | null,
       addressLabel?: string | null,
       label?: string | null,
       address1?: string | null,
@@ -4692,7 +4658,7 @@ export type OnCreateAddressSubscription = {
   onCreateAddress?:  {
     __typename: "Address",
     id: string,
-    addressId: string,
+    addressId?: string | null,
     addressLabel?: string | null,
     label?: string | null,
     address1?: string | null,
@@ -4719,7 +4685,7 @@ export type OnUpdateAddressSubscription = {
   onUpdateAddress?:  {
     __typename: "Address",
     id: string,
-    addressId: string,
+    addressId?: string | null,
     addressLabel?: string | null,
     label?: string | null,
     address1?: string | null,
@@ -4746,7 +4712,7 @@ export type OnDeleteAddressSubscription = {
   onDeleteAddress?:  {
     __typename: "Address",
     id: string,
-    addressId: string,
+    addressId?: string | null,
     addressLabel?: string | null,
     label?: string | null,
     address1?: string | null,
@@ -5188,5 +5154,65 @@ export type OnDeletePriceGuideSubscription = {
     _deleted?: boolean | null,
     _lastChangedAt: number,
     priceGuideCategoryId: string,
+  } | null,
+};
+
+export type OnCreateBrandSubscriptionVariables = {
+  filter?: ModelSubscriptionBrandFilterInput | null,
+};
+
+export type OnCreateBrandSubscription = {
+  onCreateBrand?:  {
+    __typename: "Brand",
+    id: string,
+    brandId?: string | null,
+    description: string,
+    lastUpdateTimestamp: string,
+    inactive?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnUpdateBrandSubscriptionVariables = {
+  filter?: ModelSubscriptionBrandFilterInput | null,
+};
+
+export type OnUpdateBrandSubscription = {
+  onUpdateBrand?:  {
+    __typename: "Brand",
+    id: string,
+    brandId?: string | null,
+    description: string,
+    lastUpdateTimestamp: string,
+    inactive?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnDeleteBrandSubscriptionVariables = {
+  filter?: ModelSubscriptionBrandFilterInput | null,
+};
+
+export type OnDeleteBrandSubscription = {
+  onDeleteBrand?:  {
+    __typename: "Brand",
+    id: string,
+    brandId?: string | null,
+    description: string,
+    lastUpdateTimestamp: string,
+    inactive?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };

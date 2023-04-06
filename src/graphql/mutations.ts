@@ -1265,3 +1265,60 @@ export const deletePriceGuide = /* GraphQL */ `
     }
   }
 `;
+export const createBrand = /* GraphQL */ `
+  mutation CreateBrand(
+    $input: CreateBrandInput!
+    $condition: ModelBrandConditionInput
+  ) {
+    createBrand(input: $input, condition: $condition) {
+      id
+      brandId
+      description
+      lastUpdateTimestamp
+      inactive
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateBrand = /* GraphQL */ `
+  mutation UpdateBrand(
+    $input: UpdateBrandInput!
+    $condition: ModelBrandConditionInput
+  ) {
+    updateBrand(input: $input, condition: $condition) {
+      id
+      brandId
+      description
+      lastUpdateTimestamp
+      inactive
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteBrand = /* GraphQL */ `
+  mutation DeleteBrand(
+    $input: DeleteBrandInput!
+    $condition: ModelBrandConditionInput
+  ) {
+    deleteBrand(input: $input, condition: $condition) {
+      id
+      brandId
+      description
+      lastUpdateTimestamp
+      inactive
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;

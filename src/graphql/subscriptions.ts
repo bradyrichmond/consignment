@@ -1205,3 +1205,51 @@ export const onDeletePriceGuide = /* GraphQL */ `
     }
   }
 `;
+export const onCreateBrand = /* GraphQL */ `
+  subscription OnCreateBrand($filter: ModelSubscriptionBrandFilterInput) {
+    onCreateBrand(filter: $filter) {
+      id
+      brandId
+      description
+      lastUpdateTimestamp
+      inactive
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onUpdateBrand = /* GraphQL */ `
+  subscription OnUpdateBrand($filter: ModelSubscriptionBrandFilterInput) {
+    onUpdateBrand(filter: $filter) {
+      id
+      brandId
+      description
+      lastUpdateTimestamp
+      inactive
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onDeleteBrand = /* GraphQL */ `
+  subscription OnDeleteBrand($filter: ModelSubscriptionBrandFilterInput) {
+    onDeleteBrand(filter: $filter) {
+      id
+      brandId
+      description
+      lastUpdateTimestamp
+      inactive
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
