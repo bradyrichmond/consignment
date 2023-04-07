@@ -105,20 +105,6 @@ type City @model {
   state: String!
 }
 
-type Category @model {
-  id: ID!
-  categoryId: String!
-  parent: Category @hasOne
-  productLineId: String
-  defCommissionId: String
-  categoryName: String!
-  categoryLevel: Int!
-  active: Boolean!
-  visible: Boolean!
-  lastUpdateTimestamp: String!
-  defaultWeight: String!
-}
-
 type PriceGuide @model {
   id: ID!
   categoryPriceGuideId: String!
@@ -133,4 +119,14 @@ type Brand @model {
   description: String!
   lastUpdateTimestamp: AWSDate!
   inactive: Boolean
+}
+
+type Category @model {
+  id: ID!
+  parent: String
+  categoryId: String
+  categoryName: String!
+  categoryLevel: Int!
+  inactive: Boolean
+  lastUpdateTimestamp: AWSDate!
 }

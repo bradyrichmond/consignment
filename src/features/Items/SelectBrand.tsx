@@ -18,8 +18,6 @@ const SelectBrand = (props: SelectBrandProps) => {
         const lowerRangeLimits = range.toLowerCase().split(',');
         const rangeLimits = [...upperRangeLimits, ...lowerRangeLimits];
 
-        alert(JSON.stringify(rangeLimits));
-
         const getBrands = async () => {
             const fetchedBrands = await DataStore.query(Brand, (b) => b.or(b => [...rangeLimits.map((l) => b.description.beginsWith(l))]));
             setBrands(fetchedBrands);

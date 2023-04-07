@@ -18,6 +18,7 @@ import { Box } from '@mui/material';
 import Items from './features/Items';
 import AddItem from './features/Items/AddItem';
 import Brands from './features/Brands';
+import Categories from './features/Categories';
 Amplify.configure(awsExports);
 
 const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: string[]) => createBrowserRouter([
@@ -32,6 +33,10 @@ const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: string[]
       {
         path: 'brands',
         element: <Brands />
+      },
+      {
+        path: 'categories',
+        element: <Categories />
       },
       {
         path: 'clients',

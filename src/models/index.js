@@ -8,7 +8,7 @@ const ClientType = {
   "STORE_ACCOUNT": "STORE_ACCOUNT"
 };
 
-const { Client, Item, Transaction, Location, Address, City, Category, PriceGuide, Brand } = initSchema(schema);
+const { Client, Item, Transaction, Location, Address, City, PriceGuide, Brand, Category } = initSchema(schema);
 
 export {
   Client,
@@ -17,8 +17,8 @@ export {
   Location,
   Address,
   City,
-  Category,
   PriceGuide,
   Brand,
+  Category,
   ClientType
 };
