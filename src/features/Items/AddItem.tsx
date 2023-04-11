@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Box } from '@mui/system';
 import { useParams } from 'react-router-dom';
-import { Button, Stepper, Step, StepLabel, Typography, StepContent } from '@mui/material';
+import { Button, Stepper, Step, StepLabel, Typography } from '@mui/material';
 import NarrowBrand from './NarrowBrand';
 import SelectBrand from './SelectBrand';
-import { AttributeType, Brand, Category, CategoryAttribute } from '../../models';
+import { AttributeTypeValue, Brand, Category, CategoryAttribute } from '../../models';
 import SelectCategory from './SelectCategory';
 import { DataStore } from 'aws-amplify';
 import SelectAttributes from './SelectAttributes';
@@ -15,9 +15,11 @@ const AddItem = () => {
     const [activeStep, setActiveStep] = useState<number>(0);
     const [narrowBrand, setNarrowBrand] = useState<string>('');
     const [brand, setBrand] = useState<Brand>();
-    const [category, setCategory] = useState<string>('')
+    const [category, setCategory] = useState<string>('');
     const [categoryAttributes, setCategoryAttributes] = useState<CategoryAttribute[]>([]);
-    const [atvId, setAtvId] = useState<string>('')
+    const [categoryAttributeValues, setCategoryAttributeValues] = useState<AttributeTypeValue[]>([]);
+    const [itemPrice, setItemPrice] = useState<string>('')
+    const [atvId, setAtvId] = useState<string>('');
 
     const handleNarrowBrand = (brandRange: string) => {
         setNarrowBrand(brandRange);
@@ -48,7 +50,16 @@ const AddItem = () => {
         }
     }
 
-    const handleAttributeSelection = (attributeId: string) => {
+    const handleAttributeSelection = async (attributeValueId: string) => {
+        const attributeValue = await DataStore.query(AttributeTypeValue, attributeValueId);
+        const currentCategoryAttributeValues = categoryAttributeValues;
+
+        if (attributeValue) {
+            currentCategoryAttributeValues.push(attributeValue);
+            setCategoryAttributeValues(currentCategoryAttributeValues);
+        }
+
+
         if (categoryAttributes.length > 0) {
             const currentCategoryAttributes = categoryAttributes;
             const next = currentCategoryAttributes.shift();
@@ -62,6 +73,11 @@ const AddItem = () => {
         setActiveStep(4);
     }
 
+    const selectItemPrice = (price: string) => {
+        setItemPrice(price);
+        setActiveStep(5);
+    }
+
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
@@ -73,7 +89,7 @@ const AddItem = () => {
     const steps = [
         {
             label: 'Narrow Brand',
-            content: <NarrowBrand onButtonClick={handleNarrowBrand}/>
+            content: <NarrowBrand onButtonClick={handleNarrowBrand} />
         }, 
         {
             label: 'Select Brand', 
@@ -81,15 +97,19 @@ const AddItem = () => {
         },
         { 
             label: 'Select Category',
-            content: <SelectCategory categoryParent={category} onButtonClick={handleCategorySelection}/> 
+            content: <SelectCategory categoryParent={category} onButtonClick={handleCategorySelection} /> 
         },
         { 
             label: 'Select Attributes',
-            content: <SelectAttributes atvId={atvId} onButtonClick={handleAttributeSelection}/>
+            content: <SelectAttributes atvId={atvId} onButtonClick={handleAttributeSelection} />
         },
         { 
             label: 'Set Price',
-            content: <SetPrice />
+            content: <SetPrice setItemPrice={setItemPrice} />
+        },
+        { 
+            label: 'Confirm',
+            content: <Typography>{brand?.description} {category} {categoryAttributeValues.map((cav) => cav.attributeTypeValue)}</Typography>
         }
     ];
 

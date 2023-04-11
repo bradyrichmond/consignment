@@ -1,9 +1,6 @@
 import React from 'react';
 import { Box } from '@mui/system';
-import { Button, TextField, Typography } from '@mui/material';
-import { useForm } from 'react-hook-form';
-import { DataStore } from 'aws-amplify';
-import { format } from 'date-fns';
+import { Button, Typography } from '@mui/material';
 import ModalContainer from './ModalContainer';
 
 interface ConfirmModalProps {

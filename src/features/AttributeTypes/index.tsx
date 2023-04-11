@@ -124,8 +124,6 @@ const AttributeTypes = () => {
     }
 
     const startAddingAttributeTypeValue = async (attributeTypeId: string) => {
-        const selectedAttributeType = await DataStore.query(AttributeType, attributeTypeId);
-        setActiveAttributeType(selectedAttributeType?.attributeTypeDescription ?? 'this attribute type');
         setActiveAttributeTypeId(attributeTypeId)
         setIsAddingAttributeTypeValue(true);
     }
