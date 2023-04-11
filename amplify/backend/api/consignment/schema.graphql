@@ -156,7 +156,8 @@ type AttributeType @model {
 
 type AttributeTypeValue @model {
   id: ID!
-  attributeTypeValueId: String!
+  attributeType: AttributeType @hasOne
+  attributeTypeValueId: String
   attributeTypeValue: String!
   lastUpdateTimestamp: AWSDate!
   inactive: Boolean

@@ -9,11 +9,13 @@ import { DataStore, Predicates } from 'aws-amplify';
 import { format } from 'date-fns';
 import ConfirmModal from '../../utils/ConfirmModal';
 import AddAttributeType from './AddAttributeType';
+import AddAttributeTypeValues from './AddAttributeTypeValues';
 
 const AttributeTypes = () => {
     const [attributeTypes, setAttributeTypes] = useState<AttributeType[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [isAddingAttributeType, setIsAddingAttributeType] = useState(false);
+    const [isAddingAttributeTypeValue, setIsAddingAttributeTypeValue] = useState(false);
     const [isDeletingAttributeType, setIsDeletingAttributeType] = useState(false);
     const [isRevivingAttributeType, setIsRevivingAttributeType] = useState(false);
     const [activeAttributeTypeId, setActiveAttributeTypeId] = useState('');
@@ -53,7 +55,7 @@ const AttributeTypes = () => {
     }
 
     const columns: GridColDef[] = [
-        {field: 'description', headerName: 'AttributeType Name', width: 200},
+        {field: 'attributeTypeDescription', headerName: 'Attribute Type Name', width: 200},
         {field: 'lastUpdateTimestamp', headerName: 'Last Updated', width: 200},
         {field: '', headerName: 'Mark inactive?', width: 300, renderCell: (params: GridRenderCellParams<String>) => {
             return (
@@ -67,6 +69,15 @@ const AttributeTypes = () => {
                             Mark inactive?
                         </Button>
                     }
+                </>
+            )
+        }},
+        {field: '', headerName: 'Add Type Values?', width: 300, renderCell: (params: GridRenderCellParams<String>) => {
+            return (
+                <>
+                    <Button variant="contained" component="label" style={{backgroundColor: 'black', border: '1px solid white'}} onClick={() => startAddingAttributeTypeValue(params.id.toString())}>
+                        Add Values
+                    </Button>
                 </>
             )
         }},
@@ -110,6 +121,17 @@ const AttributeTypes = () => {
 
     const stopAddingAttributeType = () => {
         setIsAddingAttributeType(false);
+    }
+
+    const startAddingAttributeTypeValue = async (attributeTypeId: string) => {
+        const selectedAttributeType = await DataStore.query(AttributeType, attributeTypeId);
+        setActiveAttributeType(selectedAttributeType?.attributeTypeDescription ?? 'this attribute type');
+        setActiveAttributeTypeId(attributeTypeId)
+        setIsAddingAttributeTypeValue(true);
+    }
+
+    const stopAddingAttributeTypeValue = () => {
+        setIsAddingAttributeTypeValue(false);
     }
 
     const startDeletingAttributeType = async (attributeTypeId: string) => {
@@ -166,7 +188,13 @@ const AttributeTypes = () => {
                 open={isAddingAttributeType}
                 onClose={stopAddingAttributeType}
             >
-                <AddAttributeType close={stopAddingAttributeType}/>
+                <AddAttributeType close={stopAddingAttributeType} />
+            </Modal>
+            <Modal
+                open={isAddingAttributeTypeValue}
+                onClose={startAddingAttributeTypeValue}
+            >
+                <AddAttributeTypeValues close={stopAddingAttributeTypeValue} attributeType={activeAttributeTypeId}/>
             </Modal>
             <Modal
                 open={isDeletingAttributeType}
@@ -191,7 +219,7 @@ const AttributeTypes = () => {
                 <ProcessCsvButton label='Bulk Upload Items' action={bulkAddAttributeTypes} />
                 <Box paddingLeft='2rem'>
                     <Button variant="contained" component="label" style={{backgroundColor: 'black', border: '1px solid white'}} onClick={startAddingAttributeType}>
-                        Add AttributeType
+                        Add Attribute Type
                     </Button>
                 </Box>
             </Box>

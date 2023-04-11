@@ -1262,11 +1262,29 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "attributeType": {
+                    "name": "attributeType",
+                    "isArray": false,
+                    "type": {
+                        "model": "AttributeType"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": [
+                            "id"
+                        ],
+                        "targetNames": [
+                            "attributeTypeValueAttributeTypeId"
+                        ]
+                    }
+                },
                 "attributeTypeValueId": {
                     "name": "attributeTypeValueId",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "attributeTypeValue": {
@@ -1305,6 +1323,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
+                },
+                "attributeTypeValueAttributeTypeId": {
+                    "name": "attributeTypeValueAttributeTypeId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -1425,5 +1450,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.0",
-    "version": "67d5489c6e0c4f2ab3cf377b00f67983"
+    "version": "448f63c919b18a16da1141083ffe7914"
 };

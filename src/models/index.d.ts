@@ -520,12 +520,14 @@ type EagerAttributeTypeValue = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly attributeTypeValueId: string;
+  readonly attributeType?: AttributeType | null;
+  readonly attributeTypeValueId?: string | null;
   readonly attributeTypeValue: string;
   readonly lastUpdateTimestamp: string;
   readonly inactive?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly attributeTypeValueAttributeTypeId?: string | null;
 }
 
 type LazyAttributeTypeValue = {
@@ -534,12 +536,14 @@ type LazyAttributeTypeValue = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly attributeTypeValueId: string;
+  readonly attributeType: AsyncItem<AttributeType | undefined>;
+  readonly attributeTypeValueId?: string | null;
   readonly attributeTypeValue: string;
   readonly lastUpdateTimestamp: string;
   readonly inactive?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly attributeTypeValueAttributeTypeId?: string | null;
 }
 
 export declare type AttributeTypeValue = LazyLoading extends LazyLoadingDisabled ? EagerAttributeTypeValue : LazyAttributeTypeValue
