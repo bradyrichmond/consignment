@@ -130,3 +130,44 @@ type Category @model {
   inactive: Boolean
   lastUpdateTimestamp: AWSDate!
 }
+
+type CategoryAttribute @model {
+  id: ID!
+  categoryAttributeId: String
+  category: Category @hasOne
+  attributeType: AttributeType! @hasOne
+  required: Boolean!
+  categoryAttributeName: String!
+  userDefinedIndicator: String
+  active: Boolean
+  priority: String
+  lastUpdateTimestamp: AWSDate!
+  titleIndicator: Boolean!
+  inactive: Boolean
+}
+
+type AttributeType @model {
+  id: ID!
+  attributeTypeId: String
+  attributeTypeDescription: String!
+  lastUpdateTimestamp: AWSDate!
+  inactive: Boolean
+}
+
+type AttributeTypeValue @model {
+  id: ID!
+  attributeTypeValueId: String!
+  attributeTypeValue: String!
+  lastUpdateTimestamp: AWSDate!
+  inactive: Boolean
+}
+
+type CategoryPriceGuide @model {
+  id: ID!
+  category: Category @hasOne
+  description: String!
+  price: Float
+  priceLevel: Int
+  sortOrder: Int
+  inactive: Boolean
+}

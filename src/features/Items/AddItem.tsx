@@ -4,13 +4,20 @@ import { useParams } from 'react-router-dom';
 import { Button, Stepper, Step, StepLabel, Typography, StepContent } from '@mui/material';
 import NarrowBrand from './NarrowBrand';
 import SelectBrand from './SelectBrand';
-import { Brand } from '../../models';
+import { AttributeType, Brand, Category, CategoryAttribute } from '../../models';
+import SelectCategory from './SelectCategory';
+import { DataStore } from 'aws-amplify';
+import SelectAttributes from './SelectAttributes';
+import SetPrice from './SetPrice';
 
 const AddItem = () => {
     const { id } = useParams();
-    const [activeStep, setActiveStep] = useState(0);
-    const [narrowBrand, setNarrowBrand] = useState('');
+    const [activeStep, setActiveStep] = useState<number>(0);
+    const [narrowBrand, setNarrowBrand] = useState<string>('');
     const [brand, setBrand] = useState<Brand>();
+    const [category, setCategory] = useState<string>('')
+    const [categoryAttributes, setCategoryAttributes] = useState<CategoryAttribute[]>([]);
+    const [atvId, setAtvId] = useState<string>('')
 
     const handleNarrowBrand = (brandRange: string) => {
         setNarrowBrand(brandRange);
@@ -19,6 +26,40 @@ const AddItem = () => {
 
     const handleBrandSelection = (brand: Brand) => {
         setBrand(brand);
+        setActiveStep(2);
+    }
+
+    const handleCategorySelection = async (category: string) => {
+        setCategory(category)
+        const subCategories = await DataStore.query(Category, (c) => c.parent.eq(category));
+
+        if (subCategories.length < 1) {
+            const fetchedCategoryAttributes = await DataStore.query(CategoryAttribute, (c) => c.categoryAttributeCategoryId.eq(category));
+            const firstCategoryAttribute = fetchedCategoryAttributes.shift();
+            setCategoryAttributes(fetchedCategoryAttributes);
+
+            if (firstCategoryAttribute) {
+                const categoryAttributeType = await firstCategoryAttribute.attributeType;
+                const attributeTypeValueId = categoryAttributeType.attributeTypeId;
+                setAtvId(attributeTypeValueId ?? '');  
+            }
+
+            setActiveStep(3);
+        }
+    }
+
+    const handleAttributeSelection = (attributeId: string) => {
+        if (categoryAttributes.length > 0) {
+            const currentCategoryAttributes = categoryAttributes;
+            const next = currentCategoryAttributes.shift();
+            setCategoryAttributes(currentCategoryAttributes);
+            if (next){
+                setAtvId(next?.id);
+            }
+            return;
+        }
+
+        setActiveStep(4);
     }
 
     const handleNext = () => {
@@ -29,7 +70,28 @@ const AddItem = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    const steps = [{ label: 'Narrow Brand', content: <NarrowBrand onButtonClick={handleNarrowBrand}/> }, { label: 'Select Brand', content: <SelectBrand range={narrowBrand} onButtonClick={handleBrandSelection} /> }, { label: 'Select Category', content: <Box>{brand?.description}</Box> }];
+    const steps = [
+        {
+            label: 'Narrow Brand',
+            content: <NarrowBrand onButtonClick={handleNarrowBrand}/>
+        }, 
+        {
+            label: 'Select Brand', 
+            content: <SelectBrand range={narrowBrand} onButtonClick={handleBrandSelection} />
+        },
+        { 
+            label: 'Select Category',
+            content: <SelectCategory categoryParent={category} onButtonClick={handleCategorySelection}/> 
+        },
+        { 
+            label: 'Select Attributes',
+            content: <SelectAttributes atvId={atvId} onButtonClick={handleAttributeSelection}/>
+        },
+        { 
+            label: 'Set Price',
+            content: <SetPrice />
+        }
+    ];
 
     return (
         <Box display='flex' justifyContent='center' alignItems='center' height='100%'>
