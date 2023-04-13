@@ -115,7 +115,7 @@ const AddItem = () => {
         },
         { 
             label: 'Confirm',
-            content: <ConfirmAddItem brand={brand} price={itemPrice} attributeValues={categoryAttributeValues} categoryId={category} confirm={addItemAndResetState}/>
+            content: <ConfirmAddItem brand={brand} price={itemPrice} attributeValues={categoryAttributeValues} categoryId={category} confirm={addItemAndResetState} />
         }
     ];
 

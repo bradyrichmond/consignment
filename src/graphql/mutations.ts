@@ -28,9 +28,8 @@ export const createClient = /* GraphQL */ `
           id
           itemId
           userId
+          userName
           itemAcquireTypeId
-          categoryId
-          locationId
           sectionId
           statusId
           taxTypeId
@@ -46,10 +45,8 @@ export const createClient = /* GraphQL */ `
           tagPrintedTimestamp
           commission
           itemAcquisitionTypeId
-          brandId
           saleDetailId
           titleChanged
-          modifiedTimestamp
           modifiedBy
           upcCode
           createTimestamp
@@ -60,6 +57,9 @@ export const createClient = /* GraphQL */ `
           _deleted
           _lastChangedAt
           clientItemsId
+          itemCategoryId
+          itemLocationId
+          itemBrandId
         }
         nextToken
         startedAt
@@ -121,9 +121,8 @@ export const updateClient = /* GraphQL */ `
           id
           itemId
           userId
+          userName
           itemAcquireTypeId
-          categoryId
-          locationId
           sectionId
           statusId
           taxTypeId
@@ -139,10 +138,8 @@ export const updateClient = /* GraphQL */ `
           tagPrintedTimestamp
           commission
           itemAcquisitionTypeId
-          brandId
           saleDetailId
           titleChanged
-          modifiedTimestamp
           modifiedBy
           upcCode
           createTimestamp
@@ -153,6 +150,9 @@ export const updateClient = /* GraphQL */ `
           _deleted
           _lastChangedAt
           clientItemsId
+          itemCategoryId
+          itemLocationId
+          itemBrandId
         }
         nextToken
         startedAt
@@ -214,9 +214,8 @@ export const deleteClient = /* GraphQL */ `
           id
           itemId
           userId
+          userName
           itemAcquireTypeId
-          categoryId
-          locationId
           sectionId
           statusId
           taxTypeId
@@ -232,10 +231,8 @@ export const deleteClient = /* GraphQL */ `
           tagPrintedTimestamp
           commission
           itemAcquisitionTypeId
-          brandId
           saleDetailId
           titleChanged
-          modifiedTimestamp
           modifiedBy
           upcCode
           createTimestamp
@@ -246,6 +243,9 @@ export const deleteClient = /* GraphQL */ `
           _deleted
           _lastChangedAt
           clientItemsId
+          itemCategoryId
+          itemLocationId
+          itemBrandId
         }
         nextToken
         startedAt
@@ -290,9 +290,52 @@ export const createItem = /* GraphQL */ `
       id
       itemId
       userId
+      userName
       itemAcquireTypeId
-      categoryId
-      locationId
+      category {
+        id
+        parent
+        categoryId
+        categoryName
+        categoryLevel
+        inactive
+        lastUpdateTimestamp
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      location {
+        id
+        locationId
+        locationName
+        address {
+          id
+          addressId
+          addressLabel
+          label
+          address1
+          address2
+          address3
+          city
+          state
+          zip
+          primary
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientAddressesId
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        locationAddressId
+      }
       sectionId
       statusId
       taxTypeId
@@ -308,10 +351,20 @@ export const createItem = /* GraphQL */ `
       tagPrintedTimestamp
       commission
       itemAcquisitionTypeId
-      brandId
+      brand {
+        id
+        brandId
+        description
+        lastUpdateTimestamp
+        inactive
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       saleDetailId
       titleChanged
-      modifiedTimestamp
       modifiedBy
       upcCode
       createTimestamp
@@ -322,6 +375,9 @@ export const createItem = /* GraphQL */ `
       _deleted
       _lastChangedAt
       clientItemsId
+      itemCategoryId
+      itemLocationId
+      itemBrandId
     }
   }
 `;
@@ -334,9 +390,52 @@ export const updateItem = /* GraphQL */ `
       id
       itemId
       userId
+      userName
       itemAcquireTypeId
-      categoryId
-      locationId
+      category {
+        id
+        parent
+        categoryId
+        categoryName
+        categoryLevel
+        inactive
+        lastUpdateTimestamp
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      location {
+        id
+        locationId
+        locationName
+        address {
+          id
+          addressId
+          addressLabel
+          label
+          address1
+          address2
+          address3
+          city
+          state
+          zip
+          primary
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientAddressesId
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        locationAddressId
+      }
       sectionId
       statusId
       taxTypeId
@@ -352,10 +451,20 @@ export const updateItem = /* GraphQL */ `
       tagPrintedTimestamp
       commission
       itemAcquisitionTypeId
-      brandId
+      brand {
+        id
+        brandId
+        description
+        lastUpdateTimestamp
+        inactive
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       saleDetailId
       titleChanged
-      modifiedTimestamp
       modifiedBy
       upcCode
       createTimestamp
@@ -366,6 +475,9 @@ export const updateItem = /* GraphQL */ `
       _deleted
       _lastChangedAt
       clientItemsId
+      itemCategoryId
+      itemLocationId
+      itemBrandId
     }
   }
 `;
@@ -378,9 +490,52 @@ export const deleteItem = /* GraphQL */ `
       id
       itemId
       userId
+      userName
       itemAcquireTypeId
-      categoryId
-      locationId
+      category {
+        id
+        parent
+        categoryId
+        categoryName
+        categoryLevel
+        inactive
+        lastUpdateTimestamp
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      location {
+        id
+        locationId
+        locationName
+        address {
+          id
+          addressId
+          addressLabel
+          label
+          address1
+          address2
+          address3
+          city
+          state
+          zip
+          primary
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientAddressesId
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        locationAddressId
+      }
       sectionId
       statusId
       taxTypeId
@@ -396,10 +551,20 @@ export const deleteItem = /* GraphQL */ `
       tagPrintedTimestamp
       commission
       itemAcquisitionTypeId
-      brandId
+      brand {
+        id
+        brandId
+        description
+        lastUpdateTimestamp
+        inactive
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       saleDetailId
       titleChanged
-      modifiedTimestamp
       modifiedBy
       upcCode
       createTimestamp
@@ -410,6 +575,9 @@ export const deleteItem = /* GraphQL */ `
       _deleted
       _lastChangedAt
       clientItemsId
+      itemCategoryId
+      itemLocationId
+      itemBrandId
     }
   }
 `;
@@ -464,6 +632,7 @@ export const createTransaction = /* GraphQL */ `
       saleDetailId
       location {
         id
+        locationId
         locationName
         address {
           id
@@ -551,6 +720,7 @@ export const updateTransaction = /* GraphQL */ `
       saleDetailId
       location {
         id
+        locationId
         locationName
         address {
           id
@@ -638,6 +808,7 @@ export const deleteTransaction = /* GraphQL */ `
       saleDetailId
       location {
         id
+        locationId
         locationName
         address {
           id
@@ -681,6 +852,7 @@ export const createLocation = /* GraphQL */ `
   ) {
     createLocation(input: $input, condition: $condition) {
       id
+      locationId
       locationName
       address {
         id
@@ -717,6 +889,7 @@ export const updateLocation = /* GraphQL */ `
   ) {
     updateLocation(input: $input, condition: $condition) {
       id
+      locationId
       locationName
       address {
         id
@@ -753,6 +926,7 @@ export const deleteLocation = /* GraphQL */ `
   ) {
     deleteLocation(input: $input, condition: $condition) {
       id
+      locationId
       locationName
       address {
         id
@@ -917,189 +1091,6 @@ export const deleteCity = /* GraphQL */ `
     }
   }
 `;
-export const createCategory = /* GraphQL */ `
-  mutation CreateCategory(
-    $input: CreateCategoryInput!
-    $condition: ModelCategoryConditionInput
-  ) {
-    createCategory(input: $input, condition: $condition) {
-      id
-      categoryId
-      parent {
-        id
-        categoryId
-        parent {
-          id
-          categoryId
-          productLineId
-          defCommissionId
-          categoryName
-          categoryLevel
-          active
-          visible
-          lastUpdateTimestamp
-          defaultWeight
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          categoryParentId
-        }
-        productLineId
-        defCommissionId
-        categoryName
-        categoryLevel
-        active
-        visible
-        lastUpdateTimestamp
-        defaultWeight
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        categoryParentId
-      }
-      productLineId
-      defCommissionId
-      categoryName
-      categoryLevel
-      active
-      visible
-      lastUpdateTimestamp
-      defaultWeight
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      categoryParentId
-    }
-  }
-`;
-export const updateCategory = /* GraphQL */ `
-  mutation UpdateCategory(
-    $input: UpdateCategoryInput!
-    $condition: ModelCategoryConditionInput
-  ) {
-    updateCategory(input: $input, condition: $condition) {
-      id
-      categoryId
-      parent {
-        id
-        categoryId
-        parent {
-          id
-          categoryId
-          productLineId
-          defCommissionId
-          categoryName
-          categoryLevel
-          active
-          visible
-          lastUpdateTimestamp
-          defaultWeight
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          categoryParentId
-        }
-        productLineId
-        defCommissionId
-        categoryName
-        categoryLevel
-        active
-        visible
-        lastUpdateTimestamp
-        defaultWeight
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        categoryParentId
-      }
-      productLineId
-      defCommissionId
-      categoryName
-      categoryLevel
-      active
-      visible
-      lastUpdateTimestamp
-      defaultWeight
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      categoryParentId
-    }
-  }
-`;
-export const deleteCategory = /* GraphQL */ `
-  mutation DeleteCategory(
-    $input: DeleteCategoryInput!
-    $condition: ModelCategoryConditionInput
-  ) {
-    deleteCategory(input: $input, condition: $condition) {
-      id
-      categoryId
-      parent {
-        id
-        categoryId
-        parent {
-          id
-          categoryId
-          productLineId
-          defCommissionId
-          categoryName
-          categoryLevel
-          active
-          visible
-          lastUpdateTimestamp
-          defaultWeight
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          categoryParentId
-        }
-        productLineId
-        defCommissionId
-        categoryName
-        categoryLevel
-        active
-        visible
-        lastUpdateTimestamp
-        defaultWeight
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        categoryParentId
-      }
-      productLineId
-      defCommissionId
-      categoryName
-      categoryLevel
-      active
-      visible
-      lastUpdateTimestamp
-      defaultWeight
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      categoryParentId
-    }
-  }
-`;
 export const createPriceGuide = /* GraphQL */ `
   mutation CreatePriceGuide(
     $input: CreatePriceGuideInput!
@@ -1110,39 +1101,17 @@ export const createPriceGuide = /* GraphQL */ `
       categoryPriceGuideId
       category {
         id
+        parent
         categoryId
-        parent {
-          id
-          categoryId
-          productLineId
-          defCommissionId
-          categoryName
-          categoryLevel
-          active
-          visible
-          lastUpdateTimestamp
-          defaultWeight
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          categoryParentId
-        }
-        productLineId
-        defCommissionId
         categoryName
         categoryLevel
-        active
-        visible
+        inactive
         lastUpdateTimestamp
-        defaultWeight
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        categoryParentId
       }
       price
       priceLevel
@@ -1165,39 +1134,17 @@ export const updatePriceGuide = /* GraphQL */ `
       categoryPriceGuideId
       category {
         id
+        parent
         categoryId
-        parent {
-          id
-          categoryId
-          productLineId
-          defCommissionId
-          categoryName
-          categoryLevel
-          active
-          visible
-          lastUpdateTimestamp
-          defaultWeight
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          categoryParentId
-        }
-        productLineId
-        defCommissionId
         categoryName
         categoryLevel
-        active
-        visible
+        inactive
         lastUpdateTimestamp
-        defaultWeight
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        categoryParentId
       }
       price
       priceLevel
@@ -1220,39 +1167,17 @@ export const deletePriceGuide = /* GraphQL */ `
       categoryPriceGuideId
       category {
         id
+        parent
         categoryId
-        parent {
-          id
-          categoryId
-          productLineId
-          defCommissionId
-          categoryName
-          categoryLevel
-          active
-          visible
-          lastUpdateTimestamp
-          defaultWeight
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          categoryParentId
-        }
-        productLineId
-        defCommissionId
         categoryName
         categoryLevel
-        active
-        visible
+        inactive
         lastUpdateTimestamp
-        defaultWeight
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        categoryParentId
       }
       price
       priceLevel
@@ -1319,6 +1244,483 @@ export const deleteBrand = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+    }
+  }
+`;
+export const createCategory = /* GraphQL */ `
+  mutation CreateCategory(
+    $input: CreateCategoryInput!
+    $condition: ModelCategoryConditionInput
+  ) {
+    createCategory(input: $input, condition: $condition) {
+      id
+      parent
+      categoryId
+      categoryName
+      categoryLevel
+      inactive
+      lastUpdateTimestamp
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateCategory = /* GraphQL */ `
+  mutation UpdateCategory(
+    $input: UpdateCategoryInput!
+    $condition: ModelCategoryConditionInput
+  ) {
+    updateCategory(input: $input, condition: $condition) {
+      id
+      parent
+      categoryId
+      categoryName
+      categoryLevel
+      inactive
+      lastUpdateTimestamp
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteCategory = /* GraphQL */ `
+  mutation DeleteCategory(
+    $input: DeleteCategoryInput!
+    $condition: ModelCategoryConditionInput
+  ) {
+    deleteCategory(input: $input, condition: $condition) {
+      id
+      parent
+      categoryId
+      categoryName
+      categoryLevel
+      inactive
+      lastUpdateTimestamp
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const createCategoryAttribute = /* GraphQL */ `
+  mutation CreateCategoryAttribute(
+    $input: CreateCategoryAttributeInput!
+    $condition: ModelCategoryAttributeConditionInput
+  ) {
+    createCategoryAttribute(input: $input, condition: $condition) {
+      id
+      categoryAttributeId
+      category {
+        id
+        parent
+        categoryId
+        categoryName
+        categoryLevel
+        inactive
+        lastUpdateTimestamp
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      attributeType {
+        id
+        attributeTypeId
+        attributeTypeDescription
+        lastUpdateTimestamp
+        inactive
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      required
+      categoryAttributeName
+      userDefinedIndicator
+      active
+      priority
+      lastUpdateTimestamp
+      titleIndicator
+      inactive
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      categoryAttributeCategoryId
+      categoryAttributeAttributeTypeId
+    }
+  }
+`;
+export const updateCategoryAttribute = /* GraphQL */ `
+  mutation UpdateCategoryAttribute(
+    $input: UpdateCategoryAttributeInput!
+    $condition: ModelCategoryAttributeConditionInput
+  ) {
+    updateCategoryAttribute(input: $input, condition: $condition) {
+      id
+      categoryAttributeId
+      category {
+        id
+        parent
+        categoryId
+        categoryName
+        categoryLevel
+        inactive
+        lastUpdateTimestamp
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      attributeType {
+        id
+        attributeTypeId
+        attributeTypeDescription
+        lastUpdateTimestamp
+        inactive
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      required
+      categoryAttributeName
+      userDefinedIndicator
+      active
+      priority
+      lastUpdateTimestamp
+      titleIndicator
+      inactive
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      categoryAttributeCategoryId
+      categoryAttributeAttributeTypeId
+    }
+  }
+`;
+export const deleteCategoryAttribute = /* GraphQL */ `
+  mutation DeleteCategoryAttribute(
+    $input: DeleteCategoryAttributeInput!
+    $condition: ModelCategoryAttributeConditionInput
+  ) {
+    deleteCategoryAttribute(input: $input, condition: $condition) {
+      id
+      categoryAttributeId
+      category {
+        id
+        parent
+        categoryId
+        categoryName
+        categoryLevel
+        inactive
+        lastUpdateTimestamp
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      attributeType {
+        id
+        attributeTypeId
+        attributeTypeDescription
+        lastUpdateTimestamp
+        inactive
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      required
+      categoryAttributeName
+      userDefinedIndicator
+      active
+      priority
+      lastUpdateTimestamp
+      titleIndicator
+      inactive
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      categoryAttributeCategoryId
+      categoryAttributeAttributeTypeId
+    }
+  }
+`;
+export const createAttributeType = /* GraphQL */ `
+  mutation CreateAttributeType(
+    $input: CreateAttributeTypeInput!
+    $condition: ModelAttributeTypeConditionInput
+  ) {
+    createAttributeType(input: $input, condition: $condition) {
+      id
+      attributeTypeId
+      attributeTypeDescription
+      lastUpdateTimestamp
+      inactive
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateAttributeType = /* GraphQL */ `
+  mutation UpdateAttributeType(
+    $input: UpdateAttributeTypeInput!
+    $condition: ModelAttributeTypeConditionInput
+  ) {
+    updateAttributeType(input: $input, condition: $condition) {
+      id
+      attributeTypeId
+      attributeTypeDescription
+      lastUpdateTimestamp
+      inactive
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteAttributeType = /* GraphQL */ `
+  mutation DeleteAttributeType(
+    $input: DeleteAttributeTypeInput!
+    $condition: ModelAttributeTypeConditionInput
+  ) {
+    deleteAttributeType(input: $input, condition: $condition) {
+      id
+      attributeTypeId
+      attributeTypeDescription
+      lastUpdateTimestamp
+      inactive
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const createAttributeTypeValue = /* GraphQL */ `
+  mutation CreateAttributeTypeValue(
+    $input: CreateAttributeTypeValueInput!
+    $condition: ModelAttributeTypeValueConditionInput
+  ) {
+    createAttributeTypeValue(input: $input, condition: $condition) {
+      id
+      attributeType {
+        id
+        attributeTypeId
+        attributeTypeDescription
+        lastUpdateTimestamp
+        inactive
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      attributeTypeValueId
+      attributeTypeValue
+      lastUpdateTimestamp
+      inactive
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      attributeTypeValueAttributeTypeId
+    }
+  }
+`;
+export const updateAttributeTypeValue = /* GraphQL */ `
+  mutation UpdateAttributeTypeValue(
+    $input: UpdateAttributeTypeValueInput!
+    $condition: ModelAttributeTypeValueConditionInput
+  ) {
+    updateAttributeTypeValue(input: $input, condition: $condition) {
+      id
+      attributeType {
+        id
+        attributeTypeId
+        attributeTypeDescription
+        lastUpdateTimestamp
+        inactive
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      attributeTypeValueId
+      attributeTypeValue
+      lastUpdateTimestamp
+      inactive
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      attributeTypeValueAttributeTypeId
+    }
+  }
+`;
+export const deleteAttributeTypeValue = /* GraphQL */ `
+  mutation DeleteAttributeTypeValue(
+    $input: DeleteAttributeTypeValueInput!
+    $condition: ModelAttributeTypeValueConditionInput
+  ) {
+    deleteAttributeTypeValue(input: $input, condition: $condition) {
+      id
+      attributeType {
+        id
+        attributeTypeId
+        attributeTypeDescription
+        lastUpdateTimestamp
+        inactive
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      attributeTypeValueId
+      attributeTypeValue
+      lastUpdateTimestamp
+      inactive
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      attributeTypeValueAttributeTypeId
+    }
+  }
+`;
+export const createCategoryPriceGuide = /* GraphQL */ `
+  mutation CreateCategoryPriceGuide(
+    $input: CreateCategoryPriceGuideInput!
+    $condition: ModelCategoryPriceGuideConditionInput
+  ) {
+    createCategoryPriceGuide(input: $input, condition: $condition) {
+      id
+      category {
+        id
+        parent
+        categoryId
+        categoryName
+        categoryLevel
+        inactive
+        lastUpdateTimestamp
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      description
+      price
+      priceLevel
+      sortOrder
+      inactive
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      categoryPriceGuideCategoryId
+    }
+  }
+`;
+export const updateCategoryPriceGuide = /* GraphQL */ `
+  mutation UpdateCategoryPriceGuide(
+    $input: UpdateCategoryPriceGuideInput!
+    $condition: ModelCategoryPriceGuideConditionInput
+  ) {
+    updateCategoryPriceGuide(input: $input, condition: $condition) {
+      id
+      category {
+        id
+        parent
+        categoryId
+        categoryName
+        categoryLevel
+        inactive
+        lastUpdateTimestamp
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      description
+      price
+      priceLevel
+      sortOrder
+      inactive
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      categoryPriceGuideCategoryId
+    }
+  }
+`;
+export const deleteCategoryPriceGuide = /* GraphQL */ `
+  mutation DeleteCategoryPriceGuide(
+    $input: DeleteCategoryPriceGuideInput!
+    $condition: ModelCategoryPriceGuideConditionInput
+  ) {
+    deleteCategoryPriceGuide(input: $input, condition: $condition) {
+      id
+      category {
+        id
+        parent
+        categoryId
+        categoryName
+        categoryLevel
+        inactive
+        lastUpdateTimestamp
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      description
+      price
+      priceLevel
+      sortOrder
+      inactive
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      categoryPriceGuideCategoryId
     }
   }
 `;

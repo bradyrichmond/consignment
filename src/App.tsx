@@ -19,6 +19,7 @@ import Items from './features/Items';
 import AddItem from './features/Items/AddItem';
 import Brands from './features/Brands';
 import Categories from './features/Categories';
+import AttributeTypes from './features/AttributeTypes';
 Amplify.configure(awsExports);
 
 const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: string[]) => createBrowserRouter([
@@ -29,6 +30,10 @@ const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: string[]
       {
         path: 'add-items/:id',
         element: <AddItem />
+      },
+      {
+        path: 'attribute-types',
+        element: <AttributeTypes />
       },
       {
         path: 'brands',

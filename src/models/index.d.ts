@@ -76,6 +76,7 @@ type EagerItem = {
   readonly id: string;
   readonly itemId?: string | null;
   readonly userId: string;
+  readonly userName?: string | null;
   readonly itemAcquireTypeId?: string | null;
   readonly category?: Category | null;
   readonly location?: Location | null;
@@ -117,6 +118,7 @@ type LazyItem = {
   readonly id: string;
   readonly itemId?: string | null;
   readonly userId: string;
+  readonly userName?: string | null;
   readonly itemAcquireTypeId?: string | null;
   readonly category: AsyncItem<Category | undefined>;
   readonly location: AsyncItem<Location | undefined>;

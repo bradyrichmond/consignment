@@ -10,6 +10,7 @@ import { format } from 'date-fns';
 import ConfirmModal from '../../utils/ConfirmModal';
 import AddAttributeType from './AddAttributeType';
 import AddAttributeTypeValues from './AddAttributeTypeValues';
+import ViewValues from './ViewValues';
 
 const AttributeTypes = () => {
     const [attributeTypes, setAttributeTypes] = useState<AttributeType[]>([]);
@@ -21,7 +22,8 @@ const AttributeTypes = () => {
     const [activeAttributeTypeId, setActiveAttributeTypeId] = useState('');
     const [activeAttributeType, setActiveAttributeType] = useState('');
     const [filterInactiveAttributeTypes, setFilterInactiveAttributeTypes] = useState(true);
-    const [inactiveAttributeTypes, setInactiveAttributeTypes] = useState<string[]>([])
+    const [inactiveAttributeTypes, setInactiveAttributeTypes] = useState<string[]>([]);
+    const [isViewingValues, setIsViewingValues] = useState(false);
 
     useEffect(() => {
         const getData = async () => {
@@ -57,7 +59,7 @@ const AttributeTypes = () => {
     const columns: GridColDef[] = [
         {field: 'attributeTypeDescription', headerName: 'Attribute Type Name', width: 200},
         {field: 'lastUpdateTimestamp', headerName: 'Last Updated', width: 200},
-        {field: '', headerName: 'Mark inactive?', width: 300, renderCell: (params: GridRenderCellParams<String>) => {
+        {field: 'toggleActive', headerName: 'Mark inactive?', width: 300, renderCell: (params: GridRenderCellParams<String>) => {
             return (
                 <>
                     {inactiveAttributeTypes.includes(params.id.toString()) ?
@@ -72,11 +74,20 @@ const AttributeTypes = () => {
                 </>
             )
         }},
-        {field: '', headerName: 'Add Type Values?', width: 300, renderCell: (params: GridRenderCellParams<String>) => {
+        {field: 'addValues', headerName: 'Add Type Value?', width: 300, renderCell: (params: GridRenderCellParams<String>) => {
             return (
                 <>
                     <Button variant="contained" component="label" style={{backgroundColor: 'black', border: '1px solid white'}} onClick={() => startAddingAttributeTypeValue(params.id.toString())}>
-                        Add Values
+                        Add Value
+                    </Button>
+                </>
+            )
+        }},
+        {field: 'viewValues', headerName: 'View Values?', width: 300, renderCell: (params: GridRenderCellParams<String>) => {
+            return (
+                <>
+                    <Button variant="contained" component="label" style={{backgroundColor: 'black', border: '1px solid white'}} onClick={() => toggleViewValues(params.id.toString())}>
+                        View Values
                     </Button>
                 </>
             )
@@ -143,6 +154,16 @@ const AttributeTypes = () => {
         setIsDeletingAttributeType(false);
     }
 
+    const toggleViewValues = (id: string) => {
+        setActiveAttributeTypeId(id);
+        setIsViewingValues((val) => !val);
+    }
+
+    const stopViewingValues = () => {
+        setActiveAttributeTypeId('');
+        setIsViewingValues(false);
+    }
+
     const deleteAttributeType = async () => {
         const original = await DataStore.query(AttributeType, activeAttributeTypeId);
         if (original) {
@@ -205,6 +226,12 @@ const AttributeTypes = () => {
                 onClose={stopRevivingAttributeType}
             >
                 <ConfirmModal close={stopRevivingAttributeType} validationText={`Are you sure you want to mark ${activeAttributeType} active?`} cancelText='Cancel' confirmText='Confirm' confirm={reviveAttributeType} cancel={stopRevivingAttributeType}/>
+            </Modal>
+            <Modal
+                open={isViewingValues}
+                onClose={toggleViewValues}
+            >
+                <ViewValues close={stopViewingValues} attributeTypeId={activeAttributeTypeId}/>
             </Modal>
             <Box paddingTop='2rem' paddingBottom='2rem' display='flex' flexDirection='row' width='100%' alignItems='center'>
                 <TextField InputProps={{

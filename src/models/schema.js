@@ -192,6 +192,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "userName": {
+                    "name": "userName",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "itemAcquireTypeId": {
                     "name": "itemAcquireTypeId",
                     "isArray": false,
@@ -1504,5 +1511,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.0",
-    "version": "ab61b686f06fe2440b76e69b51b5943e"
+    "version": "873fba9c378acfd09fc9d910d57bba98"
 };
