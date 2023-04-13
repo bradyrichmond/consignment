@@ -30,33 +30,33 @@ type Client @model {
 
 type Item @model {
   id: ID!
-  itemId: String!
+  itemId: String
   userId: String!
-  itemAcquireTypeId: String!
-  categoryId: String!
-  locationId: String!
-  sectionId: String!
+  userName: String
+  itemAcquireTypeId: String
+  category: Category @hasOne
+  location: Location @hasOne
+  sectionId: String
   statusId: String!
-  taxTypeId: String!
-  number: String!
+  taxTypeId: String
+  number: String
   itemName: String!
-  description: String!
-  receiveTimestamp: String!
+  description: String
+  receiveTimestamp: String
   donateIndicator: Boolean
   price: String!
   cost: String
   qty: Int
   qtyTagPrint: Int
-  tagPrintedTimestamp: String!
-  commission: String!
-  itemAcquisitionTypeId: String!
-  brandId: String!
-  saleDetailId: String!
+  tagPrintedTimestamp: String
+  commission: String
+  itemAcquisitionTypeId: String
+  brand: Brand @hasOne
+  saleDetailId: String
   titleChanged: Boolean
-  modifiedTimestamp: String!
-  modifiedBy: String!
-  upcCode: String!
-  createTimestamp: String!
+  modifiedBy: String
+  upcCode: String
+  createTimestamp: String
   entryTimestamp: String
 }
 
@@ -80,6 +80,7 @@ type Transaction @model {
 
 type Location @model {
   id: ID!
+  locationId: String
   locationName: String!
   address: Address @hasOne
 }

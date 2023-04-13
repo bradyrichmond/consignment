@@ -4,7 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { ProcessCsvButton } from '../Clients';
 import { DataGrid, GridColDef, GridEventListener } from '@mui/x-data-grid';
 import { DataStore } from 'aws-amplify';
-import { Client, Item } from '../../models';
+import { Brand, Category, Client, Item, Location } from '../../models';
 import { DrawerContext } from '../../App';
 
 
@@ -83,18 +83,28 @@ const Items = () => {
                             const createTimestamp = item[27];
                             const entryTimestamp = item[28];
 
+                            const fetchedCategory = await DataStore.query(Category, (c) => c.categoryId.eq(categoryId));
+                            const category = fetchedCategory[0];
+
+                            const fetchedBrands = await DataStore.query(Brand, (b) => b.brandId.eq(brandId));
+                            const brand = fetchedBrands[0];
+
                             const fetchedClient = await DataStore.query(Client, c => c.clientId.eq(clientId));
                             const clientItemsId = fetchedClient[0].id;
+
+                            const fetchedLocations = await DataStore.query(Location, (l) => l.locationId.eq(locationId));
+                            const location = fetchedLocations[0];
+
 
                             if (clientItemsId) {
                             
                                 await DataStore.save(new Item({ 
                                     itemId,
                                     clientItemsId,
-                                    userId, 
+                                    userId,
                                     itemAcquireTypeId, 
-                                    categoryId, 
-                                    locationId, 
+                                    category, 
+                                    location, 
                                     sectionId, 
                                     statusId, 
                                     taxTypeId, 
@@ -110,10 +120,9 @@ const Items = () => {
                                     tagPrintedTimestamp, 
                                     commission, 
                                     itemAcquisitionTypeId, 
-                                    brandId, 
+                                    brand, 
                                     saleDetailId, 
                                     titleChanged, 
-                                    modifiedTimestamp, 
                                     modifiedBy, 
                                     upcCode, 
                                     createTimestamp, 

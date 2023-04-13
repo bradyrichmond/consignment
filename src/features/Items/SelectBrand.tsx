@@ -31,10 +31,12 @@ const SelectBrand = (props: SelectBrandProps) => {
     }
 
     return (
-        <Box>
+        <Box height='100%'>
             {brands && brands.length > 0 ?
-                brands.map((brand) => 
-                    <Button key={brand.id} onClick={() => handleButtonClick(brand)} sx={{color: 'white', border: '1px solid white', borderRadius: '.25rem' }}>{brand.description}</Button>
+                brands.map((brand) =>
+                    <Box margin='1rem'>
+                        <Button key={brand.id} onClick={() => handleButtonClick(brand)} sx={{color: 'white', border: '1px solid white', borderRadius: '.25rem', fontSize: '3rem'}}>{brand.description}</Button>
+                    </Box>
                 )
                 :
                 <Typography>

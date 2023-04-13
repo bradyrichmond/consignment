@@ -182,7 +182,7 @@ export const schema = {
                     "name": "itemId",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "userId": {
@@ -196,28 +196,50 @@ export const schema = {
                     "name": "itemAcquireTypeId",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
-                "categoryId": {
-                    "name": "categoryId",
+                "category": {
+                    "name": "category",
                     "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
+                    "type": {
+                        "model": "Category"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": [
+                            "id"
+                        ],
+                        "targetNames": [
+                            "itemCategoryId"
+                        ]
+                    }
                 },
-                "locationId": {
-                    "name": "locationId",
+                "location": {
+                    "name": "location",
                     "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
+                    "type": {
+                        "model": "Location"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": [
+                            "id"
+                        ],
+                        "targetNames": [
+                            "itemLocationId"
+                        ]
+                    }
                 },
                 "sectionId": {
                     "name": "sectionId",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "statusId": {
@@ -231,14 +253,14 @@ export const schema = {
                     "name": "taxTypeId",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "number": {
                     "name": "number",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "itemName": {
@@ -252,14 +274,14 @@ export const schema = {
                     "name": "description",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "receiveTimestamp": {
                     "name": "receiveTimestamp",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "donateIndicator": {
@@ -301,35 +323,46 @@ export const schema = {
                     "name": "tagPrintedTimestamp",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "commission": {
                     "name": "commission",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "itemAcquisitionTypeId": {
                     "name": "itemAcquisitionTypeId",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
-                "brandId": {
-                    "name": "brandId",
+                "brand": {
+                    "name": "brand",
                     "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
+                    "type": {
+                        "model": "Brand"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": [
+                            "id"
+                        ],
+                        "targetNames": [
+                            "itemBrandId"
+                        ]
+                    }
                 },
                 "saleDetailId": {
                     "name": "saleDetailId",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "titleChanged": {
@@ -339,32 +372,25 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "modifiedTimestamp": {
-                    "name": "modifiedTimestamp",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
                 "modifiedBy": {
                     "name": "modifiedBy",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "upcCode": {
                     "name": "upcCode",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "createTimestamp": {
                     "name": "createTimestamp",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "entryTimestamp": {
@@ -392,6 +418,27 @@ export const schema = {
                 },
                 "clientItemsId": {
                     "name": "clientItemsId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "itemCategoryId": {
+                    "name": "itemCategoryId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "itemLocationId": {
+                    "name": "itemLocationId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "itemBrandId": {
+                    "name": "itemBrandId",
                     "isArray": false,
                     "type": "ID",
                     "isRequired": false,
@@ -569,6 +616,13 @@ export const schema = {
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "locationId": {
+                    "name": "locationId",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "locationName": {
@@ -1450,5 +1504,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.0",
-    "version": "448f63c919b18a16da1141083ffe7914"
+    "version": "ab61b686f06fe2440b76e69b51b5943e"
 };

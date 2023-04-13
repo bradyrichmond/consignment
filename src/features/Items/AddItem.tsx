@@ -4,11 +4,12 @@ import { useParams } from 'react-router-dom';
 import { Button, Stepper, Step, StepLabel, Typography } from '@mui/material';
 import NarrowBrand from './NarrowBrand';
 import SelectBrand from './SelectBrand';
-import { AttributeTypeValue, Brand, Category, CategoryAttribute } from '../../models';
+import { AttributeTypeValue, Brand, Category, CategoryAttribute, Item } from '../../models';
 import SelectCategory from './SelectCategory';
 import { DataStore } from 'aws-amplify';
 import SelectAttributes from './SelectAttributes';
 import SetPrice from './SetPrice';
+import ConfirmAddItem from './ConfirmAddItem';
 
 const AddItem = () => {
     const { id } = useParams();
@@ -43,11 +44,12 @@ const AddItem = () => {
             if (firstCategoryAttribute) {
                 const categoryAttributeType = await firstCategoryAttribute.attributeType;
                 const attributeTypeValueId = categoryAttributeType.attributeTypeId;
-                setAtvId(attributeTypeValueId ?? '');  
+                setAtvId(attributeTypeValueId ?? '');
             }
-
-            setActiveStep(3);
+            return;
         }
+
+        setActiveStep(3);
     }
 
     const handleAttributeSelection = async (attributeValueId: string) => {
@@ -78,6 +80,10 @@ const AddItem = () => {
         setActiveStep(5);
     }
 
+    const addItemAndResetState = async () => {
+        await DataStore.save(new Item({ itemCategoryId: category, clientItemsId: id, itemBrandId: brand?.id, price: itemPrice, statusId: '1', userId: '1', itemName: '' }))
+    }
+
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
@@ -105,17 +111,17 @@ const AddItem = () => {
         },
         { 
             label: 'Set Price',
-            content: <SetPrice setItemPrice={setItemPrice} />
+            content: <SetPrice setItemPrice={selectItemPrice} />
         },
         { 
             label: 'Confirm',
-            content: <Typography>{brand?.description} {category} {categoryAttributeValues.map((cav) => cav.attributeTypeValue)}</Typography>
+            content: <ConfirmAddItem brand={brand} price={itemPrice} attributeValues={categoryAttributeValues} categoryId={category} confirm={addItemAndResetState}/>
         }
     ];
 
     return (
         <Box display='flex' justifyContent='center' alignItems='center' height='100%'>
-            <Box width='50%' height='50%'>
+            <Box width='50%' height='50%' display='flex' flexDirection='column'>
                 <Stepper activeStep={activeStep}>
                     {steps.map((step, index) => {
                         const { label, content } = step
@@ -126,24 +132,22 @@ const AddItem = () => {
                         return (
                             <Step key={label} {...stepProps}>
                                 <StepLabel {...labelProps}><Typography color='white'>{label}</Typography></StepLabel>
-                                {content}
                             </Step>
                         );
                     })}
                 </Stepper>
-                <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
-                <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                    <Button
-                        color="inherit"
-                        disabled={activeStep === 0}
-                        onClick={handleBack}
-                        variant='outlined' sx={{color: 'white', border: '1px solid white', borderRadius: '.25rem', mr: 1 }}
-                    >
+                <Box flex='1'>
+                    {
+                        steps[activeStep].content
+                    }
+                </Box>
+                <Box sx={{ display: 'flex', flexDirection: 'row', mt: '2rem', pt: '2rem', borderTop: '1px solid white' }}>
+                    <Button variant='outlined' onClick={handleBack} sx={{color: 'white', border: '1px solid white', borderRadius: '.25rem', fontSize: '3rem' }}>
                         Back
                     </Button>
                     <Box sx={{ flex: '1 1 auto' }} />
-                    <Button onClick={handleNext} variant='outlined' sx={{color: 'white', border: '1px solid white', borderRadius: '.25rem' }}>
-                        {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                    <Button variant='outlined' onClick={handleNext} sx={{color: 'white', border: '1px solid white', borderRadius: '.25rem', fontSize: '3rem' }}>
+                        Next
                     </Button>
                 </Box>
             </Box>

@@ -29,13 +29,17 @@ const SelectCategory = (props: SelectCategoryProps) => {
     return (
         <Box>
             {categories && categories.length > 0 ?
-                categories.map((category) => 
-                    <Button key={category.id} onClick={() => handleButtonClick(category.id)} sx={{color: 'white', border: '1px solid white', borderRadius: '.25rem' }}>{category.categoryName}</Button>
+                categories.map((category) =>
+                    <Box margin='1rem'>
+                        <Button key={category.id} onClick={() => handleButtonClick(category.id)} sx={{color: 'white', border: '1px solid white', borderRadius: '.25rem', fontSize: '3rem' }}>{category.categoryName}</Button>
+                    </Box>
                 )
                 :
-                <Typography>
-                    No Categories here
-                </Typography>
+                <Box margin='1rem'>
+                    <Typography>
+                        No Categories here
+                    </Typography>
+                </Box>
             }
         </Box>
     )
