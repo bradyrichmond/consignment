@@ -287,6 +287,10 @@ export const onCreateItem = /* GraphQL */ `
         categoryName
         categoryLevel
         inactive
+        attributeTypes {
+          nextToken
+          startedAt
+        }
         lastUpdateTimestamp
         createdAt
         updatedAt
@@ -384,6 +388,10 @@ export const onUpdateItem = /* GraphQL */ `
         categoryName
         categoryLevel
         inactive
+        attributeTypes {
+          nextToken
+          startedAt
+        }
         lastUpdateTimestamp
         createdAt
         updatedAt
@@ -481,6 +489,10 @@ export const onDeleteItem = /* GraphQL */ `
         categoryName
         categoryLevel
         inactive
+        attributeTypes {
+          nextToken
+          startedAt
+        }
         lastUpdateTimestamp
         createdAt
         updatedAt
@@ -1043,102 +1055,6 @@ export const onDeleteCity = /* GraphQL */ `
     }
   }
 `;
-export const onCreatePriceGuide = /* GraphQL */ `
-  subscription OnCreatePriceGuide(
-    $filter: ModelSubscriptionPriceGuideFilterInput
-  ) {
-    onCreatePriceGuide(filter: $filter) {
-      id
-      categoryPriceGuideId
-      category {
-        id
-        parent
-        categoryId
-        categoryName
-        categoryLevel
-        inactive
-        lastUpdateTimestamp
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      price
-      priceLevel
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      priceGuideCategoryId
-    }
-  }
-`;
-export const onUpdatePriceGuide = /* GraphQL */ `
-  subscription OnUpdatePriceGuide(
-    $filter: ModelSubscriptionPriceGuideFilterInput
-  ) {
-    onUpdatePriceGuide(filter: $filter) {
-      id
-      categoryPriceGuideId
-      category {
-        id
-        parent
-        categoryId
-        categoryName
-        categoryLevel
-        inactive
-        lastUpdateTimestamp
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      price
-      priceLevel
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      priceGuideCategoryId
-    }
-  }
-`;
-export const onDeletePriceGuide = /* GraphQL */ `
-  subscription OnDeletePriceGuide(
-    $filter: ModelSubscriptionPriceGuideFilterInput
-  ) {
-    onDeletePriceGuide(filter: $filter) {
-      id
-      categoryPriceGuideId
-      category {
-        id
-        parent
-        categoryId
-        categoryName
-        categoryLevel
-        inactive
-        lastUpdateTimestamp
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      price
-      priceLevel
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      priceGuideCategoryId
-    }
-  }
-`;
 export const onCreateBrand = /* GraphQL */ `
   subscription OnCreateBrand($filter: ModelSubscriptionBrandFilterInput) {
     onCreateBrand(filter: $filter) {
@@ -1196,6 +1112,23 @@ export const onCreateCategory = /* GraphQL */ `
       categoryName
       categoryLevel
       inactive
+      attributeTypes {
+        items {
+          id
+          attributeTypeId
+          attributeTypeDescription
+          lastUpdateTimestamp
+          inactive
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          categoryAttributeTypesId
+        }
+        nextToken
+        startedAt
+      }
       lastUpdateTimestamp
       createdAt
       updatedAt
@@ -1214,6 +1147,23 @@ export const onUpdateCategory = /* GraphQL */ `
       categoryName
       categoryLevel
       inactive
+      attributeTypes {
+        items {
+          id
+          attributeTypeId
+          attributeTypeDescription
+          lastUpdateTimestamp
+          inactive
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          categoryAttributeTypesId
+        }
+        nextToken
+        startedAt
+      }
       lastUpdateTimestamp
       createdAt
       updatedAt
@@ -1232,165 +1182,29 @@ export const onDeleteCategory = /* GraphQL */ `
       categoryName
       categoryLevel
       inactive
+      attributeTypes {
+        items {
+          id
+          attributeTypeId
+          attributeTypeDescription
+          lastUpdateTimestamp
+          inactive
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          categoryAttributeTypesId
+        }
+        nextToken
+        startedAt
+      }
       lastUpdateTimestamp
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-    }
-  }
-`;
-export const onCreateCategoryAttribute = /* GraphQL */ `
-  subscription OnCreateCategoryAttribute(
-    $filter: ModelSubscriptionCategoryAttributeFilterInput
-  ) {
-    onCreateCategoryAttribute(filter: $filter) {
-      id
-      categoryAttributeId
-      category {
-        id
-        parent
-        categoryId
-        categoryName
-        categoryLevel
-        inactive
-        lastUpdateTimestamp
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      attributeType {
-        id
-        attributeTypeId
-        attributeTypeDescription
-        lastUpdateTimestamp
-        inactive
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      required
-      categoryAttributeName
-      userDefinedIndicator
-      active
-      priority
-      lastUpdateTimestamp
-      titleIndicator
-      inactive
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      categoryAttributeCategoryId
-      categoryAttributeAttributeTypeId
-    }
-  }
-`;
-export const onUpdateCategoryAttribute = /* GraphQL */ `
-  subscription OnUpdateCategoryAttribute(
-    $filter: ModelSubscriptionCategoryAttributeFilterInput
-  ) {
-    onUpdateCategoryAttribute(filter: $filter) {
-      id
-      categoryAttributeId
-      category {
-        id
-        parent
-        categoryId
-        categoryName
-        categoryLevel
-        inactive
-        lastUpdateTimestamp
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      attributeType {
-        id
-        attributeTypeId
-        attributeTypeDescription
-        lastUpdateTimestamp
-        inactive
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      required
-      categoryAttributeName
-      userDefinedIndicator
-      active
-      priority
-      lastUpdateTimestamp
-      titleIndicator
-      inactive
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      categoryAttributeCategoryId
-      categoryAttributeAttributeTypeId
-    }
-  }
-`;
-export const onDeleteCategoryAttribute = /* GraphQL */ `
-  subscription OnDeleteCategoryAttribute(
-    $filter: ModelSubscriptionCategoryAttributeFilterInput
-  ) {
-    onDeleteCategoryAttribute(filter: $filter) {
-      id
-      categoryAttributeId
-      category {
-        id
-        parent
-        categoryId
-        categoryName
-        categoryLevel
-        inactive
-        lastUpdateTimestamp
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      attributeType {
-        id
-        attributeTypeId
-        attributeTypeDescription
-        lastUpdateTimestamp
-        inactive
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      required
-      categoryAttributeName
-      userDefinedIndicator
-      active
-      priority
-      lastUpdateTimestamp
-      titleIndicator
-      inactive
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      categoryAttributeCategoryId
-      categoryAttributeAttributeTypeId
     }
   }
 `;
@@ -1409,6 +1223,7 @@ export const onCreateAttributeType = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      categoryAttributeTypesId
     }
   }
 `;
@@ -1427,6 +1242,7 @@ export const onUpdateAttributeType = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      categoryAttributeTypesId
     }
   }
 `;
@@ -1445,6 +1261,7 @@ export const onDeleteAttributeType = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      categoryAttributeTypesId
     }
   }
 `;
@@ -1465,6 +1282,7 @@ export const onCreateAttributeTypeValue = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        categoryAttributeTypesId
       }
       attributeTypeValueId
       attributeTypeValue
@@ -1496,6 +1314,7 @@ export const onUpdateAttributeTypeValue = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        categoryAttributeTypesId
       }
       attributeTypeValueId
       attributeTypeValue
@@ -1527,6 +1346,7 @@ export const onDeleteAttributeTypeValue = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        categoryAttributeTypesId
       }
       attributeTypeValueId
       attributeTypeValue
@@ -1554,6 +1374,10 @@ export const onCreateCategoryPriceGuide = /* GraphQL */ `
         categoryName
         categoryLevel
         inactive
+        attributeTypes {
+          nextToken
+          startedAt
+        }
         lastUpdateTimestamp
         createdAt
         updatedAt
@@ -1588,6 +1412,10 @@ export const onUpdateCategoryPriceGuide = /* GraphQL */ `
         categoryName
         categoryLevel
         inactive
+        attributeTypes {
+          nextToken
+          startedAt
+        }
         lastUpdateTimestamp
         createdAt
         updatedAt
@@ -1622,6 +1450,10 @@ export const onDeleteCategoryPriceGuide = /* GraphQL */ `
         categoryName
         categoryLevel
         inactive
+        attributeTypes {
+          nextToken
+          startedAt
+        }
         lastUpdateTimestamp
         createdAt
         updatedAt

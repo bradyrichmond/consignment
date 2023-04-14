@@ -328,42 +328,6 @@ export declare const City: (new (init: ModelInit<City>) => City) & {
   copyOf(source: City, mutator: (draft: MutableModel<City>) => MutableModel<City> | void): City;
 }
 
-type EagerPriceGuide = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<PriceGuide, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly categoryPriceGuideId: string;
-  readonly category: Category;
-  readonly price: string;
-  readonly priceLevel: string;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-  readonly priceGuideCategoryId: string;
-}
-
-type LazyPriceGuide = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<PriceGuide, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly categoryPriceGuideId: string;
-  readonly category: AsyncItem<Category>;
-  readonly price: string;
-  readonly priceLevel: string;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-  readonly priceGuideCategoryId: string;
-}
-
-export declare type PriceGuide = LazyLoading extends LazyLoadingDisabled ? EagerPriceGuide : LazyPriceGuide
-
-export declare const PriceGuide: (new (init: ModelInit<PriceGuide>) => PriceGuide) & {
-  copyOf(source: PriceGuide, mutator: (draft: MutableModel<PriceGuide>) => MutableModel<PriceGuide> | void): PriceGuide;
-}
-
 type EagerBrand = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Brand, 'id'>;
@@ -409,6 +373,7 @@ type EagerCategory = {
   readonly categoryName: string;
   readonly categoryLevel: number;
   readonly inactive?: boolean | null;
+  readonly attributeTypes?: (AttributeType | null)[] | null;
   readonly lastUpdateTimestamp: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
@@ -425,6 +390,7 @@ type LazyCategory = {
   readonly categoryName: string;
   readonly categoryLevel: number;
   readonly inactive?: boolean | null;
+  readonly attributeTypes: AsyncCollection<AttributeType>;
   readonly lastUpdateTimestamp: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
@@ -434,58 +400,6 @@ export declare type Category = LazyLoading extends LazyLoadingDisabled ? EagerCa
 
 export declare const Category: (new (init: ModelInit<Category>) => Category) & {
   copyOf(source: Category, mutator: (draft: MutableModel<Category>) => MutableModel<Category> | void): Category;
-}
-
-type EagerCategoryAttribute = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<CategoryAttribute, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly categoryAttributeId?: string | null;
-  readonly category?: Category | null;
-  readonly attributeType: AttributeType;
-  readonly required: boolean;
-  readonly categoryAttributeName: string;
-  readonly userDefinedIndicator?: string | null;
-  readonly active?: boolean | null;
-  readonly priority?: string | null;
-  readonly lastUpdateTimestamp: string;
-  readonly titleIndicator: boolean;
-  readonly inactive?: boolean | null;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-  readonly categoryAttributeCategoryId?: string | null;
-  readonly categoryAttributeAttributeTypeId: string;
-}
-
-type LazyCategoryAttribute = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<CategoryAttribute, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly categoryAttributeId?: string | null;
-  readonly category: AsyncItem<Category | undefined>;
-  readonly attributeType: AsyncItem<AttributeType>;
-  readonly required: boolean;
-  readonly categoryAttributeName: string;
-  readonly userDefinedIndicator?: string | null;
-  readonly active?: boolean | null;
-  readonly priority?: string | null;
-  readonly lastUpdateTimestamp: string;
-  readonly titleIndicator: boolean;
-  readonly inactive?: boolean | null;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-  readonly categoryAttributeCategoryId?: string | null;
-  readonly categoryAttributeAttributeTypeId: string;
-}
-
-export declare type CategoryAttribute = LazyLoading extends LazyLoadingDisabled ? EagerCategoryAttribute : LazyCategoryAttribute
-
-export declare const CategoryAttribute: (new (init: ModelInit<CategoryAttribute>) => CategoryAttribute) & {
-  copyOf(source: CategoryAttribute, mutator: (draft: MutableModel<CategoryAttribute>) => MutableModel<CategoryAttribute> | void): CategoryAttribute;
 }
 
 type EagerAttributeType = {
@@ -500,6 +414,7 @@ type EagerAttributeType = {
   readonly inactive?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly categoryAttributeTypesId?: string | null;
 }
 
 type LazyAttributeType = {
@@ -514,6 +429,7 @@ type LazyAttributeType = {
   readonly inactive?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly categoryAttributeTypesId?: string | null;
 }
 
 export declare type AttributeType = LazyLoading extends LazyLoadingDisabled ? EagerAttributeType : LazyAttributeType

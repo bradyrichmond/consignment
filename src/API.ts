@@ -183,12 +183,35 @@ export type Category = {
   categoryName: string,
   categoryLevel: number,
   inactive?: boolean | null,
+  attributeTypes?: ModelAttributeTypeConnection | null,
   lastUpdateTimestamp: string,
   createdAt: string,
   updatedAt: string,
   _version: number,
   _deleted?: boolean | null,
   _lastChangedAt: number,
+};
+
+export type ModelAttributeTypeConnection = {
+  __typename: "ModelAttributeTypeConnection",
+  items:  Array<AttributeType | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
+export type AttributeType = {
+  __typename: "AttributeType",
+  id: string,
+  attributeTypeId?: string | null,
+  attributeTypeDescription: string,
+  lastUpdateTimestamp: string,
+  inactive?: boolean | null,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+  categoryAttributeTypesId?: string | null,
 };
 
 export type Location = {
@@ -623,54 +646,6 @@ export type DeleteCityInput = {
   _version?: number | null,
 };
 
-export type CreatePriceGuideInput = {
-  id?: string | null,
-  categoryPriceGuideId: string,
-  price: string,
-  priceLevel: string,
-  _version?: number | null,
-  priceGuideCategoryId: string,
-};
-
-export type ModelPriceGuideConditionInput = {
-  categoryPriceGuideId?: ModelStringInput | null,
-  price?: ModelStringInput | null,
-  priceLevel?: ModelStringInput | null,
-  and?: Array< ModelPriceGuideConditionInput | null > | null,
-  or?: Array< ModelPriceGuideConditionInput | null > | null,
-  not?: ModelPriceGuideConditionInput | null,
-  priceGuideCategoryId?: ModelIDInput | null,
-};
-
-export type PriceGuide = {
-  __typename: "PriceGuide",
-  id: string,
-  categoryPriceGuideId: string,
-  category: Category,
-  price: string,
-  priceLevel: string,
-  createdAt: string,
-  updatedAt: string,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
-  priceGuideCategoryId: string,
-};
-
-export type UpdatePriceGuideInput = {
-  id: string,
-  categoryPriceGuideId?: string | null,
-  price?: string | null,
-  priceLevel?: string | null,
-  _version?: number | null,
-  priceGuideCategoryId?: string | null,
-};
-
-export type DeletePriceGuideInput = {
-  id: string,
-  _version?: number | null,
-};
-
 export type CreateBrandInput = {
   id?: string | null,
   brandId?: string | null,
@@ -743,97 +718,6 @@ export type DeleteCategoryInput = {
   _version?: number | null,
 };
 
-export type CreateCategoryAttributeInput = {
-  id?: string | null,
-  categoryAttributeId?: string | null,
-  required: boolean,
-  categoryAttributeName: string,
-  userDefinedIndicator?: string | null,
-  active?: boolean | null,
-  priority?: string | null,
-  lastUpdateTimestamp: string,
-  titleIndicator: boolean,
-  inactive?: boolean | null,
-  _version?: number | null,
-  categoryAttributeCategoryId?: string | null,
-  categoryAttributeAttributeTypeId: string,
-};
-
-export type ModelCategoryAttributeConditionInput = {
-  categoryAttributeId?: ModelStringInput | null,
-  required?: ModelBooleanInput | null,
-  categoryAttributeName?: ModelStringInput | null,
-  userDefinedIndicator?: ModelStringInput | null,
-  active?: ModelBooleanInput | null,
-  priority?: ModelStringInput | null,
-  lastUpdateTimestamp?: ModelStringInput | null,
-  titleIndicator?: ModelBooleanInput | null,
-  inactive?: ModelBooleanInput | null,
-  and?: Array< ModelCategoryAttributeConditionInput | null > | null,
-  or?: Array< ModelCategoryAttributeConditionInput | null > | null,
-  not?: ModelCategoryAttributeConditionInput | null,
-  categoryAttributeCategoryId?: ModelIDInput | null,
-  categoryAttributeAttributeTypeId?: ModelIDInput | null,
-};
-
-export type CategoryAttribute = {
-  __typename: "CategoryAttribute",
-  id: string,
-  categoryAttributeId?: string | null,
-  category?: Category | null,
-  attributeType: AttributeType,
-  required: boolean,
-  categoryAttributeName: string,
-  userDefinedIndicator?: string | null,
-  active?: boolean | null,
-  priority?: string | null,
-  lastUpdateTimestamp: string,
-  titleIndicator: boolean,
-  inactive?: boolean | null,
-  createdAt: string,
-  updatedAt: string,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
-  categoryAttributeCategoryId?: string | null,
-  categoryAttributeAttributeTypeId: string,
-};
-
-export type AttributeType = {
-  __typename: "AttributeType",
-  id: string,
-  attributeTypeId?: string | null,
-  attributeTypeDescription: string,
-  lastUpdateTimestamp: string,
-  inactive?: boolean | null,
-  createdAt: string,
-  updatedAt: string,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
-};
-
-export type UpdateCategoryAttributeInput = {
-  id: string,
-  categoryAttributeId?: string | null,
-  required?: boolean | null,
-  categoryAttributeName?: string | null,
-  userDefinedIndicator?: string | null,
-  active?: boolean | null,
-  priority?: string | null,
-  lastUpdateTimestamp?: string | null,
-  titleIndicator?: boolean | null,
-  inactive?: boolean | null,
-  _version?: number | null,
-  categoryAttributeCategoryId?: string | null,
-  categoryAttributeAttributeTypeId?: string | null,
-};
-
-export type DeleteCategoryAttributeInput = {
-  id: string,
-  _version?: number | null,
-};
-
 export type CreateAttributeTypeInput = {
   id?: string | null,
   attributeTypeId?: string | null,
@@ -841,6 +725,7 @@ export type CreateAttributeTypeInput = {
   lastUpdateTimestamp: string,
   inactive?: boolean | null,
   _version?: number | null,
+  categoryAttributeTypesId?: string | null,
 };
 
 export type ModelAttributeTypeConditionInput = {
@@ -851,6 +736,7 @@ export type ModelAttributeTypeConditionInput = {
   and?: Array< ModelAttributeTypeConditionInput | null > | null,
   or?: Array< ModelAttributeTypeConditionInput | null > | null,
   not?: ModelAttributeTypeConditionInput | null,
+  categoryAttributeTypesId?: ModelIDInput | null,
 };
 
 export type UpdateAttributeTypeInput = {
@@ -860,6 +746,7 @@ export type UpdateAttributeTypeInput = {
   lastUpdateTimestamp?: string | null,
   inactive?: boolean | null,
   _version?: number | null,
+  categoryAttributeTypesId?: string | null,
 };
 
 export type DeleteAttributeTypeInput = {
@@ -1130,24 +1017,6 @@ export type ModelCityConnection = {
   startedAt?: number | null,
 };
 
-export type ModelPriceGuideFilterInput = {
-  id?: ModelIDInput | null,
-  categoryPriceGuideId?: ModelStringInput | null,
-  price?: ModelStringInput | null,
-  priceLevel?: ModelStringInput | null,
-  and?: Array< ModelPriceGuideFilterInput | null > | null,
-  or?: Array< ModelPriceGuideFilterInput | null > | null,
-  not?: ModelPriceGuideFilterInput | null,
-  priceGuideCategoryId?: ModelIDInput | null,
-};
-
-export type ModelPriceGuideConnection = {
-  __typename: "ModelPriceGuideConnection",
-  items:  Array<PriceGuide | null >,
-  nextToken?: string | null,
-  startedAt?: number | null,
-};
-
 export type ModelBrandFilterInput = {
   id?: ModelIDInput | null,
   brandId?: ModelStringInput | null,
@@ -1186,31 +1055,6 @@ export type ModelCategoryConnection = {
   startedAt?: number | null,
 };
 
-export type ModelCategoryAttributeFilterInput = {
-  id?: ModelIDInput | null,
-  categoryAttributeId?: ModelStringInput | null,
-  required?: ModelBooleanInput | null,
-  categoryAttributeName?: ModelStringInput | null,
-  userDefinedIndicator?: ModelStringInput | null,
-  active?: ModelBooleanInput | null,
-  priority?: ModelStringInput | null,
-  lastUpdateTimestamp?: ModelStringInput | null,
-  titleIndicator?: ModelBooleanInput | null,
-  inactive?: ModelBooleanInput | null,
-  and?: Array< ModelCategoryAttributeFilterInput | null > | null,
-  or?: Array< ModelCategoryAttributeFilterInput | null > | null,
-  not?: ModelCategoryAttributeFilterInput | null,
-  categoryAttributeCategoryId?: ModelIDInput | null,
-  categoryAttributeAttributeTypeId?: ModelIDInput | null,
-};
-
-export type ModelCategoryAttributeConnection = {
-  __typename: "ModelCategoryAttributeConnection",
-  items:  Array<CategoryAttribute | null >,
-  nextToken?: string | null,
-  startedAt?: number | null,
-};
-
 export type ModelAttributeTypeFilterInput = {
   id?: ModelIDInput | null,
   attributeTypeId?: ModelStringInput | null,
@@ -1220,13 +1064,7 @@ export type ModelAttributeTypeFilterInput = {
   and?: Array< ModelAttributeTypeFilterInput | null > | null,
   or?: Array< ModelAttributeTypeFilterInput | null > | null,
   not?: ModelAttributeTypeFilterInput | null,
-};
-
-export type ModelAttributeTypeConnection = {
-  __typename: "ModelAttributeTypeConnection",
-  items:  Array<AttributeType | null >,
-  nextToken?: string | null,
-  startedAt?: number | null,
+  categoryAttributeTypesId?: ModelIDInput | null,
 };
 
 export type ModelAttributeTypeValueFilterInput = {
@@ -1417,15 +1255,6 @@ export type ModelSubscriptionCityFilterInput = {
   or?: Array< ModelSubscriptionCityFilterInput | null > | null,
 };
 
-export type ModelSubscriptionPriceGuideFilterInput = {
-  id?: ModelSubscriptionIDInput | null,
-  categoryPriceGuideId?: ModelSubscriptionStringInput | null,
-  price?: ModelSubscriptionStringInput | null,
-  priceLevel?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionPriceGuideFilterInput | null > | null,
-  or?: Array< ModelSubscriptionPriceGuideFilterInput | null > | null,
-};
-
 export type ModelSubscriptionBrandFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   brandId?: ModelSubscriptionStringInput | null,
@@ -1446,21 +1275,6 @@ export type ModelSubscriptionCategoryFilterInput = {
   lastUpdateTimestamp?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionCategoryFilterInput | null > | null,
   or?: Array< ModelSubscriptionCategoryFilterInput | null > | null,
-};
-
-export type ModelSubscriptionCategoryAttributeFilterInput = {
-  id?: ModelSubscriptionIDInput | null,
-  categoryAttributeId?: ModelSubscriptionStringInput | null,
-  required?: ModelSubscriptionBooleanInput | null,
-  categoryAttributeName?: ModelSubscriptionStringInput | null,
-  userDefinedIndicator?: ModelSubscriptionStringInput | null,
-  active?: ModelSubscriptionBooleanInput | null,
-  priority?: ModelSubscriptionStringInput | null,
-  lastUpdateTimestamp?: ModelSubscriptionStringInput | null,
-  titleIndicator?: ModelSubscriptionBooleanInput | null,
-  inactive?: ModelSubscriptionBooleanInput | null,
-  and?: Array< ModelSubscriptionCategoryAttributeFilterInput | null > | null,
-  or?: Array< ModelSubscriptionCategoryAttributeFilterInput | null > | null,
 };
 
 export type ModelSubscriptionAttributeTypeFilterInput = {
@@ -1824,6 +1638,11 @@ export type CreateItemMutation = {
       categoryName: string,
       categoryLevel: number,
       inactive?: boolean | null,
+      attributeTypes?:  {
+        __typename: "ModelAttributeTypeConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
       lastUpdateTimestamp: string,
       createdAt: string,
       updatedAt: string,
@@ -1930,6 +1749,11 @@ export type UpdateItemMutation = {
       categoryName: string,
       categoryLevel: number,
       inactive?: boolean | null,
+      attributeTypes?:  {
+        __typename: "ModelAttributeTypeConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
       lastUpdateTimestamp: string,
       createdAt: string,
       updatedAt: string,
@@ -2036,6 +1860,11 @@ export type DeleteItemMutation = {
       categoryName: string,
       categoryLevel: number,
       inactive?: boolean | null,
+      attributeTypes?:  {
+        __typename: "ModelAttributeTypeConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
       lastUpdateTimestamp: string,
       createdAt: string,
       updatedAt: string,
@@ -2673,114 +2502,6 @@ export type DeleteCityMutation = {
   } | null,
 };
 
-export type CreatePriceGuideMutationVariables = {
-  input: CreatePriceGuideInput,
-  condition?: ModelPriceGuideConditionInput | null,
-};
-
-export type CreatePriceGuideMutation = {
-  createPriceGuide?:  {
-    __typename: "PriceGuide",
-    id: string,
-    categoryPriceGuideId: string,
-    category:  {
-      __typename: "Category",
-      id: string,
-      parent?: string | null,
-      categoryId?: string | null,
-      categoryName: string,
-      categoryLevel: number,
-      inactive?: boolean | null,
-      lastUpdateTimestamp: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    price: string,
-    priceLevel: string,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    priceGuideCategoryId: string,
-  } | null,
-};
-
-export type UpdatePriceGuideMutationVariables = {
-  input: UpdatePriceGuideInput,
-  condition?: ModelPriceGuideConditionInput | null,
-};
-
-export type UpdatePriceGuideMutation = {
-  updatePriceGuide?:  {
-    __typename: "PriceGuide",
-    id: string,
-    categoryPriceGuideId: string,
-    category:  {
-      __typename: "Category",
-      id: string,
-      parent?: string | null,
-      categoryId?: string | null,
-      categoryName: string,
-      categoryLevel: number,
-      inactive?: boolean | null,
-      lastUpdateTimestamp: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    price: string,
-    priceLevel: string,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    priceGuideCategoryId: string,
-  } | null,
-};
-
-export type DeletePriceGuideMutationVariables = {
-  input: DeletePriceGuideInput,
-  condition?: ModelPriceGuideConditionInput | null,
-};
-
-export type DeletePriceGuideMutation = {
-  deletePriceGuide?:  {
-    __typename: "PriceGuide",
-    id: string,
-    categoryPriceGuideId: string,
-    category:  {
-      __typename: "Category",
-      id: string,
-      parent?: string | null,
-      categoryId?: string | null,
-      categoryName: string,
-      categoryLevel: number,
-      inactive?: boolean | null,
-      lastUpdateTimestamp: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    price: string,
-    priceLevel: string,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    priceGuideCategoryId: string,
-  } | null,
-};
-
 export type CreateBrandMutationVariables = {
   input: CreateBrandInput,
   condition?: ModelBrandConditionInput | null,
@@ -2858,6 +2579,25 @@ export type CreateCategoryMutation = {
     categoryName: string,
     categoryLevel: number,
     inactive?: boolean | null,
+    attributeTypes?:  {
+      __typename: "ModelAttributeTypeConnection",
+      items:  Array< {
+        __typename: "AttributeType",
+        id: string,
+        attributeTypeId?: string | null,
+        attributeTypeDescription: string,
+        lastUpdateTimestamp: string,
+        inactive?: boolean | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        categoryAttributeTypesId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
     lastUpdateTimestamp: string,
     createdAt: string,
     updatedAt: string,
@@ -2881,6 +2621,25 @@ export type UpdateCategoryMutation = {
     categoryName: string,
     categoryLevel: number,
     inactive?: boolean | null,
+    attributeTypes?:  {
+      __typename: "ModelAttributeTypeConnection",
+      items:  Array< {
+        __typename: "AttributeType",
+        id: string,
+        attributeTypeId?: string | null,
+        attributeTypeDescription: string,
+        lastUpdateTimestamp: string,
+        inactive?: boolean | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        categoryAttributeTypesId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
     lastUpdateTimestamp: string,
     createdAt: string,
     updatedAt: string,
@@ -2904,180 +2663,31 @@ export type DeleteCategoryMutation = {
     categoryName: string,
     categoryLevel: number,
     inactive?: boolean | null,
-    lastUpdateTimestamp: string,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type CreateCategoryAttributeMutationVariables = {
-  input: CreateCategoryAttributeInput,
-  condition?: ModelCategoryAttributeConditionInput | null,
-};
-
-export type CreateCategoryAttributeMutation = {
-  createCategoryAttribute?:  {
-    __typename: "CategoryAttribute",
-    id: string,
-    categoryAttributeId?: string | null,
-    category?:  {
-      __typename: "Category",
-      id: string,
-      parent?: string | null,
-      categoryId?: string | null,
-      categoryName: string,
-      categoryLevel: number,
-      inactive?: boolean | null,
-      lastUpdateTimestamp: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
+    attributeTypes?:  {
+      __typename: "ModelAttributeTypeConnection",
+      items:  Array< {
+        __typename: "AttributeType",
+        id: string,
+        attributeTypeId?: string | null,
+        attributeTypeDescription: string,
+        lastUpdateTimestamp: string,
+        inactive?: boolean | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        categoryAttributeTypesId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
     } | null,
-    attributeType:  {
-      __typename: "AttributeType",
-      id: string,
-      attributeTypeId?: string | null,
-      attributeTypeDescription: string,
-      lastUpdateTimestamp: string,
-      inactive?: boolean | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    required: boolean,
-    categoryAttributeName: string,
-    userDefinedIndicator?: string | null,
-    active?: boolean | null,
-    priority?: string | null,
     lastUpdateTimestamp: string,
-    titleIndicator: boolean,
-    inactive?: boolean | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    categoryAttributeCategoryId?: string | null,
-    categoryAttributeAttributeTypeId: string,
-  } | null,
-};
-
-export type UpdateCategoryAttributeMutationVariables = {
-  input: UpdateCategoryAttributeInput,
-  condition?: ModelCategoryAttributeConditionInput | null,
-};
-
-export type UpdateCategoryAttributeMutation = {
-  updateCategoryAttribute?:  {
-    __typename: "CategoryAttribute",
-    id: string,
-    categoryAttributeId?: string | null,
-    category?:  {
-      __typename: "Category",
-      id: string,
-      parent?: string | null,
-      categoryId?: string | null,
-      categoryName: string,
-      categoryLevel: number,
-      inactive?: boolean | null,
-      lastUpdateTimestamp: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null,
-    attributeType:  {
-      __typename: "AttributeType",
-      id: string,
-      attributeTypeId?: string | null,
-      attributeTypeDescription: string,
-      lastUpdateTimestamp: string,
-      inactive?: boolean | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    required: boolean,
-    categoryAttributeName: string,
-    userDefinedIndicator?: string | null,
-    active?: boolean | null,
-    priority?: string | null,
-    lastUpdateTimestamp: string,
-    titleIndicator: boolean,
-    inactive?: boolean | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    categoryAttributeCategoryId?: string | null,
-    categoryAttributeAttributeTypeId: string,
-  } | null,
-};
-
-export type DeleteCategoryAttributeMutationVariables = {
-  input: DeleteCategoryAttributeInput,
-  condition?: ModelCategoryAttributeConditionInput | null,
-};
-
-export type DeleteCategoryAttributeMutation = {
-  deleteCategoryAttribute?:  {
-    __typename: "CategoryAttribute",
-    id: string,
-    categoryAttributeId?: string | null,
-    category?:  {
-      __typename: "Category",
-      id: string,
-      parent?: string | null,
-      categoryId?: string | null,
-      categoryName: string,
-      categoryLevel: number,
-      inactive?: boolean | null,
-      lastUpdateTimestamp: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null,
-    attributeType:  {
-      __typename: "AttributeType",
-      id: string,
-      attributeTypeId?: string | null,
-      attributeTypeDescription: string,
-      lastUpdateTimestamp: string,
-      inactive?: boolean | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    required: boolean,
-    categoryAttributeName: string,
-    userDefinedIndicator?: string | null,
-    active?: boolean | null,
-    priority?: string | null,
-    lastUpdateTimestamp: string,
-    titleIndicator: boolean,
-    inactive?: boolean | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    categoryAttributeCategoryId?: string | null,
-    categoryAttributeAttributeTypeId: string,
   } | null,
 };
 
@@ -3099,6 +2709,7 @@ export type CreateAttributeTypeMutation = {
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
+    categoryAttributeTypesId?: string | null,
   } | null,
 };
 
@@ -3120,6 +2731,7 @@ export type UpdateAttributeTypeMutation = {
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
+    categoryAttributeTypesId?: string | null,
   } | null,
 };
 
@@ -3141,6 +2753,7 @@ export type DeleteAttributeTypeMutation = {
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
+    categoryAttributeTypesId?: string | null,
   } | null,
 };
 
@@ -3165,6 +2778,7 @@ export type CreateAttributeTypeValueMutation = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
+      categoryAttributeTypesId?: string | null,
     } | null,
     attributeTypeValueId?: string | null,
     attributeTypeValue: string,
@@ -3200,6 +2814,7 @@ export type UpdateAttributeTypeValueMutation = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
+      categoryAttributeTypesId?: string | null,
     } | null,
     attributeTypeValueId?: string | null,
     attributeTypeValue: string,
@@ -3235,6 +2850,7 @@ export type DeleteAttributeTypeValueMutation = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
+      categoryAttributeTypesId?: string | null,
     } | null,
     attributeTypeValueId?: string | null,
     attributeTypeValue: string,
@@ -3266,6 +2882,11 @@ export type CreateCategoryPriceGuideMutation = {
       categoryName: string,
       categoryLevel: number,
       inactive?: boolean | null,
+      attributeTypes?:  {
+        __typename: "ModelAttributeTypeConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
       lastUpdateTimestamp: string,
       createdAt: string,
       updatedAt: string,
@@ -3304,6 +2925,11 @@ export type UpdateCategoryPriceGuideMutation = {
       categoryName: string,
       categoryLevel: number,
       inactive?: boolean | null,
+      attributeTypes?:  {
+        __typename: "ModelAttributeTypeConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
       lastUpdateTimestamp: string,
       createdAt: string,
       updatedAt: string,
@@ -3342,6 +2968,11 @@ export type DeleteCategoryPriceGuideMutation = {
       categoryName: string,
       categoryLevel: number,
       inactive?: boolean | null,
+      attributeTypes?:  {
+        __typename: "ModelAttributeTypeConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
       lastUpdateTimestamp: string,
       createdAt: string,
       updatedAt: string,
@@ -3576,6 +3207,11 @@ export type GetItemQuery = {
       categoryName: string,
       categoryLevel: number,
       inactive?: boolean | null,
+      attributeTypes?:  {
+        __typename: "ModelAttributeTypeConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
       lastUpdateTimestamp: string,
       createdAt: string,
       updatedAt: string,
@@ -4386,126 +4022,6 @@ export type SyncCitiesQuery = {
   } | null,
 };
 
-export type GetPriceGuideQueryVariables = {
-  id: string,
-};
-
-export type GetPriceGuideQuery = {
-  getPriceGuide?:  {
-    __typename: "PriceGuide",
-    id: string,
-    categoryPriceGuideId: string,
-    category:  {
-      __typename: "Category",
-      id: string,
-      parent?: string | null,
-      categoryId?: string | null,
-      categoryName: string,
-      categoryLevel: number,
-      inactive?: boolean | null,
-      lastUpdateTimestamp: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    price: string,
-    priceLevel: string,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    priceGuideCategoryId: string,
-  } | null,
-};
-
-export type ListPriceGuidesQueryVariables = {
-  filter?: ModelPriceGuideFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListPriceGuidesQuery = {
-  listPriceGuides?:  {
-    __typename: "ModelPriceGuideConnection",
-    items:  Array< {
-      __typename: "PriceGuide",
-      id: string,
-      categoryPriceGuideId: string,
-      category:  {
-        __typename: "Category",
-        id: string,
-        parent?: string | null,
-        categoryId?: string | null,
-        categoryName: string,
-        categoryLevel: number,
-        inactive?: boolean | null,
-        lastUpdateTimestamp: string,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      },
-      price: string,
-      priceLevel: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      priceGuideCategoryId: string,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncPriceGuidesQueryVariables = {
-  filter?: ModelPriceGuideFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncPriceGuidesQuery = {
-  syncPriceGuides?:  {
-    __typename: "ModelPriceGuideConnection",
-    items:  Array< {
-      __typename: "PriceGuide",
-      id: string,
-      categoryPriceGuideId: string,
-      category:  {
-        __typename: "Category",
-        id: string,
-        parent?: string | null,
-        categoryId?: string | null,
-        categoryName: string,
-        categoryLevel: number,
-        inactive?: boolean | null,
-        lastUpdateTimestamp: string,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      },
-      price: string,
-      priceLevel: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      priceGuideCategoryId: string,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
 export type GetBrandQueryVariables = {
   id: string,
 };
@@ -4594,6 +4110,25 @@ export type GetCategoryQuery = {
     categoryName: string,
     categoryLevel: number,
     inactive?: boolean | null,
+    attributeTypes?:  {
+      __typename: "ModelAttributeTypeConnection",
+      items:  Array< {
+        __typename: "AttributeType",
+        id: string,
+        attributeTypeId?: string | null,
+        attributeTypeDescription: string,
+        lastUpdateTimestamp: string,
+        inactive?: boolean | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        categoryAttributeTypesId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
     lastUpdateTimestamp: string,
     createdAt: string,
     updatedAt: string,
@@ -4620,6 +4155,11 @@ export type ListCategoriesQuery = {
       categoryName: string,
       categoryLevel: number,
       inactive?: boolean | null,
+      attributeTypes?:  {
+        __typename: "ModelAttributeTypeConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
       lastUpdateTimestamp: string,
       createdAt: string,
       updatedAt: string,
@@ -4650,192 +4190,17 @@ export type SyncCategoriesQuery = {
       categoryName: string,
       categoryLevel: number,
       inactive?: boolean | null,
-      lastUpdateTimestamp: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type GetCategoryAttributeQueryVariables = {
-  id: string,
-};
-
-export type GetCategoryAttributeQuery = {
-  getCategoryAttribute?:  {
-    __typename: "CategoryAttribute",
-    id: string,
-    categoryAttributeId?: string | null,
-    category?:  {
-      __typename: "Category",
-      id: string,
-      parent?: string | null,
-      categoryId?: string | null,
-      categoryName: string,
-      categoryLevel: number,
-      inactive?: boolean | null,
-      lastUpdateTimestamp: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null,
-    attributeType:  {
-      __typename: "AttributeType",
-      id: string,
-      attributeTypeId?: string | null,
-      attributeTypeDescription: string,
-      lastUpdateTimestamp: string,
-      inactive?: boolean | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    required: boolean,
-    categoryAttributeName: string,
-    userDefinedIndicator?: string | null,
-    active?: boolean | null,
-    priority?: string | null,
-    lastUpdateTimestamp: string,
-    titleIndicator: boolean,
-    inactive?: boolean | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    categoryAttributeCategoryId?: string | null,
-    categoryAttributeAttributeTypeId: string,
-  } | null,
-};
-
-export type ListCategoryAttributesQueryVariables = {
-  filter?: ModelCategoryAttributeFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListCategoryAttributesQuery = {
-  listCategoryAttributes?:  {
-    __typename: "ModelCategoryAttributeConnection",
-    items:  Array< {
-      __typename: "CategoryAttribute",
-      id: string,
-      categoryAttributeId?: string | null,
-      category?:  {
-        __typename: "Category",
-        id: string,
-        parent?: string | null,
-        categoryId?: string | null,
-        categoryName: string,
-        categoryLevel: number,
-        inactive?: boolean | null,
-        lastUpdateTimestamp: string,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
+      attributeTypes?:  {
+        __typename: "ModelAttributeTypeConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
       } | null,
-      attributeType:  {
-        __typename: "AttributeType",
-        id: string,
-        attributeTypeId?: string | null,
-        attributeTypeDescription: string,
-        lastUpdateTimestamp: string,
-        inactive?: boolean | null,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      },
-      required: boolean,
-      categoryAttributeName: string,
-      userDefinedIndicator?: string | null,
-      active?: boolean | null,
-      priority?: string | null,
       lastUpdateTimestamp: string,
-      titleIndicator: boolean,
-      inactive?: boolean | null,
       createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      categoryAttributeCategoryId?: string | null,
-      categoryAttributeAttributeTypeId: string,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncCategoryAttributesQueryVariables = {
-  filter?: ModelCategoryAttributeFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncCategoryAttributesQuery = {
-  syncCategoryAttributes?:  {
-    __typename: "ModelCategoryAttributeConnection",
-    items:  Array< {
-      __typename: "CategoryAttribute",
-      id: string,
-      categoryAttributeId?: string | null,
-      category?:  {
-        __typename: "Category",
-        id: string,
-        parent?: string | null,
-        categoryId?: string | null,
-        categoryName: string,
-        categoryLevel: number,
-        inactive?: boolean | null,
-        lastUpdateTimestamp: string,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      } | null,
-      attributeType:  {
-        __typename: "AttributeType",
-        id: string,
-        attributeTypeId?: string | null,
-        attributeTypeDescription: string,
-        lastUpdateTimestamp: string,
-        inactive?: boolean | null,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      },
-      required: boolean,
-      categoryAttributeName: string,
-      userDefinedIndicator?: string | null,
-      active?: boolean | null,
-      priority?: string | null,
-      lastUpdateTimestamp: string,
-      titleIndicator: boolean,
-      inactive?: boolean | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      categoryAttributeCategoryId?: string | null,
-      categoryAttributeAttributeTypeId: string,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
@@ -4859,6 +4224,7 @@ export type GetAttributeTypeQuery = {
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
+    categoryAttributeTypesId?: string | null,
   } | null,
 };
 
@@ -4883,6 +4249,7 @@ export type ListAttributeTypesQuery = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
+      categoryAttributeTypesId?: string | null,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
@@ -4911,6 +4278,7 @@ export type SyncAttributeTypesQuery = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
+      categoryAttributeTypesId?: string | null,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
@@ -4937,6 +4305,7 @@ export type GetAttributeTypeValueQuery = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
+      categoryAttributeTypesId?: string | null,
     } | null,
     attributeTypeValueId?: string | null,
     attributeTypeValue: string,
@@ -4975,6 +4344,7 @@ export type ListAttributeTypeValuesQuery = {
         _version: number,
         _deleted?: boolean | null,
         _lastChangedAt: number,
+        categoryAttributeTypesId?: string | null,
       } | null,
       attributeTypeValueId?: string | null,
       attributeTypeValue: string,
@@ -5017,6 +4387,7 @@ export type SyncAttributeTypeValuesQuery = {
         _version: number,
         _deleted?: boolean | null,
         _lastChangedAt: number,
+        categoryAttributeTypesId?: string | null,
       } | null,
       attributeTypeValueId?: string | null,
       attributeTypeValue: string,
@@ -5050,6 +4421,11 @@ export type GetCategoryPriceGuideQuery = {
       categoryName: string,
       categoryLevel: number,
       inactive?: boolean | null,
+      attributeTypes?:  {
+        __typename: "ModelAttributeTypeConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
       lastUpdateTimestamp: string,
       createdAt: string,
       updatedAt: string,
@@ -5474,6 +4850,11 @@ export type OnCreateItemSubscription = {
       categoryName: string,
       categoryLevel: number,
       inactive?: boolean | null,
+      attributeTypes?:  {
+        __typename: "ModelAttributeTypeConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
       lastUpdateTimestamp: string,
       createdAt: string,
       updatedAt: string,
@@ -5579,6 +4960,11 @@ export type OnUpdateItemSubscription = {
       categoryName: string,
       categoryLevel: number,
       inactive?: boolean | null,
+      attributeTypes?:  {
+        __typename: "ModelAttributeTypeConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
       lastUpdateTimestamp: string,
       createdAt: string,
       updatedAt: string,
@@ -5684,6 +5070,11 @@ export type OnDeleteItemSubscription = {
       categoryName: string,
       categoryLevel: number,
       inactive?: boolean | null,
+      attributeTypes?:  {
+        __typename: "ModelAttributeTypeConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
       lastUpdateTimestamp: string,
       createdAt: string,
       updatedAt: string,
@@ -6309,111 +5700,6 @@ export type OnDeleteCitySubscription = {
   } | null,
 };
 
-export type OnCreatePriceGuideSubscriptionVariables = {
-  filter?: ModelSubscriptionPriceGuideFilterInput | null,
-};
-
-export type OnCreatePriceGuideSubscription = {
-  onCreatePriceGuide?:  {
-    __typename: "PriceGuide",
-    id: string,
-    categoryPriceGuideId: string,
-    category:  {
-      __typename: "Category",
-      id: string,
-      parent?: string | null,
-      categoryId?: string | null,
-      categoryName: string,
-      categoryLevel: number,
-      inactive?: boolean | null,
-      lastUpdateTimestamp: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    price: string,
-    priceLevel: string,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    priceGuideCategoryId: string,
-  } | null,
-};
-
-export type OnUpdatePriceGuideSubscriptionVariables = {
-  filter?: ModelSubscriptionPriceGuideFilterInput | null,
-};
-
-export type OnUpdatePriceGuideSubscription = {
-  onUpdatePriceGuide?:  {
-    __typename: "PriceGuide",
-    id: string,
-    categoryPriceGuideId: string,
-    category:  {
-      __typename: "Category",
-      id: string,
-      parent?: string | null,
-      categoryId?: string | null,
-      categoryName: string,
-      categoryLevel: number,
-      inactive?: boolean | null,
-      lastUpdateTimestamp: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    price: string,
-    priceLevel: string,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    priceGuideCategoryId: string,
-  } | null,
-};
-
-export type OnDeletePriceGuideSubscriptionVariables = {
-  filter?: ModelSubscriptionPriceGuideFilterInput | null,
-};
-
-export type OnDeletePriceGuideSubscription = {
-  onDeletePriceGuide?:  {
-    __typename: "PriceGuide",
-    id: string,
-    categoryPriceGuideId: string,
-    category:  {
-      __typename: "Category",
-      id: string,
-      parent?: string | null,
-      categoryId?: string | null,
-      categoryName: string,
-      categoryLevel: number,
-      inactive?: boolean | null,
-      lastUpdateTimestamp: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    price: string,
-    priceLevel: string,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    priceGuideCategoryId: string,
-  } | null,
-};
-
 export type OnCreateBrandSubscriptionVariables = {
   filter?: ModelSubscriptionBrandFilterInput | null,
 };
@@ -6487,6 +5773,25 @@ export type OnCreateCategorySubscription = {
     categoryName: string,
     categoryLevel: number,
     inactive?: boolean | null,
+    attributeTypes?:  {
+      __typename: "ModelAttributeTypeConnection",
+      items:  Array< {
+        __typename: "AttributeType",
+        id: string,
+        attributeTypeId?: string | null,
+        attributeTypeDescription: string,
+        lastUpdateTimestamp: string,
+        inactive?: boolean | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        categoryAttributeTypesId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
     lastUpdateTimestamp: string,
     createdAt: string,
     updatedAt: string,
@@ -6509,6 +5814,25 @@ export type OnUpdateCategorySubscription = {
     categoryName: string,
     categoryLevel: number,
     inactive?: boolean | null,
+    attributeTypes?:  {
+      __typename: "ModelAttributeTypeConnection",
+      items:  Array< {
+        __typename: "AttributeType",
+        id: string,
+        attributeTypeId?: string | null,
+        attributeTypeDescription: string,
+        lastUpdateTimestamp: string,
+        inactive?: boolean | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        categoryAttributeTypesId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
     lastUpdateTimestamp: string,
     createdAt: string,
     updatedAt: string,
@@ -6531,177 +5855,31 @@ export type OnDeleteCategorySubscription = {
     categoryName: string,
     categoryLevel: number,
     inactive?: boolean | null,
-    lastUpdateTimestamp: string,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type OnCreateCategoryAttributeSubscriptionVariables = {
-  filter?: ModelSubscriptionCategoryAttributeFilterInput | null,
-};
-
-export type OnCreateCategoryAttributeSubscription = {
-  onCreateCategoryAttribute?:  {
-    __typename: "CategoryAttribute",
-    id: string,
-    categoryAttributeId?: string | null,
-    category?:  {
-      __typename: "Category",
-      id: string,
-      parent?: string | null,
-      categoryId?: string | null,
-      categoryName: string,
-      categoryLevel: number,
-      inactive?: boolean | null,
-      lastUpdateTimestamp: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
+    attributeTypes?:  {
+      __typename: "ModelAttributeTypeConnection",
+      items:  Array< {
+        __typename: "AttributeType",
+        id: string,
+        attributeTypeId?: string | null,
+        attributeTypeDescription: string,
+        lastUpdateTimestamp: string,
+        inactive?: boolean | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        categoryAttributeTypesId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
     } | null,
-    attributeType:  {
-      __typename: "AttributeType",
-      id: string,
-      attributeTypeId?: string | null,
-      attributeTypeDescription: string,
-      lastUpdateTimestamp: string,
-      inactive?: boolean | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    required: boolean,
-    categoryAttributeName: string,
-    userDefinedIndicator?: string | null,
-    active?: boolean | null,
-    priority?: string | null,
     lastUpdateTimestamp: string,
-    titleIndicator: boolean,
-    inactive?: boolean | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    categoryAttributeCategoryId?: string | null,
-    categoryAttributeAttributeTypeId: string,
-  } | null,
-};
-
-export type OnUpdateCategoryAttributeSubscriptionVariables = {
-  filter?: ModelSubscriptionCategoryAttributeFilterInput | null,
-};
-
-export type OnUpdateCategoryAttributeSubscription = {
-  onUpdateCategoryAttribute?:  {
-    __typename: "CategoryAttribute",
-    id: string,
-    categoryAttributeId?: string | null,
-    category?:  {
-      __typename: "Category",
-      id: string,
-      parent?: string | null,
-      categoryId?: string | null,
-      categoryName: string,
-      categoryLevel: number,
-      inactive?: boolean | null,
-      lastUpdateTimestamp: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null,
-    attributeType:  {
-      __typename: "AttributeType",
-      id: string,
-      attributeTypeId?: string | null,
-      attributeTypeDescription: string,
-      lastUpdateTimestamp: string,
-      inactive?: boolean | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    required: boolean,
-    categoryAttributeName: string,
-    userDefinedIndicator?: string | null,
-    active?: boolean | null,
-    priority?: string | null,
-    lastUpdateTimestamp: string,
-    titleIndicator: boolean,
-    inactive?: boolean | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    categoryAttributeCategoryId?: string | null,
-    categoryAttributeAttributeTypeId: string,
-  } | null,
-};
-
-export type OnDeleteCategoryAttributeSubscriptionVariables = {
-  filter?: ModelSubscriptionCategoryAttributeFilterInput | null,
-};
-
-export type OnDeleteCategoryAttributeSubscription = {
-  onDeleteCategoryAttribute?:  {
-    __typename: "CategoryAttribute",
-    id: string,
-    categoryAttributeId?: string | null,
-    category?:  {
-      __typename: "Category",
-      id: string,
-      parent?: string | null,
-      categoryId?: string | null,
-      categoryName: string,
-      categoryLevel: number,
-      inactive?: boolean | null,
-      lastUpdateTimestamp: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null,
-    attributeType:  {
-      __typename: "AttributeType",
-      id: string,
-      attributeTypeId?: string | null,
-      attributeTypeDescription: string,
-      lastUpdateTimestamp: string,
-      inactive?: boolean | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    required: boolean,
-    categoryAttributeName: string,
-    userDefinedIndicator?: string | null,
-    active?: boolean | null,
-    priority?: string | null,
-    lastUpdateTimestamp: string,
-    titleIndicator: boolean,
-    inactive?: boolean | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    categoryAttributeCategoryId?: string | null,
-    categoryAttributeAttributeTypeId: string,
   } | null,
 };
 
@@ -6722,6 +5900,7 @@ export type OnCreateAttributeTypeSubscription = {
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
+    categoryAttributeTypesId?: string | null,
   } | null,
 };
 
@@ -6742,6 +5921,7 @@ export type OnUpdateAttributeTypeSubscription = {
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
+    categoryAttributeTypesId?: string | null,
   } | null,
 };
 
@@ -6762,6 +5942,7 @@ export type OnDeleteAttributeTypeSubscription = {
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
+    categoryAttributeTypesId?: string | null,
   } | null,
 };
 
@@ -6785,6 +5966,7 @@ export type OnCreateAttributeTypeValueSubscription = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
+      categoryAttributeTypesId?: string | null,
     } | null,
     attributeTypeValueId?: string | null,
     attributeTypeValue: string,
@@ -6819,6 +6001,7 @@ export type OnUpdateAttributeTypeValueSubscription = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
+      categoryAttributeTypesId?: string | null,
     } | null,
     attributeTypeValueId?: string | null,
     attributeTypeValue: string,
@@ -6853,6 +6036,7 @@ export type OnDeleteAttributeTypeValueSubscription = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
+      categoryAttributeTypesId?: string | null,
     } | null,
     attributeTypeValueId?: string | null,
     attributeTypeValue: string,
@@ -6883,6 +6067,11 @@ export type OnCreateCategoryPriceGuideSubscription = {
       categoryName: string,
       categoryLevel: number,
       inactive?: boolean | null,
+      attributeTypes?:  {
+        __typename: "ModelAttributeTypeConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
       lastUpdateTimestamp: string,
       createdAt: string,
       updatedAt: string,
@@ -6920,6 +6109,11 @@ export type OnUpdateCategoryPriceGuideSubscription = {
       categoryName: string,
       categoryLevel: number,
       inactive?: boolean | null,
+      attributeTypes?:  {
+        __typename: "ModelAttributeTypeConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
       lastUpdateTimestamp: string,
       createdAt: string,
       updatedAt: string,
@@ -6957,6 +6151,11 @@ export type OnDeleteCategoryPriceGuideSubscription = {
       categoryName: string,
       categoryLevel: number,
       inactive?: boolean | null,
+      attributeTypes?:  {
+        __typename: "ModelAttributeTypeConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
       lastUpdateTimestamp: string,
       createdAt: string,
       updatedAt: string,

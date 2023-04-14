@@ -876,88 +876,6 @@ export const schema = {
                 }
             ]
         },
-        "PriceGuide": {
-            "name": "PriceGuide",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "categoryPriceGuideId": {
-                    "name": "categoryPriceGuideId",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "category": {
-                    "name": "category",
-                    "isArray": false,
-                    "type": {
-                        "model": "Category"
-                    },
-                    "isRequired": true,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "HAS_ONE",
-                        "associatedWith": [
-                            "id"
-                        ],
-                        "targetNames": [
-                            "priceGuideCategoryId"
-                        ]
-                    }
-                },
-                "price": {
-                    "name": "price",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "priceLevel": {
-                    "name": "priceLevel",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                },
-                "updatedAt": {
-                    "name": "updatedAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                },
-                "priceGuideCategoryId": {
-                    "name": "priceGuideCategoryId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                }
-            },
-            "syncable": true,
-            "pluralName": "PriceGuides",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                }
-            ]
-        },
         "Brand": {
             "name": "Brand",
             "fields": {
@@ -1067,6 +985,22 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "attributeTypes": {
+                    "name": "attributeTypes",
+                    "isArray": true,
+                    "type": {
+                        "model": "AttributeType"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "categoryAttributeTypesId"
+                        ]
+                    }
+                },
                 "lastUpdateTimestamp": {
                     "name": "lastUpdateTimestamp",
                     "isArray": false,
@@ -1093,155 +1027,6 @@ export const schema = {
             },
             "syncable": true,
             "pluralName": "Categories",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                }
-            ]
-        },
-        "CategoryAttribute": {
-            "name": "CategoryAttribute",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "categoryAttributeId": {
-                    "name": "categoryAttributeId",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "category": {
-                    "name": "category",
-                    "isArray": false,
-                    "type": {
-                        "model": "Category"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "HAS_ONE",
-                        "associatedWith": [
-                            "id"
-                        ],
-                        "targetNames": [
-                            "categoryAttributeCategoryId"
-                        ]
-                    }
-                },
-                "attributeType": {
-                    "name": "attributeType",
-                    "isArray": false,
-                    "type": {
-                        "model": "AttributeType"
-                    },
-                    "isRequired": true,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "HAS_ONE",
-                        "associatedWith": [
-                            "id"
-                        ],
-                        "targetNames": [
-                            "categoryAttributeAttributeTypeId"
-                        ]
-                    }
-                },
-                "required": {
-                    "name": "required",
-                    "isArray": false,
-                    "type": "Boolean",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "categoryAttributeName": {
-                    "name": "categoryAttributeName",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "userDefinedIndicator": {
-                    "name": "userDefinedIndicator",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "active": {
-                    "name": "active",
-                    "isArray": false,
-                    "type": "Boolean",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "priority": {
-                    "name": "priority",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "lastUpdateTimestamp": {
-                    "name": "lastUpdateTimestamp",
-                    "isArray": false,
-                    "type": "AWSDate",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "titleIndicator": {
-                    "name": "titleIndicator",
-                    "isArray": false,
-                    "type": "Boolean",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "inactive": {
-                    "name": "inactive",
-                    "isArray": false,
-                    "type": "Boolean",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                },
-                "updatedAt": {
-                    "name": "updatedAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                },
-                "categoryAttributeCategoryId": {
-                    "name": "categoryAttributeCategoryId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "categoryAttributeAttributeTypeId": {
-                    "name": "categoryAttributeAttributeTypeId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                }
-            },
-            "syncable": true,
-            "pluralName": "CategoryAttributes",
             "attributes": [
                 {
                     "type": "model",
@@ -1302,6 +1087,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
+                },
+                "categoryAttributeTypesId": {
+                    "name": "categoryAttributeTypesId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -1310,6 +1102,15 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "gsi-Category.attributeTypes",
+                        "fields": [
+                            "categoryAttributeTypesId"
+                        ]
+                    }
                 }
             ]
         },
@@ -1511,5 +1312,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.0",
-    "version": "873fba9c378acfd09fc9d910d57bba98"
+    "version": "2eaf0455841053b113cdcc4afcb4a457"
 };

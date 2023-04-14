@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { Button, Stepper, Step, StepLabel, Typography } from '@mui/material';
 import NarrowBrand from './NarrowBrand';
 import SelectBrand from './SelectBrand';
-import { AttributeTypeValue, Brand, Category, CategoryAttribute, Item } from '../../models';
+import { AttributeType, AttributeTypeValue, Brand, Category, Item } from '../../models';
 import SelectCategory from './SelectCategory';
 import { DataStore } from 'aws-amplify';
 import SelectAttributes from './SelectAttributes';
@@ -17,7 +17,7 @@ const AddItem = () => {
     const [narrowBrand, setNarrowBrand] = useState<string>('');
     const [brand, setBrand] = useState<Brand>();
     const [category, setCategory] = useState<string>('');
-    const [categoryAttributes, setCategoryAttributes] = useState<CategoryAttribute[]>([]);
+    const [categoryAttributes, setCategoryAttributes] = useState<AttributeType[]>([]);
     const [categoryAttributeValues, setCategoryAttributeValues] = useState<AttributeTypeValue[]>([]);
     const [itemPrice, setItemPrice] = useState<string>('')
     const [atvId, setAtvId] = useState<string>('');
@@ -37,19 +37,16 @@ const AddItem = () => {
         const subCategories = await DataStore.query(Category, (c) => c.parent.eq(category));
 
         if (subCategories.length < 1) {
-            const fetchedCategoryAttributes = await DataStore.query(CategoryAttribute, (c) => c.categoryAttributeCategoryId.eq(category));
-            const firstCategoryAttribute = fetchedCategoryAttributes.shift();
-            setCategoryAttributes(fetchedCategoryAttributes);
+            const fetchedCategoryAttributeTypes = await DataStore.query(AttributeType, (c) => c.categoryAttributeTypesId.contains(subCategories[0].id));
+            const firstCategoryAttributeType = fetchedCategoryAttributeTypes.shift();
+            setCategoryAttributes(fetchedCategoryAttributeTypes);
 
-            if (firstCategoryAttribute) {
-                const categoryAttributeType = await firstCategoryAttribute.attributeType;
-                const attributeTypeValueId = categoryAttributeType.attributeTypeId;
-                setAtvId(attributeTypeValueId ?? '');
+            if (firstCategoryAttributeType) {
+                setAtvId(firstCategoryAttributeType.id);
             }
-            return;
+            
+            setActiveStep(3);
         }
-
-        setActiveStep(3);
     }
 
     const handleAttributeSelection = async (attributeValueId: string) => {
@@ -66,6 +63,7 @@ const AddItem = () => {
             const currentCategoryAttributes = categoryAttributes;
             const next = currentCategoryAttributes.shift();
             setCategoryAttributes(currentCategoryAttributes);
+            
             if (next){
                 setAtvId(next?.id);
             }
@@ -115,7 +113,7 @@ const AddItem = () => {
         },
         { 
             label: 'Confirm',
-            content: <ConfirmAddItem brand={brand} price={itemPrice} attributeValues={categoryAttributeValues} categoryId={category} confirm={addItemAndResetState} />
+            content: <ConfirmAddItem brand={brand} price={itemPrice} attributeValues={categoryAttributeValues} categoryId={category} confirm={addItemAndResetState}/>
         }
     ];
 

@@ -9,9 +9,10 @@ import ConfirmModal from '../../utils/ConfirmModal';
 import SearchIcon from '@mui/icons-material/Search';
 import { ProcessCsvButton } from '../Clients';
 import AddCategory from './AddCategory';
+import ViewCategoryAttributes from './ViewCategoryAttributes';
 
 const Categories = () => {
-    const [categories, setCategories] = useState<Category[]>([])
+    const [categories, setCategories] = useState<Category[]>([]);
     const [filterInactiveCategories, setFilterInactiveCategories] = useState(true);
     const [inactiveCategories, setInactiveCategories] = useState<String[]>([]);
     const [isDeletingCategory, setIsDeletingCategory] = useState(false);
@@ -20,6 +21,7 @@ const Categories = () => {
     const [activeCategoryId, setActiveCategoryId] = useState('');
     const [activeCategory, setActiveCategory] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
+    const [isViewingCategoryAttributes, setIsViewingCategoryAttributes] = useState(false);
 
     useEffect(() => {
         const getData = async () => {
@@ -104,12 +106,22 @@ const Categories = () => {
     const stopAddingCategory = () => {
         setIsAddingCategory(false);
     }
+
+    const startViewingCategoryAttributes = (categoryId: string) => {
+        setActiveCategory(categoryId);
+        setIsViewingCategoryAttributes(true);
+    }
+
+    const stopViewingCategoryAttributes = () => {
+        setActiveCategory('');
+        setIsViewingCategoryAttributes(false);
+    }
     
     const columns: GridColDef[] = [
         {field: 'categoryName', headerName: 'Category Name', width: 200},
         {field: 'lastUpdateTimestamp', headerName: 'Last Updated', width: 200},
         {field: 'categoryLevel', headerName: 'Category Level', width: 200},
-        {field: '', headerName: 'Mark inactive?', width: 300, renderCell: (params: GridRenderCellParams<String>) => {
+        {field: 'Active?', headerName: 'Mark inactive?', width: 300, renderCell: (params: GridRenderCellParams<String>) => {
             return (
                 <>
                     {inactiveCategories.includes(params.id.toString()) ?
@@ -124,6 +136,14 @@ const Categories = () => {
                 </>
             )
         }},
+        {field: 'View Attribute Types', headerName: 'View Attribute Types', width: 300, renderCell: (params: GridRenderCellParams<String>) => {
+            return (
+                <Button variant="contained" component="label" style={{backgroundColor: 'black', border: '1px solid white'}} onClick={() => startViewingCategoryAttributes(params.id.toString())}>
+                    View Attribute Types
+                </Button>
+            )
+        }},
+
     ];
 
     const rows = categories ?? [];
@@ -172,19 +192,25 @@ const Categories = () => {
                 open={isAddingCategory}
                 onClose={stopAddingCategory}
             >
-                <AddCategory close={stopAddingCategory}/>
+                <AddCategory close={stopAddingCategory} />
+            </Modal>
+            <Modal
+                open={isViewingCategoryAttributes}
+                onClose={stopViewingCategoryAttributes}
+            >
+                <ViewCategoryAttributes close={stopViewingCategoryAttributes} categoryId={activeCategory}/>
             </Modal>
             <Modal
                 open={isDeletingCategory}
                 onClose={stopDeletingCategory}
             >
-                <ConfirmModal close={stopDeletingCategory} validationText={`Are you sure you want to mark ${activeCategory} inactive?`} cancelText='Cancel' confirmText='Confirm' confirm={deleteCategory} cancel={stopDeletingCategory}/>
+                <ConfirmModal close={stopDeletingCategory} validationText={`Are you sure you want to mark ${activeCategory} inactive?`} cancelText='Cancel' confirmText='Confirm' confirm={deleteCategory} cancel={stopDeletingCategory} />
             </Modal>
             <Modal
                 open={isRevivingCategory}
                 onClose={stopRevivingCategory}
             >
-                <ConfirmModal close={stopRevivingCategory} validationText={`Are you sure you want to mark ${activeCategory} active?`} cancelText='Cancel' confirmText='Confirm' confirm={reviveCategory} cancel={stopRevivingCategory}/>
+                <ConfirmModal close={stopRevivingCategory} validationText={`Are you sure you want to mark ${activeCategory} active?`} cancelText='Cancel' confirmText='Confirm' confirm={reviveCategory} cancel={stopRevivingCategory} />
             </Modal>
             <Box paddingTop='2rem' paddingBottom='2rem' display='flex' flexDirection='row' width='100%' alignItems='center'>
                 <TextField InputProps={{
