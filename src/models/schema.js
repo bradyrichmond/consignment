@@ -985,11 +985,18 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "lastUpdateTimestamp": {
+                    "name": "lastUpdateTimestamp",
+                    "isArray": false,
+                    "type": "AWSDate",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "attributeTypes": {
                     "name": "attributeTypes",
                     "isArray": true,
                     "type": {
-                        "model": "AttributeType"
+                        "model": "CategoryAttribute"
                     },
                     "isRequired": false,
                     "attributes": [],
@@ -997,16 +1004,9 @@ export const schema = {
                     "association": {
                         "connectionType": "HAS_MANY",
                         "associatedWith": [
-                            "categoryAttributeTypesId"
+                            "category"
                         ]
                     }
-                },
-                "lastUpdateTimestamp": {
-                    "name": "lastUpdateTimestamp",
-                    "isArray": false,
-                    "type": "AWSDate",
-                    "isRequired": true,
-                    "attributes": []
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -1072,6 +1072,22 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "categories": {
+                    "name": "categories",
+                    "isArray": true,
+                    "type": {
+                        "model": "CategoryAttribute"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "attributeType"
+                        ]
+                    }
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -1087,13 +1103,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
-                },
-                "categoryAttributeTypesId": {
-                    "name": "categoryAttributeTypesId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
                 }
             },
             "syncable": true,
@@ -1102,15 +1111,6 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "gsi-Category.attributeTypes",
-                        "fields": [
-                            "categoryAttributeTypesId"
-                        ]
-                    }
                 }
             ]
         },
@@ -1298,6 +1298,104 @@ export const schema = {
                     "properties": {}
                 }
             ]
+        },
+        "CategoryAttribute": {
+            "name": "CategoryAttribute",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "categoryId": {
+                    "name": "categoryId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "attributeTypeId": {
+                    "name": "attributeTypeId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "category": {
+                    "name": "category",
+                    "isArray": false,
+                    "type": {
+                        "model": "Category"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "categoryId"
+                        ]
+                    }
+                },
+                "attributeType": {
+                    "name": "attributeType",
+                    "isArray": false,
+                    "type": {
+                        "model": "AttributeType"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "attributeTypeId"
+                        ]
+                    }
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "CategoryAttributes",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byCategory",
+                        "fields": [
+                            "categoryId"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byAttributeType",
+                        "fields": [
+                            "attributeTypeId"
+                        ]
+                    }
+                }
+            ]
         }
     },
     "enums": {
@@ -1312,5 +1410,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.0",
-    "version": "2eaf0455841053b113cdcc4afcb4a457"
+    "version": "2dd67a36a796aa0c5817be668f9198dc"
 };

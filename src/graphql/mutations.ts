@@ -299,11 +299,11 @@ export const createItem = /* GraphQL */ `
         categoryName
         categoryLevel
         inactive
+        lastUpdateTimestamp
         attributeTypes {
           nextToken
           startedAt
         }
-        lastUpdateTimestamp
         createdAt
         updatedAt
         _version
@@ -403,11 +403,11 @@ export const updateItem = /* GraphQL */ `
         categoryName
         categoryLevel
         inactive
+        lastUpdateTimestamp
         attributeTypes {
           nextToken
           startedAt
         }
-        lastUpdateTimestamp
         createdAt
         updatedAt
         _version
@@ -507,11 +507,11 @@ export const deleteItem = /* GraphQL */ `
         categoryName
         categoryLevel
         inactive
+        lastUpdateTimestamp
         attributeTypes {
           nextToken
           startedAt
         }
-        lastUpdateTimestamp
         createdAt
         updatedAt
         _version
@@ -1172,24 +1172,21 @@ export const createCategory = /* GraphQL */ `
       categoryName
       categoryLevel
       inactive
+      lastUpdateTimestamp
       attributeTypes {
         items {
           id
+          categoryId
           attributeTypeId
-          attributeTypeDescription
-          lastUpdateTimestamp
-          inactive
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
-          categoryAttributeTypesId
         }
         nextToken
         startedAt
       }
-      lastUpdateTimestamp
       createdAt
       updatedAt
       _version
@@ -1210,24 +1207,21 @@ export const updateCategory = /* GraphQL */ `
       categoryName
       categoryLevel
       inactive
+      lastUpdateTimestamp
       attributeTypes {
         items {
           id
+          categoryId
           attributeTypeId
-          attributeTypeDescription
-          lastUpdateTimestamp
-          inactive
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
-          categoryAttributeTypesId
         }
         nextToken
         startedAt
       }
-      lastUpdateTimestamp
       createdAt
       updatedAt
       _version
@@ -1248,24 +1242,21 @@ export const deleteCategory = /* GraphQL */ `
       categoryName
       categoryLevel
       inactive
+      lastUpdateTimestamp
       attributeTypes {
         items {
           id
+          categoryId
           attributeTypeId
-          attributeTypeDescription
-          lastUpdateTimestamp
-          inactive
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
-          categoryAttributeTypesId
         }
         nextToken
         startedAt
       }
-      lastUpdateTimestamp
       createdAt
       updatedAt
       _version
@@ -1285,12 +1276,25 @@ export const createAttributeType = /* GraphQL */ `
       attributeTypeDescription
       lastUpdateTimestamp
       inactive
+      categories {
+        items {
+          id
+          categoryId
+          attributeTypeId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      categoryAttributeTypesId
     }
   }
 `;
@@ -1305,12 +1309,25 @@ export const updateAttributeType = /* GraphQL */ `
       attributeTypeDescription
       lastUpdateTimestamp
       inactive
+      categories {
+        items {
+          id
+          categoryId
+          attributeTypeId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      categoryAttributeTypesId
     }
   }
 `;
@@ -1325,12 +1342,25 @@ export const deleteAttributeType = /* GraphQL */ `
       attributeTypeDescription
       lastUpdateTimestamp
       inactive
+      categories {
+        items {
+          id
+          categoryId
+          attributeTypeId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      categoryAttributeTypesId
     }
   }
 `;
@@ -1347,12 +1377,15 @@ export const createAttributeTypeValue = /* GraphQL */ `
         attributeTypeDescription
         lastUpdateTimestamp
         inactive
+        categories {
+          nextToken
+          startedAt
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        categoryAttributeTypesId
       }
       attributeTypeValueId
       attributeTypeValue
@@ -1380,12 +1413,15 @@ export const updateAttributeTypeValue = /* GraphQL */ `
         attributeTypeDescription
         lastUpdateTimestamp
         inactive
+        categories {
+          nextToken
+          startedAt
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        categoryAttributeTypesId
       }
       attributeTypeValueId
       attributeTypeValue
@@ -1413,12 +1449,15 @@ export const deleteAttributeTypeValue = /* GraphQL */ `
         attributeTypeDescription
         lastUpdateTimestamp
         inactive
+        categories {
+          nextToken
+          startedAt
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        categoryAttributeTypesId
       }
       attributeTypeValueId
       attributeTypeValue
@@ -1447,11 +1486,11 @@ export const createCategoryPriceGuide = /* GraphQL */ `
         categoryName
         categoryLevel
         inactive
+        lastUpdateTimestamp
         attributeTypes {
           nextToken
           startedAt
         }
-        lastUpdateTimestamp
         createdAt
         updatedAt
         _version
@@ -1486,11 +1525,11 @@ export const updateCategoryPriceGuide = /* GraphQL */ `
         categoryName
         categoryLevel
         inactive
+        lastUpdateTimestamp
         attributeTypes {
           nextToken
           startedAt
         }
-        lastUpdateTimestamp
         createdAt
         updatedAt
         _version
@@ -1525,11 +1564,11 @@ export const deleteCategoryPriceGuide = /* GraphQL */ `
         categoryName
         categoryLevel
         inactive
+        lastUpdateTimestamp
         attributeTypes {
           nextToken
           startedAt
         }
-        lastUpdateTimestamp
         createdAt
         updatedAt
         _version
@@ -1547,6 +1586,159 @@ export const deleteCategoryPriceGuide = /* GraphQL */ `
       _deleted
       _lastChangedAt
       categoryPriceGuideCategoryId
+    }
+  }
+`;
+export const createCategoryAttribute = /* GraphQL */ `
+  mutation CreateCategoryAttribute(
+    $input: CreateCategoryAttributeInput!
+    $condition: ModelCategoryAttributeConditionInput
+  ) {
+    createCategoryAttribute(input: $input, condition: $condition) {
+      id
+      categoryId
+      attributeTypeId
+      category {
+        id
+        parent
+        categoryId
+        categoryName
+        categoryLevel
+        inactive
+        lastUpdateTimestamp
+        attributeTypes {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      attributeType {
+        id
+        attributeTypeId
+        attributeTypeDescription
+        lastUpdateTimestamp
+        inactive
+        categories {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateCategoryAttribute = /* GraphQL */ `
+  mutation UpdateCategoryAttribute(
+    $input: UpdateCategoryAttributeInput!
+    $condition: ModelCategoryAttributeConditionInput
+  ) {
+    updateCategoryAttribute(input: $input, condition: $condition) {
+      id
+      categoryId
+      attributeTypeId
+      category {
+        id
+        parent
+        categoryId
+        categoryName
+        categoryLevel
+        inactive
+        lastUpdateTimestamp
+        attributeTypes {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      attributeType {
+        id
+        attributeTypeId
+        attributeTypeDescription
+        lastUpdateTimestamp
+        inactive
+        categories {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteCategoryAttribute = /* GraphQL */ `
+  mutation DeleteCategoryAttribute(
+    $input: DeleteCategoryAttributeInput!
+    $condition: ModelCategoryAttributeConditionInput
+  ) {
+    deleteCategoryAttribute(input: $input, condition: $condition) {
+      id
+      categoryId
+      attributeTypeId
+      category {
+        id
+        parent
+        categoryId
+        categoryName
+        categoryLevel
+        inactive
+        lastUpdateTimestamp
+        attributeTypes {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      attributeType {
+        id
+        attributeTypeId
+        attributeTypeDescription
+        lastUpdateTimestamp
+        inactive
+        categories {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;

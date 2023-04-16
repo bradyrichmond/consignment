@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { Button, Stepper, Step, StepLabel, Typography } from '@mui/material';
 import NarrowBrand from './NarrowBrand';
 import SelectBrand from './SelectBrand';
-import { AttributeType, AttributeTypeValue, Brand, Category, Item } from '../../models';
+import { AttributeType, AttributeTypeValue, Brand, Category, CategoryAttribute, Item } from '../../models';
 import SelectCategory from './SelectCategory';
 import { DataStore } from 'aws-amplify';
 import SelectAttributes from './SelectAttributes';
@@ -37,9 +37,10 @@ const AddItem = () => {
         const subCategories = await DataStore.query(Category, (c) => c.parent.eq(category));
 
         if (subCategories.length < 1) {
-            const fetchedCategoryAttributeTypes = await DataStore.query(AttributeType, (c) => c.categoryAttributeTypesId.contains(subCategories[0].id));
-            const firstCategoryAttributeType = fetchedCategoryAttributeTypes.shift();
-            setCategoryAttributes(fetchedCategoryAttributeTypes);
+            const fetchedCategoryAttributes: CategoryAttribute[] = await DataStore.query(CategoryAttribute, (cat) => cat.categoryId.eq(subCategories[0].id));
+            const categoryAttributeTypes = await Promise.all(fetchedCategoryAttributes.map(async (cat) => cat.attributeType));
+            const firstCategoryAttributeType = categoryAttributeTypes.shift();
+            setCategoryAttributes(categoryAttributeTypes);
 
             if (firstCategoryAttributeType) {
                 setAtvId(firstCategoryAttributeType.id);

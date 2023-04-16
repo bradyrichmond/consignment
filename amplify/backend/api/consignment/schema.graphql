@@ -121,8 +121,8 @@ type Category @model {
   categoryName: String!
   categoryLevel: Int!
   inactive: Boolean
-  attributeTypes: [AttributeType] @hasMany
   lastUpdateTimestamp: AWSDate!
+  attributeTypes: [AttributeType] @manyToMany(relationName: "CategoryAttribute")
 }
 
 type AttributeType @model {
@@ -131,6 +131,7 @@ type AttributeType @model {
   attributeTypeDescription: String!
   lastUpdateTimestamp: AWSDate!
   inactive: Boolean
+  categories: [Category] @manyToMany(relationName: "CategoryAttribute")
 }
 
 type AttributeTypeValue @model {

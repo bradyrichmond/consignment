@@ -4,7 +4,7 @@ import ModalContainer from '../../utils/ModalContainer';
 import { Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { DataStore } from 'aws-amplify';
-import { AttributeType, Category } from '../../models';
+import { AttributeType, Category, CategoryAttribute } from '../../models';
 
 interface AttachAttributeProps {
     close: () => void
@@ -31,17 +31,12 @@ const AttachAttribute = (props: AttachAttributeProps) => {
     }, [])
 
     const handleAttachAttribute = async (data: any) => {
-        const original = await DataStore.query(Category, selectedAttribute);
-        const categoryAttributes = await original?.attributeTypes.toArray() ?? [];
-        const attribute = await DataStore.query(AttributeType, selectedAttribute);
+        const attributeType = await DataStore.query(AttributeType, selectedAttribute);
 
-        if (attribute) {
-            categoryAttributes.push(attribute)
-        }
-
-        if (original) {
-            await DataStore.save(Category.copyOf(original, (updated) => {
-                updated.attributeTypes = categoryAttributes;
+        if (attributeType && category) {
+            await DataStore.save(new CategoryAttribute({
+                category,
+                attributeType
             }))
         }
         

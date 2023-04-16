@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/system';
 import ModalContainer from '../../utils/ModalContainer';
 import { Button, Typography } from '@mui/material';
-import { AttributeType, AttributeTypeValue, Category } from '../../models';
+import { AttributeType, Category, CategoryAttribute } from '../../models';
 import { DataStore } from 'aws-amplify';
 
 interface ViewCategoryAttributesProps {
@@ -17,10 +17,13 @@ const ViewCategoryAttributes = (props: ViewCategoryAttributesProps) => {
 
     useEffect(() => {
         const getData = async () => {
-            const fetchedCategoryAttributeTypes = await DataStore.query(AttributeType, (at) => at.categoryAttributeTypesId.contains(categoryId));
-            setCategoryAttributeTypes(fetchedCategoryAttributeTypes);
             const fetchedCategory = await DataStore.query(Category, categoryId);
             setCategory(fetchedCategory);
+            const fetchedCategoryAttributes = await fetchedCategory?.attributeTypes.toArray();
+            if (fetchedCategoryAttributes) {
+                const fetchedAttributeTypes = await Promise.all(fetchedCategoryAttributes.map(async (cat) => await cat.attributeType));
+                setCategoryAttributeTypes(fetchedAttributeTypes);
+            }
         }
 
         getData();

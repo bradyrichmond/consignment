@@ -15,7 +15,7 @@ const NarrowBrand = (props: NarrowBrandProps) => {
         <Box display='flex' flexWrap='wrap' alignItems='center' justifyContent='flexStart' height='100%'>
             {labels.map((label) => {
                 return (
-                    <Box flex='1' margin='1rem' minWidth='30%' maxWidth='30%'>
+                    <Box flex='1' margin='1rem' minWidth='30%' maxWidth='30%' key={label}>
                         <Button onClick={() => onButtonClick(label)} sx={{color: 'white', border: '1px solid white', borderRadius: '.25rem', fontSize: '3rem', width: '100%' }}>{label}</Button>
                     </Box>
                 )

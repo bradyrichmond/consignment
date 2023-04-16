@@ -197,11 +197,11 @@ export const getItem = /* GraphQL */ `
         categoryName
         categoryLevel
         inactive
+        lastUpdateTimestamp
         attributeTypes {
           nextToken
           startedAt
         }
-        lastUpdateTimestamp
         createdAt
         updatedAt
         _version
@@ -1048,24 +1048,21 @@ export const getCategory = /* GraphQL */ `
       categoryName
       categoryLevel
       inactive
+      lastUpdateTimestamp
       attributeTypes {
         items {
           id
+          categoryId
           attributeTypeId
-          attributeTypeDescription
-          lastUpdateTimestamp
-          inactive
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
-          categoryAttributeTypesId
         }
         nextToken
         startedAt
       }
-      lastUpdateTimestamp
       createdAt
       updatedAt
       _version
@@ -1088,11 +1085,11 @@ export const listCategories = /* GraphQL */ `
         categoryName
         categoryLevel
         inactive
+        lastUpdateTimestamp
         attributeTypes {
           nextToken
           startedAt
         }
-        lastUpdateTimestamp
         createdAt
         updatedAt
         _version
@@ -1124,11 +1121,11 @@ export const syncCategories = /* GraphQL */ `
         categoryName
         categoryLevel
         inactive
+        lastUpdateTimestamp
         attributeTypes {
           nextToken
           startedAt
         }
-        lastUpdateTimestamp
         createdAt
         updatedAt
         _version
@@ -1148,12 +1145,25 @@ export const getAttributeType = /* GraphQL */ `
       attributeTypeDescription
       lastUpdateTimestamp
       inactive
+      categories {
+        items {
+          id
+          categoryId
+          attributeTypeId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      categoryAttributeTypesId
     }
   }
 `;
@@ -1170,12 +1180,15 @@ export const listAttributeTypes = /* GraphQL */ `
         attributeTypeDescription
         lastUpdateTimestamp
         inactive
+        categories {
+          nextToken
+          startedAt
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        categoryAttributeTypesId
       }
       nextToken
       startedAt
@@ -1201,12 +1214,15 @@ export const syncAttributeTypes = /* GraphQL */ `
         attributeTypeDescription
         lastUpdateTimestamp
         inactive
+        categories {
+          nextToken
+          startedAt
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        categoryAttributeTypesId
       }
       nextToken
       startedAt
@@ -1223,12 +1239,15 @@ export const getAttributeTypeValue = /* GraphQL */ `
         attributeTypeDescription
         lastUpdateTimestamp
         inactive
+        categories {
+          nextToken
+          startedAt
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        categoryAttributeTypesId
       }
       attributeTypeValueId
       attributeTypeValue
@@ -1267,7 +1286,6 @@ export const listAttributeTypeValues = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
-          categoryAttributeTypesId
         }
         attributeTypeValueId
         attributeTypeValue
@@ -1311,7 +1329,6 @@ export const syncAttributeTypeValues = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
-          categoryAttributeTypesId
         }
         attributeTypeValueId
         attributeTypeValue
@@ -1340,11 +1357,11 @@ export const getCategoryPriceGuide = /* GraphQL */ `
         categoryName
         categoryLevel
         inactive
+        lastUpdateTimestamp
         attributeTypes {
           nextToken
           startedAt
         }
-        lastUpdateTimestamp
         createdAt
         updatedAt
         _version
@@ -1449,6 +1466,272 @@ export const syncCategoryPriceGuides = /* GraphQL */ `
         _deleted
         _lastChangedAt
         categoryPriceGuideCategoryId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getCategoryAttribute = /* GraphQL */ `
+  query GetCategoryAttribute($id: ID!) {
+    getCategoryAttribute(id: $id) {
+      id
+      categoryId
+      attributeTypeId
+      category {
+        id
+        parent
+        categoryId
+        categoryName
+        categoryLevel
+        inactive
+        lastUpdateTimestamp
+        attributeTypes {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      attributeType {
+        id
+        attributeTypeId
+        attributeTypeDescription
+        lastUpdateTimestamp
+        inactive
+        categories {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listCategoryAttributes = /* GraphQL */ `
+  query ListCategoryAttributes(
+    $filter: ModelCategoryAttributeFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listCategoryAttributes(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        categoryId
+        attributeTypeId
+        category {
+          id
+          parent
+          categoryId
+          categoryName
+          categoryLevel
+          inactive
+          lastUpdateTimestamp
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        attributeType {
+          id
+          attributeTypeId
+          attributeTypeDescription
+          lastUpdateTimestamp
+          inactive
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncCategoryAttributes = /* GraphQL */ `
+  query SyncCategoryAttributes(
+    $filter: ModelCategoryAttributeFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncCategoryAttributes(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        categoryId
+        attributeTypeId
+        category {
+          id
+          parent
+          categoryId
+          categoryName
+          categoryLevel
+          inactive
+          lastUpdateTimestamp
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        attributeType {
+          id
+          attributeTypeId
+          attributeTypeDescription
+          lastUpdateTimestamp
+          inactive
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const categoryAttributesByCategoryId = /* GraphQL */ `
+  query CategoryAttributesByCategoryId(
+    $categoryId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelCategoryAttributeFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    categoryAttributesByCategoryId(
+      categoryId: $categoryId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        categoryId
+        attributeTypeId
+        category {
+          id
+          parent
+          categoryId
+          categoryName
+          categoryLevel
+          inactive
+          lastUpdateTimestamp
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        attributeType {
+          id
+          attributeTypeId
+          attributeTypeDescription
+          lastUpdateTimestamp
+          inactive
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const categoryAttributesByAttributeTypeId = /* GraphQL */ `
+  query CategoryAttributesByAttributeTypeId(
+    $attributeTypeId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelCategoryAttributeFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    categoryAttributesByAttributeTypeId(
+      attributeTypeId: $attributeTypeId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        categoryId
+        attributeTypeId
+        category {
+          id
+          parent
+          categoryId
+          categoryName
+          categoryLevel
+          inactive
+          lastUpdateTimestamp
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        attributeType {
+          id
+          attributeTypeId
+          attributeTypeDescription
+          lastUpdateTimestamp
+          inactive
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
       startedAt

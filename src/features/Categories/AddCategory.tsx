@@ -28,9 +28,12 @@ const AddCategory = (props: AddCategoryProps) => {
 
     const handleAddCategory = async (data: any) => {
         const { categoryName, parent } = data;
+        let categoryLevel = 1;
 
-        const parentCategory = await DataStore.query(Category, parent);
-        const categoryLevel = parentCategory?.categoryLevel ? parentCategory?.categoryLevel + 1 : 1;
+        if (parent && parent !== 'None') {
+            const parentCategory = await DataStore.query(Category, parent);
+            categoryLevel = parentCategory?.categoryLevel ?? 1;
+        }
 
         await DataStore.save(new Category({ categoryName, categoryLevel, parent, inactive: false, lastUpdateTimestamp: format(Date.now(), 'yyyy-MM-dd') }));
         close();

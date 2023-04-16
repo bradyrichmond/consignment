@@ -10,6 +10,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { ProcessCsvButton } from '../Clients';
 import AddCategory from './AddCategory';
 import ViewCategoryAttributes from './ViewCategoryAttributes';
+import AttachAttribute from './AttachAttribute';
 
 const Categories = () => {
     const [categories, setCategories] = useState<Category[]>([]);
@@ -22,6 +23,7 @@ const Categories = () => {
     const [activeCategory, setActiveCategory] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [isViewingCategoryAttributes, setIsViewingCategoryAttributes] = useState(false);
+    const [isAttachingCategoryAttributes, setIsAttachingCategoryAttributes] = useState(false);
 
     useEffect(() => {
         const getData = async () => {
@@ -116,6 +118,16 @@ const Categories = () => {
         setActiveCategory('');
         setIsViewingCategoryAttributes(false);
     }
+
+    const startAttachingCategoryAttributes = (categoryId: string) => {
+        setActiveCategory(categoryId);
+        setIsAttachingCategoryAttributes(true);
+    }
+
+    const stopAttachingCategoryAttributes = () => {
+        setActiveCategory('');
+        setIsAttachingCategoryAttributes(false);
+    }
     
     const columns: GridColDef[] = [
         {field: 'categoryName', headerName: 'Category Name', width: 200},
@@ -136,6 +148,13 @@ const Categories = () => {
                 </>
             )
         }},
+        {field: 'Attach Attribute Types', headerName: 'Attach Attribute Types', width: 300, renderCell: (params: GridRenderCellParams<String>) => {
+            return (
+                <Button variant="contained" component="label" style={{backgroundColor: 'black', border: '1px solid white'}} onClick={() => startAttachingCategoryAttributes(params.id.toString())}>
+                    Attach Attribute Types
+                </Button>
+            )
+        }},
         {field: 'View Attribute Types', headerName: 'View Attribute Types', width: 300, renderCell: (params: GridRenderCellParams<String>) => {
             return (
                 <Button variant="contained" component="label" style={{backgroundColor: 'black', border: '1px solid white'}} onClick={() => startViewingCategoryAttributes(params.id.toString())}>
@@ -143,7 +162,6 @@ const Categories = () => {
                 </Button>
             )
         }},
-
     ];
 
     const rows = categories ?? [];
@@ -193,6 +211,12 @@ const Categories = () => {
                 onClose={stopAddingCategory}
             >
                 <AddCategory close={stopAddingCategory} />
+            </Modal>
+            <Modal
+                open={isAttachingCategoryAttributes}
+                onClose={stopAttachingCategoryAttributes}
+            >
+                <AttachAttribute close={stopAttachingCategoryAttributes} categoryId={activeCategory}/>
             </Modal>
             <Modal
                 open={isViewingCategoryAttributes}
