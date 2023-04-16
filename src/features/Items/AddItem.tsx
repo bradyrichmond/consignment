@@ -37,7 +37,7 @@ const AddItem = () => {
         const subCategories = await DataStore.query(Category, (c) => c.parent.eq(category));
 
         if (subCategories.length < 1) {
-            const fetchedCategoryAttributes: CategoryAttribute[] = await DataStore.query(CategoryAttribute, (cat) => cat.categoryId.eq(subCategories[0].id));
+            const fetchedCategoryAttributes: CategoryAttribute[] = await DataStore.query(CategoryAttribute, (cat) => cat.categoryId.eq(category));
             const categoryAttributeTypes = await Promise.all(fetchedCategoryAttributes.map(async (cat) => cat.attributeType));
             const firstCategoryAttributeType = categoryAttributeTypes.shift();
             setCategoryAttributes(categoryAttributeTypes);
@@ -80,16 +80,16 @@ const AddItem = () => {
     }
 
     const addItemAndResetState = async () => {
-        await DataStore.save(new Item({ itemCategoryId: category, clientItemsId: id, itemBrandId: brand?.id, price: itemPrice, statusId: '1', userId: '1', itemName: '' }))
+        await DataStore.save(new Item({ itemCategoryId: category, clientItemsId: id, itemBrandId: brand?.id, price: itemPrice, statusId: '1', userId: '1', itemName: '' }));
+        setActiveStep(0);
+        setNarrowBrand('');
+        setBrand(undefined);
+        setCategory('');
+        setCategoryAttributes([]);
+        setCategoryAttributeValues([]);
+        setItemPrice('');
+        setAtvId('');
     }
-
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    };
-    
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
 
     const steps = [
         {
@@ -139,15 +139,6 @@ const AddItem = () => {
                     {
                         steps[activeStep].content
                     }
-                </Box>
-                <Box sx={{ display: 'flex', flexDirection: 'row', mt: '2rem', pt: '2rem', borderTop: '1px solid white' }}>
-                    <Button variant='outlined' onClick={handleBack} sx={{color: 'white', border: '1px solid white', borderRadius: '.25rem', fontSize: '3rem' }}>
-                        Back
-                    </Button>
-                    <Box sx={{ flex: '1 1 auto' }} />
-                    <Button variant='outlined' onClick={handleNext} sx={{color: 'white', border: '1px solid white', borderRadius: '.25rem', fontSize: '3rem' }}>
-                        Next
-                    </Button>
                 </Box>
             </Box>
         </Box>

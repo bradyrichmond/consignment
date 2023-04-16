@@ -15,7 +15,7 @@ const SelectAttributes = (props: SelectAttributesProps) => {
 
     useEffect(() => {
         const getAttributeTypeValue = async () => {
-            const fetchedAttributeTypeValues = await DataStore.query(AttributeTypeValue, (a) => a.attributeTypeValueId.eq(atvId));
+            const fetchedAttributeTypeValues = await DataStore.query(AttributeTypeValue, (a) => a.attributeTypeValueAttributeTypeId.eq(atvId));
             setAttributeTypeValues(fetchedAttributeTypeValues);
         }
 
@@ -23,9 +23,9 @@ const SelectAttributes = (props: SelectAttributesProps) => {
     }, [atvId])
 
     return (
-        <Box>
+        <Box paddingTop='2rem'>
             {attributeTypeValues.length > 0 &&
-                attributeTypeValues.map((atv) => <Button variant='outlined' onClick={() => { onButtonClick(atv.id) }}>{atv.attributeTypeValue}</Button>)
+                attributeTypeValues.map((atv) => <Button variant='outlined' onClick={() => { onButtonClick(atv.id) }} sx={{ color: 'white', border: '1px solid white', borderRadius: '.25rem', margin: '1rem', fontSize:'3rem' }}>{atv.attributeTypeValue}</Button>)
             }
         </Box>
     )

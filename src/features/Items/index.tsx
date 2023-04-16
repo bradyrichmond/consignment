@@ -3,7 +3,7 @@ import { Box, InputAdornment, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { ProcessCsvButton } from '../Clients';
 import { DataGrid, GridColDef, GridEventListener } from '@mui/x-data-grid';
-import { DataStore } from 'aws-amplify';
+import { DataStore, Predicates } from 'aws-amplify';
 import { Brand, Category, Client, Item, Location } from '../../models';
 import { DrawerContext } from '../../App';
 
@@ -12,11 +12,28 @@ const Items = () => {
     const { setDrawerItemId, setDrawerContent } = useContext(DrawerContext);
     const [searchTerm, setSearchTerm] = useState('');
     const [items, setItems] = useState<Item[]>([]);
+    const [dataLoaded, setDataLoaded] = useState(false);
 
     useEffect(() => {
-        const getData = setTimeout(searchChange, 250);
-        
-        return () => clearTimeout(getData)
+        const getData = async () => {
+            const fetchedItems = await DataStore.query(Item, Predicates.ALL, {
+                page: 0,
+                limit: 100
+            });
+
+            setItems(fetchedItems);
+            setDataLoaded(true);
+        }
+
+        getData();
+    }, [])
+
+    useEffect(() => {
+        if (dataLoaded) {
+            const getData = setTimeout(searchChange, 250);
+            
+            return () => clearTimeout(getData)
+        }
     }, [searchTerm])
 
     const onSearchChange = (e:ChangeEvent<HTMLInputElement>) => {
@@ -150,8 +167,7 @@ const Items = () => {
     };
 
     const columns: GridColDef[] = [
-        {field: 'itemId', headerName: 'Item Id', width: 200, editable: true},
-        {field: 'description', headerName: 'Description', width: 400, editable: true},
+        {field: 'itemName', headerName: 'Item Name', width: 400, editable: true},
         {field: 'price', headerName: 'Price', width: 200, editable: true},
         {field: 'upcCode', headerName: 'UPC', width: 200, editable: true},
         {field: 'clientItemsId', headerName: 'client id', width: 400, editable: true},
