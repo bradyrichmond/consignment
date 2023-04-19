@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Box } from '@mui/system';
 import { useParams } from 'react-router-dom';
-import { Button, Stepper, Step, StepLabel, Typography } from '@mui/material';
+import { Stepper, Step, StepLabel, Typography } from '@mui/material';
+import QRCode from "react-qr-code";
 import NarrowBrand from './NarrowBrand';
 import SelectBrand from './SelectBrand';
 import { AttributeType, AttributeTypeValue, Brand, Category, CategoryAttribute, Item } from '../../models';
@@ -80,7 +81,8 @@ const AddItem = () => {
     }
 
     const addItemAndResetState = async () => {
-        await DataStore.save(new Item({ itemCategoryId: category, clientItemsId: id, itemBrandId: brand?.id, price: itemPrice, statusId: '1', userId: '1', itemName: '' }));
+        const fetchedCategory = await DataStore.query(Category, category);
+        await DataStore.save(new Item({ itemCategoryId: category, clientItemsId: id, itemBrandId: brand?.id, price: itemPrice, statusId: '1', userId: '1', itemName: `${brand?.description} ${fetchedCategory?.categoryName}` }));
         setActiveStep(0);
         setNarrowBrand('');
         setBrand(undefined);
@@ -114,7 +116,7 @@ const AddItem = () => {
         },
         { 
             label: 'Confirm',
-            content: <ConfirmAddItem brand={brand} price={itemPrice} attributeValues={categoryAttributeValues} categoryId={category} confirm={addItemAndResetState}/>
+            content: <ConfirmAddItem brand={brand} price={itemPrice} attributeValues={categoryAttributeValues} categoryId={category} confirm={addItemAndResetState} />
         }
     ];
 
