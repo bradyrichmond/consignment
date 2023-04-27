@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "paths": {
+    "/create-payment-intent": {
+      "name": "/create-payment-intent",
+      "lambdaFunction": "stripeCreatePaymentIntent",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/stripe-connection-token": {
+      "name": "/stripe-connection-token",
+      "lambdaFunction": "stripeGetConnectionToken",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

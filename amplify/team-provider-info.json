@@ -13,10 +13,24 @@
     },
     "categories": {
       "api": {
-        "consignment": {}
+        "consignment": {},
+        "stripeApi": {}
       },
       "auth": {
         "consignment073a19ba": {}
+      },
+      "function": {
+        "stripeCreatePaymentIntent": {
+          "secretsPathAmplifyAppId": "d1ab102njyu249",
+          "deploymentBucketName": "amplify-consignment-dev-183237-deployment",
+          "s3Key": "amplify-builds/stripeCreatePaymentIntent-794f4f6870766b722b55-build.zip"
+        },
+        "stripeGetConnectionTokens": {},
+        "stripeGetConnectionToken": {
+          "secretsPathAmplifyAppId": "d1ab102njyu249",
+          "deploymentBucketName": "amplify-consignment-dev-183237-deployment",
+          "s3Key": "amplify-builds/stripeGetConnectionToken-333478613933534b6c57-build.zip"
+        }
       }
     }
   }
