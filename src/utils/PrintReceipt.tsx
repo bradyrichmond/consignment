@@ -15,13 +15,13 @@ export const generateReceipt = (items: Item[], transactionId: string, address1: 
 
     output += generateTransactionQrCode(transactionId);
     lineNumber += 2;
-    output += generateInfoLine('Subtotal', formatter.format(subtotal).toString(), lineNumber);
+    output += generateInfoLine('Subtotal', currencyFormatter.format(subtotal).toString(), lineNumber);
     lineNumber++;
-    output += generateInfoLine('Tax', formatter.format((subtotal * .1)).toString(), lineNumber);
+    output += generateInfoLine('Tax', currencyFormatter.format((subtotal * .1)).toString(), lineNumber);
     lineNumber++;
-    output += generateInfoLine('Total', formatter.format((subtotal * 1.1)).toString(), lineNumber);
+    output += generateInfoLine('Total', currencyFormatter.format((subtotal * 1.1)).toString(), lineNumber);
     lineNumber++;
-    output += generateInfoLine('Credit', formatter.format((subtotal * 1.1)).toString(), lineNumber);
+    output += generateInfoLine('Credit', currencyFormatter.format((subtotal * 1.1)).toString(), lineNumber);
     lineNumber += 2;
     output += generateReturnPolicy(lineNumber);
     lineNumber += 2
@@ -39,7 +39,7 @@ const generateTransactionQrCode = (transactionId: string) => {
 
 const generateLineItem = (item: Item, lineNumber: number) => {
     const { itemName, price } = item;
-    return `^FO50,${lineNumber*50}^FD${itemName}^FS^FO500,${lineNumber*50}^FD${formatter.format(parseFloat(price))}^FS`;
+    return `^FO50,${lineNumber*50}^FD${itemName}^FS^FO500,${lineNumber*50}^FD${currencyFormatter.format(parseFloat(price))}^FS`;
 }
 
 const generateInfoLine = (label: string, amount: string, lineNumber: number) => {
@@ -53,8 +53,7 @@ const generateReturnPolicy = (lineNumber: number) => {
 const generateWebsite = (lineNumber: number) => {
     return `^FO50,${lineNumber*50}^FDhttps://www.smallthreadsforkids.com^FS`;
 }
-
-const formatter = new Intl.NumberFormat('en-US', {
+export const currencyFormatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD'
   });

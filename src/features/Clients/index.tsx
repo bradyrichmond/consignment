@@ -9,7 +9,7 @@ import AddClient from './AddClient';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 
-const toTitleCase = (str: string) => {
+export const toTitleCase = (str: string) => {
     if (str.length > 0){
         return `${str[0].toUpperCase()}${str.substring(1)}`;
     }
