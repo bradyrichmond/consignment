@@ -33,6 +33,14 @@
           ],
           "category": "function",
           "resourceName": "stripeGetConnectionToken"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "stripeGetCardReaderList"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -72,6 +80,12 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "stripeGetCardReaderList": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "stripeGetConnectionToken": {
       "build": true,
       "dependsOn": [],
@@ -101,6 +115,30 @@
         {
           "category": "function",
           "resourceName": "stripeCreatePaymentIntent"
+        }
+      ]
+    },
+    "AMPLIFY_function_stripeGetCardReaderList_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "stripeGetCardReaderList"
+        }
+      ]
+    },
+    "AMPLIFY_function_stripeGetCardReaderList_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "stripeGetCardReaderList"
+        }
+      ]
+    },
+    "AMPLIFY_function_stripeGetCardReaderList_secretsPathAmplifyAppId": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "stripeGetCardReaderList"
         }
       ]
     },
