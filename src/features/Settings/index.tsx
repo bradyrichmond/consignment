@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import * as JSPM from "jsprintmanager";
 import { useForm } from 'react-hook-form';
 import { generateReceipt } from '../../utils/PrintReceipt';
 import { DataStore } from 'aws-amplify';
 import { Item } from '../../models';
+import PrinterSelector from './PrinterSelector';
+import CardReaderSelector from './CardReaderSelector';
 
 const Settings = () => {
     const [printers, setPrinters] = useState<any>([]);
+    const [storedCardReaderId, setStoredCardReaderId] = useState('');
     const [socketStatus, setsocketStatus] = useState<JSPM.WSStatus>(JSPM.WSStatus.WaitingForUserResponse);
+    const { register, handleSubmit } = useForm();
 
     useEffect(() => {
         JSPM.JSPrintManager.auto_reconnect = true;
         JSPM.JSPrintManager.start();
 
         setTimeout(() => { setsocketStatus(JSPM.JSPrintManager.websocket_status); }, 3000);
+        setStoredCardReaderId(localStorage.getItem('cardReaderId') ?? '');
     }, [])
     
     useEffect(() => {
@@ -45,6 +50,10 @@ const Settings = () => {
         }
     }
 
+    const handleSetCardReaderId = (data: any) => {
+        localStorage.setItem('cardReaderId', data.cardReaderId);
+    }
+
     return (
         <Box padding='2rem'>
             <Box>
@@ -53,60 +62,11 @@ const Settings = () => {
                 <PrinterSelector label='Receipt Printer' lsKey='receiptPrinter' printerNames={printers} onPrinterChange={setPrinter} testPrint={testPrint} />
                 <PrinterSelector label='Tag Printer' lsKey='tagPrinter' printerNames={printers} onPrinterChange={setPrinter} testPrint={testPrint} />
             </Box>
-        </Box>
-    )
-}
-
-interface PrinterSelectorProps {
-    label: string
-    onPrinterChange: (printerName: string, lsKey: string) => void
-    printerNames: string[]
-    lsKey: string
-    testPrint: (printerName: string) => void
-}
-
-const PrinterSelector = (props: PrinterSelectorProps) => {
-    const { printerNames, onPrinterChange, label, lsKey, testPrint } = props;
-    const [selectedPrinter, setSelectedPrinter] = useState('')
-    const { handleSubmit, register } = useForm();
-
-    const handlePrinterChange = async (data: any) => {
-        onPrinterChange(selectedPrinter, lsKey);
-    }
-
-    const handleTestPrint = () => {
-        testPrint(selectedPrinter);
-    }
-    
-    return (
-        <form onSubmit={handleSubmit(handlePrinterChange)}>
-            <Box display='flex' flexDirection='column' bgcolor='white' padding='2rem' borderRadius='1rem' marginTop='2rem'>
-                <Box marginTop='1rem'>
-                    <FormControl fullWidth>
-                        <InputLabel>{label}</InputLabel>
-                        <Select
-                            label={label}
-                            {...register('selectPrinter')}
-                            value={selectedPrinter}
-                            onChange={(e) => setSelectedPrinter(e.target.value)}
-                        >
-                            <MenuItem value='None'>None</MenuItem>
-                            {printerNames && 
-                                printerNames.map((pn) => <MenuItem value={pn} key={pn}>{pn}</MenuItem>)
-                            }
-                        </Select>
-                    </FormControl>
-                </Box>
-                <Box display='flex' flexDirection='row'>
-                    <Box flex='1' marginRight='2rem'>
-                        <Button type='submit' variant='outlined' sx={{ color: 'black', border: '1px solid black', borderRadius: '.25rem', marginTop: '2rem', width: '100%' }}>Select {label}</Button>
-                    </Box>
-                    <Box>
-                        <Button onClick={handleTestPrint} variant='outlined' sx={{ color: 'black', border: '1px solid black', borderRadius: '.25rem', marginTop: '2rem' }}>Print Test</Button>
-                    </Box>
-                </Box>
+            <Box marginTop='2rem'>
+                <Typography>Card Reader</Typography>
+                <CardReaderSelector cardReaderIds={[]} onCardReaderChange={handleSetCardReaderId} />
             </Box>
-        </form>
+        </Box>
     )
 }
 
