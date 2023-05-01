@@ -3,23 +3,30 @@ import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typo
 import * as JSPM from "jsprintmanager";
 import { useForm } from 'react-hook-form';
 import { generateReceipt } from '../../utils/PrintReceipt';
-import { DataStore } from 'aws-amplify';
+import { API, DataStore } from 'aws-amplify';
 import { Item } from '../../models';
 import PrinterSelector from './PrinterSelector';
 import CardReaderSelector from './CardReaderSelector';
 
 const Settings = () => {
     const [printers, setPrinters] = useState<any>([]);
+    const [cardReaderOptions, setCardReaderOptions] = useState([])
     const [storedCardReaderId, setStoredCardReaderId] = useState('');
     const [socketStatus, setsocketStatus] = useState<JSPM.WSStatus>(JSPM.WSStatus.WaitingForUserResponse);
-    const { register, handleSubmit } = useForm();
 
     useEffect(() => {
         JSPM.JSPrintManager.auto_reconnect = true;
         JSPM.JSPrintManager.start();
 
+        const getCardReaderIds = async () => {
+            const fetchedCardReaderIds = await API.get('stripeApi', '/getStripeCardReaderList', {});
+            setCardReaderOptions(fetchedCardReaderIds);
+        }
+
         setTimeout(() => { setsocketStatus(JSPM.JSPrintManager.websocket_status); }, 3000);
         setStoredCardReaderId(localStorage.getItem('cardReaderId') ?? '');
+
+        getCardReaderIds();
     }, [])
     
     useEffect(() => {
@@ -64,7 +71,7 @@ const Settings = () => {
             </Box>
             <Box marginTop='2rem'>
                 <Typography>Card Reader</Typography>
-                <CardReaderSelector cardReaderIds={[]} onCardReaderChange={handleSetCardReaderId} />
+                <CardReaderSelector cardReaderIds={cardReaderOptions} onCardReaderChange={handleSetCardReaderId} />
             </Box>
         </Box>
     )
