@@ -12,7 +12,6 @@ const ITEMS = [{description: 'test description', price: '2.99'}, {description: '
 
 const Pos = () => {
     const [terminal, setTerminal] = useState();
-    const [intentSecret, setIntentSecret] = useState('');
 
     const fetchConnectionToken = async () => {
         const fetchedConnectionToken = await API.post('stripeApi', '/stripe-connection-token', {});
@@ -65,41 +64,7 @@ const Pos = () => {
         }
     }
 
-    const startTakePayment = async () => {
-        const paymentIntent = await API.post('stripeApi', '/create-payment-intent', {
-            body: { amount: 50 },
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"}
-            });
-        const paymentIntentSecret = paymentIntent.clientSecret;
-        setIntentSecret(paymentIntentSecret);
-        collectPaymentMethod(paymentIntentSecret)
-    }
-
-    const collectPaymentMethod = async (secret: string) => {
-        // clientSecret is the client_secret from the PaymentIntent you created in Step 1.
-        // @ts-ignore
-        const result = await terminal.collectPaymentMethod(secret);
-        if (result.error) {
-          // Placeholder for handling result.error
-          console.error(JSON.stringify(result));
-        } else {
-          processPayment(result.paymentIntent);
-        }
-    }
-
-    const processPayment = async (paymentIntent: any) => {
-        //@ts-ignore
-        const result = await terminal.processPayment(paymentIntent);
-        if (result.error) {
-          // Placeholder for handling result.error
-          console.error(JSON.stringify(result));
-        } else if (result.paymentIntent) {
-          // Placeholder for notifying your backend to capture result.paymentIntent.id
-          console.log('payment success')
-        }
-      }
+    
 
     return (
         <Box padding='2rem' display='flex' flexDirection='row' height='100%'>
@@ -107,7 +72,7 @@ const Pos = () => {
                 {ITEMS && ITEMS.map((item) => <ListItem description={item.description} price={item.price} />)}
             </Box>
             <Box  width='20%'>
-                <CheckoutActions amount={ITEMS.reduce((a,b) => a + parseFloat(b.price), 0)}/>
+                <CheckoutActions amount={ITEMS.reduce((a,b) => a + parseFloat(b.price), 0)} />
             </Box>
         </Box>
     )
