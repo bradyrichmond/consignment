@@ -1,78 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
-import { API } from 'aws-amplify';
+import { API, DataStore, Predicates } from 'aws-amplify';
 import CheckoutActions from './CheckoutActions';
+import { Item } from '../../models';
 
 enum PAYMENT_INTENT_STATUS {
     declined = 'requires_payment_method',
     retry = 'requires_confirmation'
 }
 
-const ITEMS = [{description: 'test description', price: '2.99'}, {description: 'test description', price: '2.99'}, {description: 'test description', price: '2.99'}];
-
 const Pos = () => {
-    const [terminal, setTerminal] = useState();
-
-    const fetchConnectionToken = async () => {
-        const fetchedConnectionToken = await API.post('stripeApi', '/stripe-connection-token', {});
-        return fetchedConnectionToken;
-    }
+    const [items, setItems] = useState<Item[]>([]);
 
     useEffect(() => {
-        const initializeTerminal = async () => {
-            //@ts-ignore
-            const createdTerminal = window.StripeTerminal.create({
-                onFetchConnectionToken: fetchConnectionToken,
-                onUnexpectedReaderDisconnect: unexpectedDisconnect,
+        // this will need to be changed for when a user scans an item in
+        const getSomeItems = async () => {
+            const fetchedItems = await DataStore.query(Item, Predicates.ALL, {
+                page: 0,
+                limit: 10
             });
 
-            setTerminal(createdTerminal);
+            setItems(fetchedItems);
         }
 
-        initializeTerminal();
-    }, [])
-
-    const unexpectedDisconnect = () => {
-
-    }
-
-    // Handler for a "Connect Reader" button
-    const connectReaderHandler = async () => {
-        if (terminal) {
-            const config = {simulated: true};
-            //@ts-ignore
-            terminal.setSimulatorConfiguration({testCardNumber: '4242424242424242'});
-            // @ts-ignore
-            const discoverResult = await terminal.discoverReaders(config);
-
-            if (discoverResult.error) {
-                console.log('Failed to discover: ', discoverResult.error);
-            } else if (discoverResult.discoveredReaders.length === 0) {
-                console.log('No available readers.');
-            } else {
-                // Just select the first reader here.
-                const selectedReader = discoverResult.discoveredReaders[0];
-            
-                // @ts-ignore
-                const connectResult = await terminal.connectReader(selectedReader);
-                if (connectResult.error) {
-                    console.log('Failed to connect: ', connectResult.error);
-                } else {
-                    console.log('Connected to reader: ', connectResult.reader.label);
-                }
-            }
-        }
-    }
-
-    
-
+        getSomeItems();
+    })
     return (
         <Box padding='2rem' display='flex' flexDirection='row' height='100%'>
             <Box flex='1' flexDirection='column-reverse'>
-                {ITEMS && ITEMS.map((item) => <ListItem description={item.description} price={item.price} />)}
+                {items && items.map((item) => <ListItem description={item.itemName ?? ''} price={item.price} />)}
             </Box>
             <Box  width='20%'>
-                <CheckoutActions amount={ITEMS.reduce((a,b) => a + parseFloat(b.price), 0)} />
+                <CheckoutActions items={items} />
             </Box>
         </Box>
     )

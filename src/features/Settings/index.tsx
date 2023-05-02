@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import * as JSPM from "jsprintmanager";
-import { useForm } from 'react-hook-form';
 import { generateReceipt } from '../../utils/PrintReceipt';
 import { API, DataStore } from 'aws-amplify';
 import { Item } from '../../models';
@@ -53,7 +52,7 @@ const Settings = () => {
             const listOfItems: Item[] = [];
             listOfItems.push(fetchedItem);
             console.log('receipt:');
-            console.log(generateReceipt(listOfItems, 'testTransactionId', '1480 NW Gilman Blvd #3', "Issaquah, WA 98027"))
+            console.log(generateReceipt(listOfItems, [{label: 'Cash', receivedAmount: 12.99}], 'testTransactionId', '1480 NW Gilman Blvd #3', "Issaquah, WA 98027"))
         }
     }
 

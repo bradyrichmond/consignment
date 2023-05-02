@@ -3,27 +3,34 @@ import { Box, Button, Modal, Typography } from "@mui/material";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { format } from 'date-fns';
 
-import { currencyFormatter } from "../../utils/PrintReceipt";
+import { currencyFormatter, currencyFormatterNoSign, generateReceipt } from "../../utils/PrintReceipt";
 import UserAvatar from "../../utils/UserAvatar";
 import ProcessCash from "./ProcessCash";
 import { API } from "aws-amplify";
+import { Item } from "../../models";
+import ProcessingCard, { STEPS } from "./ProcessingCard";
 
 interface CheckoutActionsProps {
-    amount: number
+    items: Item[]
 }
 
 const CheckoutActions = (props: CheckoutActionsProps) => {
-    const { amount } = props;
+    const { items } = props;
     const [time, setTime] = useState<number>(0);
     const [intentSecret, setIntentSecret] = useState('');
     const [isProcessingCash, setIsProcessingCash] = useState<boolean>(false);
+    const [isProcessingCard, setIsProcessingCard] = useState<boolean>(false);
     const [tenders, setTenders] = useState<{label: string, receivedAmount: number}[]>([]);
     const [totalTenderedAmount, setTotalTenderedAmount] = useState(0);
     const [cashTender, setCashTender] = useState(0);
+    const [cardProcessingStep, setCardProcessingStep] = useState('');
+    const [terminal, setTerminal] = useState();
+    const [tenderAmountHasBeenMet, setTenderAmountHasBeenMet] = useState(false);
+    
+    const amount = items.reduce((a,b) => a + parseFloat(b.price), 0)
 
     const amountWithTax = amount * 1.1;
 
-    const [terminal, setTerminal] = useState();
 
     const fetchConnectionToken = async () => {
         const fetchedConnectionToken = await API.post('stripeApi', '/stripe-connection-token', {});
@@ -47,6 +54,12 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
     useEffect(() => {
         connectReaderHandler();
     }, [terminal])
+
+    useEffect(() => {
+        if (amountWithTax.toString().includes(totalTenderedAmount.toString())) {
+            setTenderAmountHasBeenMet(true);
+        }
+    }, [tenders])
 
     const unexpectedDisconnect = () => {
 
@@ -97,10 +110,12 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
     }
 
     const card = () => {
+        setIsProcessingCard(true);
         startTakePayment(Math.round((amountWithTax - totalTenderedAmount) * 100))
     }
 
     const startTakePayment = async (amount: number) => {
+        setCardProcessingStep(STEPS.PAYMENT_INTENT);
         const paymentIntent = await API.post('stripeApi', '/create-payment-intent', {
             body: { amount },
             headers: {
@@ -108,12 +123,14 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
                 "Content-Type": "application/json"}
             });
         const paymentIntentSecret = paymentIntent.clientSecret;
+        // need to capture intent secret for retries of card processing
         setIntentSecret(paymentIntentSecret);
-        collectPaymentMethod(paymentIntentSecret)
+        collectPaymentMethod(paymentIntentSecret);
     }
 
     const collectPaymentMethod = async (secret: string) => {
         // clientSecret is the client_secret from the PaymentIntent you created in Step 1.
+        setCardProcessingStep(STEPS.COLLECTING);
         // @ts-ignore
         const result = await terminal.collectPaymentMethod(secret);
         if (result.error) {
@@ -125,6 +142,8 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
     }
 
     const processPayment = async (paymentIntent: any) => {
+        setCardProcessingStep(STEPS.COLLECTING);
+
         //@ts-ignore
         const result = await terminal.processPayment(paymentIntent);
         if (result.error) {
@@ -135,6 +154,7 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
             // Placeholder for notifying your backend to capture result.paymentIntent.id
             setTenders(tenders.length > 0 ? [...tenders, { label: 'Card', receivedAmount: intentAmount }] : [{ label: 'Card', receivedAmount: intentAmount }]);
             setTotalTenderedAmount((cur) => cur + intentAmount);
+            setCardProcessingStep(STEPS.DONE);
             console.log('payment success')
         }
     }
@@ -151,6 +171,12 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
 
     const stopProcessingPayment = () => {
         setIsProcessingCash(false);
+        setIsProcessingCard(false);
+    }
+
+    const completeTransaction = () => {
+        // this will just create the zprint directions at this point, it won't print a receipt
+        generateReceipt(items, tenders, 'SomeGenericTransactionId', '123 Test', 'Test, Wa 99999');
     }
 
     return (
@@ -160,6 +186,12 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
                 onClose={stopProcessingPayment}
             >
                 <ProcessCash close={addCashTender} amount={amountWithTax}/>
+            </Modal>
+            <Modal
+                open={isProcessingCard}
+                onClose={stopProcessingPayment}
+            >
+                <ProcessingCard step={cardProcessingStep} close={() => setIsProcessingCard(false) }/>
             </Modal>
             <Box display='flex' flexDirection='row' padding='2rem' borderBottom='1px solid white' marginBottom='2rem'>
                 <Box marginRight='2rem'><AccessTimeIcon sx={{color: 'white'}} /></Box>
@@ -193,16 +225,16 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
                         <Typography sx={{color: cashTender >= amountWithTax ? 'green' : 'red'}}>{cashTender >= amountWithTax ? currencyFormatter.format((cashTender - amountWithTax)) : currencyFormatter.format(amountWithTax - cashTender)}</Typography>
                     </Box>
                 }
-                {totalTenderedAmount >= amountWithTax &&
+                {tenderAmountHasBeenMet &&
                     <Box padding='2rem'>
-                        <Button variant='outlined' sx={{border: '1px solid white', borderRadius: '.25rem', padding: '2rem', width: '100%', marginBottom: '2rem', color: 'white'}}>Complete Transaction</Button>
+                        <Button variant='outlined' sx={{border: '1px solid white', borderRadius: '.25rem', padding: '2rem', width: '100%', marginBottom: '2rem', color: 'white'}} onClick={completeTransaction}>Complete Transaction</Button>
                     </Box>
                 }
             </Box>
             <Box padding='2rem'>
-                <Button variant='outlined' sx={{border: '1px solid white', borderRadius: '.25rem', padding: '2rem', width: '100%', marginBottom: '2rem', color: 'white'}} disabled={totalTenderedAmount >= amountWithTax} onClick={cash}>Cash</Button>
-                <Button variant='outlined' sx={{border: '1px solid white', borderRadius: '.25rem', padding: '2rem', width: '100%', marginBottom: '2rem', color: 'white'}} disabled={totalTenderedAmount >= amountWithTax} onClick={card}>Credit / Debit</Button>
-                <Button variant='outlined' sx={{border: '1px solid white', borderRadius: '.25rem', padding: '2rem', width: '100%', marginBottom: '2rem', color: 'white'}} disabled={totalTenderedAmount >= amountWithTax}>Store Credit</Button>
+                <Button variant='outlined' sx={{border: '1px solid white', borderRadius: '.25rem', padding: '2rem', width: '100%', marginBottom: '2rem', color: 'white'}} disabled={tenderAmountHasBeenMet} onClick={cash}>Cash</Button>
+                <Button variant='outlined' sx={{border: '1px solid white', borderRadius: '.25rem', padding: '2rem', width: '100%', marginBottom: '2rem', color: 'white'}} disabled={tenderAmountHasBeenMet} onClick={card}>Credit / Debit</Button>
+                <Button variant='outlined' sx={{border: '1px solid white', borderRadius: '.25rem', padding: '2rem', width: '100%', marginBottom: '2rem', color: 'white'}} disabled={tenderAmountHasBeenMet}>Store Credit</Button>
             </Box>
         </Box>
     )

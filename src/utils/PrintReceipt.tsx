@@ -1,6 +1,6 @@
 import { Item } from "../models";
 
-export const generateReceipt = (items: Item[], transactionId: string, address1: string, address2: string) => {
+export const generateReceipt = (items: Item[], paymentTypes: {label: string, receivedAmount: number}[], transactionId: string, address1: string, address2: string) => {
     let lineNumber = 6;
     const subtotal = items.reduce((a: number, b: Item) => Number(a + b.price), 0);
 
@@ -21,8 +21,10 @@ export const generateReceipt = (items: Item[], transactionId: string, address1: 
     lineNumber++;
     output += generateInfoLine('Total', currencyFormatter.format((subtotal * 1.1)).toString(), lineNumber);
     lineNumber++;
-    output += generateInfoLine('Credit', currencyFormatter.format((subtotal * 1.1)).toString(), lineNumber);
-    lineNumber += 2;
+    for (let i = 0; i < paymentTypes.length; i++) {
+        output += generateInfoLine(paymentTypes[i].label, currencyFormatter.format(paymentTypes[i].receivedAmount).toString(), lineNumber);
+        lineNumber += 2;
+    }
     output += generateReturnPolicy(lineNumber);
     lineNumber += 2
     output += generateWebsite(lineNumber);
@@ -56,4 +58,10 @@ const generateWebsite = (lineNumber: number) => {
 export const currencyFormatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD'
-  });
+});
+
+export const currencyFormatterNoSign = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    signDisplay: 'never'
+});
