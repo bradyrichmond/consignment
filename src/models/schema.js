@@ -1299,6 +1299,63 @@ export const schema = {
                 }
             ]
         },
+        "GiftCard": {
+            "name": "GiftCard",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "qrCode": {
+                    "name": "qrCode",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "barcode": {
+                    "name": "barcode",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "value": {
+                    "name": "value",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "GiftCards",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                }
+            ]
+        },
         "CategoryAttribute": {
             "name": "CategoryAttribute",
             "fields": {
@@ -1410,5 +1467,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.0",
-    "version": "2dd67a36a796aa0c5817be668f9198dc"
+    "version": "257a35926fc66bbf9ed66c9a591d48c9"
 };

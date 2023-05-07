@@ -5,7 +5,7 @@ import { Stepper, Step, StepLabel, Typography } from '@mui/material';
 import QRCode from "react-qr-code";
 import NarrowBrand from './NarrowBrand';
 import SelectBrand from './SelectBrand';
-import { AttributeType, AttributeTypeValue, Brand, Category, CategoryAttribute, Item } from '../../models';
+import { AttributeType, AttributeTypeValue, Brand, Category, CategoryAttribute, Client, Item } from '../../models';
 import SelectCategory from './SelectCategory';
 import { DataStore } from 'aws-amplify';
 import SelectAttributes from './SelectAttributes';
@@ -82,7 +82,15 @@ const AddItem = () => {
 
     const addItemAndResetState = async () => {
         const fetchedCategory = await DataStore.query(Category, category);
-        await DataStore.save(new Item({ itemCategoryId: category, clientItemsId: id, itemBrandId: brand?.id, price: itemPrice, statusId: '1', userId: '1', itemName: `${brand?.description} ${fetchedCategory?.categoryName}` }));
+        const client = await DataStore.query(Client, id ?? '');
+        
+        if (client) {
+            await DataStore.save(new Item({ itemCategoryId: category, itemId: `${client?.account}-${client?.nextItemNumber}`, clientItemsId: id, itemBrandId: brand?.id, price: itemPrice, statusId: '1', userId: '1', itemName: `${brand?.description} ${fetchedCategory?.categoryName}` }));
+            await DataStore.save(Client.copyOf(client, (updated) => {
+                updated.nextItemNumber = (parseInt(client.nextItemNumber) + 1).toString();
+            }))
+        }
+
         setActiveStep(0);
         setNarrowBrand('');
         setBrand(undefined);

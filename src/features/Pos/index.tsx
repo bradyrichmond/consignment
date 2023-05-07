@@ -12,26 +12,17 @@ enum PAYMENT_INTENT_STATUS {
 const Pos = () => {
     const [items, setItems] = useState<Item[]>([]);
 
-    useEffect(() => {
-        // this will need to be changed for when a user scans an item in
-        const getSomeItems = async () => {
-            const fetchedItems = await DataStore.query(Item, Predicates.ALL, {
-                page: 0,
-                limit: 10
-            });
+    const addItem = (item: Item) => {
+        setItems(items.length > 0 ? [...items, item] : [item]);
+    }
 
-            setItems(fetchedItems);
-        }
-
-        getSomeItems();
-    })
     return (
         <Box padding='2rem' display='flex' flexDirection='row' height='100%'>
             <Box flex='1' flexDirection='column-reverse'>
                 {items && items.map((item) => <ListItem description={item.itemName ?? ''} price={item.price} />)}
             </Box>
             <Box  width='20%'>
-                <CheckoutActions items={items} />
+                <CheckoutActions items={items} addItem={addItem} />
             </Box>
         </Box>
     )

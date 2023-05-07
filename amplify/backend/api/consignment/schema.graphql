@@ -152,3 +152,10 @@ type CategoryPriceGuide @model {
   sortOrder: Int
   inactive: Boolean
 }
+
+type GiftCard @model {
+  id: ID!
+  qrCode: String
+  barcode: String
+  value: Float!
+}

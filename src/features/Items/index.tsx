@@ -171,6 +171,7 @@ const Items = () => {
         {field: 'price', headerName: 'Price', width: 200, editable: true},
         {field: 'upcCode', headerName: 'UPC', width: 200, editable: true},
         {field: 'clientItemsId', headerName: 'client id', width: 400, editable: true},
+        {field: 'itemId', headerName: 'Item Id', width: 400, editable: true},
     ];
 
     const rows = items ?? [];

@@ -516,6 +516,38 @@ export declare const CategoryPriceGuide: (new (init: ModelInit<CategoryPriceGuid
   copyOf(source: CategoryPriceGuide, mutator: (draft: MutableModel<CategoryPriceGuide>) => MutableModel<CategoryPriceGuide> | void): CategoryPriceGuide;
 }
 
+type EagerGiftCard = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<GiftCard, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly qrCode?: string | null;
+  readonly barcode?: string | null;
+  readonly value: number;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyGiftCard = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<GiftCard, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly qrCode?: string | null;
+  readonly barcode?: string | null;
+  readonly value: number;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type GiftCard = LazyLoading extends LazyLoadingDisabled ? EagerGiftCard : LazyGiftCard
+
+export declare const GiftCard: (new (init: ModelInit<GiftCard>) => GiftCard) & {
+  copyOf(source: GiftCard, mutator: (draft: MutableModel<GiftCard>) => MutableModel<GiftCard> | void): GiftCard;
+}
+
 type EagerCategoryAttribute = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<CategoryAttribute, 'id'>;
