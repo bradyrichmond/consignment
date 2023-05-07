@@ -7,7 +7,7 @@ import { currencyFormatter, currencyFormatterNoSign, generateReceipt } from "../
 import UserAvatar from "../../utils/UserAvatar";
 import ProcessCash from "./ProcessCash";
 import { API, DataStore } from "aws-amplify";
-import { Item } from "../../models";
+import { Client, Item, StoreCredit, Transaction } from "../../models";
 import ProcessingCard, { STEPS } from "./ProcessingCard";
 import { useForm } from "react-hook-form";
 import ModalContainer from "../../utils/ModalContainer";
@@ -30,6 +30,8 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
     const [terminal, setTerminal] = useState();
     const [tenderAmountHasBeenMet, setTenderAmountHasBeenMet] = useState(false);
     const [itemAlreadyScanned, setItemAlreadyScanned] = useState(false);
+    const [itemNotFound, setItemNotFound] = useState(false);
+    const [itemAlreadySold, setItemAlreadySold] = useState(false);
     
     const { handleSubmit, register, resetField } = useForm();
     
@@ -180,9 +182,60 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
         setIsProcessingCard(false);
     }
 
-    const completeTransaction = () => {
+    // type Transaction @model {
+    //     id: ID!
+    //     client: Client
+    //     items: [Item!]!
+    //     payoutId: String
+    //     transCdId: String
+    //     userId: String!
+    //     actTransTimestamp: String
+    //     actTransDesc: String
+    //     actTransAmt: String
+    //     hold: Boolean
+    //     glExportInd: Boolean
+    //     syncInd: Boolean
+    //     saleDetailId: String
+    //     location: Location @hasOne
+    //   }
+
+    const completeTransaction = async () => {
+        // needs location data, and correct userId
+        const transaction = await DataStore.save(new Transaction({items, userId: '1', actTransAmt: amountWithTax.toString(), actTransTimestamp: Date.now().toString()}));
+        await updateSoldItems();
+
         // this will just create the zprint directions at this point, it won't print a receipt
-        generateReceipt(items, tenders, 'SomeGenericTransactionId', '123 Test', 'Test, Wa 99999');
+        await generateReceipt(items, tenders, transaction.id, '123 Test', 'Test, Wa 99999');
+    }
+
+    const updateSoldItems = async () => {
+        for (let i = 0; i < items.length; i++) {
+            const item = items[i];
+            const consigner = await DataStore.query(Client, item.clientItemsId ?? '');
+            const storeCredit = await DataStore.query(StoreCredit, consigner?.clientCreditId ?? '');
+
+            if (storeCredit) {
+                const fetchedItems = await storeCredit.items.toArray();
+
+                await DataStore.save(StoreCredit.copyOf(storeCredit, (updated) => {
+                    // needs dynamic percentage
+                    updated.amount = storeCredit.amount ?? 0 + parseFloat(item.price) * .4;
+                    updated.items = fetchedItems.length > 0 ? [...fetchedItems, item] : [item]
+                }))
+
+                await DataStore.save(Item.copyOf(item, (updated) => {
+                    // need to add an enum for this
+                    updated.statusId = '18'
+                }))
+            } else {
+                await DataStore.save(new StoreCredit({ amount: parseFloat(item.price) * .4, items: [item] }));
+
+                await DataStore.save(Item.copyOf(item, (updated) => {
+                    // need to add an enum for this
+                    updated.statusId = '18'
+                }))
+            }
+        }
     }
 
     const handleManualEntry = async (data: any) => {
@@ -190,12 +243,22 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
 
         //this should only be one, but have to query for a list first
         const matchedItems = await DataStore.query(Item, (i) => i.itemId.eq(itemNumber));
-        const item = matchedItems[0];
 
-        if (items.filter((i) => i.itemId === itemNumber).length > 0) {
-            showItemAlreadyScanned();
+        if (matchedItems[0].statusId === '18') {
+            showItemAlreadySold();
+            return;
+        }
+
+        if (matchedItems.length > 0) {
+            const item = matchedItems[0];
+
+            if (items.filter((i) => i.itemId === itemNumber).length > 0) {
+                showItemAlreadyScanned();
+            } else {
+                addItem(item);
+            }
         } else {
-            addItem(item);
+            showItemNotFound();
         }
 
         resetField('itemNumber');
@@ -207,6 +270,22 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
 
     const hideItemAlreadyScanned = () => {
         setItemAlreadyScanned(false);
+    }
+
+    const showItemNotFound = () => {
+        setItemNotFound(true);
+    }
+
+    const hideItemNotFound = () => {
+        setItemNotFound(false);
+    }
+
+    const showItemAlreadySold = () => {
+        setItemAlreadySold(true);
+    }
+
+    const hideItemAlreadySold = () => {
+        setItemAlreadySold(false);
     }
 
     return (
@@ -232,6 +311,32 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
                         <Box bgcolor='rgba(255, 255, 255, 255)' borderRadius='1rem' padding='2rem' display='flex' flexDirection='column' justifyContent='center' alignItems='center'>
                             <Typography>Item has already been added to this transaction.</Typography>
                             <Button variant='outlined' sx={{ color: 'black', border: '1px solid black', borderRadius: '.25rem', marginTop: '2rem' }} onClick={hideItemAlreadyScanned}>Ok</Button>
+                        </Box>
+                    </Box>
+                </ModalContainer>
+            </Modal>
+            <Modal
+                open={itemAlreadySold}
+                onClose={hideItemAlreadySold}
+            >
+                <ModalContainer onClose={hideItemAlreadySold}>
+                    <Box display='flex' justifyContent='center' alignItems='center' height='100%' width='100%'>
+                        <Box bgcolor='rgba(255, 255, 255, 255)' borderRadius='1rem' padding='2rem' display='flex' flexDirection='column' justifyContent='center' alignItems='center'>
+                            <Typography>Item has already been sold.</Typography>
+                            <Button variant='outlined' sx={{ color: 'black', border: '1px solid black', borderRadius: '.25rem', marginTop: '2rem' }} onClick={hideItemAlreadySold}>Ok</Button>
+                        </Box>
+                    </Box>
+                </ModalContainer>
+            </Modal>
+            <Modal
+                open={itemNotFound}
+                onClose={hideItemNotFound}
+            >
+                <ModalContainer onClose={hideItemNotFound}>
+                    <Box display='flex' justifyContent='center' alignItems='center' height='100%' width='100%'>
+                        <Box bgcolor='rgba(255, 255, 255, 255)' borderRadius='1rem' padding='2rem' display='flex' flexDirection='column' justifyContent='center' alignItems='center'>
+                            <Typography>Item not found.</Typography>
+                            <Button variant='outlined' sx={{ color: 'black', border: '1px solid black', borderRadius: '.25rem', marginTop: '2rem' }} onClick={hideItemNotFound}>Ok</Button>
                         </Box>
                     </Box>
                 </ModalContainer>

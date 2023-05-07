@@ -54,6 +54,8 @@ export const getClient = /* GraphQL */ `
           _deleted
           _lastChangedAt
           clientItemsId
+          storeCreditItemsId
+          transactionItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -84,11 +86,25 @@ export const getClient = /* GraphQL */ `
         nextToken
         startedAt
       }
+      credit {
+        id
+        amount
+        items {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      clientCreditId
     }
   }
 `;
@@ -123,11 +139,21 @@ export const listClients = /* GraphQL */ `
           nextToken
           startedAt
         }
+        credit {
+          id
+          amount
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        clientCreditId
       }
       nextToken
       startedAt
@@ -168,6 +194,128 @@ export const syncClients = /* GraphQL */ `
           startedAt
         }
         addresses {
+          nextToken
+          startedAt
+        }
+        credit {
+          id
+          amount
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        clientCreditId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getStoreCredit = /* GraphQL */ `
+  query GetStoreCredit($id: ID!) {
+    getStoreCredit(id: $id) {
+      id
+      amount
+      items {
+        items {
+          id
+          itemId
+          userId
+          userName
+          itemAcquireTypeId
+          sectionId
+          statusId
+          taxTypeId
+          number
+          itemName
+          description
+          receiveTimestamp
+          donateIndicator
+          price
+          cost
+          qty
+          qtyTagPrint
+          tagPrintedTimestamp
+          commission
+          itemAcquisitionTypeId
+          saleDetailId
+          titleChanged
+          modifiedBy
+          upcCode
+          createTimestamp
+          entryTimestamp
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientItemsId
+          storeCreditItemsId
+          transactionItemsId
+          itemCategoryId
+          itemLocationId
+          itemBrandId
+        }
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listStoreCredits = /* GraphQL */ `
+  query ListStoreCredits(
+    $filter: ModelStoreCreditFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listStoreCredits(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        amount
+        items {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncStoreCredits = /* GraphQL */ `
+  query SyncStoreCredits(
+    $filter: ModelStoreCreditFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncStoreCredits(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        amount
+        items {
           nextToken
           startedAt
         }
@@ -277,6 +425,8 @@ export const getItem = /* GraphQL */ `
       _deleted
       _lastChangedAt
       clientItemsId
+      storeCreditItemsId
+      transactionItemsId
       itemCategoryId
       itemLocationId
       itemBrandId
@@ -360,6 +510,8 @@ export const listItems = /* GraphQL */ `
         _deleted
         _lastChangedAt
         clientItemsId
+        storeCreditItemsId
+        transactionItemsId
         itemCategoryId
         itemLocationId
         itemBrandId
@@ -452,6 +604,8 @@ export const syncItems = /* GraphQL */ `
         _deleted
         _lastChangedAt
         clientItemsId
+        storeCreditItemsId
+        transactionItemsId
         itemCategoryId
         itemLocationId
         itemBrandId
@@ -465,7 +619,6 @@ export const getTransaction = /* GraphQL */ `
   query GetTransaction($id: ID!) {
     getTransaction(id: $id) {
       id
-      clientTransId
       client {
         id
         clientId
@@ -490,13 +643,65 @@ export const getTransaction = /* GraphQL */ `
           nextToken
           startedAt
         }
+        credit {
+          id
+          amount
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        clientCreditId
       }
-      itemId
+      items {
+        items {
+          id
+          itemId
+          userId
+          userName
+          itemAcquireTypeId
+          sectionId
+          statusId
+          taxTypeId
+          number
+          itemName
+          description
+          receiveTimestamp
+          donateIndicator
+          price
+          cost
+          qty
+          qtyTagPrint
+          tagPrintedTimestamp
+          commission
+          itemAcquisitionTypeId
+          saleDetailId
+          titleChanged
+          modifiedBy
+          upcCode
+          createTimestamp
+          entryTimestamp
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientItemsId
+          storeCreditItemsId
+          transactionItemsId
+          itemCategoryId
+          itemLocationId
+          itemBrandId
+        }
+        nextToken
+        startedAt
+      }
       payoutId
       transCdId
       userId
@@ -507,6 +712,7 @@ export const getTransaction = /* GraphQL */ `
       glExportInd
       syncInd
       saleDetailId
+      returned
       location {
         id
         locationId
@@ -555,7 +761,6 @@ export const listTransactions = /* GraphQL */ `
     listTransactions(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        clientTransId
         client {
           id
           clientId
@@ -577,8 +782,12 @@ export const listTransactions = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          clientCreditId
         }
-        itemId
+        items {
+          nextToken
+          startedAt
+        }
         payoutId
         transCdId
         userId
@@ -589,6 +798,7 @@ export const listTransactions = /* GraphQL */ `
         glExportInd
         syncInd
         saleDetailId
+        returned
         location {
           id
           locationId
@@ -627,7 +837,6 @@ export const syncTransactions = /* GraphQL */ `
     ) {
       items {
         id
-        clientTransId
         client {
           id
           clientId
@@ -649,8 +858,12 @@ export const syncTransactions = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          clientCreditId
         }
-        itemId
+        items {
+          nextToken
+          startedAt
+        }
         payoutId
         transCdId
         userId
@@ -661,6 +874,7 @@ export const syncTransactions = /* GraphQL */ `
         glExportInd
         syncInd
         saleDetailId
+        returned
         location {
           id
           locationId
@@ -1466,6 +1680,73 @@ export const syncCategoryPriceGuides = /* GraphQL */ `
         _deleted
         _lastChangedAt
         categoryPriceGuideCategoryId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getGiftCard = /* GraphQL */ `
+  query GetGiftCard($id: ID!) {
+    getGiftCard(id: $id) {
+      id
+      qrCode
+      barcode
+      value
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listGiftCards = /* GraphQL */ `
+  query ListGiftCards(
+    $filter: ModelGiftCardFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listGiftCards(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        qrCode
+        barcode
+        value
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncGiftCards = /* GraphQL */ `
+  query SyncGiftCards(
+    $filter: ModelGiftCardFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncGiftCards(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        qrCode
+        barcode
+        value
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
       startedAt

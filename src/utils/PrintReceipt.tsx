@@ -1,6 +1,6 @@
 import { Item } from "../models";
 
-export const generateReceipt = (items: Item[], paymentTypes: {label: string, receivedAmount: number}[], transactionId: string, address1: string, address2: string) => {
+export const generateReceipt = async (items: Item[], paymentTypes: {label: string, receivedAmount: number}[], transactionId: string, address1: string, address2: string) => {
     let lineNumber = 6;
     const subtotal = items.reduce((a: number, b: Item) => Number(a + b.price), 0);
 

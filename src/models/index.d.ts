@@ -32,8 +32,10 @@ type EagerClient = {
   readonly modifiedBy: string;
   readonly items?: (Item | null)[] | null;
   readonly addresses?: (Address | null)[] | null;
+  readonly credit?: StoreCredit | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly clientCreditId?: string | null;
 }
 
 type LazyClient = {
@@ -58,14 +60,46 @@ type LazyClient = {
   readonly modifiedBy: string;
   readonly items: AsyncCollection<Item>;
   readonly addresses: AsyncCollection<Address>;
+  readonly credit: AsyncItem<StoreCredit | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly clientCreditId?: string | null;
 }
 
 export declare type Client = LazyLoading extends LazyLoadingDisabled ? EagerClient : LazyClient
 
 export declare const Client: (new (init: ModelInit<Client>) => Client) & {
   copyOf(source: Client, mutator: (draft: MutableModel<Client>) => MutableModel<Client> | void): Client;
+}
+
+type EagerStoreCredit = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<StoreCredit, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly amount?: number | null;
+  readonly items: Item[];
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyStoreCredit = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<StoreCredit, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly amount?: number | null;
+  readonly items: AsyncCollection<Item>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type StoreCredit = LazyLoading extends LazyLoadingDisabled ? EagerStoreCredit : LazyStoreCredit
+
+export declare const StoreCredit: (new (init: ModelInit<StoreCredit>) => StoreCredit) & {
+  copyOf(source: StoreCredit, mutator: (draft: MutableModel<StoreCredit>) => MutableModel<StoreCredit> | void): StoreCredit;
 }
 
 type EagerItem = {
@@ -105,9 +139,11 @@ type EagerItem = {
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly clientItemsId?: string | null;
+  readonly storeCreditItemsId?: string | null;
   readonly itemCategoryId?: string | null;
   readonly itemLocationId?: string | null;
   readonly itemBrandId?: string | null;
+  readonly transactionItemsId?: string | null;
 }
 
 type LazyItem = {
@@ -147,9 +183,11 @@ type LazyItem = {
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly clientItemsId?: string | null;
+  readonly storeCreditItemsId?: string | null;
   readonly itemCategoryId?: string | null;
   readonly itemLocationId?: string | null;
   readonly itemBrandId?: string | null;
+  readonly transactionItemsId?: string | null;
 }
 
 export declare type Item = LazyLoading extends LazyLoadingDisabled ? EagerItem : LazyItem
@@ -164,8 +202,7 @@ type EagerTransaction = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly clientTransId: string;
-  readonly itemId: string;
+  readonly items: Item[];
   readonly payoutId?: string | null;
   readonly transCdId?: string | null;
   readonly userId: string;
@@ -176,6 +213,7 @@ type EagerTransaction = {
   readonly glExportInd?: boolean | null;
   readonly syncInd?: boolean | null;
   readonly saleDetailId?: string | null;
+  readonly returned?: boolean | null;
   readonly location?: Location | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
@@ -188,8 +226,7 @@ type LazyTransaction = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly clientTransId: string;
-  readonly itemId: string;
+  readonly items: AsyncCollection<Item>;
   readonly payoutId?: string | null;
   readonly transCdId?: string | null;
   readonly userId: string;
@@ -200,6 +237,7 @@ type LazyTransaction = {
   readonly glExportInd?: boolean | null;
   readonly syncInd?: boolean | null;
   readonly saleDetailId?: string | null;
+  readonly returned?: boolean | null;
   readonly location: AsyncItem<Location | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;

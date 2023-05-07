@@ -142,6 +142,90 @@ export const schema = {
                         ]
                     }
                 },
+                "credit": {
+                    "name": "credit",
+                    "isArray": false,
+                    "type": {
+                        "model": "StoreCredit"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": [
+                            "id"
+                        ],
+                        "targetNames": [
+                            "clientCreditId"
+                        ]
+                    }
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "clientCreditId": {
+                    "name": "clientCreditId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                }
+            },
+            "syncable": true,
+            "pluralName": "Clients",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                }
+            ]
+        },
+        "StoreCredit": {
+            "name": "StoreCredit",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "amount": {
+                    "name": "amount",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "items": {
+                    "name": "items",
+                    "isArray": true,
+                    "type": {
+                        "model": "Item"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "isArrayNullable": false,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "storeCreditItemsId"
+                        ]
+                    }
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -160,7 +244,7 @@ export const schema = {
                 }
             },
             "syncable": true,
-            "pluralName": "Clients",
+            "pluralName": "StoreCredits",
             "attributes": [
                 {
                     "type": "model",
@@ -430,6 +514,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "storeCreditItemsId": {
+                    "name": "storeCreditItemsId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "itemCategoryId": {
                     "name": "itemCategoryId",
                     "isArray": false,
@@ -446,6 +537,13 @@ export const schema = {
                 },
                 "itemBrandId": {
                     "name": "itemBrandId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "transactionItemsId": {
+                    "name": "transactionItemsId",
                     "isArray": false,
                     "type": "ID",
                     "isRequired": false,
@@ -467,6 +565,24 @@ export const schema = {
                             "clientItemsId"
                         ]
                     }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "gsi-StoreCredit.items",
+                        "fields": [
+                            "storeCreditItemsId"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "gsi-Transaction.items",
+                        "fields": [
+                            "transactionItemsId"
+                        ]
+                    }
                 }
             ]
         },
@@ -480,19 +596,21 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "clientTransId": {
-                    "name": "clientTransId",
-                    "isArray": false,
-                    "type": "String",
+                "items": {
+                    "name": "items",
+                    "isArray": true,
+                    "type": {
+                        "model": "Item"
+                    },
                     "isRequired": true,
-                    "attributes": []
-                },
-                "itemId": {
-                    "name": "itemId",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
+                    "attributes": [],
+                    "isArrayNullable": false,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "transactionItemsId"
+                        ]
+                    }
                 },
                 "payoutId": {
                     "name": "payoutId",
@@ -561,6 +679,13 @@ export const schema = {
                     "name": "saleDetailId",
                     "isArray": false,
                     "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "returned": {
+                    "name": "returned",
+                    "isArray": false,
+                    "type": "Boolean",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -1466,6 +1591,6 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "codegenVersion": "3.4.0",
-    "version": "257a35926fc66bbf9ed66c9a591d48c9"
+    "codegenVersion": "3.4.2",
+    "version": "6fd53179172dc5d58a87c1c29dfc7455"
 };

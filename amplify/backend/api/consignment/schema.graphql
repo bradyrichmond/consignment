@@ -26,6 +26,13 @@ type Client @model {
   modifiedBy: String!
   items: [Item] @hasMany
   addresses: [Address] @hasMany
+  credit: StoreCredit @hasOne
+}
+
+type StoreCredit @model {
+  id: ID!
+  amount: Float
+  items: [Item!]! @hasMany
 }
 
 type Item @model {
@@ -62,9 +69,8 @@ type Item @model {
 
 type Transaction @model {
   id: ID!
-  clientTransId: String!
   client: Client
-  itemId: String!
+  items: [Item!]! @hasMany
   payoutId: String
   transCdId: String
   userId: String!
@@ -75,6 +81,7 @@ type Transaction @model {
   glExportInd: Boolean
   syncInd: Boolean
   saleDetailId: String
+  returned: Boolean
   location: Location @hasOne
 }
 
