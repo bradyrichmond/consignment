@@ -379,6 +379,7 @@ export const getItem = /* GraphQL */ `
           _lastChangedAt
           clientAddressesId
         }
+        taxRate
         createdAt
         updatedAt
         _version
@@ -464,6 +465,7 @@ export const listItems = /* GraphQL */ `
           id
           locationId
           locationName
+          taxRate
           createdAt
           updatedAt
           _version
@@ -558,6 +560,7 @@ export const syncItems = /* GraphQL */ `
           id
           locationId
           locationName
+          taxRate
           createdAt
           updatedAt
           _version
@@ -736,6 +739,7 @@ export const getTransaction = /* GraphQL */ `
           _lastChangedAt
           clientAddressesId
         }
+        taxRate
         createdAt
         updatedAt
         _version
@@ -803,6 +807,7 @@ export const listTransactions = /* GraphQL */ `
           id
           locationId
           locationName
+          taxRate
           createdAt
           updatedAt
           _version
@@ -879,6 +884,7 @@ export const syncTransactions = /* GraphQL */ `
           id
           locationId
           locationName
+          taxRate
           createdAt
           updatedAt
           _version
@@ -923,6 +929,7 @@ export const getLocation = /* GraphQL */ `
         _lastChangedAt
         clientAddressesId
       }
+      taxRate
       createdAt
       updatedAt
       _version
@@ -962,6 +969,7 @@ export const listLocations = /* GraphQL */ `
           _lastChangedAt
           clientAddressesId
         }
+        taxRate
         createdAt
         updatedAt
         _version
@@ -1010,6 +1018,7 @@ export const syncLocations = /* GraphQL */ `
           _lastChangedAt
           clientAddressesId
         }
+        taxRate
         createdAt
         updatedAt
         _version

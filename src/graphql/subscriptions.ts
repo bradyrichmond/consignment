@@ -543,6 +543,7 @@ export const onCreateItem = /* GraphQL */ `
           _lastChangedAt
           clientAddressesId
         }
+        taxRate
         createdAt
         updatedAt
         _version
@@ -646,6 +647,7 @@ export const onUpdateItem = /* GraphQL */ `
           _lastChangedAt
           clientAddressesId
         }
+        taxRate
         createdAt
         updatedAt
         _version
@@ -749,6 +751,7 @@ export const onDeleteItem = /* GraphQL */ `
           _lastChangedAt
           clientAddressesId
         }
+        taxRate
         createdAt
         updatedAt
         _version
@@ -926,6 +929,7 @@ export const onCreateTransaction = /* GraphQL */ `
           _lastChangedAt
           clientAddressesId
         }
+        taxRate
         createdAt
         updatedAt
         _version
@@ -1065,6 +1069,7 @@ export const onUpdateTransaction = /* GraphQL */ `
           _lastChangedAt
           clientAddressesId
         }
+        taxRate
         createdAt
         updatedAt
         _version
@@ -1204,6 +1209,7 @@ export const onDeleteTransaction = /* GraphQL */ `
           _lastChangedAt
           clientAddressesId
         }
+        taxRate
         createdAt
         updatedAt
         _version
@@ -1245,6 +1251,7 @@ export const onCreateLocation = /* GraphQL */ `
         _lastChangedAt
         clientAddressesId
       }
+      taxRate
       createdAt
       updatedAt
       _version
@@ -1279,6 +1286,7 @@ export const onUpdateLocation = /* GraphQL */ `
         _lastChangedAt
         clientAddressesId
       }
+      taxRate
       createdAt
       updatedAt
       _version
@@ -1313,6 +1321,7 @@ export const onDeleteLocation = /* GraphQL */ `
         _lastChangedAt
         clientAddressesId
       }
+      taxRate
       createdAt
       updatedAt
       _version

@@ -90,6 +90,7 @@ type Location @model {
   locationId: String
   locationName: String!
   address: Address @hasOne
+  taxRate: Float!
 }
 
 type Address @model {

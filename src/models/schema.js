@@ -782,6 +782,13 @@ export const schema = {
                         ]
                     }
                 },
+                "taxRate": {
+                    "name": "taxRate",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -1592,5 +1599,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.2",
-    "version": "6fd53179172dc5d58a87c1c29dfc7455"
+    "version": "40e761e829084e5a5c66926e5b3eabc8"
 };

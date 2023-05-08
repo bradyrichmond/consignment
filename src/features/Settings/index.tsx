@@ -3,15 +3,17 @@ import { Box, Typography } from '@mui/material';
 import * as JSPM from "jsprintmanager";
 import { generateReceipt } from '../../utils/PrintReceipt';
 import { API, DataStore } from 'aws-amplify';
-import { Item } from '../../models';
+import { Item, Location } from '../../models';
 import PrinterSelector from './PrinterSelector';
 import CardReaderSelector from './CardReaderSelector';
+import LocationSettings from './LocationSettings';
 
 const Settings = () => {
     const [printers, setPrinters] = useState<any>([]);
     const [cardReaderOptions, setCardReaderOptions] = useState([])
     const [storedCardReaderId, setStoredCardReaderId] = useState('');
     const [socketStatus, setsocketStatus] = useState<JSPM.WSStatus>(JSPM.WSStatus.WaitingForUserResponse);
+    const [storeLocations, setStoreLocations] = useState<Location[]>([]);
 
     useEffect(() => {
         JSPM.JSPrintManager.auto_reconnect = true;
@@ -22,10 +24,16 @@ const Settings = () => {
             setCardReaderOptions(fetchedCardReaderIds);
         }
 
+        const getStoreLocations = async () => {
+            const fetchedStoreLocations = await DataStore.query(Location);
+            setStoreLocations(fetchedStoreLocations);
+        }
+
         setTimeout(() => { setsocketStatus(JSPM.JSPrintManager.websocket_status); }, 3000);
         setStoredCardReaderId(localStorage.getItem('cardReaderId') ?? '');
 
         getCardReaderIds();
+        getStoreLocations();
     }, [])
     
     useEffect(() => {
@@ -60,6 +68,15 @@ const Settings = () => {
         localStorage.setItem('cardReaderId', data.cardReaderId);
     }
 
+    const handleLocationChange = (locationId: string) => {
+        localStorage.setItem('locationId', locationId);
+    }
+
+    const handleAddLocation = async () => {
+        const fetchedStoreLocations = await DataStore.query(Location);
+        setStoreLocations(fetchedStoreLocations);
+    }
+
     return (
         <Box padding='2rem'>
             <Box>
@@ -71,6 +88,10 @@ const Settings = () => {
             <Box marginTop='2rem'>
                 <Typography>Card Reader</Typography>
                 <CardReaderSelector cardReaderIds={cardReaderOptions} onCardReaderChange={handleSetCardReaderId} />
+            </Box>
+            <Box marginTop='2rem'>
+                <Typography>Location</Typography>
+                <LocationSettings onLocationChange={handleLocationChange} locations={storeLocations} handleAddLocation={handleAddLocation} />
             </Box>
         </Box>
     )

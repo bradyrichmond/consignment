@@ -36,7 +36,7 @@ const CardReaderSelector = (props: CardReaderSelectorProps) => {
                     </FormControl>
                 </Box>
                 <Box display='flex' flexDirection='row'>
-                    <Box flex='1' marginRight='2rem'>
+                    <Box flex='1'>
                         <Button type='submit' variant='outlined' sx={{ color: 'black', border: '1px solid black', borderRadius: '.25rem', marginTop: '2rem', width: '100%' }}>Select Card Reader</Button>
                     </Box>
                 </Box>

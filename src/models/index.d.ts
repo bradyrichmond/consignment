@@ -259,6 +259,7 @@ type EagerLocation = {
   readonly locationId?: string | null;
   readonly locationName: string;
   readonly address?: Address | null;
+  readonly taxRate: number;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly locationAddressId?: string | null;
@@ -273,6 +274,7 @@ type LazyLocation = {
   readonly locationId?: string | null;
   readonly locationName: string;
   readonly address: AsyncItem<Address | undefined>;
+  readonly taxRate: number;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly locationAddressId?: string | null;
