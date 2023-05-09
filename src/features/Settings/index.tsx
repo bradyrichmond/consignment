@@ -7,6 +7,7 @@ import { Item, Location } from '../../models';
 import PrinterSelector from './PrinterSelector';
 import CardReaderSelector from './CardReaderSelector';
 import LocationSettings from './LocationSettings';
+import ConsignerSettings from './ConsignerSettings';
 
 const Settings = () => {
     const [printers, setPrinters] = useState<any>([]);
@@ -92,6 +93,10 @@ const Settings = () => {
             <Box marginTop='2rem'>
                 <Typography>Location</Typography>
                 <LocationSettings onLocationChange={handleLocationChange} locations={storeLocations} handleAddLocation={handleAddLocation} />
+            </Box>
+            <Box marginTop='2rem'>
+                <Typography>Consigner Percentage</Typography>
+                <ConsignerSettings />
             </Box>
         </Box>
     )

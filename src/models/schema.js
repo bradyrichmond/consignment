@@ -822,6 +822,49 @@ export const schema = {
                 }
             ]
         },
+        "ConsignerSplit": {
+            "name": "ConsignerSplit",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "consignerPercentage": {
+                    "name": "consignerPercentage",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "ConsignerSplits",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                }
+            ]
+        },
         "Address": {
             "name": "Address",
             "fields": {
@@ -1599,5 +1642,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.2",
-    "version": "40e761e829084e5a5c66926e5b3eabc8"
+    "version": "e87a2374ae67525d2545b89d596c1cae"
 };

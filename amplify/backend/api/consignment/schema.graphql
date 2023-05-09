@@ -93,6 +93,11 @@ type Location @model {
   taxRate: Float!
 }
 
+type ConsignerSplit @model {
+  id: ID!
+  consignerPercentage: Float!
+}
+
 type Address @model {
   id: ID!
   addressId: String

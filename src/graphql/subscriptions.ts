@@ -1331,6 +1331,51 @@ export const onDeleteLocation = /* GraphQL */ `
     }
   }
 `;
+export const onCreateConsignerSplit = /* GraphQL */ `
+  subscription OnCreateConsignerSplit(
+    $filter: ModelSubscriptionConsignerSplitFilterInput
+  ) {
+    onCreateConsignerSplit(filter: $filter) {
+      id
+      consignerPercentage
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onUpdateConsignerSplit = /* GraphQL */ `
+  subscription OnUpdateConsignerSplit(
+    $filter: ModelSubscriptionConsignerSplitFilterInput
+  ) {
+    onUpdateConsignerSplit(filter: $filter) {
+      id
+      consignerPercentage
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onDeleteConsignerSplit = /* GraphQL */ `
+  subscription OnDeleteConsignerSplit(
+    $filter: ModelSubscriptionConsignerSplitFilterInput
+  ) {
+    onDeleteConsignerSplit(filter: $filter) {
+      id
+      consignerPercentage
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
 export const onCreateAddress = /* GraphQL */ `
   subscription OnCreateAddress($filter: ModelSubscriptionAddressFilterInput) {
     onCreateAddress(filter: $filter) {

@@ -286,6 +286,34 @@ export declare const Location: (new (init: ModelInit<Location>) => Location) & {
   copyOf(source: Location, mutator: (draft: MutableModel<Location>) => MutableModel<Location> | void): Location;
 }
 
+type EagerConsignerSplit = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<ConsignerSplit, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly consignerPercentage: number;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyConsignerSplit = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<ConsignerSplit, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly consignerPercentage: number;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type ConsignerSplit = LazyLoading extends LazyLoadingDisabled ? EagerConsignerSplit : LazyConsignerSplit
+
+export declare const ConsignerSplit: (new (init: ModelInit<ConsignerSplit>) => ConsignerSplit) & {
+  copyOf(source: ConsignerSplit, mutator: (draft: MutableModel<ConsignerSplit>) => MutableModel<ConsignerSplit> | void): ConsignerSplit;
+}
+
 type EagerAddress = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Address, 'id'>;

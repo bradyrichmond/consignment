@@ -1,9 +1,9 @@
 import React from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { DataStore, Predicates, SortDirection } from 'aws-amplify';
+import { DataStore } from 'aws-amplify';
 import ModalContainer from '../../utils/ModalContainer';
-import { Address, Location } from '../../models';
+import { Location } from '../../models';
 
 interface UpdateTaxRateProps {
     close: () => void

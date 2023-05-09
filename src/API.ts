@@ -621,6 +621,41 @@ export type DeleteLocationInput = {
   _version?: number | null,
 };
 
+export type CreateConsignerSplitInput = {
+  id?: string | null,
+  consignerPercentage: number,
+  _version?: number | null,
+};
+
+export type ModelConsignerSplitConditionInput = {
+  consignerPercentage?: ModelFloatInput | null,
+  and?: Array< ModelConsignerSplitConditionInput | null > | null,
+  or?: Array< ModelConsignerSplitConditionInput | null > | null,
+  not?: ModelConsignerSplitConditionInput | null,
+};
+
+export type ConsignerSplit = {
+  __typename: "ConsignerSplit",
+  id: string,
+  consignerPercentage: number,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+};
+
+export type UpdateConsignerSplitInput = {
+  id: string,
+  consignerPercentage?: number | null,
+  _version?: number | null,
+};
+
+export type DeleteConsignerSplitInput = {
+  id: string,
+  _version?: number | null,
+};
+
 export type CreateAddressInput = {
   id?: string | null,
   addressId?: string | null,
@@ -1131,6 +1166,21 @@ export type ModelLocationConnection = {
   startedAt?: number | null,
 };
 
+export type ModelConsignerSplitFilterInput = {
+  id?: ModelIDInput | null,
+  consignerPercentage?: ModelFloatInput | null,
+  and?: Array< ModelConsignerSplitFilterInput | null > | null,
+  or?: Array< ModelConsignerSplitFilterInput | null > | null,
+  not?: ModelConsignerSplitFilterInput | null,
+};
+
+export type ModelConsignerSplitConnection = {
+  __typename: "ModelConsignerSplitConnection",
+  items:  Array<ConsignerSplit | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
 export type ModelAddressFilterInput = {
   id?: ModelIDInput | null,
   addressId?: ModelStringInput | null,
@@ -1434,6 +1484,13 @@ export type ModelSubscriptionLocationFilterInput = {
   taxRate?: ModelSubscriptionFloatInput | null,
   and?: Array< ModelSubscriptionLocationFilterInput | null > | null,
   or?: Array< ModelSubscriptionLocationFilterInput | null > | null,
+};
+
+export type ModelSubscriptionConsignerSplitFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  consignerPercentage?: ModelSubscriptionFloatInput | null,
+  and?: Array< ModelSubscriptionConsignerSplitFilterInput | null > | null,
+  or?: Array< ModelSubscriptionConsignerSplitFilterInput | null > | null,
 };
 
 export type ModelSubscriptionAddressFilterInput = {
@@ -2986,6 +3043,60 @@ export type DeleteLocationMutation = {
     _deleted?: boolean | null,
     _lastChangedAt: number,
     locationAddressId?: string | null,
+  } | null,
+};
+
+export type CreateConsignerSplitMutationVariables = {
+  input: CreateConsignerSplitInput,
+  condition?: ModelConsignerSplitConditionInput | null,
+};
+
+export type CreateConsignerSplitMutation = {
+  createConsignerSplit?:  {
+    __typename: "ConsignerSplit",
+    id: string,
+    consignerPercentage: number,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type UpdateConsignerSplitMutationVariables = {
+  input: UpdateConsignerSplitInput,
+  condition?: ModelConsignerSplitConditionInput | null,
+};
+
+export type UpdateConsignerSplitMutation = {
+  updateConsignerSplit?:  {
+    __typename: "ConsignerSplit",
+    id: string,
+    consignerPercentage: number,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type DeleteConsignerSplitMutationVariables = {
+  input: DeleteConsignerSplitInput,
+  condition?: ModelConsignerSplitConditionInput | null,
+};
+
+export type DeleteConsignerSplitMutation = {
+  deleteConsignerSplit?:  {
+    __typename: "ConsignerSplit",
+    id: string,
+    consignerPercentage: number,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
@@ -4999,6 +5110,72 @@ export type SyncLocationsQuery = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
       locationAddressId?: string | null,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type GetConsignerSplitQueryVariables = {
+  id: string,
+};
+
+export type GetConsignerSplitQuery = {
+  getConsignerSplit?:  {
+    __typename: "ConsignerSplit",
+    id: string,
+    consignerPercentage: number,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type ListConsignerSplitsQueryVariables = {
+  filter?: ModelConsignerSplitFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListConsignerSplitsQuery = {
+  listConsignerSplits?:  {
+    __typename: "ModelConsignerSplitConnection",
+    items:  Array< {
+      __typename: "ConsignerSplit",
+      id: string,
+      consignerPercentage: number,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncConsignerSplitsQueryVariables = {
+  filter?: ModelConsignerSplitFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncConsignerSplitsQuery = {
+  syncConsignerSplits?:  {
+    __typename: "ModelConsignerSplitConnection",
+    items:  Array< {
+      __typename: "ConsignerSplit",
+      id: string,
+      consignerPercentage: number,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
@@ -7497,6 +7674,57 @@ export type OnDeleteLocationSubscription = {
     _deleted?: boolean | null,
     _lastChangedAt: number,
     locationAddressId?: string | null,
+  } | null,
+};
+
+export type OnCreateConsignerSplitSubscriptionVariables = {
+  filter?: ModelSubscriptionConsignerSplitFilterInput | null,
+};
+
+export type OnCreateConsignerSplitSubscription = {
+  onCreateConsignerSplit?:  {
+    __typename: "ConsignerSplit",
+    id: string,
+    consignerPercentage: number,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnUpdateConsignerSplitSubscriptionVariables = {
+  filter?: ModelSubscriptionConsignerSplitFilterInput | null,
+};
+
+export type OnUpdateConsignerSplitSubscription = {
+  onUpdateConsignerSplit?:  {
+    __typename: "ConsignerSplit",
+    id: string,
+    consignerPercentage: number,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnDeleteConsignerSplitSubscriptionVariables = {
+  filter?: ModelSubscriptionConsignerSplitFilterInput | null,
+};
+
+export type OnDeleteConsignerSplitSubscription = {
+  onDeleteConsignerSplit?:  {
+    __typename: "ConsignerSplit",
+    id: string,
+    consignerPercentage: number,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 

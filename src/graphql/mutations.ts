@@ -1364,6 +1364,54 @@ export const deleteLocation = /* GraphQL */ `
     }
   }
 `;
+export const createConsignerSplit = /* GraphQL */ `
+  mutation CreateConsignerSplit(
+    $input: CreateConsignerSplitInput!
+    $condition: ModelConsignerSplitConditionInput
+  ) {
+    createConsignerSplit(input: $input, condition: $condition) {
+      id
+      consignerPercentage
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateConsignerSplit = /* GraphQL */ `
+  mutation UpdateConsignerSplit(
+    $input: UpdateConsignerSplitInput!
+    $condition: ModelConsignerSplitConditionInput
+  ) {
+    updateConsignerSplit(input: $input, condition: $condition) {
+      id
+      consignerPercentage
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteConsignerSplit = /* GraphQL */ `
+  mutation DeleteConsignerSplit(
+    $input: DeleteConsignerSplitInput!
+    $condition: ModelConsignerSplitConditionInput
+  ) {
+    deleteConsignerSplit(input: $input, condition: $condition) {
+      id
+      consignerPercentage
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
 export const createAddress = /* GraphQL */ `
   mutation CreateAddress(
     $input: CreateAddressInput!

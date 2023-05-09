@@ -7,10 +7,11 @@ import { currencyFormatter, currencyFormatterNoSign, generateReceipt } from "../
 import UserAvatar from "../../utils/UserAvatar";
 import ProcessCash from "./ProcessCash";
 import { API, DataStore } from "aws-amplify";
-import { Client, Item, StoreCredit, Transaction } from "../../models";
+import { Client, ConsignerSplit, Item, StoreCredit, Transaction } from "../../models";
 import ProcessingCard, { STEPS } from "./ProcessingCard";
 import { useForm } from "react-hook-form";
 import ModalContainer from "../../utils/ModalContainer";
+import useStoreLocation from "../../utils/useStoreLocation";
 
 interface CheckoutActionsProps {
     items: Item[]
@@ -32,12 +33,15 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
     const [itemAlreadyScanned, setItemAlreadyScanned] = useState(false);
     const [itemNotFound, setItemNotFound] = useState(false);
     const [itemAlreadySold, setItemAlreadySold] = useState(false);
+    const [consignmentPercentage, setConsignmentPercentage] = useState('0');
+    const storeData = useStoreLocation();
     
     const { handleSubmit, register, resetField } = useForm();
     
     const amount = items.reduce((a,b) => a + parseFloat(b.price), 0)
 
-    const amountWithTax = amount * 1.1;
+    const taxPercentage = (storeData?.taxRate ?? 0 / 100) + 1;
+    const amountWithTax = amount * taxPercentage;
 
     const fetchConnectionToken = async () => {
         const fetchedConnectionToken = await API.post('stripeApi', '/stripe-connection-token', {});
@@ -55,7 +59,14 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
             setTerminal(createdTerminal);
         }
 
+        const getConsignerPercentage = async () => {
+            const fetchedConsignerSettings = await DataStore.query(ConsignerSplit);
+            const currentConsignerSettings = fetchedConsignerSettings[0];
+            setConsignmentPercentage((currentConsignerSettings.consignerPercentage / 100).toString());
+        }
+
         initializeTerminal();
+        getConsignerPercentage();
     }, [])
 
     useEffect(() => {
@@ -182,30 +193,14 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
         setIsProcessingCard(false);
     }
 
-    // type Transaction @model {
-    //     id: ID!
-    //     client: Client
-    //     items: [Item!]!
-    //     payoutId: String
-    //     transCdId: String
-    //     userId: String!
-    //     actTransTimestamp: String
-    //     actTransDesc: String
-    //     actTransAmt: String
-    //     hold: Boolean
-    //     glExportInd: Boolean
-    //     syncInd: Boolean
-    //     saleDetailId: String
-    //     location: Location @hasOne
-    //   }
-
     const completeTransaction = async () => {
-        // needs location data, and correct userId
-        const transaction = await DataStore.save(new Transaction({items, userId: '1', actTransAmt: amountWithTax.toString(), actTransTimestamp: Date.now().toString()}));
+        // needs correct userId
+        const transaction = await DataStore.save(new Transaction({ items, userId: '1', actTransAmt: amountWithTax.toString(), actTransTimestamp: Date.now().toString(), location: storeData }));
         await updateSoldItems();
 
         // this will just create the zprint directions at this point, it won't print a receipt
-        await generateReceipt(items, tenders, transaction.id, '123 Test', 'Test, Wa 99999');
+        const address = await storeData?.address;
+        await generateReceipt(items, tenders, transaction.id, address?.address1 ?? '', `${address?.city}, ${address?.state} ${address?.zip}`);
     }
 
     const updateSoldItems = async () => {
@@ -219,22 +214,17 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
 
                 await DataStore.save(StoreCredit.copyOf(storeCredit, (updated) => {
                     // needs dynamic percentage
-                    updated.amount = storeCredit.amount ?? 0 + parseFloat(item.price) * .4;
+                    updated.amount = storeCredit.amount ?? 0 + parseFloat(item.price) * parseFloat(consignmentPercentage);
                     updated.items = fetchedItems.length > 0 ? [...fetchedItems, item] : [item]
-                }))
-
-                await DataStore.save(Item.copyOf(item, (updated) => {
-                    // need to add an enum for this
-                    updated.statusId = '18'
-                }))
+                }));
             } else {
-                await DataStore.save(new StoreCredit({ amount: parseFloat(item.price) * .4, items: [item] }));
-
-                await DataStore.save(Item.copyOf(item, (updated) => {
-                    // need to add an enum for this
-                    updated.statusId = '18'
-                }))
+                await DataStore.save(new StoreCredit({ amount: parseFloat(item.price) * parseFloat(consignmentPercentage), items: [item] }));
             }
+
+            await DataStore.save(Item.copyOf(item, (updated) => {
+                // need to add an enum for this
+                updated.statusId = '18'
+            }));
         }
     }
 

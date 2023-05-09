@@ -1031,6 +1031,67 @@ export const syncLocations = /* GraphQL */ `
     }
   }
 `;
+export const getConsignerSplit = /* GraphQL */ `
+  query GetConsignerSplit($id: ID!) {
+    getConsignerSplit(id: $id) {
+      id
+      consignerPercentage
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listConsignerSplits = /* GraphQL */ `
+  query ListConsignerSplits(
+    $filter: ModelConsignerSplitFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listConsignerSplits(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        consignerPercentage
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncConsignerSplits = /* GraphQL */ `
+  query SyncConsignerSplits(
+    $filter: ModelConsignerSplitFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncConsignerSplits(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        consignerPercentage
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
 export const getAddress = /* GraphQL */ `
   query GetAddress($id: ID!) {
     getAddress(id: $id) {
