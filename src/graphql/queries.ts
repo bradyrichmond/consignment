@@ -1823,6 +1823,106 @@ export const syncGiftCards = /* GraphQL */ `
     }
   }
 `;
+export const getGiftCardLog = /* GraphQL */ `
+  query GetGiftCardLog($id: ID!) {
+    getGiftCardLog(id: $id) {
+      id
+      giftCard {
+        id
+        qrCode
+        barcode
+        value
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      amount
+      type
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      giftCardLogGiftCardId
+    }
+  }
+`;
+export const listGiftCardLogs = /* GraphQL */ `
+  query ListGiftCardLogs(
+    $filter: ModelGiftCardLogFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listGiftCardLogs(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        giftCard {
+          id
+          qrCode
+          barcode
+          value
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        amount
+        type
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        giftCardLogGiftCardId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncGiftCardLogs = /* GraphQL */ `
+  query SyncGiftCardLogs(
+    $filter: ModelGiftCardLogFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncGiftCardLogs(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        giftCard {
+          id
+          qrCode
+          barcode
+          value
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        amount
+        type
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        giftCardLogGiftCardId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
 export const getCategoryAttribute = /* GraphQL */ `
   query GetCategoryAttribute($id: ID!) {
     getCategoryAttribute(id: $id) {

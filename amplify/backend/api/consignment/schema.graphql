@@ -8,6 +8,11 @@ enum ClientType {
   STORE_ACCOUNT
 }
 
+enum GiftCardLogType {
+  ISSUED
+  PURCHASE
+}
+
 type Client @model {
   id: ID!
   clientId: String
@@ -171,4 +176,11 @@ type GiftCard @model {
   qrCode: String
   barcode: String
   value: Float!
+}
+
+type GiftCardLog @model {
+  id: ID!
+  giftCard: GiftCard! @hasOne
+  amount: Float!
+  type: GiftCardLogType!
 }

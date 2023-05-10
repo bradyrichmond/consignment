@@ -7,11 +7,13 @@ import { currencyFormatter, currencyFormatterNoSign, generateReceipt } from "../
 import UserAvatar from "../../utils/UserAvatar";
 import ProcessCash from "./ProcessCash";
 import { API, DataStore } from "aws-amplify";
-import { Client, ConsignerSplit, Item, StoreCredit, Transaction } from "../../models";
+import { Client, ConsignerSplit, GiftCard, GiftCardLog, Item, StoreCredit, Transaction } from "../../models";
 import ProcessingCard, { STEPS } from "./ProcessingCard";
 import { useForm } from "react-hook-form";
 import ModalContainer from "../../utils/ModalContainer";
 import useStoreLocation from "../../utils/useStoreLocation";
+import ProcessGiftCard from "./ProcessGiftCard";
+import { GiftCardLogType } from "../../models";
 
 interface CheckoutActionsProps {
     items: Item[]
@@ -24,7 +26,8 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
     const [intentSecret, setIntentSecret] = useState('');
     const [isProcessingCash, setIsProcessingCash] = useState<boolean>(false);
     const [isProcessingCard, setIsProcessingCard] = useState<boolean>(false);
-    const [tenders, setTenders] = useState<{label: string, receivedAmount: number}[]>([]);
+    const [isProcessingGiftCard, setIsProcessingGiftCard] = useState<boolean>(false);
+    const [tenders, setTenders] = useState<{label: string, receivedAmount: number, giftCardId?: string}[]>([]);
     const [totalTenderedAmount, setTotalTenderedAmount] = useState(0);
     const [cashTender, setCashTender] = useState(0);
     const [cardProcessingStep, setCardProcessingStep] = useState('');
@@ -133,6 +136,10 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
         startTakePayment(Math.round((amountWithTax - totalTenderedAmount) * 100))
     }
 
+    const giftCard = () => {
+        setIsProcessingGiftCard(true);
+    }
+
     const startTakePayment = async (amount: number) => {
         setCardProcessingStep(STEPS.PAYMENT_INTENT);
         const paymentIntent = await API.post('stripeApi', '/create-payment-intent', {
@@ -191,16 +198,39 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
     const stopProcessingPayment = () => {
         setIsProcessingCash(false);
         setIsProcessingCard(false);
+        setIsProcessingGiftCard(false);
     }
 
     const completeTransaction = async () => {
         // needs correct userId
         const transaction = await DataStore.save(new Transaction({ items, userId: '1', actTransAmt: amountWithTax.toString(), actTransTimestamp: Date.now().toString(), location: storeData }));
+
+        const giftCardTenders = tenders.filter((t) => t.label === 'Gift Card');
+
+        if (giftCardTenders.length > 0) {
+            updateGiftCards(giftCardTenders);
+        }
+
         await updateSoldItems();
 
         // this will just create the zprint directions at this point, it won't print a receipt
         const address = await storeData?.address;
         await generateReceipt(items, tenders, transaction.id, address?.address1 ?? '', `${address?.city}, ${address?.state} ${address?.zip}`);
+    }
+
+    const updateGiftCards = async (giftCards: {label: string, receivedAmount: number, giftCardId?: string}[]) => {
+        for (let i = 0; i < giftCards.length; i++) {
+            const gc = giftCards[i];
+            const original = await DataStore.query(GiftCard, gc.giftCardId ?? '');
+
+            if (original) {
+                const updatedGiftCard = await DataStore.save(GiftCard.copyOf(original, (updated) => {
+                    updated.value = original.value - gc.receivedAmount;
+                }));
+
+                await DataStore.save(new GiftCardLog({ amount: -gc.receivedAmount, giftCard: updatedGiftCard, type: GiftCardLogType.PURCHASE, giftCardLogGiftCardId: updatedGiftCard.id }))
+            }
+        }
     }
 
     const updateSoldItems = async () => {
@@ -278,6 +308,21 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
         setItemAlreadySold(false);
     }
 
+    const intakeGiftCardData = (giftCard?: GiftCard) => {
+        if (giftCard) {
+            const currentTenderedAmount = amount >= giftCard.value ? {label: 'Gift Card', receivedAmount: giftCard.value} : {label: 'Gift Card', receivedAmount: amount}; 
+            setTenders((cur) => {
+                if (cur.length > 0) {
+                    return [...cur, currentTenderedAmount]
+                }
+
+                return [currentTenderedAmount]
+            })
+        }
+
+        stopProcessingPayment();
+    }
+
     return (
         <Box display='flex' flexDirection='column' height='100%'>
             <Modal
@@ -290,7 +335,13 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
                 open={isProcessingCard}
                 onClose={stopProcessingPayment}
             >
-                <ProcessingCard step={cardProcessingStep} close={() => setIsProcessingCard(false) }/>
+                <ProcessingCard step={cardProcessingStep} close={stopProcessingPayment}/>
+            </Modal>
+            <Modal
+                open={isProcessingGiftCard}
+                onClose={stopProcessingPayment}
+            >
+                <ProcessGiftCard close={intakeGiftCardData}/>
             </Modal>
             <Modal
                 open={itemAlreadyScanned}
@@ -390,7 +441,7 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
                 <Button variant='outlined' sx={{border: '1px solid white', borderRadius: '.25rem', padding: '2rem', width: '100%', marginBottom: '2rem', color: 'white'}} disabled={tenderAmountHasBeenMet} onClick={cash}>Cash</Button>
                 <Button variant='outlined' sx={{border: '1px solid white', borderRadius: '.25rem', padding: '2rem', width: '100%', marginBottom: '2rem', color: 'white'}} disabled={tenderAmountHasBeenMet} onClick={card}>Credit / Debit</Button>
                 <Button variant='outlined' sx={{border: '1px solid white', borderRadius: '.25rem', padding: '2rem', width: '100%', marginBottom: '2rem', color: 'white'}} disabled={tenderAmountHasBeenMet}>Store Credit</Button>
-                <Button variant='outlined' sx={{border: '1px solid white', borderRadius: '.25rem', padding: '2rem', width: '100%', marginBottom: '2rem', color: 'white'}} disabled={tenderAmountHasBeenMet}>Gift Card</Button>
+                <Button variant='outlined' sx={{border: '1px solid white', borderRadius: '.25rem', padding: '2rem', width: '100%', marginBottom: '2rem', color: 'white'}} disabled={tenderAmountHasBeenMet} onClick={giftCard}>Gift Card</Button>
             </Box>
         </Box>
     )

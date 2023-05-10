@@ -8,6 +8,11 @@ export enum ClientType {
   STORE_ACCOUNT = "STORE_ACCOUNT"
 }
 
+export enum GiftCardLogType {
+  ISSUED = "ISSUED",
+  PURCHASE = "PURCHASE"
+}
+
 
 
 type EagerClient = {
@@ -614,6 +619,40 @@ export declare type GiftCard = LazyLoading extends LazyLoadingDisabled ? EagerGi
 
 export declare const GiftCard: (new (init: ModelInit<GiftCard>) => GiftCard) & {
   copyOf(source: GiftCard, mutator: (draft: MutableModel<GiftCard>) => MutableModel<GiftCard> | void): GiftCard;
+}
+
+type EagerGiftCardLog = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<GiftCardLog, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly giftCard: GiftCard;
+  readonly amount: number;
+  readonly type: GiftCardLogType | keyof typeof GiftCardLogType;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly giftCardLogGiftCardId: string;
+}
+
+type LazyGiftCardLog = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<GiftCardLog, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly giftCard: AsyncItem<GiftCard>;
+  readonly amount: number;
+  readonly type: GiftCardLogType | keyof typeof GiftCardLogType;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly giftCardLogGiftCardId: string;
+}
+
+export declare type GiftCardLog = LazyLoading extends LazyLoadingDisabled ? EagerGiftCardLog : LazyGiftCardLog
+
+export declare const GiftCardLog: (new (init: ModelInit<GiftCardLog>) => GiftCardLog) & {
+  copyOf(source: GiftCardLog, mutator: (draft: MutableModel<GiftCardLog>) => MutableModel<GiftCardLog> | void): GiftCardLog;
 }
 
 type EagerCategoryAttribute = {

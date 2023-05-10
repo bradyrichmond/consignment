@@ -8,7 +8,12 @@ const ClientType = {
   "STORE_ACCOUNT": "STORE_ACCOUNT"
 };
 
-const { Client, StoreCredit, Item, Transaction, Location, ConsignerSplit, Address, City, Brand, Category, AttributeType, AttributeTypeValue, CategoryPriceGuide, GiftCard, CategoryAttribute } = initSchema(schema);
+const GiftCardLogType = {
+  "ISSUED": "ISSUED",
+  "PURCHASE": "PURCHASE"
+};
+
+const { Client, StoreCredit, Item, Transaction, Location, ConsignerSplit, Address, City, Brand, Category, AttributeType, AttributeTypeValue, CategoryPriceGuide, GiftCard, GiftCardLog, CategoryAttribute } = initSchema(schema);
 
 export {
   Client,
@@ -25,6 +30,8 @@ export {
   AttributeTypeValue,
   CategoryPriceGuide,
   GiftCard,
+  GiftCardLog,
   CategoryAttribute,
-  ClientType
+  ClientType,
+  GiftCardLogType
 };

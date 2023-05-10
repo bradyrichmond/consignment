@@ -1997,6 +1997,90 @@ export const onDeleteGiftCard = /* GraphQL */ `
     }
   }
 `;
+export const onCreateGiftCardLog = /* GraphQL */ `
+  subscription OnCreateGiftCardLog(
+    $filter: ModelSubscriptionGiftCardLogFilterInput
+  ) {
+    onCreateGiftCardLog(filter: $filter) {
+      id
+      giftCard {
+        id
+        qrCode
+        barcode
+        value
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      amount
+      type
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      giftCardLogGiftCardId
+    }
+  }
+`;
+export const onUpdateGiftCardLog = /* GraphQL */ `
+  subscription OnUpdateGiftCardLog(
+    $filter: ModelSubscriptionGiftCardLogFilterInput
+  ) {
+    onUpdateGiftCardLog(filter: $filter) {
+      id
+      giftCard {
+        id
+        qrCode
+        barcode
+        value
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      amount
+      type
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      giftCardLogGiftCardId
+    }
+  }
+`;
+export const onDeleteGiftCardLog = /* GraphQL */ `
+  subscription OnDeleteGiftCardLog(
+    $filter: ModelSubscriptionGiftCardLogFilterInput
+  ) {
+    onDeleteGiftCardLog(filter: $filter) {
+      id
+      giftCard {
+        id
+        qrCode
+        barcode
+        value
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      amount
+      type
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      giftCardLogGiftCardId
+    }
+  }
+`;
 export const onCreateCategoryAttribute = /* GraphQL */ `
   subscription OnCreateCategoryAttribute(
     $filter: ModelSubscriptionCategoryAttributeFilterInput

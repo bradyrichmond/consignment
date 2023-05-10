@@ -1531,6 +1531,83 @@ export const schema = {
                 }
             ]
         },
+        "GiftCardLog": {
+            "name": "GiftCardLog",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "giftCard": {
+                    "name": "giftCard",
+                    "isArray": false,
+                    "type": {
+                        "model": "GiftCard"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": [
+                            "id"
+                        ],
+                        "targetNames": [
+                            "giftCardLogGiftCardId"
+                        ]
+                    }
+                },
+                "amount": {
+                    "name": "amount",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "type": {
+                    "name": "type",
+                    "isArray": false,
+                    "type": {
+                        "enum": "GiftCardLogType"
+                    },
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "giftCardLogGiftCardId": {
+                    "name": "giftCardLogGiftCardId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                }
+            },
+            "syncable": true,
+            "pluralName": "GiftCardLogs",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                }
+            ]
+        },
         "CategoryAttribute": {
             "name": "CategoryAttribute",
             "fields": {
@@ -1638,9 +1715,16 @@ export const schema = {
                 "RETAIL_VENDOR",
                 "STORE_ACCOUNT"
             ]
+        },
+        "GiftCardLogType": {
+            "name": "GiftCardLogType",
+            "values": [
+                "ISSUED",
+                "PURCHASE"
+            ]
         }
     },
     "nonModels": {},
     "codegenVersion": "3.4.2",
-    "version": "e87a2374ae67525d2545b89d596c1cae"
+    "version": "80bd9f9df537b3b41bff36a514ff6c07"
 };

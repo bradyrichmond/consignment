@@ -2087,6 +2087,93 @@ export const deleteGiftCard = /* GraphQL */ `
     }
   }
 `;
+export const createGiftCardLog = /* GraphQL */ `
+  mutation CreateGiftCardLog(
+    $input: CreateGiftCardLogInput!
+    $condition: ModelGiftCardLogConditionInput
+  ) {
+    createGiftCardLog(input: $input, condition: $condition) {
+      id
+      giftCard {
+        id
+        qrCode
+        barcode
+        value
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      amount
+      type
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      giftCardLogGiftCardId
+    }
+  }
+`;
+export const updateGiftCardLog = /* GraphQL */ `
+  mutation UpdateGiftCardLog(
+    $input: UpdateGiftCardLogInput!
+    $condition: ModelGiftCardLogConditionInput
+  ) {
+    updateGiftCardLog(input: $input, condition: $condition) {
+      id
+      giftCard {
+        id
+        qrCode
+        barcode
+        value
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      amount
+      type
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      giftCardLogGiftCardId
+    }
+  }
+`;
+export const deleteGiftCardLog = /* GraphQL */ `
+  mutation DeleteGiftCardLog(
+    $input: DeleteGiftCardLogInput!
+    $condition: ModelGiftCardLogConditionInput
+  ) {
+    deleteGiftCardLog(input: $input, condition: $condition) {
+      id
+      giftCard {
+        id
+        qrCode
+        barcode
+        value
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      amount
+      type
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      giftCardLogGiftCardId
+    }
+  }
+`;
 export const createCategoryAttribute = /* GraphQL */ `
   mutation CreateCategoryAttribute(
     $input: CreateCategoryAttributeInput!

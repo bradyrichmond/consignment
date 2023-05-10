@@ -1013,6 +1013,61 @@ export type DeleteGiftCardInput = {
   _version?: number | null,
 };
 
+export type CreateGiftCardLogInput = {
+  id?: string | null,
+  amount: number,
+  type: GiftCardLogType,
+  _version?: number | null,
+  giftCardLogGiftCardId: string,
+};
+
+export enum GiftCardLogType {
+  ISSUED = "ISSUED",
+  PURCHASE = "PURCHASE",
+}
+
+
+export type ModelGiftCardLogConditionInput = {
+  amount?: ModelFloatInput | null,
+  type?: ModelGiftCardLogTypeInput | null,
+  and?: Array< ModelGiftCardLogConditionInput | null > | null,
+  or?: Array< ModelGiftCardLogConditionInput | null > | null,
+  not?: ModelGiftCardLogConditionInput | null,
+  giftCardLogGiftCardId?: ModelIDInput | null,
+};
+
+export type ModelGiftCardLogTypeInput = {
+  eq?: GiftCardLogType | null,
+  ne?: GiftCardLogType | null,
+};
+
+export type GiftCardLog = {
+  __typename: "GiftCardLog",
+  id: string,
+  giftCard: GiftCard,
+  amount: number,
+  type: GiftCardLogType,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+  giftCardLogGiftCardId: string,
+};
+
+export type UpdateGiftCardLogInput = {
+  id: string,
+  amount?: number | null,
+  type?: GiftCardLogType | null,
+  _version?: number | null,
+  giftCardLogGiftCardId?: string | null,
+};
+
+export type DeleteGiftCardLogInput = {
+  id: string,
+  _version?: number | null,
+};
+
 export type CreateCategoryAttributeInput = {
   id?: string | null,
   categoryId: string,
@@ -1328,6 +1383,23 @@ export type ModelGiftCardConnection = {
   startedAt?: number | null,
 };
 
+export type ModelGiftCardLogFilterInput = {
+  id?: ModelIDInput | null,
+  amount?: ModelFloatInput | null,
+  type?: ModelGiftCardLogTypeInput | null,
+  and?: Array< ModelGiftCardLogFilterInput | null > | null,
+  or?: Array< ModelGiftCardLogFilterInput | null > | null,
+  not?: ModelGiftCardLogFilterInput | null,
+  giftCardLogGiftCardId?: ModelIDInput | null,
+};
+
+export type ModelGiftCardLogConnection = {
+  __typename: "ModelGiftCardLogConnection",
+  items:  Array<GiftCardLog | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
 export type ModelCategoryAttributeFilterInput = {
   id?: ModelIDInput | null,
   categoryId?: ModelIDInput | null,
@@ -1578,6 +1650,14 @@ export type ModelSubscriptionGiftCardFilterInput = {
   value?: ModelSubscriptionFloatInput | null,
   and?: Array< ModelSubscriptionGiftCardFilterInput | null > | null,
   or?: Array< ModelSubscriptionGiftCardFilterInput | null > | null,
+};
+
+export type ModelSubscriptionGiftCardLogFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  amount?: ModelSubscriptionFloatInput | null,
+  type?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionGiftCardLogFilterInput | null > | null,
+  or?: Array< ModelSubscriptionGiftCardLogFilterInput | null > | null,
 };
 
 export type ModelSubscriptionCategoryAttributeFilterInput = {
@@ -3847,6 +3927,102 @@ export type DeleteGiftCardMutation = {
   } | null,
 };
 
+export type CreateGiftCardLogMutationVariables = {
+  input: CreateGiftCardLogInput,
+  condition?: ModelGiftCardLogConditionInput | null,
+};
+
+export type CreateGiftCardLogMutation = {
+  createGiftCardLog?:  {
+    __typename: "GiftCardLog",
+    id: string,
+    giftCard:  {
+      __typename: "GiftCard",
+      id: string,
+      qrCode?: string | null,
+      barcode?: string | null,
+      value: number,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
+    amount: number,
+    type: GiftCardLogType,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    giftCardLogGiftCardId: string,
+  } | null,
+};
+
+export type UpdateGiftCardLogMutationVariables = {
+  input: UpdateGiftCardLogInput,
+  condition?: ModelGiftCardLogConditionInput | null,
+};
+
+export type UpdateGiftCardLogMutation = {
+  updateGiftCardLog?:  {
+    __typename: "GiftCardLog",
+    id: string,
+    giftCard:  {
+      __typename: "GiftCard",
+      id: string,
+      qrCode?: string | null,
+      barcode?: string | null,
+      value: number,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
+    amount: number,
+    type: GiftCardLogType,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    giftCardLogGiftCardId: string,
+  } | null,
+};
+
+export type DeleteGiftCardLogMutationVariables = {
+  input: DeleteGiftCardLogInput,
+  condition?: ModelGiftCardLogConditionInput | null,
+};
+
+export type DeleteGiftCardLogMutation = {
+  deleteGiftCardLog?:  {
+    __typename: "GiftCardLog",
+    id: string,
+    giftCard:  {
+      __typename: "GiftCard",
+      id: string,
+      qrCode?: string | null,
+      barcode?: string | null,
+      value: number,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
+    amount: number,
+    type: GiftCardLogType,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    giftCardLogGiftCardId: string,
+  } | null,
+};
+
 export type CreateCategoryAttributeMutationVariables = {
   input: CreateCategoryAttributeInput,
   condition?: ModelCategoryAttributeConditionInput | null,
@@ -5955,6 +6131,114 @@ export type SyncGiftCardsQuery = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type GetGiftCardLogQueryVariables = {
+  id: string,
+};
+
+export type GetGiftCardLogQuery = {
+  getGiftCardLog?:  {
+    __typename: "GiftCardLog",
+    id: string,
+    giftCard:  {
+      __typename: "GiftCard",
+      id: string,
+      qrCode?: string | null,
+      barcode?: string | null,
+      value: number,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
+    amount: number,
+    type: GiftCardLogType,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    giftCardLogGiftCardId: string,
+  } | null,
+};
+
+export type ListGiftCardLogsQueryVariables = {
+  filter?: ModelGiftCardLogFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListGiftCardLogsQuery = {
+  listGiftCardLogs?:  {
+    __typename: "ModelGiftCardLogConnection",
+    items:  Array< {
+      __typename: "GiftCardLog",
+      id: string,
+      giftCard:  {
+        __typename: "GiftCard",
+        id: string,
+        qrCode?: string | null,
+        barcode?: string | null,
+        value: number,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      },
+      amount: number,
+      type: GiftCardLogType,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      giftCardLogGiftCardId: string,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncGiftCardLogsQueryVariables = {
+  filter?: ModelGiftCardLogFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncGiftCardLogsQuery = {
+  syncGiftCardLogs?:  {
+    __typename: "ModelGiftCardLogConnection",
+    items:  Array< {
+      __typename: "GiftCardLog",
+      id: string,
+      giftCard:  {
+        __typename: "GiftCard",
+        id: string,
+        qrCode?: string | null,
+        barcode?: string | null,
+        value: number,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      },
+      amount: number,
+      type: GiftCardLogType,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      giftCardLogGiftCardId: string,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
@@ -8448,6 +8732,99 @@ export type OnDeleteGiftCardSubscription = {
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
+  } | null,
+};
+
+export type OnCreateGiftCardLogSubscriptionVariables = {
+  filter?: ModelSubscriptionGiftCardLogFilterInput | null,
+};
+
+export type OnCreateGiftCardLogSubscription = {
+  onCreateGiftCardLog?:  {
+    __typename: "GiftCardLog",
+    id: string,
+    giftCard:  {
+      __typename: "GiftCard",
+      id: string,
+      qrCode?: string | null,
+      barcode?: string | null,
+      value: number,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
+    amount: number,
+    type: GiftCardLogType,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    giftCardLogGiftCardId: string,
+  } | null,
+};
+
+export type OnUpdateGiftCardLogSubscriptionVariables = {
+  filter?: ModelSubscriptionGiftCardLogFilterInput | null,
+};
+
+export type OnUpdateGiftCardLogSubscription = {
+  onUpdateGiftCardLog?:  {
+    __typename: "GiftCardLog",
+    id: string,
+    giftCard:  {
+      __typename: "GiftCard",
+      id: string,
+      qrCode?: string | null,
+      barcode?: string | null,
+      value: number,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
+    amount: number,
+    type: GiftCardLogType,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    giftCardLogGiftCardId: string,
+  } | null,
+};
+
+export type OnDeleteGiftCardLogSubscriptionVariables = {
+  filter?: ModelSubscriptionGiftCardLogFilterInput | null,
+};
+
+export type OnDeleteGiftCardLogSubscription = {
+  onDeleteGiftCardLog?:  {
+    __typename: "GiftCardLog",
+    id: string,
+    giftCard:  {
+      __typename: "GiftCard",
+      id: string,
+      qrCode?: string | null,
+      barcode?: string | null,
+      value: number,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
+    amount: number,
+    type: GiftCardLogType,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    giftCardLogGiftCardId: string,
   } | null,
 };
 
