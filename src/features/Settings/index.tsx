@@ -3,11 +3,12 @@ import { Box, Typography } from '@mui/material';
 import * as JSPM from "jsprintmanager";
 import { generateReceipt } from '../../utils/PrintReceipt';
 import { API, DataStore } from 'aws-amplify';
-import { Item, Location } from '../../models';
+import { Item, Location, Tender } from '../../models';
 import PrinterSelector from './PrinterSelector';
 import CardReaderSelector from './CardReaderSelector';
 import LocationSettings from './LocationSettings';
 import ConsignerSettings from './ConsignerSettings';
+import { TenderType } from '../../models';
 
 const Settings = () => {
     const [printers, setPrinters] = useState<any>([]);
@@ -61,7 +62,7 @@ const Settings = () => {
             const listOfItems: Item[] = [];
             listOfItems.push(fetchedItem);
             console.log('receipt:');
-            console.log(generateReceipt(listOfItems, [{label: 'Cash', receivedAmount: 12.99}], 'testTransactionId', '1480 NW Gilman Blvd #3', "Issaquah, WA 98027"))
+            console.log(generateReceipt(listOfItems, [new Tender({ label: TenderType.CREDIT_CARD, receivedAmount: 5.99 })], 'testTransactionId', '1480 NW Gilman Blvd #3', "Issaquah, WA 98027"))
         }
     }
 
