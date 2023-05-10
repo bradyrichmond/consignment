@@ -3,17 +3,18 @@ import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { format } from 'date-fns';
 
-import { currencyFormatter, currencyFormatterNoSign, generateReceipt } from "../../utils/PrintReceipt";
+import { currencyFormatter, generateReceipt } from "../../utils/PrintReceipt";
 import UserAvatar from "../../utils/UserAvatar";
 import ProcessCash from "./ProcessCash";
 import { API, DataStore } from "aws-amplify";
-import { Client, ConsignerSplit, GiftCard, GiftCardLog, Item, StoreCredit, Transaction } from "../../models";
+import { Client, ConsignerSplit, GiftCard, GiftCardLog, Item, StoreCredit, Tender, Transaction } from "../../models";
 import ProcessingCard, { STEPS } from "./ProcessingCard";
 import { useForm } from "react-hook-form";
 import ModalContainer from "../../utils/ModalContainer";
 import useStoreLocation from "../../utils/useStoreLocation";
 import ProcessGiftCard from "./ProcessGiftCard";
 import { GiftCardLogType } from "../../models";
+import { TenderType } from "../../models";
 
 interface CheckoutActionsProps {
     items: Item[]
@@ -27,7 +28,7 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
     const [isProcessingCash, setIsProcessingCash] = useState<boolean>(false);
     const [isProcessingCard, setIsProcessingCard] = useState<boolean>(false);
     const [isProcessingGiftCard, setIsProcessingGiftCard] = useState<boolean>(false);
-    const [tenders, setTenders] = useState<{label: string, receivedAmount: number, giftCardId?: string}[]>([]);
+    const [tenders, setTenders] = useState<Tender[]>([]);
     const [totalTenderedAmount, setTotalTenderedAmount] = useState(0);
     const [cashTender, setCashTender] = useState(0);
     const [cardProcessingStep, setCardProcessingStep] = useState('');
@@ -178,16 +179,18 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
         } else if (result.paymentIntent) {
             const intentAmount = (result.paymentIntent.amount) / 100;
             // Placeholder for notifying your backend to capture result.paymentIntent.id
-            setTenders(tenders.length > 0 ? [...tenders, { label: 'Card', receivedAmount: intentAmount }] : [{ label: 'Card', receivedAmount: intentAmount }]);
+            const newTender = await DataStore.save(new Tender({ label: TenderType.CREDIT_CARD, receivedAmount: intentAmount }));
+            setTenders(tenders.length > 0 ? [...tenders, newTender] : [newTender]);
             setTotalTenderedAmount((cur) => cur + intentAmount);
             setCardProcessingStep(STEPS.DONE);
             console.log('payment success')
         }
     }
 
-    const addCashTender = (receivedAmount?: number) => {
+    const addCashTender = async (receivedAmount?: number) => {
         if (receivedAmount) {
-            setTenders(tenders.length > 0 ? [...tenders, { label: 'Cash', receivedAmount }] : [{ label: 'Cash', receivedAmount }]);
+            const newTender = await DataStore.save(new Tender({ label: TenderType.CASH, receivedAmount }));
+            setTenders(tenders.length > 0 ? [...tenders, newTender] : [newTender]);
             setTotalTenderedAmount((cur) => cur + receivedAmount);
             setCashTender(receivedAmount);
         }
@@ -203,9 +206,9 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
 
     const completeTransaction = async () => {
         // needs correct userId
-        const transaction = await DataStore.save(new Transaction({ items, userId: '1', actTransAmt: amountWithTax.toString(), actTransTimestamp: Date.now().toString(), location: storeData }));
+        const transaction = await DataStore.save(new Transaction({ items, userId: '1', actTransAmt: amountWithTax.toString(), actTransTimestamp: Date.now().toString(), location: storeData, tenders }));
 
-        const giftCardTenders = tenders.filter((t) => t.label === 'Gift Card');
+        const giftCardTenders = tenders.filter((t) => t.label === TenderType.GIFT_CARD);
 
         if (giftCardTenders.length > 0) {
             updateGiftCards(giftCardTenders);
@@ -218,7 +221,7 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
         await generateReceipt(items, tenders, transaction.id, address?.address1 ?? '', `${address?.city}, ${address?.state} ${address?.zip}`);
     }
 
-    const updateGiftCards = async (giftCards: {label: string, receivedAmount: number, giftCardId?: string}[]) => {
+    const updateGiftCards = async (giftCards: Tender[]) => {
         for (let i = 0; i < giftCards.length; i++) {
             const gc = giftCards[i];
             const original = await DataStore.query(GiftCard, gc.giftCardId ?? '');
@@ -308,9 +311,10 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
         setItemAlreadySold(false);
     }
 
-    const intakeGiftCardData = (giftCard?: GiftCard) => {
+    const intakeGiftCardData = async (giftCard?: GiftCard) => {
         if (giftCard) {
-            const currentTenderedAmount = amount >= giftCard.value ? {label: 'Gift Card', receivedAmount: giftCard.value} : {label: 'Gift Card', receivedAmount: amount}; 
+            const receivedAmount = amount >= giftCard.value ? giftCard.value : amount;
+            const currentTenderedAmount =  await DataStore.save(new Tender({ label: TenderType.GIFT_CARD, receivedAmount, giftCardId: giftCard.id }));
             setTenders((cur) => {
                 if (cur.length > 0) {
                     return [...cur, currentTenderedAmount]

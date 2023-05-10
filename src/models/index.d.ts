@@ -13,6 +13,13 @@ export enum GiftCardLogType {
   PURCHASE = "PURCHASE"
 }
 
+export enum TenderType {
+  CASH = "CASH",
+  CREDIT_CARD = "CREDIT_CARD",
+  GIFT_CARD = "GIFT_CARD",
+  STORE_CREDIT = "STORE_CREDIT"
+}
+
 
 
 type EagerClient = {
@@ -220,6 +227,7 @@ type EagerTransaction = {
   readonly saleDetailId?: string | null;
   readonly returned?: boolean | null;
   readonly location?: Location | null;
+  readonly tenders: Tender[];
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly transactionLocationId?: string | null;
@@ -244,6 +252,7 @@ type LazyTransaction = {
   readonly saleDetailId?: string | null;
   readonly returned?: boolean | null;
   readonly location: AsyncItem<Location | undefined>;
+  readonly tenders: AsyncCollection<Tender>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly transactionLocationId?: string | null;
@@ -253,6 +262,40 @@ export declare type Transaction = LazyLoading extends LazyLoadingDisabled ? Eage
 
 export declare const Transaction: (new (init: ModelInit<Transaction>) => Transaction) & {
   copyOf(source: Transaction, mutator: (draft: MutableModel<Transaction>) => MutableModel<Transaction> | void): Transaction;
+}
+
+type EagerTender = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Tender, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly label: TenderType | keyof typeof TenderType;
+  readonly receivedAmount: number;
+  readonly giftCardId?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly transactionTendersId?: string | null;
+}
+
+type LazyTender = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Tender, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly label: TenderType | keyof typeof TenderType;
+  readonly receivedAmount: number;
+  readonly giftCardId?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly transactionTendersId?: string | null;
+}
+
+export declare type Tender = LazyLoading extends LazyLoadingDisabled ? EagerTender : LazyTender
+
+export declare const Tender: (new (init: ModelInit<Tender>) => Tender) & {
+  copyOf(source: Tender, mutator: (draft: MutableModel<Tender>) => MutableModel<Tender> | void): Tender;
 }
 
 type EagerLocation = {

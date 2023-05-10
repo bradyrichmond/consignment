@@ -13,13 +13,21 @@ const GiftCardLogType = {
   "PURCHASE": "PURCHASE"
 };
 
-const { Client, StoreCredit, Item, Transaction, Location, ConsignerSplit, Address, City, Brand, Category, AttributeType, AttributeTypeValue, CategoryPriceGuide, GiftCard, GiftCardLog, CategoryAttribute } = initSchema(schema);
+const TenderType = {
+  "CASH": "CASH",
+  "CREDIT_CARD": "CREDIT_CARD",
+  "GIFT_CARD": "GIFT_CARD",
+  "STORE_CREDIT": "STORE_CREDIT"
+};
+
+const { Client, StoreCredit, Item, Transaction, Tender, Location, ConsignerSplit, Address, City, Brand, Category, AttributeType, AttributeTypeValue, CategoryPriceGuide, GiftCard, GiftCardLog, CategoryAttribute } = initSchema(schema);
 
 export {
   Client,
   StoreCredit,
   Item,
   Transaction,
+  Tender,
   Location,
   ConsignerSplit,
   Address,
@@ -33,5 +41,6 @@ export {
   GiftCardLog,
   CategoryAttribute,
   ClientType,
-  GiftCardLogType
+  GiftCardLogType,
+  TenderType
 };

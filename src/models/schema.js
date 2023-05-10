@@ -707,6 +707,22 @@ export const schema = {
                         ]
                     }
                 },
+                "tenders": {
+                    "name": "tenders",
+                    "isArray": true,
+                    "type": {
+                        "model": "Tender"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "isArrayNullable": false,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "transactionTendersId"
+                        ]
+                    }
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -737,6 +753,81 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
+                }
+            ]
+        },
+        "Tender": {
+            "name": "Tender",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "label": {
+                    "name": "label",
+                    "isArray": false,
+                    "type": {
+                        "enum": "TenderType"
+                    },
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "receivedAmount": {
+                    "name": "receivedAmount",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "giftCardId": {
+                    "name": "giftCardId",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "transactionTendersId": {
+                    "name": "transactionTendersId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                }
+            },
+            "syncable": true,
+            "pluralName": "Tenders",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "gsi-Transaction.tenders",
+                        "fields": [
+                            "transactionTendersId"
+                        ]
+                    }
                 }
             ]
         },
@@ -1722,9 +1813,18 @@ export const schema = {
                 "ISSUED",
                 "PURCHASE"
             ]
+        },
+        "TenderType": {
+            "name": "TenderType",
+            "values": [
+                "CASH",
+                "CREDIT_CARD",
+                "GIFT_CARD",
+                "STORE_CREDIT"
+            ]
         }
     },
     "nonModels": {},
     "codegenVersion": "3.4.2",
-    "version": "80bd9f9df537b3b41bff36a514ff6c07"
+    "version": "8d1f31712561550cda2c725a5cea50fd"
 };

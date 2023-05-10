@@ -13,6 +13,13 @@ enum GiftCardLogType {
   PURCHASE
 }
 
+enum TenderType {
+  CASH
+  CREDIT_CARD
+  GIFT_CARD
+  STORE_CREDIT
+}
+
 type Client @model {
   id: ID!
   clientId: String
@@ -88,6 +95,13 @@ type Transaction @model {
   saleDetailId: String
   returned: Boolean
   location: Location @hasOne
+  tenders: [Tender!]! @hasMany
+}
+
+type Tender @model {
+  label: TenderType!
+  receivedAmount: Float!
+  giftCardId: String
 }
 
 type Location @model {
