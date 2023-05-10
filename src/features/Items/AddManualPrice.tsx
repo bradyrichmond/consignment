@@ -30,7 +30,7 @@ const AddManualPrice = (props: AddManualPriceProps) => {
                     <form onSubmit={handleSubmit(handleAddManualPrice)}>
                         <Box display='flex' flexDirection='column'>
                             <TextField id='standard-basic' label='Price' variant='standard' {...register('price', { required: true, minLength: 2 })} />
-                            <Button type='submit' variant='outlined' sx={{ color: 'black', border: '1px solid black', borderRadius: '.25rem', marginTop: '2rem' }}>Add Price</Button>
+                            <Button type='submit' variant='contained'>Add Price</Button>
                         </Box>
                     </form>
                 </Box>

@@ -44,10 +44,10 @@ const PrinterSelector = (props: PrinterSelectorProps) => {
                 </Box>
                 <Box display='flex' flexDirection='row'>
                     <Box flex='1' marginRight='2rem'>
-                        <Button type='submit' variant='outlined' sx={{ color: 'black', border: '1px solid black', borderRadius: '.25rem', marginTop: '2rem', width: '100%' }}>Select {label}</Button>
+                        <Button type='submit' variant='contained' fullWidth>Select {label}</Button>
                     </Box>
                     <Box>
-                        <Button onClick={handleTestPrint} variant='outlined' sx={{ color: 'black', border: '1px solid black', borderRadius: '.25rem', marginTop: '2rem' }}>Print Test</Button>
+                        <Button onClick={handleTestPrint} variant='contained'>Print Test</Button>
                     </Box>
                 </Box>
             </Box>

@@ -40,11 +40,11 @@ const ProcessCash = (props: ProcessCashProps) => {
                         <Typography id='modal-modal-title' variant='h6' component='h2' marginBottom='2rem'>
                             {amountDue > 0 ? 'Amount Due:' : 'Change Due:'}
                         </Typography>
-                        <Typography variant='h6' component='h2' marginBottom='2rem' marginLeft='2rem' sx={{color: amountDue > 0 ? 'red' : 'green', fontWeight: 'bold'}}>{currencyFormatter.format(amountDue > 0 ? amountDue : -amountDue)}</Typography>
+                        <Typography variant='h6' component='h2' marginBottom='2rem' marginLeft='2rem' color={amountDue > 0 ? 'error' : 'success'} sx={{ fontWeight: 'bold'}}>{currencyFormatter.format(amountDue > 0 ? amountDue : -amountDue)}</Typography>
                     </Box>
                     <Box display='flex' flexDirection='row' flexWrap='wrap'>
                         {PAYMENT_OPTIONS.map((paymentOptionAmount) => 
-                            <Button variant='outlined' sx={{ color: 'black', border: '1px solid black', borderRadius: '.25rem', marginTop: '2rem', marginLeft: '2rem', minWidth: '30%', flex: 1 }} onClick={() => { handleSelectPaymentAmount(paymentOptionAmount) }}>{paymentOptionAmount}</Button>
+                            <Button variant='contained' onClick={() => { handleSelectPaymentAmount(paymentOptionAmount) }}>{paymentOptionAmount}</Button>
                         )}
                     </Box>
                     <form onSubmit={handleSubmit(handleManualEntry)}>
@@ -52,17 +52,16 @@ const ProcessCash = (props: ProcessCashProps) => {
                             <Box flex={1} marginRight='2rem' justifyContent='center' alignItems='center'>
                                 <TextField
                                     fullWidth={true}
-                                    style={{border: '1px solid white', borderRadius: '.25rem' }}
-                                    sx={{ input: { color: 'white' }}}
+                                    color='primary'
                                     {...register('amountTendered', { required: true, minLength: 2 })}
                                 />
                             </Box>
                             <Box display='flex' justifyContent='center' alignItems='center'>
-                                <Button type='submit' variant='outlined' sx={{ color: 'white', border: '1px solid white', borderRadius: '.25rem' }}>Add Manual Amount</Button>
+                                <Button type='submit' variant='contained'>Add Manual Amount</Button>
                             </Box>
                         </Box>
                     </form>
-                    <Button variant='outlined' sx={{ color: 'black', border: '1px solid black', borderRadius: '.25rem', marginTop: '2rem', marginLeft: '2rem', flex: 1}} onClick={handleClose}>Done</Button>
+                    <Button variant='contained' onClick={handleClose}>Done</Button>
                 </Box>
             </Box>
         </ModalContainer>

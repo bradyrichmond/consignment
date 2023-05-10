@@ -68,7 +68,7 @@ const AttachAttribute = (props: AttachAttributeProps) => {
                                     </Select>
                                 </FormControl>
                             </Box>
-                            <Button type='submit' variant='outlined' sx={{ color: 'black', border: '1px solid black', borderRadius: '.25rem', marginTop: '2rem' }}>Attach Attribute</Button>
+                            <Button type='submit' variant='contained'>Attach Attribute</Button>
                         </Box>
                     </form>
                 </Box>

@@ -87,7 +87,7 @@ const LocationSettings = (props: LocationSettingsProps) => {
                             </Box>
                             <Box display='flex' flexDirection='row'>
                                 <Box flex='1'>
-                                    <Button type='submit' variant='outlined' sx={{ color: 'black', border: '1px solid black', borderRadius: '.25rem', marginTop: '2rem', width: '100%' }}>Select location</Button>
+                                    <Button type='submit' variant='contained' fullWidth>Select location</Button>
                                 </Box>
                             </Box>
                         </>
@@ -97,7 +97,7 @@ const LocationSettings = (props: LocationSettingsProps) => {
                             <Typography>{activeLocationData.locationName}</Typography>
                             <Box display='flex' flexDirection='row' justifyContent='flex-start' alignItems='center'>
                                 <Typography sx={{marginRight: '2rem'}}>Tax Rate: {activeLocationData.taxRate}%</Typography>
-                                <Button variant='outlined' sx={{ color: 'black', border: '1px solid black', borderRadius: '.25rem', marginTop: '2rem' }} onClick={startUpdatingTaxRate}>Update Tax Rate</Button>
+                                <Button variant='contained' onClick={startUpdatingTaxRate}>Update Tax Rate</Button>
                             </Box>
                         </Box>
                     }
@@ -118,7 +118,7 @@ const LocationSettings = (props: LocationSettingsProps) => {
                         </Box>
                     }
                     <Box marginTop='2rem'>
-                        <Button variant='outlined' sx={{ color: 'black', border: '1px solid black', borderRadius: '.25rem', marginTop: '2rem', width: '100%' }} onClick={startAddingLocation}>Add location</Button>
+                        <Button variant='contained' fullWidth onClick={startAddingLocation}>Add location</Button>
                     </Box>
                 </Box>
             </form>

@@ -49,7 +49,7 @@ const AddLocation = ({ close }: AddLocationProps) => {
                             </Box>
                             <TextField label="Zip Code" variant="standard" {...register('zipCode', { required: true, minLength: 2 })} />
                             <Box marginTop='2rem'>
-                                <Button variant='outlined' type='submit'>Add Location</Button>
+                                <Button variant='contained' type='submit'>Add Location</Button>
                             </Box>
                         </Box>
                     </form>

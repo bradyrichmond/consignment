@@ -39,9 +39,9 @@ const ConsignerSettings = () => {
             >
                 <UpdateConsignerSettings close={stopUpdatingConsignerPercentage}/>
             </Modal>
-            <Box display='flex' flexDirection='row' alignItems='center' justifyContent='flex-start' sx={{color: 'black'}}>
+            <Box display='flex' flexDirection='row' alignItems='center' justifyContent='flex-start' color='secondary'>
                 <Typography>Consigner Percentage: {consignerPercentage}%</Typography>
-                <Button variant='outlined' sx={{ color: 'black', border: '1px solid black', borderRadius: '.25rem', marginTop: '2rem', marginLeft: '2rem'}} onClick={startUpdatingConsignerPercentage}>Update Consigner Percentage</Button>
+                <Button variant='contained' onClick={startUpdatingConsignerPercentage}>Update Consigner Percentage</Button>
             </Box>
         </Box>
     )
@@ -85,10 +85,10 @@ const UpdateConsignerSettings = ({ close }: UpdateConsignerSettingsProps) => {
                         <Box display='flex' flexDirection='column'>
                             <TextField label="Consigner rate in %" variant="standard" {...register('consignerPercentage', { minLength: 2 })} />
                             {error && 
-                                <Typography sx={{color: 'red'}}>{error}</Typography>
+                                <Typography color='error'>{error}</Typography>
                             }
                             <Box marginTop='2rem'>
-                                <Button variant='outlined' type='submit'>Update Consigner Percentage</Button>
+                                <Button variant='contained' type='submit'>Update Consigner Percentage</Button>
                             </Box>
                         </Box>
                     </form>

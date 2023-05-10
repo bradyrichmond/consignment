@@ -32,7 +32,7 @@ const AddBrand = (props: AddBrandProps) => {
                     <form onSubmit={handleSubmit(handleAddBrand)}>
                         <Box display='flex' flexDirection='column'>
                             <TextField id='standard-basic' label='Brand Name' variant='standard' {...register('description', { required: true, minLength: 2 })} />
-                            <Button type='submit' variant='outlined' sx={{ color: 'black', border: '1px solid black', borderRadius: '.25rem', marginTop: '2rem' }}>Add Brand</Button>
+                            <Button type='submit' variant='contained'>Add Brand</Button>
                         </Box>
                     </form>
                 </Box>

@@ -31,7 +31,7 @@ const SelectCategory = (props: SelectCategoryProps) => {
             {categories && categories.length > 0 ?
                 categories.map((category) =>
                     <Box margin='1rem'>
-                        <Button key={category.id} onClick={() => handleButtonClick(category.id)} sx={{color: 'white', border: '1px solid white', borderRadius: '.25rem', fontSize: '3rem' }}>{category.categoryName}</Button>
+                        <Button variant='contained' key={category.id} onClick={() => handleButtonClick(category.id)}>{category.categoryName}</Button>
                     </Box>
                 )
                 :

@@ -32,7 +32,7 @@ const AddAttributeType = (props: AddAttributeTypeProps) => {
                     <form onSubmit={handleSubmit(handleAddAttributeType)}>
                         <Box display='flex' flexDirection='column'>
                             <TextField id='standard-basic' label='AttributeType Name' variant='standard' {...register('attributeTypeDescription', { required: true, minLength: 2 })} />
-                            <Button type='submit' variant='outlined' sx={{ color: 'black', border: '1px solid black', borderRadius: '.25rem', marginTop: '2rem' }}>Add Attribute Type</Button>
+                            <Button type='submit' variant='contained'>Add Attribute Type</Button>
                         </Box>
                     </form>
                 </Box>

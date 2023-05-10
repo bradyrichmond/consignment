@@ -35,7 +35,7 @@ const SelectBrand = (props: SelectBrandProps) => {
             {brands && brands.length > 0 ?
                 brands.map((brand) =>
                     <Box margin='1rem'>
-                        <Button key={brand.id} onClick={() => handleButtonClick(brand)} sx={{color: 'white', border: '1px solid white', borderRadius: '.25rem', fontSize: '3rem'}}>{brand.description}</Button>
+                        <Button variant='contained' key={brand.id} onClick={() => handleButtonClick(brand)}>{brand.description}</Button>
                     </Box>
                 )
                 :

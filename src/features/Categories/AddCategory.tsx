@@ -65,7 +65,7 @@ const AddCategory = (props: AddCategoryProps) => {
                                     </Select>
                                 </FormControl>
                             </Box>
-                            <Button type='submit' variant='outlined' sx={{ color: 'black', border: '1px solid black', borderRadius: '.25rem', marginTop: '2rem' }}>Add Category</Button>
+                            <Button type='submit' variant='contained'>Add Category</Button>
                         </Box>
                     </form>
                 </Box>

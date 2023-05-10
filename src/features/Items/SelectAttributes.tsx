@@ -25,7 +25,7 @@ const SelectAttributes = (props: SelectAttributesProps) => {
     return (
         <Box paddingTop='2rem'>
             {attributeTypeValues.length > 0 &&
-                attributeTypeValues.map((atv) => <Button variant='outlined' onClick={() => { onButtonClick(atv.id) }} sx={{ color: 'white', border: '1px solid white', borderRadius: '.25rem', margin: '1rem', fontSize:'3rem' }}>{atv.attributeTypeValue}</Button>)
+                attributeTypeValues.map((atv) => <Button variant='contained' onClick={() => { onButtonClick(atv.id) }}>{atv.attributeTypeValue}</Button>)
             }
         </Box>
     )

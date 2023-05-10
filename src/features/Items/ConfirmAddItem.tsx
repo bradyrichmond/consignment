@@ -31,7 +31,7 @@ const ConfirmAddItem = (props: ConfirmAddItemProps) => {
                 <Typography variant='h2'>${price}</Typography>
             </Box>
             <Box>
-                <Button variant='outlined' onClick={confirm} sx={{color: 'white', border: '1px solid white', borderRadius: '.25rem', fontSize: '3rem' }}>Add Item</Button>
+                <Button variant='contained' onClick={confirm}>Add Item</Button>
             </Box>
         </Box>
     )

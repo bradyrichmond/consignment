@@ -19,12 +19,12 @@ const ConfirmModal = (props: ConfirmModalProps) => {
         <ModalContainer onClose={close}>
             <Box display='flex' justifyContent='center' alignItems='center' height='100%' width='100%'>
                 <Box bgcolor='rgba(255, 255, 255, 255)' borderRadius='1rem' padding='2rem'>
-                    <Typography id='modal-modal-title' variant='h6' component='h2' marginBottom='2rem'>
+                    <Typography variant='h6' component='h2' marginBottom='2rem'>
                         {validationText}
                     </Typography>
                     <Box display='flex' flexDirection='column'>
-                        <Button type='submit' variant='outlined' sx={{ color: 'black', border: '1px solid black', borderRadius: '.25rem', marginTop: '2rem' }} onClick={cancel}>{cancelText}</Button>
-                        <Button type='submit' variant='outlined' sx={{ color: 'black', border: '1px solid black', borderRadius: '.25rem', marginTop: '2rem' }} onClick={confirm}>{confirmText}</Button>
+                        <Button type='submit' variant='contained' onClick={cancel}>{cancelText}</Button>
+                        <Button type='submit' variant='contained' onClick={confirm}>{confirmText}</Button>
                     </Box>
                 </Box>
             </Box>

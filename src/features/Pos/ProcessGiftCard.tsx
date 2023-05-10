@@ -54,15 +54,14 @@ const ProcessGiftCard = (props: ProcessGiftCardProps) => {
                         <Box flex={1} marginRight='2rem' justifyContent='center' alignItems='center'>
                             <TextField
                                 fullWidth={true}
-                                style={{border: '1px solid black', borderRadius: '.25rem' }}
-                                sx={{ input: { color: 'black' }}}
+                                color='primary'
                                 focused={true}
                                 onChange={handleScan}
                                 value={scannedGiftCardNumber}
                             />
                         </Box>
                         {error && 
-                            <Typography sx={{color: 'red'}}>{error}</Typography>
+                            <Typography color='error'>{error}</Typography>
                         }
                     </Box>
                 </Box>

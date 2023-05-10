@@ -273,13 +273,13 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
         //this should only be one, but have to query for a list first
         const matchedItems = await DataStore.query(Item, (i) => i.itemId.eq(itemNumber));
 
-        if (matchedItems[0].statusId === '18') {
-            showItemAlreadySold();
-            return;
-        }
-
         if (matchedItems.length > 0) {
             const item = matchedItems[0];
+
+            if (item.statusId === '18') {
+                showItemAlreadySold();
+                return;
+            }
 
             if (items.filter((i) => i.itemId === itemNumber).length > 0) {
                 showItemAlreadyScanned();
@@ -351,13 +351,15 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
 
     const handleAddConsigner = async (consignerId?: string) => {
         if (!consignerId) {
-            return
+            stopAddingConsigner();
+            return;
         }
 
         const consigner = await DataStore.query(Client, consignerId);
         const consignerStoreCredit = await DataStore.query(StoreCredit, consigner?.clientCreditId ?? '');
         setSelectedConsigner(consigner);
         setSelectedConsignerCredit(consignerStoreCredit);
+        stopAddingConsigner();
     }
 
     return (
@@ -393,8 +395,8 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
                 <ModalContainer onClose={hideItemAlreadyScanned}>
                     <Box display='flex' justifyContent='center' alignItems='center' height='100%' width='100%'>
                         <Box bgcolor='rgba(255, 255, 255, 255)' borderRadius='1rem' padding='2rem' display='flex' flexDirection='column' justifyContent='center' alignItems='center'>
-                            <Typography>Item has already been added to this transaction.</Typography>
-                            <Button variant='outlined' sx={{ color: 'black', border: '1px solid black', borderRadius: '.25rem', marginTop: '2rem' }} onClick={hideItemAlreadyScanned}>Ok</Button>
+                            <Typography mb='2rem' variant='h2'>Item has already been added to this transaction.</Typography>
+                            <Button variant='contained' fullWidth={true} color='secondary' onClick={hideItemAlreadyScanned}>Ok</Button>
                         </Box>
                     </Box>
                 </ModalContainer>
@@ -406,8 +408,8 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
                 <ModalContainer onClose={hideItemAlreadySold}>
                     <Box display='flex' justifyContent='center' alignItems='center' height='100%' width='100%'>
                         <Box bgcolor='rgba(255, 255, 255, 255)' borderRadius='1rem' padding='2rem' display='flex' flexDirection='column' justifyContent='center' alignItems='center'>
-                            <Typography>Item has already been sold.</Typography>
-                            <Button variant='outlined' sx={{ color: 'black', border: '1px solid black', borderRadius: '.25rem', marginTop: '2rem' }} onClick={hideItemAlreadySold}>Ok</Button>
+                            <Typography mb='2rem' variant='h2'>Item has already been sold.</Typography>
+                            <Button variant='contained' fullWidth={true} color='secondary' onClick={hideItemAlreadySold}>Ok</Button>
                         </Box>
                     </Box>
                 </ModalContainer>
@@ -419,15 +421,15 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
                 <ModalContainer onClose={hideItemNotFound}>
                     <Box display='flex' justifyContent='center' alignItems='center' height='100%' width='100%'>
                         <Box bgcolor='rgba(255, 255, 255, 255)' borderRadius='1rem' padding='2rem' display='flex' flexDirection='column' justifyContent='center' alignItems='center'>
-                            <Typography>Item not found.</Typography>
-                            <Button variant='outlined' sx={{ color: 'black', border: '1px solid black', borderRadius: '.25rem', marginTop: '2rem' }} onClick={hideItemNotFound}>Ok</Button>
+                            <Typography mb='2rem' variant='h2'>Item not found.</Typography>
+                            <Button variant='contained' fullWidth={true} color='secondary' onClick={hideItemNotFound}>Ok</Button>
                         </Box>
                     </Box>
                 </ModalContainer>
             </Modal>
 
             <Box display='flex' flexDirection='row' padding='2rem' borderBottom='1px solid white' marginBottom='2rem'>
-                <Box marginRight='2rem'><AccessTimeIcon sx={{color: 'white'}} /></Box>
+                <Box marginRight='2rem'><AccessTimeIcon color='secondary' /></Box>
                 <Box flex='1'>{format(time, "eee, MMM do, yyyy | h:mm bbb")}</Box>
                 <Box><UserAvatar /></Box>
             </Box>
@@ -450,13 +452,12 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
                             <Box flex={1} marginRight='2rem' justifyContent='center' alignItems='center'>
                                 <TextField
                                     fullWidth={true}
-                                    style={{border: '1px solid white', borderRadius: '.25rem' }}
-                                    sx={{ input: { color: 'white' }}}
+                                    color='primary'
                                     {...register('itemNumber', { required: true, minLength: 2 })}
                                 />
                             </Box>
                             <Box display='flex' justifyContent='center' alignItems='center'>
-                                <Button type='submit' variant='outlined' sx={{ color: 'white', border: '1px solid white', borderRadius: '.25rem' }}>Add Item</Button>
+                                <Button type='submit' variant='contained' fullWidth={true} color='primary'>Add Item</Button>
                             </Box>
                         </Box>
                     </form>
@@ -472,23 +473,23 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
                 {cashTender > 0 &&
                     <Box display='flex' flexDirection='row' padding='2rem'>
                         <Typography flex='1'>{cashTender >= amountWithTax ? 'Change due:' : 'Amount due:'}</Typography>
-                        <Typography sx={{color: cashTender >= amountWithTax ? 'green' : 'red'}}>{cashTender >= amountWithTax ? currencyFormatter.format((cashTender - amountWithTax)) : currencyFormatter.format(amountWithTax - cashTender)}</Typography>
+                        <Typography color={cashTender >= amountWithTax ? 'success' : 'error'}>{cashTender >= amountWithTax ? currencyFormatter.format((cashTender - amountWithTax)) : currencyFormatter.format(amountWithTax - cashTender)}</Typography>
                     </Box>
                 }
                 {tenderAmountHasBeenMet &&
                     <Box padding='2rem'>
-                        <Button variant='outlined' sx={{border: '1px solid white', borderRadius: '.25rem', padding: '2rem', width: '100%', marginBottom: '2rem', color: 'white'}} onClick={completeTransaction}>Complete Transaction</Button>
+                        <Button variant='contained' fullWidth={true} color='primary' onClick={completeTransaction}>Complete Transaction</Button>
                     </Box>
                 }
             </Box>
-            <Box padding='2rem'>
-                <Button variant='outlined' sx={{border: '1px solid white', borderRadius: '.25rem', padding: '2rem', width: '100%', marginBottom: '2rem', color: 'white'}} disabled={tenderAmountHasBeenMet} onClick={cash}>Cash</Button>
-                <Button variant='outlined' sx={{border: '1px solid white', borderRadius: '.25rem', padding: '2rem', width: '100%', marginBottom: '2rem', color: 'white'}} disabled={tenderAmountHasBeenMet} onClick={card}>Credit / Debit</Button>
-                <Button variant='outlined' sx={{border: '1px solid white', borderRadius: '.25rem', padding: '2rem', width: '100%', marginBottom: '2rem', color: 'white'}} disabled={tenderAmountHasBeenMet} onClick={giftCard}>Gift Card</Button>
-                {selectedConsigner && <Button variant='outlined' sx={{border: '1px solid white', borderRadius: '.25rem', padding: '2rem', width: '100%', marginBottom: '2rem', color: 'white'}} disabled={tenderAmountHasBeenMet} onClick={addStoreCredit}>{currencyFormatter.format(parseFloat(selectedConsignerCredit?.amount.toString() ?? '0'))} Store Credit</Button>}
+            <Box>
+                <Button variant='contained' fullWidth={true} color='primary' disabled={tenderAmountHasBeenMet} onClick={cash}>Cash</Button>
+                <Button variant='contained' fullWidth={true} color='primary' disabled={tenderAmountHasBeenMet} onClick={card}>Credit / Debit</Button>
+                <Button variant='contained' fullWidth={true} color='primary' disabled={tenderAmountHasBeenMet} onClick={giftCard}>Gift Card</Button>
+                {selectedConsigner && <Button variant='contained' fullWidth={true} color='primary' disabled={tenderAmountHasBeenMet} onClick={addStoreCredit}>{currencyFormatter.format(parseFloat(selectedConsignerCredit?.amount.toString() ?? '0'))} Store Credit</Button>}
             </Box>
-            <Box marginTop='2rem'>
-                <Button variant='outlined' sx={{border: '1px solid white', borderRadius: '.25rem', padding: '2rem', width: '100%', marginBottom: '2rem', color: 'white'}} onClick={startAddingConsigner}>Select Consigner</Button>
+            <Box>
+                <Button variant='contained' fullWidth={true} color='primary' onClick={startAddingConsigner}>Select Consigner</Button>
             </Box>
         </Box>
     )

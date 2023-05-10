@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import {
   createBrowserRouter,
   Navigate,
@@ -14,7 +14,7 @@ import '@aws-amplify/ui-react/styles.css';
 
 import awsExports from './aws-exports';
 import Home from './features/Home';
-import { Box } from '@mui/material';
+import { Box, Theme, ThemeProvider, createTheme } from '@mui/material';
 import Items from './features/Items';
 import AddItem from './features/Items/AddItem';
 import Brands from './features/Brands';
@@ -79,6 +79,76 @@ export const DrawerContext = createContext({
   setDrawerItemId: (itemId: string) => {}
 });
 
+const dark = () => {
+  return createTheme({
+    palette: {
+      mode: 'dark',
+      primary: {
+        main: '#4cbfa6',
+      },
+      secondary: {
+        main: '#f6ebf4',
+      },
+      error: {
+        main: '#ed0b70',
+      },
+      info: {
+        main: '#023b59',
+      },
+      background: {
+        default: '#121212'
+      }
+    },
+    components: {
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            fontSize: '2rem',
+            marginBottom: '2rem'
+          }
+        }
+      }
+    }
+  })
+}
+
+const light = () => {
+  return createTheme({
+    palette: {
+      mode: 'light',
+      primary: {
+        main: '#4cbfa6',
+      },
+      secondary: {
+        main: '#f6ebf4',
+      },
+      error: {
+        main: '#ed0b70',
+      },
+      info: {
+        main: '#023b59',
+      },
+      background: {
+        default: '#F1ECEC'
+      }
+    },
+    components: {
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            fontSize: '2rem',
+            marginBottom: '2rem'
+          }
+        }
+      }
+    }
+  })
+}
+
+
+
+const themes = [light, dark];
+
 const App = () => {
   const pathname = window.location.pathname;
   const [userIsLoggedIn, setUserIsLoggedIn] = useState(false);
@@ -86,15 +156,24 @@ const App = () => {
   const [drawerContent, setDrawerContent] = useState('');
   const [drawerClientId, setDrawerClientId] = useState('');
   const [drawerItemId, setDrawerItemId] = useState('');
+  const [theme, setTheme] = useState<Theme>(light);
+
+  useEffect(() => {
+    const themeSetting = localStorage.getItem('theme');
+    const themeName = parseInt(themeSetting ?? '0');
+    setTheme(themes[themeName]);
+  }, [])
 
   return (
     <CognitoContext.Provider value={{userIsLoggedIn, setUserIsLoggedIn, userGroups, setUserGroups}}>
       <DrawerContext.Provider value={{drawerContent, setDrawerContent, drawerClientId, setDrawerClientId, drawerItemId, setDrawerItemId}}>
-        <CognitoContext.Consumer>
-          { value => 
-            <RouterProvider router={buildRoutes(value.userIsLoggedIn, pathname, value.userGroups)} />
-          }
-        </CognitoContext.Consumer>
+        <ThemeProvider theme={theme}>
+          <CognitoContext.Consumer>
+            { value => 
+              <RouterProvider router={buildRoutes(value.userIsLoggedIn, pathname, value.userGroups)} />
+            }
+          </CognitoContext.Consumer>
+        </ThemeProvider>
       </DrawerContext.Provider>
     </CognitoContext.Provider>
   );

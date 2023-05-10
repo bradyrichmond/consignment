@@ -5,7 +5,7 @@ import Drawer from '../DrawerContent';
 
 const Home = () => {
     return (
-        <Box display='flex' flexDirection='row' height='100%' bgcolor='black' color='white'>
+        <Box display='flex' flexDirection='row' height='100%' sx={{bgcolor: 'background.default'}}>
             <Box flex='1'>
                 <Outlet />
             </Box>

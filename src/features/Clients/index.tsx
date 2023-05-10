@@ -105,7 +105,7 @@ const Clients = (props: ClientsProps) => {
         {field: 'inactiveTimestamp', headerName: 'InactiveTS', width: 300},
         {field: '', headerName: 'Add Items', width: 200, editable: true, renderCell: (params: GridRenderCellParams<String>) => {
             return (
-                <Button variant='outlined' onClick={(event: MuiEvent<React.MouseEvent>) => addItemsNavigation(params, event)} sx={{padding: '1rem', color: onRowClickOverride ? 'black' : 'white', border: onRowClickOverride ? '1px solid black' : '1px solid white', borderRadius: '.25rem'}}>Add Items</Button>
+                <Button variant='contained' onClick={(event: MuiEvent<React.MouseEvent>) => addItemsNavigation(params, event)}>Add Items</Button>
             )
         }},
     ];
