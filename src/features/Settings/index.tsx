@@ -57,13 +57,9 @@ const Settings = () => {
     }
 
     const testPrint = async () => {
-        const fetchedItem = await DataStore.query(Item, '3342f72c-1d94-444f-b400-ab8ef9204bc8');
-        if (fetchedItem) {
-            const listOfItems: Item[] = [];
-            listOfItems.push(fetchedItem);
-            console.log('receipt:');
-            console.log(generateReceipt(listOfItems, [new Tender({ label: TenderType.CREDIT_CARD, receivedAmount: 5.99 })], 'testTransactionId', '1480 NW Gilman Blvd #3', "Issaquah, WA 98027"))
-        }
+        const listOfItems: Item[] = [new Item({ userId: '1', statusId: '1', itemName: 'Test Item', price: '3.99' })];
+        console.log('receipt:');
+        console.log(generateReceipt(listOfItems, [new Tender({ label: TenderType.CREDIT_CARD, receivedAmount: 5.99 })], 'testTransactionId', '1480 NW Gilman Blvd #3', "Issaquah, WA 98027"))
     }
 
     const handleSetCardReaderId = (data: any) => {
