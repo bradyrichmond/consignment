@@ -105,7 +105,7 @@ const Clients = (props: ClientsProps) => {
         {field: 'inactiveTimestamp', headerName: 'InactiveTS', width: 300},
         {field: '', headerName: 'Add Items', width: 200, editable: true, renderCell: (params: GridRenderCellParams<String>) => {
             return (
-                <Button variant='outlined' onClick={(event: MuiEvent<React.MouseEvent>) => addItemsNavigation(params, event)} sx={{padding: '1rem', color: 'white', border: '1px solid white', borderRadius: '.25rem'}}>Add Items</Button>
+                <Button variant='outlined' onClick={(event: MuiEvent<React.MouseEvent>) => addItemsNavigation(params, event)} sx={{padding: '1rem', color: onRowClickOverride ? 'black' : 'white', border: onRowClickOverride ? '1px solid black' : '1px solid white', borderRadius: '.25rem'}}>Add Items</Button>
             )
         }},
     ];
@@ -222,24 +222,28 @@ const Clients = (props: ClientsProps) => {
 
             <Box paddingTop='2rem' paddingBottom='2rem' display='flex' flexDirection='row' width='100%' alignItems='center'>
                 <TextField InputProps={{
-                        endAdornment: <InputAdornment position="start"><SearchIcon style={{color: 'white'}}/></InputAdornment>,
+                        endAdornment: <InputAdornment position="start"><SearchIcon style={{color: onRowClickOverride ? 'black' : 'white'}}/></InputAdornment>,
                     }}
                     fullWidth={true}
                     onChange={onSearchChange}
-                    style={{border: '1px solid white', borderRadius: '.25rem'}}
+                    style={{border: onRowClickOverride ? '1px solid black' : '1px solid white', borderRadius: '.25rem'}}
                 />
-                <ProcessCsvButton label='Bulk Upload Clients' action={bulkAddClients} />
-                <Box paddingLeft='2rem'>
-                    <Button variant="contained" component="label" style={{backgroundColor: 'black', border: '1px solid white'}} onClick={startAddingClient}>
-                        Add Client
-                    </Button>
-                </Box>
+                {!onRowClickOverride && 
+                    <>
+                        <ProcessCsvButton label='Bulk Upload Clients' action={bulkAddClients} />
+                        <Box paddingLeft='2rem'>
+                            <Button variant="contained" component="label" style={{backgroundColor: 'black', border: '1px solid white'}} onClick={startAddingClient}>
+                                Add Client
+                            </Button>
+                        </Box>
+                    </>
+                }
             </Box>
             <Box paddingBottom='2rem'>
-                <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 50, border: '1px solid white', borderRadius: '.25rem' }, '&.Mui-checked': { color: 'white'}}} onChange={filterInactive} checked={filterInactiveClients} value={filterInactiveClients}/>} label="Active clients only" />
+                <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 50, border: onRowClickOverride ? '1px solid black' : '1px solid white', borderRadius: '.25rem' }, '&.Mui-checked': { color: onRowClickOverride ? 'black' : 'white'}}} onChange={filterInactive} checked={filterInactiveClients} value={filterInactiveClients}/>} label="Active clients only" />
             </Box>
             <Box flex='1'>
-                <DataGrid columns={columns} rows={rows} onRowClick={handleRowClick} style={{color: 'white'}} />
+                <DataGrid columns={columns} rows={rows} onRowClick={handleRowClick} style={{color: onRowClickOverride ? 'black' : 'white'}} />
             </Box>
         </Box>
     )

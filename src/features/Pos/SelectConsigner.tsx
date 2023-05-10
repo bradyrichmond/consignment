@@ -9,17 +9,21 @@ interface SelectConsignerProps {
 
 const SelectConsigner = ({ close }: SelectConsignerProps) => {
     const handleSelectConsigner = async (consignerId: string) => {
-        close(consignerId)
+        close(consignerId);
     }
 
     return (
         <ModalContainer onClose={close}>
-            <Box display='flex' justifyContent='center' alignItems='center' height='100%' width='100%'>
-                <Box bgcolor='rgba(255, 255, 255, 255)' borderRadius='1rem' padding='2rem'>
-                    <Typography id="modal-modal-title" variant="h6" component="h2" marginBottom='2rem'>
-                        Select Consigner
-                    </Typography>
-                    <Clients onRowClickOverride={handleSelectConsigner} />
+            <Box display='flex' justifyContent='center' alignItems='center' height='100%' width='100%' padding='2rem'>
+                <Box bgcolor='rgba(255, 255, 255, 255)' borderRadius='1rem' height='80%' width='80%' padding='2rem' display='flex' flexDirection='column'>
+                    <Box>
+                        <Typography variant="h6" component="h2" marginBottom='2rem'>
+                            Select Consigner
+                        </Typography>
+                    </Box>
+                    <Box flex='1'>
+                        <Clients onRowClickOverride={handleSelectConsigner} />
+                    </Box>
                 </Box>
             </Box>
         </ModalContainer>
