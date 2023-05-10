@@ -43,7 +43,7 @@ type Client @model {
 
 type StoreCredit @model {
   id: ID!
-  amount: Float
+  amount: Float!
   items: [Item!]! @hasMany
 }
 

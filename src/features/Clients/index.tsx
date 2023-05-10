@@ -29,7 +29,12 @@ const formatPhoneNumber = (num: string) => {
     return num;
 }
 
-const Clients = () => {
+interface ClientsProps {
+    onRowClickOverride?: (consignerId: string) => void
+}
+
+const Clients = (props: ClientsProps) => {
+    const { onRowClickOverride } = props;
     const [clients, setClients] = useState<Client[]>([]);
     const [isAddingClient, setIsAddingClient] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
@@ -193,6 +198,11 @@ const Clients = () => {
         event,
         details,
       ) => {
+        if (onRowClickOverride) {
+            onRowClickOverride(params.id.toString());
+            return;
+        }
+
         setDrawerClientId(params.id.toString());
         setDrawerContent('clientOverview');
     };

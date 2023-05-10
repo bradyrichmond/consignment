@@ -90,7 +90,7 @@ type EagerStoreCredit = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly amount?: number | null;
+  readonly amount: number;
   readonly items: Item[];
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
@@ -102,7 +102,7 @@ type LazyStoreCredit = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly amount?: number | null;
+  readonly amount: number;
   readonly items: AsyncCollection<Item>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;

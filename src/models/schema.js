@@ -207,7 +207,7 @@ export const schema = {
                     "name": "amount",
                     "isArray": false,
                     "type": "Float",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "items": {
@@ -1826,5 +1826,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.2",
-    "version": "8d1f31712561550cda2c725a5cea50fd"
+    "version": "81263b054486a766ab047b245885af6f"
 };

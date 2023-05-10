@@ -15,6 +15,7 @@ import useStoreLocation from "../../utils/useStoreLocation";
 import ProcessGiftCard from "./ProcessGiftCard";
 import { GiftCardLogType } from "../../models";
 import { TenderType } from "../../models";
+import SelectConsigner from "./SelectConsigner";
 
 interface CheckoutActionsProps {
     items: Item[]
@@ -28,6 +29,7 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
     const [isProcessingCash, setIsProcessingCash] = useState<boolean>(false);
     const [isProcessingCard, setIsProcessingCard] = useState<boolean>(false);
     const [isProcessingGiftCard, setIsProcessingGiftCard] = useState<boolean>(false);
+    const [isAddingConsigner, setIsAddingConsigner] = useState<boolean>(false);
     const [tenders, setTenders] = useState<Tender[]>([]);
     const [totalTenderedAmount, setTotalTenderedAmount] = useState(0);
     const [cashTender, setCashTender] = useState(0);
@@ -38,7 +40,11 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
     const [itemNotFound, setItemNotFound] = useState(false);
     const [itemAlreadySold, setItemAlreadySold] = useState(false);
     const [consignmentPercentage, setConsignmentPercentage] = useState('0');
+    const [selectedConsigner, setSelectedConsigner] = useState<Client>();
+    const [selectedConsignerCredit, setSelectedConsignerCredit] = useState<StoreCredit>();
     const storeData = useStoreLocation();
+
+    // TODO: This file is really big, you should split it up more.
     
     const { handleSubmit, register, resetField } = useForm();
     
@@ -311,6 +317,14 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
         setItemAlreadySold(false);
     }
 
+    const startAddingConsigner = () => {
+        setIsAddingConsigner(true);
+    }
+
+    const stopAddingConsigner = () => {
+        setIsAddingConsigner(false);
+    }
+
     const intakeGiftCardData = async (giftCard?: GiftCard) => {
         if (giftCard) {
             const receivedAmount = amount >= giftCard.value ? giftCard.value : amount;
@@ -325,6 +339,25 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
         }
 
         stopProcessingPayment();
+    }
+
+    const addStoreCredit = async () => {
+        const storeCredit = await DataStore.query(StoreCredit, selectedConsigner?.clientCreditId ?? '');
+        if (storeCredit) {
+            const receivedAmount = amount >= storeCredit.amount ? storeCredit?.amount : amount;
+            const newTender = await DataStore.save(new Tender({ label: TenderType.STORE_CREDIT, receivedAmount }))
+        }
+    }
+
+    const handleAddConsigner = async (consignerId?: string) => {
+        if (!consignerId) {
+            return
+        }
+
+        const consigner = await DataStore.query(Client, consignerId);
+        const consignerStoreCredit = await DataStore.query(StoreCredit, consigner?.clientCreditId ?? '');
+        setSelectedConsigner(consigner);
+        setSelectedConsignerCredit(consignerStoreCredit);
     }
 
     return (
@@ -346,6 +379,12 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
                 onClose={stopProcessingPayment}
             >
                 <ProcessGiftCard close={intakeGiftCardData}/>
+            </Modal>
+            <Modal
+                open={isAddingConsigner}
+                onClose={stopAddingConsigner}
+            >
+                <SelectConsigner close={handleAddConsigner}/>
             </Modal>
             <Modal
                 open={itemAlreadyScanned}
@@ -386,6 +425,7 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
                     </Box>
                 </ModalContainer>
             </Modal>
+
             <Box display='flex' flexDirection='row' padding='2rem' borderBottom='1px solid white' marginBottom='2rem'>
                 <Box marginRight='2rem'><AccessTimeIcon sx={{color: 'white'}} /></Box>
                 <Box flex='1'>{format(time, "eee, MMM do, yyyy | h:mm bbb")}</Box>
@@ -444,8 +484,11 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
             <Box padding='2rem'>
                 <Button variant='outlined' sx={{border: '1px solid white', borderRadius: '.25rem', padding: '2rem', width: '100%', marginBottom: '2rem', color: 'white'}} disabled={tenderAmountHasBeenMet} onClick={cash}>Cash</Button>
                 <Button variant='outlined' sx={{border: '1px solid white', borderRadius: '.25rem', padding: '2rem', width: '100%', marginBottom: '2rem', color: 'white'}} disabled={tenderAmountHasBeenMet} onClick={card}>Credit / Debit</Button>
-                <Button variant='outlined' sx={{border: '1px solid white', borderRadius: '.25rem', padding: '2rem', width: '100%', marginBottom: '2rem', color: 'white'}} disabled={tenderAmountHasBeenMet}>Store Credit</Button>
                 <Button variant='outlined' sx={{border: '1px solid white', borderRadius: '.25rem', padding: '2rem', width: '100%', marginBottom: '2rem', color: 'white'}} disabled={tenderAmountHasBeenMet} onClick={giftCard}>Gift Card</Button>
+                {selectedConsigner && <Button variant='outlined' sx={{border: '1px solid white', borderRadius: '.25rem', padding: '2rem', width: '100%', marginBottom: '2rem', color: 'white'}} disabled={tenderAmountHasBeenMet} onClick={addStoreCredit}>{currencyFormatter.format(parseFloat(selectedConsignerCredit?.amount.toString() ?? '0'))} Store Credit</Button>}
+            </Box>
+            <Box marginTop='2rem'>
+                <Button variant='outlined' sx={{border: '1px solid white', borderRadius: '.25rem', padding: '2rem', width: '100%', marginBottom: '2rem', color: 'white'}} onClick={startAddingConsigner}>Select Consigner</Button>
             </Box>
         </Box>
     )
