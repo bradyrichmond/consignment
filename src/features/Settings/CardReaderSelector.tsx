@@ -19,7 +19,7 @@ const CardReaderSelector = (props: CardReaderSelectorProps) => {
     return (
         <form onSubmit={handleSubmit(handleCardReaderSelection)}>
             <Box display='flex' flexDirection='column' bgcolor='white' padding='2rem' borderRadius='1rem' marginTop='2rem'>
-                <Box marginTop='1rem'>
+                <Box marginTop='1rem' marginBottom='1rem'>
                     <FormControl fullWidth>
                         <InputLabel>Card Reader Id</InputLabel>
                         <Select

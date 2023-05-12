@@ -46,7 +46,7 @@ const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: string[]
         element: <Categories />
       },
       {
-        path: 'clients',
+        path: 'consigners',
         element: <Clients />
       },
       {

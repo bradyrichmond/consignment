@@ -11,6 +11,7 @@ import { ProcessCsvButton } from '../Clients';
 import AddCategory from './AddCategory';
 import ViewCategoryAttributes from './ViewCategoryAttributes';
 import AttachAttribute from './AttachAttribute';
+import SearchBar from '../../components/SearchBar';
 
 const Categories = () => {
     const [categories, setCategories] = useState<Category[]>([]);
@@ -130,34 +131,34 @@ const Categories = () => {
     }
     
     const columns: GridColDef[] = [
-        {field: 'categoryName', headerName: 'Category Name', width: 200},
-        {field: 'lastUpdateTimestamp', headerName: 'Last Updated', width: 200},
-        {field: 'categoryLevel', headerName: 'Category Level', width: 200},
-        {field: 'Active?', headerName: 'Mark inactive?', width: 300, renderCell: (params: GridRenderCellParams<String>) => {
+        {field: 'categoryName', headerName: 'Category Name', flex: 1},
+        {field: 'lastUpdateTimestamp', headerName: 'Last Updated', flex: 1},
+        {field: 'categoryLevel', headerName: 'Category Level', flex: 1},
+        {field: 'Active?', headerName: 'Mark inactive?', flex: 1, renderCell: (params: GridRenderCellParams<String>) => {
             return (
                 <>
                     {inactiveCategories.includes(params.id.toString()) ?
-                        <Button variant="contained" component="label" style={{backgroundColor: 'black', border: '1px solid white'}} onClick={() => startRevivingCategory(params.id.toString())}>
+                        <Button variant="contained" component="label" sx={{marginTop: '2rem', marginBottom: '2rem'}} onClick={() => startRevivingCategory(params.id.toString())}>
                             Mark active?
                         </Button>
                         :
-                        <Button variant="contained" component="label" style={{backgroundColor: 'black', border: '1px solid white'}} onClick={() => startDeletingCategory(params.id.toString())}>
+                        <Button variant="contained" component="label" sx={{marginTop: '2rem', marginBottom: '2rem'}} onClick={() => startDeletingCategory(params.id.toString())}>
                             Mark inactive?
                         </Button>
                     }
                 </>
             )
         }},
-        {field: 'Attach Attribute Types', headerName: 'Attach Attribute Types', width: 300, renderCell: (params: GridRenderCellParams<String>) => {
+        {field: 'Attach Attribute Types', headerName: 'Attach Attribute Types', flex: 1, renderCell: (params: GridRenderCellParams<String>) => {
             return (
-                <Button variant="contained" component="label" style={{backgroundColor: 'black', border: '1px solid white'}} onClick={() => startAttachingCategoryAttributes(params.id.toString())}>
+                <Button variant="contained" component="label" sx={{marginTop: '2rem', marginBottom: '2rem'}} onClick={() => startAttachingCategoryAttributes(params.id.toString())}>
                     Attach Attribute Types
                 </Button>
             )
         }},
-        {field: 'View Attribute Types', headerName: 'View Attribute Types', width: 300, renderCell: (params: GridRenderCellParams<String>) => {
+        {field: 'View Attribute Types', headerName: 'View Attribute Types', flex: 1, renderCell: (params: GridRenderCellParams<String>) => {
             return (
-                <Button variant="contained" component="label" style={{backgroundColor: 'black', border: '1px solid white'}} onClick={() => startViewingCategoryAttributes(params.id.toString())}>
+                <Button variant="contained" component="label" sx={{marginTop: '2rem', marginBottom: '2rem'}} onClick={() => startViewingCategoryAttributes(params.id.toString())}>
                     View Attribute Types
                 </Button>
             )
@@ -237,25 +238,25 @@ const Categories = () => {
                 <ConfirmModal close={stopRevivingCategory} validationText={`Are you sure you want to mark ${activeCategory} active?`} cancelText='Cancel' confirmText='Confirm' confirm={reviveCategory} cancel={stopRevivingCategory} />
             </Modal>
             <Box paddingTop='2rem' paddingBottom='2rem' display='flex' flexDirection='row' width='100%' alignItems='center'>
-                <TextField InputProps={{
-                        endAdornment: <InputAdornment position="start"><SearchIcon style={{color: 'white'}}/></InputAdornment>,
-                    }}
-                    fullWidth={true}
-                    onChange={onSearchChange}
-                    style={{border: '1px solid white', borderRadius: '.25rem'}}
-                />
-                <ProcessCsvButton label='Bulk Upload Items' action={bulkAddCategories} />
-                <Box paddingLeft='2rem'>
-                    <Button variant="contained" component="label" style={{backgroundColor: 'black', border: '1px solid white'}} onClick={startAddingCategory}>
-                        Add Category
-                    </Button>
+                <Box flex='1'>
+                    <SearchBar onSearchChange={onSearchChange} />
+                </Box>
+                <Box paddingLeft='2rem' display='flex' justifyContent='center' alignItems='center' width='30%'>
+                    <Box flex='1' display='flex' justifyContent='center' alignItems='center'>
+                        <ProcessCsvButton label='Bulk Upload Items' action={bulkAddCategories} />
+                    </Box>
+                    <Box display='flex' justifyContent='center' alignItems='center'>
+                        <Button variant="contained" component="label" sx={{margin: 0}} onClick={startAddingCategory}>
+                            Add Category
+                        </Button>
+                    </Box>
                 </Box>
             </Box>
             <Box paddingBottom='2rem'>
-                <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 50, border: '1px solid white', borderRadius: '.25rem' }, '&.Mui-checked': { color: 'white'}}} onChange={filterInactive} checked={filterInactiveCategories} value={filterInactiveCategories}/>} label="Active categories only" />
+                <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 50 }}} onChange={filterInactive} checked={filterInactiveCategories} value={filterInactiveCategories}/>} label="Active categories only" />
             </Box>
             <Box flex='1'>
-                <DataGrid columns={columns} rows={rows} style={{color: 'white'}} />
+                <DataGrid columns={columns} rows={rows} getRowHeight={() => 'auto'} sx={{fontSize: '2rem'}}/>
             </Box>
         </Box>
     )

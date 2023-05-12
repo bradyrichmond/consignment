@@ -20,7 +20,7 @@ const UserAvatar = () => {
     return (
         <Box display='flex' flexDirection='row' justifyContent='center' alignItems='center'>
             <Box marginRight='2rem'><Avatar>{initial}</Avatar></Box>
-            <Typography>{toTitleCase(name)}</Typography>
+            <Typography fontSize='2rem'>{toTitleCase(name)}</Typography>
         </Box>
     )
 }

@@ -39,9 +39,9 @@ const ConsignerSettings = () => {
             >
                 <UpdateConsignerSettings close={stopUpdatingConsignerPercentage}/>
             </Modal>
-            <Box display='flex' flexDirection='row' alignItems='center' justifyContent='flex-start' color='secondary'>
-                <Typography>Consigner Percentage: {consignerPercentage}%</Typography>
-                <Button variant='contained' onClick={startUpdatingConsignerPercentage}>Update Consigner Percentage</Button>
+            <Box display='flex' flexDirection='column' alignItems='center' justifyContent='flex-start' color='secondary'>
+                <Typography variant='h2'>Consigner Percentage: {consignerPercentage}%</Typography>
+                <Button variant='contained' sx={{marginTop: '1rem'}} onClick={startUpdatingConsignerPercentage}>Update Consigner Percentage</Button>
             </Box>
         </Box>
     )
@@ -78,7 +78,7 @@ const UpdateConsignerSettings = ({ close }: UpdateConsignerSettingsProps) => {
         <ModalContainer onClose={close}>
             <Box display='flex' justifyContent='center' alignItems='center' height='100%' width='100%'>
                 <Box bgcolor='rgba(255, 255, 255, 255)' borderRadius='1rem' padding='2rem'>
-                    <Typography variant="h6" component="h2" marginBottom='2rem'>
+                    <Typography variant="h2" marginBottom='2rem'>
                         Update Consigner Percentage
                     </Typography>
                     <form onSubmit={handleSubmit(handleUpdateConsignerSettings)}>

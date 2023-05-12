@@ -3,7 +3,6 @@ import { Button, Checkbox, FormControlLabel, InputAdornment, Modal, TextField } 
 import { Box } from '@mui/system';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { ProcessCsvButton } from '../Clients';
-import SearchIcon from '@mui/icons-material/Search';
 import { AttributeType } from '../../models';
 import { DataStore, Predicates } from 'aws-amplify';
 import { format } from 'date-fns';
@@ -11,6 +10,7 @@ import ConfirmModal from '../../utils/ConfirmModal';
 import AddAttributeType from './AddAttributeType';
 import AddAttributeTypeValues from './AddAttributeTypeValues';
 import ViewValues from './ViewValues';
+import SearchBar from '../../components/SearchBar';
 
 const AttributeTypes = () => {
     const [attributeTypes, setAttributeTypes] = useState<AttributeType[]>([]);
@@ -57,36 +57,36 @@ const AttributeTypes = () => {
     }
 
     const columns: GridColDef[] = [
-        {field: 'attributeTypeDescription', headerName: 'Attribute Type Name', width: 200},
-        {field: 'lastUpdateTimestamp', headerName: 'Last Updated', width: 200},
-        {field: 'toggleActive', headerName: 'Mark inactive?', width: 300, renderCell: (params: GridRenderCellParams<String>) => {
+        {field: 'attributeTypeDescription', headerName: 'Attribute Type Name', flex: 1},
+        {field: 'lastUpdateTimestamp', headerName: 'Last Updated', flex: 1},
+        {field: 'toggleActive', headerName: 'Mark inactive?', flex: 1, renderCell: (params: GridRenderCellParams<String>) => {
             return (
                 <>
                     {inactiveAttributeTypes.includes(params.id.toString()) ?
-                        <Button variant="contained" component="label" style={{backgroundColor: 'black', border: '1px solid white'}} onClick={() => startRevivingAttributeType(params.id.toString())}>
+                        <Button variant="contained" component="label" sx={{marginBottom: '2rem', marginTop: '2rem'}} onClick={() => startRevivingAttributeType(params.id.toString())}>
                             Mark active?
                         </Button>
                         :
-                        <Button variant="contained" component="label" style={{backgroundColor: 'black', border: '1px solid white'}} onClick={() => startDeletingAttributeType(params.id.toString())}>
+                        <Button variant="contained" component="label" sx={{marginBottom: '2rem', marginTop: '2rem'}} onClick={() => startDeletingAttributeType(params.id.toString())}>
                             Mark inactive?
                         </Button>
                     }
                 </>
             )
         }},
-        {field: 'addValues', headerName: 'Add Type Value?', width: 300, renderCell: (params: GridRenderCellParams<String>) => {
+        {field: 'addValues', headerName: 'Add Type Value?', flex: 1, renderCell: (params: GridRenderCellParams<String>) => {
             return (
                 <>
-                    <Button variant="contained" component="label" style={{backgroundColor: 'black', border: '1px solid white'}} onClick={() => startAddingAttributeTypeValue(params.id.toString())}>
+                    <Button variant="contained" component="label" sx={{marginBottom: '2rem', marginTop: '2rem'}} onClick={() => startAddingAttributeTypeValue(params.id.toString())}>
                         Add Value
                     </Button>
                 </>
             )
         }},
-        {field: 'viewValues', headerName: 'View Values?', width: 300, renderCell: (params: GridRenderCellParams<String>) => {
+        {field: 'viewValues', headerName: 'View Values?', flex: 1, renderCell: (params: GridRenderCellParams<String>) => {
             return (
                 <>
-                    <Button variant="contained" component="label" style={{backgroundColor: 'black', border: '1px solid white'}} onClick={() => toggleViewValues(params.id.toString())}>
+                    <Button variant="contained" component="label" sx={{marginBottom: '2rem', marginTop: '2rem'}} onClick={() => toggleViewValues(params.id.toString())}>
                         View Values
                     </Button>
                 </>
@@ -234,25 +234,25 @@ const AttributeTypes = () => {
                 <ViewValues close={stopViewingValues} attributeTypeId={activeAttributeTypeId}/>
             </Modal>
             <Box paddingTop='2rem' paddingBottom='2rem' display='flex' flexDirection='row' width='100%' alignItems='center'>
-                <TextField InputProps={{
-                        endAdornment: <InputAdornment position="start"><SearchIcon style={{color: 'white'}}/></InputAdornment>,
-                    }}
-                    fullWidth={true}
-                    onChange={onSearchChange}
-                    style={{border: '1px solid white', borderRadius: '.25rem'}}
-                />
-                <ProcessCsvButton label='Bulk Upload Items' action={bulkAddAttributeTypes} />
-                <Box paddingLeft='2rem'>
-                    <Button variant="contained" component="label" style={{backgroundColor: 'black', border: '1px solid white'}} onClick={startAddingAttributeType}>
-                        Add Attribute Type
-                    </Button>
+                <Box flex='1'>
+                    <SearchBar onSearchChange={onSearchChange} />
+                </Box>
+                <Box paddingLeft='2rem' display='flex' justifyContent='center' alignItems='center' width='30%'>
+                    <Box flex='1' display='flex' justifyContent='center' alignItems='center'>
+                        <ProcessCsvButton label='Bulk Upload Items' action={bulkAddAttributeTypes} />
+                    </Box>
+                    <Box flex='1' display='flex' justifyContent='center' alignItems='center'>
+                        <Button variant="contained" component="label" onClick={startAddingAttributeType} sx={{margin: 0}}>
+                            Add Attribute Type
+                        </Button>
+                    </Box>
                 </Box>
             </Box>
             <Box paddingBottom='2rem'>
-                <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 50, border: '1px solid white', borderRadius: '.25rem' }, '&.Mui-checked': { color: 'white'}}} onChange={filterInactive} checked={filterInactiveAttributeTypes} value={filterInactiveAttributeTypes}/>} label="Active attribute types only" />
+                <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 50 }}} onChange={filterInactive} checked={filterInactiveAttributeTypes} value={filterInactiveAttributeTypes}/>} label="Active attribute types only" />
             </Box>
             <Box flex='1'>
-                <DataGrid columns={columns} rows={rows} style={{color: 'white'}} />
+                <DataGrid columns={columns} rows={rows} getRowHeight={() => 'auto'} sx={{fontSize: '2rem'}} />
             </Box>
         </Box>
     )

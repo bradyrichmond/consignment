@@ -6,6 +6,7 @@ import { DataGrid, GridColDef, GridEventListener } from '@mui/x-data-grid';
 import { DataStore, Predicates } from 'aws-amplify';
 import { Brand, Category, Client, Item, Location } from '../../models';
 import { DrawerContext } from '../../App';
+import SearchBar from '../../components/SearchBar';
 
 
 const Items = () => {
@@ -167,11 +168,11 @@ const Items = () => {
     };
 
     const columns: GridColDef[] = [
-        {field: 'itemName', headerName: 'Item Name', width: 400, editable: true},
-        {field: 'price', headerName: 'Price', width: 200, editable: true},
-        {field: 'upcCode', headerName: 'UPC', width: 200, editable: true},
-        {field: 'clientItemsId', headerName: 'client id', width: 400, editable: true},
-        {field: 'itemId', headerName: 'Item Id', width: 400, editable: true},
+        {field: 'itemName', headerName: 'Item Name', flex: 1},
+        {field: 'price', headerName: 'Price', flex: 1},
+        {field: 'upcCode', headerName: 'UPC', flex: 1},
+        {field: 'clientItemsId', headerName: 'Client id', flex: 1},
+        {field: 'itemId', headerName: 'Item Id', flex: 1},
     ];
 
     const rows = items ?? [];
@@ -179,17 +180,15 @@ const Items = () => {
     return (
         <Box height='100%' display='flex' flexDirection='column' padding='2rem'>
             <Box paddingTop='2rem' paddingBottom='2rem' display='flex' flexDirection='row' width='100%' alignItems='center'>
-                <TextField InputProps={{
-                        endAdornment: <InputAdornment position="start"><SearchIcon style={{color: 'white'}}/></InputAdornment>,
-                    }}
-                    fullWidth={true}
-                    onChange={onSearchChange}
-                    style={{border: '1px solid white', borderRadius: '.25rem'}}
-                />
-                <ProcessCsvButton label='Bulk Upload Items' action={bulkAddItems} />
+                <Box flex='1'>
+                    <SearchBar onSearchChange={onSearchChange} />
+                </Box>
+                <Box paddingLeft='2rem' display='flex' justifyContent='center' alignItems='center' width='30%'>
+                    <ProcessCsvButton label='Bulk Upload Items' action={bulkAddItems} />
+                </Box>
             </Box>
             <Box flex='1'>
-                <DataGrid columns={columns} rows={rows} style={{color: 'white'}} onRowClick={handleRowClick}/>
+                <DataGrid columns={columns} rows={rows} sx={{fontSize: '2rem'}} getRowHeight={() => 'auto'} onRowClick={handleRowClick}/>
             </Box>
         </Box>
     )

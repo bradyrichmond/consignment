@@ -8,6 +8,7 @@ import { DrawerContext } from '../../App';
 import AddClient from './AddClient';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
+import SearchBar from '../../components/SearchBar';
 
 export const toTitleCase = (str: string) => {
     if (str.length > 0){
@@ -95,17 +96,17 @@ const Clients = (props: ClientsProps) => {
     }
 
     const columns: GridColDef[] = [
-        {field: 'firstName', headerName: 'First Name', width: 200},
-        {field: 'lastName', headerName: 'Last Name', width: 200},
-        {field: 'account', headerName: 'Account #', width: 100},
-        {field: 'phone', headerName: 'Phone #', width: 200},
-        {field: 'email', headerName: 'Email', width: 300},
-        {field: 'createTimestamp', headerName: 'Created TS', width: 300},
-        {field: 'activeTimestamp', headerName: 'Active TS', width: 300},
-        {field: 'inactiveTimestamp', headerName: 'InactiveTS', width: 300},
-        {field: '', headerName: 'Add Items', width: 200, editable: true, renderCell: (params: GridRenderCellParams<String>) => {
+        {field: 'firstName', headerName: 'First Name', flex: 1},
+        {field: 'lastName', headerName: 'Last Name', flex: 1},
+        {field: 'account', headerName: 'Account #', flex: 1},
+        {field: 'phone', headerName: 'Phone #', flex: 1},
+        {field: 'email', headerName: 'Email', flex: 1},
+        {field: 'createTimestamp', headerName: 'Created TS', flex: 1},
+        {field: 'activeTimestamp', headerName: 'Active TS', flex: 1},
+        {field: 'inactiveTimestamp', headerName: 'InactiveTS', flex: 1},
+        {field: '', headerName: 'Add Items', flex: 1, editable: true, renderCell: (params: GridRenderCellParams<String>) => {
             return (
-                <Button variant='contained' onClick={(event: MuiEvent<React.MouseEvent>) => addItemsNavigation(params, event)}>Add Items</Button>
+                <Button variant='contained' onClick={(event: MuiEvent<React.MouseEvent>) => addItemsNavigation(params, event)} sx={{marginTop: '2rem', marginBottom: '2rem'}}>Add Items</Button>
             )
         }},
     ];
@@ -221,29 +222,27 @@ const Clients = (props: ClientsProps) => {
             </Modal>
 
             <Box paddingTop='2rem' paddingBottom='2rem' display='flex' flexDirection='row' width='100%' alignItems='center'>
-                <TextField InputProps={{
-                        endAdornment: <InputAdornment position="start"><SearchIcon style={{color: onRowClickOverride ? 'black' : 'white'}}/></InputAdornment>,
-                    }}
-                    fullWidth={true}
-                    onChange={onSearchChange}
-                    style={{border: onRowClickOverride ? '1px solid black' : '1px solid white', borderRadius: '.25rem'}}
-                />
+                <Box flex='1'>
+                    <SearchBar onSearchChange={onSearchChange} />
+                </Box>
                 {!onRowClickOverride && 
-                    <>
-                        <ProcessCsvButton label='Bulk Upload Clients' action={bulkAddClients} />
-                        <Box paddingLeft='2rem'>
-                            <Button variant="contained" component="label" style={{backgroundColor: 'black', border: '1px solid white'}} onClick={startAddingClient}>
+                    <Box paddingLeft='2rem' display='flex' justifyContent='center' alignItems='center' width='30%'>
+                        <Box flex='1' justifyContent='center' alignItems='center'>
+                            <ProcessCsvButton label='Bulk Upload Clients' action={bulkAddClients} />
+                        </Box>
+                        <Box flex='1' justifyContent='center' alignItems='center'>
+                            <Button variant="contained" component="label" sx={{margin: 0}} onClick={startAddingClient}>
                                 Add Client
                             </Button>
                         </Box>
-                    </>
+                    </Box>
                 }
             </Box>
             <Box paddingBottom='2rem'>
-                <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 50, border: onRowClickOverride ? '1px solid black' : '1px solid white', borderRadius: '.25rem' }, '&.Mui-checked': { color: onRowClickOverride ? 'black' : 'white'}}} onChange={filterInactive} checked={filterInactiveClients} value={filterInactiveClients}/>} label="Active clients only" />
+                <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 50}}} onChange={filterInactive} checked={filterInactiveClients} value={filterInactiveClients}/>} label="Active clients only" />
             </Box>
             <Box flex='1'>
-                <DataGrid columns={columns} rows={rows} onRowClick={handleRowClick} style={{color: onRowClickOverride ? 'black' : 'white'}} />
+                <DataGrid columns={columns} rows={rows} onRowClick={handleRowClick} getRowHeight={() => 'auto'} sx={{fontSize: '2rem'}} />
             </Box>
         </Box>
     )
@@ -259,7 +258,7 @@ export const ProcessCsvButton = (props: ProcessCsvButtonProps) => {
 
     return (
         <Box paddingLeft='2rem'>
-            <Button variant="contained" component="label" style={{backgroundColor: 'black', border: '1px solid white'}}>
+            <Button variant="contained" component="label" sx={{margin: 0}}>
                 {label}
                 <input hidden accept=".csv" type="file" onChange={action} />
             </Button>

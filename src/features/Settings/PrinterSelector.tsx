@@ -26,7 +26,7 @@ const PrinterSelector = (props: PrinterSelectorProps) => {
     return (
         <form onSubmit={handleSubmit(handlePrinterChange)}>
             <Box display='flex' flexDirection='column' bgcolor='white' padding='2rem' borderRadius='1rem' marginTop='2rem'>
-                <Box marginTop='1rem'>
+                <Box marginTop='1rem' marginBottom='1rem'>
                     <FormControl fullWidth>
                         <InputLabel>{label}</InputLabel>
                         <Select

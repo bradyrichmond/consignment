@@ -78,21 +78,21 @@ const Settings = () => {
     return (
         <Box padding='2rem'>
             <Box>
-                <Typography>Printers</Typography>
+                <Typography variant='h2'>Printers</Typography>
                 <PrinterSelector label='Report Printer' lsKey='reportPrinter' printerNames={printers} onPrinterChange={setPrinter} testPrint={testPrint} />
                 <PrinterSelector label='Receipt Printer' lsKey='receiptPrinter' printerNames={printers} onPrinterChange={setPrinter} testPrint={testPrint} />
                 <PrinterSelector label='Tag Printer' lsKey='tagPrinter' printerNames={printers} onPrinterChange={setPrinter} testPrint={testPrint} />
             </Box>
             <Box marginTop='2rem'>
-                <Typography>Card Reader</Typography>
+                <Typography variant='h2'>Card Reader</Typography>
                 <CardReaderSelector cardReaderIds={cardReaderOptions} onCardReaderChange={handleSetCardReaderId} />
             </Box>
             <Box marginTop='2rem'>
-                <Typography>Location</Typography>
+                <Typography variant='h2'>Location</Typography>
                 <LocationSettings onLocationChange={handleLocationChange} locations={storeLocations} handleAddLocation={handleAddLocation} />
             </Box>
             <Box marginTop='2rem'>
-                <Typography>Consigner Percentage</Typography>
+                <Typography variant='h2'>Consigner Percentage</Typography>
                 <ConsignerSettings />
             </Box>
         </Box>

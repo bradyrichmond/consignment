@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import { format } from 'date-fns';
 
 import { currencyFormatter, generateReceipt } from "../../utils/PrintReceipt";
-import UserAvatar from "../../utils/UserAvatar";
 import ProcessCash from "./ProcessCash";
 import { API, DataStore } from "aws-amplify";
 import { Client, ConsignerSplit, GiftCard, GiftCardLog, Item, StoreCredit, Tender, Transaction } from "../../models";
@@ -24,7 +21,6 @@ interface CheckoutActionsProps {
 
 const CheckoutActions = (props: CheckoutActionsProps) => {
     const { items, addItem } = props;
-    const [time, setTime] = useState<number>(0);
     const [intentSecret, setIntentSecret] = useState('');
     const [isProcessingCash, setIsProcessingCash] = useState<boolean>(false);
     const [isProcessingCard, setIsProcessingCard] = useState<boolean>(false);
@@ -120,19 +116,6 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
             }
         }
     }
-
-    useEffect(() => {
-        const getTime = () => {
-            const currentTime = Date.now();
-            setTime(currentTime);
-        }
-        const ticker = setInterval(getTime, 1000);
-        getTime();
-
-        return () => {
-            clearInterval(ticker);
-        }
-    }, [])
 
     const cash = () => {
         setIsProcessingCash(true);
@@ -427,12 +410,6 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
                     </Box>
                 </ModalContainer>
             </Modal>
-
-            <Box display='flex' flexDirection='row' padding='2rem' borderBottom='1px solid white' marginBottom='2rem'>
-                <Box marginRight='2rem'><AccessTimeIcon color='secondary' /></Box>
-                <Box flex='1'>{format(time, "eee, MMM do, yyyy | h:mm bbb")}</Box>
-                <Box><UserAvatar /></Box>
-            </Box>
             <Box flex='1'>
                 <Box display='flex' flexDirection='row' padding='2rem'>
                     <Typography flex='1'>Subtotal:</Typography>
