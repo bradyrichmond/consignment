@@ -959,6 +959,22 @@ export const createTransaction = /* GraphQL */ `
         _lastChangedAt
         locationAddressId
       }
+      tenders {
+        items {
+          label
+          receivedAmount
+          giftCardId
+          id
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          transactionTendersId
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -1099,6 +1115,22 @@ export const updateTransaction = /* GraphQL */ `
         _deleted
         _lastChangedAt
         locationAddressId
+      }
+      tenders {
+        items {
+          label
+          receivedAmount
+          giftCardId
+          id
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          transactionTendersId
+        }
+        nextToken
+        startedAt
       }
       createdAt
       updatedAt
@@ -1241,12 +1273,85 @@ export const deleteTransaction = /* GraphQL */ `
         _lastChangedAt
         locationAddressId
       }
+      tenders {
+        items {
+          label
+          receivedAmount
+          giftCardId
+          id
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          transactionTendersId
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
       transactionLocationId
+    }
+  }
+`;
+export const createTender = /* GraphQL */ `
+  mutation CreateTender(
+    $input: CreateTenderInput!
+    $condition: ModelTenderConditionInput
+  ) {
+    createTender(input: $input, condition: $condition) {
+      label
+      receivedAmount
+      giftCardId
+      id
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      transactionTendersId
+    }
+  }
+`;
+export const updateTender = /* GraphQL */ `
+  mutation UpdateTender(
+    $input: UpdateTenderInput!
+    $condition: ModelTenderConditionInput
+  ) {
+    updateTender(input: $input, condition: $condition) {
+      label
+      receivedAmount
+      giftCardId
+      id
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      transactionTendersId
+    }
+  }
+`;
+export const deleteTender = /* GraphQL */ `
+  mutation DeleteTender(
+    $input: DeleteTenderInput!
+    $condition: ModelTenderConditionInput
+  ) {
+    deleteTender(input: $input, condition: $condition) {
+      label
+      receivedAmount
+      giftCardId
+      id
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      transactionTendersId
     }
   }
 `;

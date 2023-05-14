@@ -310,7 +310,7 @@ export type ModelAddressConnection = {
 export type StoreCredit = {
   __typename: "StoreCredit",
   id: string,
-  amount?: number | null,
+  amount: number,
   items?: ModelItemConnection | null,
   createdAt: string,
   updatedAt: string,
@@ -346,7 +346,7 @@ export type DeleteClientInput = {
 
 export type CreateStoreCreditInput = {
   id?: string | null,
-  amount?: number | null,
+  amount: number,
   _version?: number | null,
 };
 
@@ -558,6 +558,7 @@ export type Transaction = {
   saleDetailId?: string | null,
   returned?: boolean | null,
   location?: Location | null,
+  tenders?: ModelTenderConnection | null,
   createdAt: string,
   updatedAt: string,
   _version: number,
@@ -565,6 +566,35 @@ export type Transaction = {
   _lastChangedAt: number,
   transactionLocationId?: string | null,
 };
+
+export type ModelTenderConnection = {
+  __typename: "ModelTenderConnection",
+  items:  Array<Tender | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
+export type Tender = {
+  __typename: "Tender",
+  label: TenderType,
+  receivedAmount: number,
+  giftCardId?: string | null,
+  id: string,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+  transactionTendersId: string,
+};
+
+export enum TenderType {
+  CASH = "CASH",
+  CREDIT_CARD = "CREDIT_CARD",
+  GIFT_CARD = "GIFT_CARD",
+  STORE_CREDIT = "STORE_CREDIT",
+}
+
 
 export type UpdateTransactionInput = {
   id: string,
@@ -584,6 +614,44 @@ export type UpdateTransactionInput = {
 };
 
 export type DeleteTransactionInput = {
+  id: string,
+  _version?: number | null,
+};
+
+export type CreateTenderInput = {
+  label: TenderType,
+  receivedAmount: number,
+  giftCardId?: string | null,
+  id?: string | null,
+  _version?: number | null,
+  transactionTendersId: string,
+};
+
+export type ModelTenderConditionInput = {
+  label?: ModelTenderTypeInput | null,
+  receivedAmount?: ModelFloatInput | null,
+  giftCardId?: ModelStringInput | null,
+  and?: Array< ModelTenderConditionInput | null > | null,
+  or?: Array< ModelTenderConditionInput | null > | null,
+  not?: ModelTenderConditionInput | null,
+  transactionTendersId?: ModelIDInput | null,
+};
+
+export type ModelTenderTypeInput = {
+  eq?: TenderType | null,
+  ne?: TenderType | null,
+};
+
+export type UpdateTenderInput = {
+  label?: TenderType | null,
+  receivedAmount?: number | null,
+  giftCardId?: string | null,
+  id: string,
+  _version?: number | null,
+  transactionTendersId?: string | null,
+};
+
+export type DeleteTenderInput = {
   id: string,
   _version?: number | null,
 };
@@ -1203,6 +1271,16 @@ export type ModelTransactionConnection = {
   startedAt?: number | null,
 };
 
+export type ModelTenderFilterInput = {
+  label?: ModelTenderTypeInput | null,
+  receivedAmount?: ModelFloatInput | null,
+  giftCardId?: ModelStringInput | null,
+  and?: Array< ModelTenderFilterInput | null > | null,
+  or?: Array< ModelTenderFilterInput | null > | null,
+  not?: ModelTenderFilterInput | null,
+  transactionTendersId?: ModelIDInput | null,
+};
+
 export type ModelLocationFilterInput = {
   id?: ModelIDInput | null,
   locationId?: ModelStringInput | null,
@@ -1549,6 +1627,14 @@ export type ModelSubscriptionTransactionFilterInput = {
   or?: Array< ModelSubscriptionTransactionFilterInput | null > | null,
 };
 
+export type ModelSubscriptionTenderFilterInput = {
+  label?: ModelSubscriptionStringInput | null,
+  receivedAmount?: ModelSubscriptionFloatInput | null,
+  giftCardId?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionTenderFilterInput | null > | null,
+  or?: Array< ModelSubscriptionTenderFilterInput | null > | null,
+};
+
 export type ModelSubscriptionLocationFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   locationId?: ModelSubscriptionStringInput | null,
@@ -1764,7 +1850,7 @@ export type CreateClientMutation = {
     credit?:  {
       __typename: "StoreCredit",
       id: string,
-      amount?: number | null,
+      amount: number,
       items?:  {
         __typename: "ModelItemConnection",
         nextToken?: string | null,
@@ -1881,7 +1967,7 @@ export type UpdateClientMutation = {
     credit?:  {
       __typename: "StoreCredit",
       id: string,
-      amount?: number | null,
+      amount: number,
       items?:  {
         __typename: "ModelItemConnection",
         nextToken?: string | null,
@@ -1998,7 +2084,7 @@ export type DeleteClientMutation = {
     credit?:  {
       __typename: "StoreCredit",
       id: string,
-      amount?: number | null,
+      amount: number,
       items?:  {
         __typename: "ModelItemConnection",
         nextToken?: string | null,
@@ -2028,7 +2114,7 @@ export type CreateStoreCreditMutation = {
   createStoreCredit?:  {
     __typename: "StoreCredit",
     id: string,
-    amount?: number | null,
+    amount: number,
     items?:  {
       __typename: "ModelItemConnection",
       items:  Array< {
@@ -2091,7 +2177,7 @@ export type UpdateStoreCreditMutation = {
   updateStoreCredit?:  {
     __typename: "StoreCredit",
     id: string,
-    amount?: number | null,
+    amount: number,
     items?:  {
       __typename: "ModelItemConnection",
       items:  Array< {
@@ -2154,7 +2240,7 @@ export type DeleteStoreCreditMutation = {
   deleteStoreCredit?:  {
     __typename: "StoreCredit",
     id: string,
-    amount?: number | null,
+    amount: number,
     items?:  {
       __typename: "ModelItemConnection",
       items:  Array< {
@@ -2589,7 +2675,7 @@ export type CreateTransactionMutation = {
       credit?:  {
         __typename: "StoreCredit",
         id: string,
-        amount?: number | null,
+        amount: number,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -2691,6 +2777,24 @@ export type CreateTransactionMutation = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
       locationAddressId?: string | null,
+    } | null,
+    tenders?:  {
+      __typename: "ModelTenderConnection",
+      items:  Array< {
+        __typename: "Tender",
+        label: TenderType,
+        receivedAmount: number,
+        giftCardId?: string | null,
+        id: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        transactionTendersId: string,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -2740,7 +2844,7 @@ export type UpdateTransactionMutation = {
       credit?:  {
         __typename: "StoreCredit",
         id: string,
-        amount?: number | null,
+        amount: number,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -2842,6 +2946,24 @@ export type UpdateTransactionMutation = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
       locationAddressId?: string | null,
+    } | null,
+    tenders?:  {
+      __typename: "ModelTenderConnection",
+      items:  Array< {
+        __typename: "Tender",
+        label: TenderType,
+        receivedAmount: number,
+        giftCardId?: string | null,
+        id: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        transactionTendersId: string,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -2891,7 +3013,7 @@ export type DeleteTransactionMutation = {
       credit?:  {
         __typename: "StoreCredit",
         id: string,
-        amount?: number | null,
+        amount: number,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -2994,12 +3116,93 @@ export type DeleteTransactionMutation = {
       _lastChangedAt: number,
       locationAddressId?: string | null,
     } | null,
+    tenders?:  {
+      __typename: "ModelTenderConnection",
+      items:  Array< {
+        __typename: "Tender",
+        label: TenderType,
+        receivedAmount: number,
+        giftCardId?: string | null,
+        id: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        transactionTendersId: string,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
     transactionLocationId?: string | null,
+  } | null,
+};
+
+export type CreateTenderMutationVariables = {
+  input: CreateTenderInput,
+  condition?: ModelTenderConditionInput | null,
+};
+
+export type CreateTenderMutation = {
+  createTender?:  {
+    __typename: "Tender",
+    label: TenderType,
+    receivedAmount: number,
+    giftCardId?: string | null,
+    id: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    transactionTendersId: string,
+  } | null,
+};
+
+export type UpdateTenderMutationVariables = {
+  input: UpdateTenderInput,
+  condition?: ModelTenderConditionInput | null,
+};
+
+export type UpdateTenderMutation = {
+  updateTender?:  {
+    __typename: "Tender",
+    label: TenderType,
+    receivedAmount: number,
+    giftCardId?: string | null,
+    id: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    transactionTendersId: string,
+  } | null,
+};
+
+export type DeleteTenderMutationVariables = {
+  input: DeleteTenderInput,
+  condition?: ModelTenderConditionInput | null,
+};
+
+export type DeleteTenderMutation = {
+  deleteTender?:  {
+    __typename: "Tender",
+    label: TenderType,
+    receivedAmount: number,
+    giftCardId?: string | null,
+    id: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    transactionTendersId: string,
   } | null,
 };
 
@@ -4289,7 +4492,7 @@ export type GetClientQuery = {
     credit?:  {
       __typename: "StoreCredit",
       id: string,
-      amount?: number | null,
+      amount: number,
       items?:  {
         __typename: "ModelItemConnection",
         nextToken?: string | null,
@@ -4349,7 +4552,7 @@ export type ListClientsQuery = {
       credit?:  {
         __typename: "StoreCredit",
         id: string,
-        amount?: number | null,
+        amount: number,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -4408,7 +4611,7 @@ export type SyncClientsQuery = {
       credit?:  {
         __typename: "StoreCredit",
         id: string,
-        amount?: number | null,
+        amount: number,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -4435,7 +4638,7 @@ export type GetStoreCreditQuery = {
   getStoreCredit?:  {
     __typename: "StoreCredit",
     id: string,
-    amount?: number | null,
+    amount: number,
     items?:  {
       __typename: "ModelItemConnection",
       items:  Array< {
@@ -4501,7 +4704,7 @@ export type ListStoreCreditsQuery = {
     items:  Array< {
       __typename: "StoreCredit",
       id: string,
-      amount?: number | null,
+      amount: number,
       items?:  {
         __typename: "ModelItemConnection",
         nextToken?: string | null,
@@ -4531,7 +4734,7 @@ export type SyncStoreCreditsQuery = {
     items:  Array< {
       __typename: "StoreCredit",
       id: string,
-      amount?: number | null,
+      amount: number,
       items?:  {
         __typename: "ModelItemConnection",
         nextToken?: string | null,
@@ -4890,7 +5093,7 @@ export type GetTransactionQuery = {
       credit?:  {
         __typename: "StoreCredit",
         id: string,
-        amount?: number | null,
+        amount: number,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -4993,6 +5196,24 @@ export type GetTransactionQuery = {
       _lastChangedAt: number,
       locationAddressId?: string | null,
     } | null,
+    tenders?:  {
+      __typename: "ModelTenderConnection",
+      items:  Array< {
+        __typename: "Tender",
+        label: TenderType,
+        receivedAmount: number,
+        giftCardId?: string | null,
+        id: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        transactionTendersId: string,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -5066,6 +5287,11 @@ export type ListTransactionsQuery = {
         _deleted?: boolean | null,
         _lastChangedAt: number,
         locationAddressId?: string | null,
+      } | null,
+      tenders?:  {
+        __typename: "ModelTenderConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
       } | null,
       createdAt: string,
       updatedAt: string,
@@ -5145,12 +5371,92 @@ export type SyncTransactionsQuery = {
         _lastChangedAt: number,
         locationAddressId?: string | null,
       } | null,
+      tenders?:  {
+        __typename: "ModelTenderConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
       transactionLocationId?: string | null,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type GetTenderQueryVariables = {
+  id: string,
+};
+
+export type GetTenderQuery = {
+  getTender?:  {
+    __typename: "Tender",
+    label: TenderType,
+    receivedAmount: number,
+    giftCardId?: string | null,
+    id: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    transactionTendersId: string,
+  } | null,
+};
+
+export type ListTendersQueryVariables = {
+  filter?: ModelTenderFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListTendersQuery = {
+  listTenders?:  {
+    __typename: "ModelTenderConnection",
+    items:  Array< {
+      __typename: "Tender",
+      label: TenderType,
+      receivedAmount: number,
+      giftCardId?: string | null,
+      id: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      transactionTendersId: string,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncTendersQueryVariables = {
+  filter?: ModelTenderFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncTendersQuery = {
+  syncTenders?:  {
+    __typename: "ModelTenderConnection",
+    items:  Array< {
+      __typename: "Tender",
+      label: TenderType,
+      receivedAmount: number,
+      giftCardId?: string | null,
+      id: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      transactionTendersId: string,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
@@ -6613,7 +6919,7 @@ export type OnCreateClientSubscription = {
     credit?:  {
       __typename: "StoreCredit",
       id: string,
-      amount?: number | null,
+      amount: number,
       items?:  {
         __typename: "ModelItemConnection",
         nextToken?: string | null,
@@ -6729,7 +7035,7 @@ export type OnUpdateClientSubscription = {
     credit?:  {
       __typename: "StoreCredit",
       id: string,
-      amount?: number | null,
+      amount: number,
       items?:  {
         __typename: "ModelItemConnection",
         nextToken?: string | null,
@@ -6845,7 +7151,7 @@ export type OnDeleteClientSubscription = {
     credit?:  {
       __typename: "StoreCredit",
       id: string,
-      amount?: number | null,
+      amount: number,
       items?:  {
         __typename: "ModelItemConnection",
         nextToken?: string | null,
@@ -6874,7 +7180,7 @@ export type OnCreateStoreCreditSubscription = {
   onCreateStoreCredit?:  {
     __typename: "StoreCredit",
     id: string,
-    amount?: number | null,
+    amount: number,
     items?:  {
       __typename: "ModelItemConnection",
       items:  Array< {
@@ -6936,7 +7242,7 @@ export type OnUpdateStoreCreditSubscription = {
   onUpdateStoreCredit?:  {
     __typename: "StoreCredit",
     id: string,
-    amount?: number | null,
+    amount: number,
     items?:  {
       __typename: "ModelItemConnection",
       items:  Array< {
@@ -6998,7 +7304,7 @@ export type OnDeleteStoreCreditSubscription = {
   onDeleteStoreCredit?:  {
     __typename: "StoreCredit",
     id: string,
-    amount?: number | null,
+    amount: number,
     items?:  {
       __typename: "ModelItemConnection",
       items:  Array< {
@@ -7429,7 +7735,7 @@ export type OnCreateTransactionSubscription = {
       credit?:  {
         __typename: "StoreCredit",
         id: string,
-        amount?: number | null,
+        amount: number,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -7531,6 +7837,24 @@ export type OnCreateTransactionSubscription = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
       locationAddressId?: string | null,
+    } | null,
+    tenders?:  {
+      __typename: "ModelTenderConnection",
+      items:  Array< {
+        __typename: "Tender",
+        label: TenderType,
+        receivedAmount: number,
+        giftCardId?: string | null,
+        id: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        transactionTendersId: string,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -7579,7 +7903,7 @@ export type OnUpdateTransactionSubscription = {
       credit?:  {
         __typename: "StoreCredit",
         id: string,
-        amount?: number | null,
+        amount: number,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -7681,6 +8005,24 @@ export type OnUpdateTransactionSubscription = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
       locationAddressId?: string | null,
+    } | null,
+    tenders?:  {
+      __typename: "ModelTenderConnection",
+      items:  Array< {
+        __typename: "Tender",
+        label: TenderType,
+        receivedAmount: number,
+        giftCardId?: string | null,
+        id: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        transactionTendersId: string,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -7729,7 +8071,7 @@ export type OnDeleteTransactionSubscription = {
       credit?:  {
         __typename: "StoreCredit",
         id: string,
-        amount?: number | null,
+        amount: number,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -7832,12 +8174,90 @@ export type OnDeleteTransactionSubscription = {
       _lastChangedAt: number,
       locationAddressId?: string | null,
     } | null,
+    tenders?:  {
+      __typename: "ModelTenderConnection",
+      items:  Array< {
+        __typename: "Tender",
+        label: TenderType,
+        receivedAmount: number,
+        giftCardId?: string | null,
+        id: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        transactionTendersId: string,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
     transactionLocationId?: string | null,
+  } | null,
+};
+
+export type OnCreateTenderSubscriptionVariables = {
+  filter?: ModelSubscriptionTenderFilterInput | null,
+};
+
+export type OnCreateTenderSubscription = {
+  onCreateTender?:  {
+    __typename: "Tender",
+    label: TenderType,
+    receivedAmount: number,
+    giftCardId?: string | null,
+    id: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    transactionTendersId: string,
+  } | null,
+};
+
+export type OnUpdateTenderSubscriptionVariables = {
+  filter?: ModelSubscriptionTenderFilterInput | null,
+};
+
+export type OnUpdateTenderSubscription = {
+  onUpdateTender?:  {
+    __typename: "Tender",
+    label: TenderType,
+    receivedAmount: number,
+    giftCardId?: string | null,
+    id: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    transactionTendersId: string,
+  } | null,
+};
+
+export type OnDeleteTenderSubscriptionVariables = {
+  filter?: ModelSubscriptionTenderFilterInput | null,
+};
+
+export type OnDeleteTenderSubscription = {
+  onDeleteTender?:  {
+    __typename: "Tender",
+    label: TenderType,
+    receivedAmount: number,
+    giftCardId?: string | null,
+    id: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    transactionTendersId: string,
   } | null,
 };
 

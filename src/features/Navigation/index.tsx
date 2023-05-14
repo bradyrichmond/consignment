@@ -1,44 +1,59 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { format } from 'date-fns';
 import UserAvatar from "../../utils/UserAvatar";
 import useStoreLocation from '../../utils/useStoreLocation';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { CognitoContext } from '../../App';
 
+// this should probably be decided by an admin too
 const navItems = [
     {
         label: 'Attribute Types',
-        navUrl: 'attribute-types'
+        navUrl: 'attribute-types',
+        userGroups: ['Manager', 'Admins']
     },
     {
         label: 'Brands',
-        navUrl: 'brands'
+        navUrl: 'brands',
+        userGroups: ['Manager', 'Admins']
     },
     {
         label: 'Categories',
-        navUrl: 'categories'
+        navUrl: 'categories',
+        userGroups: ['Manager', 'Admins']
     },
     {
         label: 'Consigners',
-        navUrl: 'consigners'
+        navUrl: 'consigners',
+        userGroups: ['Salespeople', 'Processors', 'Managers', 'Admins']
     },
     {
         label: 'Items',
-        navUrl: 'items'
+        navUrl: 'items',
+        userGroups: ['Salespeople', 'Processors', 'Managers', 'Admins']
     },
     {
         label: 'Point of Sale',
-        navUrl: 'pos'
+        navUrl: 'pos',
+        userGroups: ['Salespeople', 'Processors', 'Managers', 'Admins']
     },
     {
         label: 'Settings',
-        navUrl: 'settings'
+        navUrl: 'settings',
+        userGroups: ['Admins']
+    },
+    {
+        label: 'User Management',
+        navUrl: 'user-management',
+        userGroups: ['Admins']
     },
 ];
 
 const Navigation = () => {
     const [activeTab, setActiveTab] = useState('');
+    const { userGroups } = useContext(CognitoContext);
 
     const setActiveNav = (label: string) => {
         setActiveTab(label);
@@ -48,7 +63,10 @@ const Navigation = () => {
         <Box display='flex' flexDirection='row' width='100%'  bgcolor='background.default' borderBottom='1px solid' borderColor='primary'>
             <Box flex='1' display='flex' flexDirection='row' padding='2rem' height='100%'>
                 {navItems.length > 0 && 
-                    navItems.map((ni) => <NavItem key={ni.label} label={ni.label} navUrl={ni.navUrl} onClick={() => setActiveNav(ni.label)} active={ni.label === activeTab}/>)
+                    navItems.map((ni) => {
+                        const allowed = userGroups.filter((value) => ni.userGroups.includes(value));
+                        return allowed.length > 0 ? <NavItem key={ni.label} label={ni.label} navUrl={ni.navUrl} onClick={() => setActiveNav(ni.label)} active={ni.label === activeTab}/> : null;
+                    })
                 }
             </Box>
             <Box minWidth='20%'>
@@ -76,7 +94,7 @@ const NavItem = (props: NavItemProps) => {
 
     return (
         <Box flex='1' height='100%' display='flex' justifyContent='center' alignItems='center' onClick={handleClick} borderBottom={active ? '5px solid white' : 'inherit'}>
-            <Typography variant='h2'>{label}</Typography>
+            <Typography variant='h4'>{label}</Typography>
         </Box>
     )
 }

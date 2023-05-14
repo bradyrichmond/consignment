@@ -4,11 +4,11 @@ import { Button, Typography } from '@mui/material';
 import ModalContainer from './ModalContainer';
 
 interface ConfirmModalProps {
-    cancel: () => void
+    cancel?: () => void
     confirm: () => void
     close: () => void
     validationText: string
-    cancelText: string
+    cancelText?: string
     confirmText: string
 }
 
@@ -23,7 +23,7 @@ const ConfirmModal = (props: ConfirmModalProps) => {
                         {validationText}
                     </Typography>
                     <Box display='flex' flexDirection='column'>
-                        <Button type='submit' variant='contained' onClick={cancel}>{cancelText}</Button>
+                        {cancel && <Button type='submit' variant='contained' onClick={cancel}>{cancelText}</Button>}
                         <Button type='submit' variant='contained' onClick={confirm}>{confirmText}</Button>
                     </Box>
                 </Box>

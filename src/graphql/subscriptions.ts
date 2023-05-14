@@ -937,6 +937,22 @@ export const onCreateTransaction = /* GraphQL */ `
         _lastChangedAt
         locationAddressId
       }
+      tenders {
+        items {
+          label
+          receivedAmount
+          giftCardId
+          id
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          transactionTendersId
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -1076,6 +1092,22 @@ export const onUpdateTransaction = /* GraphQL */ `
         _deleted
         _lastChangedAt
         locationAddressId
+      }
+      tenders {
+        items {
+          label
+          receivedAmount
+          giftCardId
+          id
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          transactionTendersId
+        }
+        nextToken
+        startedAt
       }
       createdAt
       updatedAt
@@ -1217,12 +1249,76 @@ export const onDeleteTransaction = /* GraphQL */ `
         _lastChangedAt
         locationAddressId
       }
+      tenders {
+        items {
+          label
+          receivedAmount
+          giftCardId
+          id
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          transactionTendersId
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
       transactionLocationId
+    }
+  }
+`;
+export const onCreateTender = /* GraphQL */ `
+  subscription OnCreateTender($filter: ModelSubscriptionTenderFilterInput) {
+    onCreateTender(filter: $filter) {
+      label
+      receivedAmount
+      giftCardId
+      id
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      transactionTendersId
+    }
+  }
+`;
+export const onUpdateTender = /* GraphQL */ `
+  subscription OnUpdateTender($filter: ModelSubscriptionTenderFilterInput) {
+    onUpdateTender(filter: $filter) {
+      label
+      receivedAmount
+      giftCardId
+      id
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      transactionTendersId
+    }
+  }
+`;
+export const onDeleteTender = /* GraphQL */ `
+  subscription OnDeleteTender($filter: ModelSubscriptionTenderFilterInput) {
+    onDeleteTender(filter: $filter) {
+      label
+      receivedAmount
+      giftCardId
+      id
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      transactionTendersId
     }
   }
 `;

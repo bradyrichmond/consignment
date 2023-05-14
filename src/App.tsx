@@ -22,7 +22,14 @@ import Categories from './features/Categories';
 import AttributeTypes from './features/AttributeTypes';
 import Settings from './features/Settings';
 import Pos from './features/Pos';
+import UserManagement from './features/UserManagement';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 Amplify.configure(awsExports);
+
+const checkProtectedRoute = (userGroups: string[], allowedGroups: string[]) => {
+  return userGroups.filter((value) => allowedGroups.includes(value)).length > 0;
+}
 
 const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: string[]) => createBrowserRouter([
   {
@@ -31,36 +38,40 @@ const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: string[]
     children: [
       {
         path: 'add-items/:id',
-        element: <AddItem />
+        element: checkProtectedRoute(userGroups, ['Salespeople', 'Processors', 'Managers', 'Admins']) ? <AddItem /> : <Box>Access Denied</Box>
       },
       {
         path: 'attribute-types',
-        element: <AttributeTypes />
+        element: checkProtectedRoute(userGroups, ['Manager', 'Admins']) ? <AttributeTypes /> : <Box>Access Denied</Box>
       },
       {
         path: 'brands',
-        element: <Brands />
+        element: checkProtectedRoute(userGroups, ['Manager', 'Admins']) ? <Brands />  : <Box>Access Denied</Box>
       },
       {
         path: 'categories',
-        element: <Categories />
+        element: checkProtectedRoute(userGroups, ['Manager', 'Admins']) ? <Categories /> : <Box>Access Denied</Box>
       },
       {
         path: 'consigners',
-        element: <Clients />
+        element: checkProtectedRoute(userGroups, ['Salespeople', 'Processors', 'Managers', 'Admins']) ? <Clients /> : <Box>Access Denied</Box>
       },
       {
         path: 'items',
-        element: <Items />
+        element: checkProtectedRoute(userGroups, ['Salespeople', 'Processors', 'Managers', 'Admins']) ? <Items /> : <Box>Access Denied</Box>
       },
       {
         path: 'pos',
-        element: <Pos />
+        element: checkProtectedRoute(userGroups, ['Salespeople', 'Processors', 'Managers', 'Admins']) ? <Pos /> : <Box>Access Denied</Box>
       },
       {
         path: 'settings',
-        element: <Settings />
+        element: checkProtectedRoute(userGroups, ['Admins']) ? <Settings /> : <Box>Access Denied</Box>
       },
+      {
+        path: 'user-management',
+        element: checkProtectedRoute(userGroups, ['Admins']) ? <UserManagement /> : <Box>Access Denied</Box>
+      }
     ]
   },
   {
@@ -168,11 +179,13 @@ const App = () => {
     <CognitoContext.Provider value={{userIsLoggedIn, setUserIsLoggedIn, userGroups, setUserGroups}}>
       <DrawerContext.Provider value={{drawerContent, setDrawerContent, drawerClientId, setDrawerClientId, drawerItemId, setDrawerItemId}}>
         <ThemeProvider theme={theme}>
-          <CognitoContext.Consumer>
-            { value => 
-              <RouterProvider router={buildRoutes(value.userIsLoggedIn, pathname, value.userGroups)} />
-            }
-          </CognitoContext.Consumer>
+          <DndProvider backend={HTML5Backend}>
+            <CognitoContext.Consumer>
+              { value => 
+                <RouterProvider router={buildRoutes(value.userIsLoggedIn, pathname, value.userGroups)} />
+              }
+            </CognitoContext.Consumer>
+          </DndProvider>
         </ThemeProvider>
       </DrawerContext.Provider>
     </CognitoContext.Provider>

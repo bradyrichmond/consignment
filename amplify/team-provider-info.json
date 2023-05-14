@@ -14,10 +14,12 @@
     "categories": {
       "api": {
         "consignment": {},
-        "stripeApi": {}
+        "stripeApi": {},
+        "AdminQueries": {}
       },
       "auth": {
-        "consignment073a19ba": {}
+        "consignment073a19ba": {},
+        "userPoolGroups": {}
       },
       "function": {
         "stripeCreatePaymentIntent": {
@@ -35,6 +37,10 @@
           "secretsPathAmplifyAppId": "d1ab102njyu249",
           "deploymentBucketName": "amplify-consignment-dev-183237-deployment",
           "s3Key": "amplify-builds/stripeGetCardReaderList-6956667a484e30614c43-build.zip"
+        },
+        "AdminQueriesd927d65d": {
+          "deploymentBucketName": "amplify-consignment-dev-183237-deployment",
+          "s3Key": "amplify-builds/AdminQueriesd927d65d-4c684e784647382f6e39-build.zip"
         }
       }
     }

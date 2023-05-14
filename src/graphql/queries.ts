@@ -747,6 +747,22 @@ export const getTransaction = /* GraphQL */ `
         _lastChangedAt
         locationAddressId
       }
+      tenders {
+        items {
+          label
+          receivedAmount
+          giftCardId
+          id
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          transactionTendersId
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -814,6 +830,10 @@ export const listTransactions = /* GraphQL */ `
           _deleted
           _lastChangedAt
           locationAddressId
+        }
+        tenders {
+          nextToken
+          startedAt
         }
         createdAt
         updatedAt
@@ -892,12 +912,86 @@ export const syncTransactions = /* GraphQL */ `
           _lastChangedAt
           locationAddressId
         }
+        tenders {
+          nextToken
+          startedAt
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
         transactionLocationId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getTender = /* GraphQL */ `
+  query GetTender($id: ID!) {
+    getTender(id: $id) {
+      label
+      receivedAmount
+      giftCardId
+      id
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      transactionTendersId
+    }
+  }
+`;
+export const listTenders = /* GraphQL */ `
+  query ListTenders(
+    $filter: ModelTenderFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTenders(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        label
+        receivedAmount
+        giftCardId
+        id
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        transactionTendersId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncTenders = /* GraphQL */ `
+  query SyncTenders(
+    $filter: ModelTenderFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncTenders(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        label
+        receivedAmount
+        giftCardId
+        id
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        transactionTendersId
       }
       nextToken
       startedAt
