@@ -49,6 +49,7 @@ export const createClient = /* GraphQL */ `
           titleChanged
           modifiedBy
           upcCode
+          returned
           createTimestamp
           entryTimestamp
           createdAt
@@ -158,6 +159,7 @@ export const updateClient = /* GraphQL */ `
           titleChanged
           modifiedBy
           upcCode
+          returned
           createTimestamp
           entryTimestamp
           createdAt
@@ -267,6 +269,7 @@ export const deleteClient = /* GraphQL */ `
           titleChanged
           modifiedBy
           upcCode
+          returned
           createTimestamp
           entryTimestamp
           createdAt
@@ -363,6 +366,7 @@ export const createStoreCredit = /* GraphQL */ `
           titleChanged
           modifiedBy
           upcCode
+          returned
           createTimestamp
           entryTimestamp
           createdAt
@@ -422,6 +426,7 @@ export const updateStoreCredit = /* GraphQL */ `
           titleChanged
           modifiedBy
           upcCode
+          returned
           createTimestamp
           entryTimestamp
           createdAt
@@ -481,6 +486,7 @@ export const deleteStoreCredit = /* GraphQL */ `
           titleChanged
           modifiedBy
           upcCode
+          returned
           createTimestamp
           entryTimestamp
           createdAt
@@ -597,6 +603,7 @@ export const createItem = /* GraphQL */ `
       titleChanged
       modifiedBy
       upcCode
+      returned
       createTimestamp
       entryTimestamp
       createdAt
@@ -704,6 +711,7 @@ export const updateItem = /* GraphQL */ `
       titleChanged
       modifiedBy
       upcCode
+      returned
       createTimestamp
       entryTimestamp
       createdAt
@@ -811,6 +819,7 @@ export const deleteItem = /* GraphQL */ `
       titleChanged
       modifiedBy
       upcCode
+      returned
       createTimestamp
       entryTimestamp
       createdAt
@@ -900,6 +909,7 @@ export const createTransaction = /* GraphQL */ `
           titleChanged
           modifiedBy
           upcCode
+          returned
           createTimestamp
           entryTimestamp
           createdAt
@@ -927,7 +937,6 @@ export const createTransaction = /* GraphQL */ `
       glExportInd
       syncInd
       saleDetailId
-      returned
       location {
         id
         locationId
@@ -1057,6 +1066,7 @@ export const updateTransaction = /* GraphQL */ `
           titleChanged
           modifiedBy
           upcCode
+          returned
           createTimestamp
           entryTimestamp
           createdAt
@@ -1084,7 +1094,6 @@ export const updateTransaction = /* GraphQL */ `
       glExportInd
       syncInd
       saleDetailId
-      returned
       location {
         id
         locationId
@@ -1214,6 +1223,7 @@ export const deleteTransaction = /* GraphQL */ `
           titleChanged
           modifiedBy
           upcCode
+          returned
           createTimestamp
           entryTimestamp
           createdAt
@@ -1241,7 +1251,6 @@ export const deleteTransaction = /* GraphQL */ `
       glExportInd
       syncInd
       saleDetailId
-      returned
       location {
         id
         locationId

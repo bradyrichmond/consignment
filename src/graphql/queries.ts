@@ -46,6 +46,7 @@ export const getClient = /* GraphQL */ `
           titleChanged
           modifiedBy
           upcCode
+          returned
           createTimestamp
           entryTimestamp
           createdAt
@@ -249,6 +250,7 @@ export const getStoreCredit = /* GraphQL */ `
           titleChanged
           modifiedBy
           upcCode
+          returned
           createTimestamp
           entryTimestamp
           createdAt
@@ -418,6 +420,7 @@ export const getItem = /* GraphQL */ `
       titleChanged
       modifiedBy
       upcCode
+      returned
       createTimestamp
       entryTimestamp
       createdAt
@@ -504,6 +507,7 @@ export const listItems = /* GraphQL */ `
         titleChanged
         modifiedBy
         upcCode
+        returned
         createTimestamp
         entryTimestamp
         createdAt
@@ -599,6 +603,7 @@ export const syncItems = /* GraphQL */ `
         titleChanged
         modifiedBy
         upcCode
+        returned
         createTimestamp
         entryTimestamp
         createdAt
@@ -688,6 +693,7 @@ export const getTransaction = /* GraphQL */ `
           titleChanged
           modifiedBy
           upcCode
+          returned
           createTimestamp
           entryTimestamp
           createdAt
@@ -715,7 +721,6 @@ export const getTransaction = /* GraphQL */ `
       glExportInd
       syncInd
       saleDetailId
-      returned
       location {
         id
         locationId
@@ -818,7 +823,6 @@ export const listTransactions = /* GraphQL */ `
         glExportInd
         syncInd
         saleDetailId
-        returned
         location {
           id
           locationId
@@ -899,7 +903,6 @@ export const syncTransactions = /* GraphQL */ `
         glExportInd
         syncInd
         saleDetailId
-        returned
         location {
           id
           locationId

@@ -18,8 +18,25 @@ const Settings = () => {
     const [storeLocations, setStoreLocations] = useState<Location[]>([]);
 
     useEffect(() => {
-        JSPM.JSPrintManager.auto_reconnect = true;
-        JSPM.JSPrintManager.start();
+        const setUpJspm = async () => {
+            JSPM.JSPrintManager.auto_reconnect = true;
+            await JSPM.JSPrintManager.start();
+            const socket = JSPM.JSPrintManager.WS;
+            
+            if (socket) {
+                socket.onStatusChanged = async () => {
+                    try {
+                        if (JSPM.JSPrintManager.websocket_status === JSPM.WSStatus.Open) {
+                            console.log('socket open')
+                            const devicePrinters = await JSPM.JSPrintManager.getPrinters();
+                            setPrinters(devicePrinters);
+                        }
+                    } catch (e) {
+                        console.error(JSON.stringify(e));
+                    }
+                };
+            }
+        }
 
         const getCardReaderIds = async () => {
             const fetchedCardReaderIds = await API.get('stripeApi', '/getStripeCardReaderList', {});
@@ -36,21 +53,8 @@ const Settings = () => {
 
         getCardReaderIds();
         getStoreLocations();
+        setUpJspm();
     }, [])
-    
-    useEffect(() => {
-        const socket = JSPM.JSPrintManager.WS;
-        
-        if (socket) {
-            socket.onStatusChanged = async () => {
-                if (socketStatus === JSPM.WSStatus.Open) {
-                    console.log('socket open')
-                    const devicePrinters = await JSPM.JSPrintManager.getPrinters();
-                    setPrinters(devicePrinters);
-                }
-            };
-        }
-    }, [socketStatus]);
 
     const setPrinter = (printerName: string, lsKey: string) => {
         localStorage.setItem(lsKey, printerName);

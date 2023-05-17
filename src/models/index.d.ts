@@ -17,7 +17,8 @@ export enum TenderType {
   CASH = "CASH",
   CREDIT_CARD = "CREDIT_CARD",
   GIFT_CARD = "GIFT_CARD",
-  STORE_CREDIT = "STORE_CREDIT"
+  STORE_CREDIT = "STORE_CREDIT",
+  TAX = "TAX"
 }
 
 
@@ -146,6 +147,7 @@ type EagerItem = {
   readonly titleChanged?: boolean | null;
   readonly modifiedBy?: string | null;
   readonly upcCode?: string | null;
+  readonly returned?: boolean | null;
   readonly createTimestamp?: string | null;
   readonly entryTimestamp?: string | null;
   readonly createdAt?: string | null;
@@ -190,6 +192,7 @@ type LazyItem = {
   readonly titleChanged?: boolean | null;
   readonly modifiedBy?: string | null;
   readonly upcCode?: string | null;
+  readonly returned?: boolean | null;
   readonly createTimestamp?: string | null;
   readonly entryTimestamp?: string | null;
   readonly createdAt?: string | null;
@@ -225,7 +228,6 @@ type EagerTransaction = {
   readonly glExportInd?: boolean | null;
   readonly syncInd?: boolean | null;
   readonly saleDetailId?: string | null;
-  readonly returned?: boolean | null;
   readonly location?: Location | null;
   readonly tenders: Tender[];
   readonly createdAt?: string | null;
@@ -250,7 +252,6 @@ type LazyTransaction = {
   readonly glExportInd?: boolean | null;
   readonly syncInd?: boolean | null;
   readonly saleDetailId?: string | null;
-  readonly returned?: boolean | null;
   readonly location: AsyncItem<Location | undefined>;
   readonly tenders: AsyncCollection<Tender>;
   readonly createdAt?: string | null;

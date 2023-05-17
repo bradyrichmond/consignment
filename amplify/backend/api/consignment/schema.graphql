@@ -18,6 +18,7 @@ enum TenderType {
   CREDIT_CARD
   GIFT_CARD
   STORE_CREDIT
+  TAX
 }
 
 type Client @model {
@@ -75,6 +76,7 @@ type Item @model {
   titleChanged: Boolean
   modifiedBy: String
   upcCode: String
+  returned: Boolean
   createTimestamp: String
   entryTimestamp: String
 }
@@ -93,7 +95,6 @@ type Transaction @model {
   glExportInd: Boolean
   syncInd: Boolean
   saleDetailId: String
-  returned: Boolean
   location: Location @hasOne
   tenders: [Tender!]! @hasMany
 }

@@ -36,7 +36,7 @@
         "stripeGetCardReaderList": {
           "secretsPathAmplifyAppId": "d1ab102njyu249",
           "deploymentBucketName": "amplify-consignment-dev-183237-deployment",
-          "s3Key": "amplify-builds/stripeGetCardReaderList-6956667a484e30614c43-build.zip"
+          "s3Key": "amplify-builds/stripeGetCardReaderList-7646465370776c49494a-build.zip"
         },
         "AdminQueriesd927d65d": {
           "deploymentBucketName": "amplify-consignment-dev-183237-deployment",

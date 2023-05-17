@@ -477,6 +477,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "returned": {
+                    "name": "returned",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createTimestamp": {
                     "name": "createTimestamp",
                     "isArray": false,
@@ -679,13 +686,6 @@ export const schema = {
                     "name": "saleDetailId",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "returned": {
-                    "name": "returned",
-                    "isArray": false,
-                    "type": "Boolean",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -1820,11 +1820,12 @@ export const schema = {
                 "CASH",
                 "CREDIT_CARD",
                 "GIFT_CARD",
-                "STORE_CREDIT"
+                "STORE_CREDIT",
+                "TAX"
             ]
         }
     },
     "nonModels": {},
     "codegenVersion": "3.4.2",
-    "version": "81263b054486a766ab047b245885af6f"
+    "version": "bcc453a9141a6df23bf10dc8701fab7a"
 };
