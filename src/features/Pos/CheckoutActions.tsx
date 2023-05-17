@@ -228,19 +228,28 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
     const updateSoldItems = async () => {
         for (let i = 0; i < items.length; i++) {
             const item = items[i];
-            const consigner = await DataStore.query(Client, item.clientItemsId ?? '');
-            const storeCredit = await DataStore.query(StoreCredit, consigner?.clientCreditId ?? '');
 
-            if (storeCredit) {
-                const fetchedItems = await storeCredit.items.toArray();
+            if (item.itemAcquireTypeId && item.itemAcquireTypeId === '1'){
+                const consigner = await DataStore.query(Client, item.clientItemsId ?? '');
+                const storeCredit = await DataStore.query(StoreCredit, consigner?.clientCreditId ?? '');
 
-                await DataStore.save(StoreCredit.copyOf(storeCredit, (updated) => {
-                    // needs dynamic percentage
-                    updated.amount = storeCredit.amount ?? 0 + parseFloat(item.price) * parseFloat(consignmentPercentage);
-                    updated.items = fetchedItems.length > 0 ? [...fetchedItems, item] : [item]
+                if (storeCredit) {
+                    const fetchedItems = await storeCredit.items.toArray();
+
+                    await DataStore.save(StoreCredit.copyOf(storeCredit, (updated) => {
+                        updated.amount = storeCredit.amount ?? 0 + parseFloat(item.price) * parseFloat(consignmentPercentage);
+                        updated.items = fetchedItems.length > 0 ? [...fetchedItems, item] : [item]
+                    }));
+                } else {
+                    await DataStore.save(new StoreCredit({ amount: parseFloat(item.price) * parseFloat(consignmentPercentage), items: [item] }));
+                }
+            }
+
+            if (item.itemAcquireTypeId && item.itemAcquisitionTypeId === '2') {
+                const itemQty = item.qty ?? 1;
+                await DataStore.save(Item.copyOf(item, (updated) => {
+                    updated.qty = itemQty - 1;
                 }));
-            } else {
-                await DataStore.save(new StoreCredit({ amount: parseFloat(item.price) * parseFloat(consignmentPercentage), items: [item] }));
             }
 
             await DataStore.save(Item.copyOf(item, (updated) => {
