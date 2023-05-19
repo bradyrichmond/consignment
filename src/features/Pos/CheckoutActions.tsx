@@ -4,7 +4,7 @@ import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 import { currencyFormatter, generateReceipt } from "../../utils/PrintReceipt";
 import ProcessCash from "./ProcessCash";
 import { API, DataStore } from "aws-amplify";
-import { Client, ConsignerSplit, GiftCard, GiftCardLog, Item, StoreCredit, Tender, Transaction } from "../../models";
+import { Client, ConsignerSplit, Coupon, CouponType, GiftCard, GiftCardLog, Item, StoreCredit, Tender, Transaction } from "../../models";
 import ProcessingCard, { STEPS } from "./ProcessingCard";
 import { useForm } from "react-hook-form";
 import ModalContainer from "../../utils/ModalContainer";
@@ -13,6 +13,7 @@ import ProcessGiftCard from "./ProcessGiftCard";
 import { GiftCardLogType } from "../../models";
 import { TenderType } from "../../models";
 import SelectConsigner from "./SelectConsigner";
+import AddCoupon from "./AddCoupon";
 
 interface CheckoutActionsProps {
     items: Item[]
@@ -38,6 +39,8 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
     const [consignmentPercentage, setConsignmentPercentage] = useState('0');
     const [selectedConsigner, setSelectedConsigner] = useState<Client>();
     const [selectedConsignerCredit, setSelectedConsignerCredit] = useState<StoreCredit>();
+    const [isAddingCoupon, setIsAddingCoupon] = useState(false);
+    const [coupons, setCoupons] = useState<Coupon[]>([])
     const storeData = useStoreLocation();
 
     // TODO: This file is really big, you should split it up more.
@@ -317,6 +320,21 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
         setIsAddingConsigner(false);
     }
 
+    const startAddingCoupon = () => {
+        setIsAddingCoupon(true);
+    }
+
+    const stopAddingCoupon = async (couponId?: string) => {
+        if (couponId) {
+            const selectedCoupon = await DataStore.query(Coupon, couponId);
+            if (selectedCoupon) {
+                setCoupons((current) => [...current, selectedCoupon]);
+            }
+        }
+
+        setIsAddingCoupon(false);
+    }
+
     const intakeGiftCardData = async (giftCard?: GiftCard) => {
         if (giftCard) {
             const receivedAmount = amount >= giftCard.value ? giftCard.value : amount;
@@ -381,6 +399,12 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
                 <SelectConsigner close={handleAddConsigner}/>
             </Modal>
             <Modal
+                open={isAddingCoupon}
+                onClose={() => setIsAddingCoupon(false)}
+            >
+                <AddCoupon close={stopAddingCoupon} />
+            </Modal>
+            <Modal
                 open={itemAlreadyScanned}
                 onClose={hideItemAlreadyScanned}
             >
@@ -420,6 +444,18 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
                 </ModalContainer>
             </Modal>
             <Box flex='1'>
+                {coupons && 
+                    <Box display='flex' flexDirection='column' padding='2rem'>
+                        <Typography flex='1'>{`${coupons.length > 1 ? 'Coupons:' : 'Coupon:'}`}</Typography>
+                        <Box display='flex' flexDirection='column'>
+                            {coupons.map((c) => {
+                                return (
+                                    <Typography>{c.name} {c.type === CouponType.FLAT ? currencyFormatter.format(c.amount) : `${c.amount}%`} {c.type === CouponType.FLAT ? 'off' : ' percent off'}</Typography>
+                                )
+                            })}
+                        </Box>
+                    </Box>
+                }
                 <Box display='flex' flexDirection='row' padding='2rem'>
                     <Typography flex='1'>Subtotal:</Typography>
                     <Typography>{currencyFormatter.format(amount)}</Typography>
@@ -430,7 +466,7 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
                 </Box>
                 <Box display='flex' flexDirection='row' padding='2rem' borderBottom='1px solid white'>
                     <Typography flex='1'>Total:</Typography>
-                    <Typography>{currencyFormatter.format(amountWithTax)}</Typography>
+                    <Typography>{currencyFormatter.format(coupons.length < 1 ? amountWithTax : coupons.reduce((a: number, b: Coupon) => b.type === CouponType.FLAT ? a - b.amount : a * (b.amount / 100), amountWithTax))}</Typography>
                 </Box>
                 <Box marginTop='2rem'>
                     <form onSubmit={handleSubmit(handleManualEntry)}>
@@ -472,6 +508,7 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
                 <Button variant='contained' fullWidth={true} color='primary' disabled={tenderAmountHasBeenMet} onClick={cash}>Cash</Button>
                 <Button variant='contained' fullWidth={true} color='primary' disabled={tenderAmountHasBeenMet} onClick={card}>Credit / Debit</Button>
                 <Button variant='contained' fullWidth={true} color='primary' disabled={tenderAmountHasBeenMet} onClick={giftCard}>Gift Card</Button>
+                <Button variant='contained' fullWidth={true} color='primary' disabled={tenderAmountHasBeenMet} onClick={startAddingCoupon}>Coupon</Button>
                 {selectedConsigner && <Button variant='contained' fullWidth={true} color='primary' disabled={tenderAmountHasBeenMet} onClick={addStoreCredit}>{currencyFormatter.format(parseFloat(selectedConsignerCredit?.amount.toString() ?? '0'))} Store Credit</Button>}
             </Box>
             <Box>

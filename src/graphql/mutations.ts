@@ -2288,6 +2288,60 @@ export const deleteGiftCardLog = /* GraphQL */ `
     }
   }
 `;
+export const createCoupon = /* GraphQL */ `
+  mutation CreateCoupon(
+    $input: CreateCouponInput!
+    $condition: ModelCouponConditionInput
+  ) {
+    createCoupon(input: $input, condition: $condition) {
+      id
+      name
+      type
+      amount
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateCoupon = /* GraphQL */ `
+  mutation UpdateCoupon(
+    $input: UpdateCouponInput!
+    $condition: ModelCouponConditionInput
+  ) {
+    updateCoupon(input: $input, condition: $condition) {
+      id
+      name
+      type
+      amount
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteCoupon = /* GraphQL */ `
+  mutation DeleteCoupon(
+    $input: DeleteCouponInput!
+    $condition: ModelCouponConditionInput
+  ) {
+    deleteCoupon(input: $input, condition: $condition) {
+      id
+      name
+      type
+      amount
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
 export const createCategoryAttribute = /* GraphQL */ `
   mutation CreateCategoryAttribute(
     $input: CreateCategoryAttributeInput!

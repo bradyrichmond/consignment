@@ -18,7 +18,13 @@ export enum TenderType {
   CREDIT_CARD = "CREDIT_CARD",
   GIFT_CARD = "GIFT_CARD",
   STORE_CREDIT = "STORE_CREDIT",
+  COUPON = "COUPON",
   TAX = "TAX"
+}
+
+export enum CouponType {
+  PERCENT = "PERCENT",
+  FLAT = "FLAT"
 }
 
 
@@ -697,6 +703,38 @@ export declare type GiftCardLog = LazyLoading extends LazyLoadingDisabled ? Eage
 
 export declare const GiftCardLog: (new (init: ModelInit<GiftCardLog>) => GiftCardLog) & {
   copyOf(source: GiftCardLog, mutator: (draft: MutableModel<GiftCardLog>) => MutableModel<GiftCardLog> | void): GiftCardLog;
+}
+
+type EagerCoupon = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Coupon, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly name: string;
+  readonly type: CouponType | keyof typeof CouponType;
+  readonly amount: number;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyCoupon = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Coupon, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly name: string;
+  readonly type: CouponType | keyof typeof CouponType;
+  readonly amount: number;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Coupon = LazyLoading extends LazyLoadingDisabled ? EagerCoupon : LazyCoupon
+
+export declare const Coupon: (new (init: ModelInit<Coupon>) => Coupon) & {
+  copyOf(source: Coupon, mutator: (draft: MutableModel<Coupon>) => MutableModel<Coupon> | void): Coupon;
 }
 
 type EagerCategoryAttribute = {

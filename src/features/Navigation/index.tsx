@@ -45,6 +45,11 @@ const navItems = [
         userGroups: ['Admins']
     },
     {
+        label: 'Coupons',
+        navUrl: 'coupons',
+        userGroups: ['Admins']
+    },
+    {
         label: 'User Management',
         navUrl: 'user-management',
         userGroups: ['Admins']
@@ -94,7 +99,7 @@ const NavItem = (props: NavItemProps) => {
 
     return (
         <Box flex='1' height='100%' display='flex' justifyContent='center' alignItems='center' onClick={handleClick} borderBottom={active ? '5px solid white' : 'inherit'}>
-            <Typography variant='h4'>{label}</Typography>
+            <Typography variant='h5'>{label}</Typography>
         </Box>
     )
 }
@@ -117,11 +122,11 @@ const Status = () => {
     }, [])
 
     return (
-        <Box display='flex' flexDirection='row' padding='2rem' fontSize='2rem'>
+        <Box display='flex' flexDirection='row' padding='2rem' fontSize='1rem'>
             <Box marginRight='2rem' display='flex' justifyContent='center' alignItems='center'><AccessTimeIcon color='primary' fontSize='large'/></Box>
-            {locationData?.locationName && <Box flex='1'>{locationData?.locationName}</Box>}
-            <Box flex='1'>{format(time, "eee, MMM do, yyyy | h:mm bbb")}</Box>
-            <Box><UserAvatar /></Box>
+            <Box flex='1' display='flex' justifyContent='center' alignItems='center'>{format(time, "eee, M-dd-yyyy | h:mm bbb")}</Box>
+            {locationData?.locationName && <Box flex='1' display='flex' justifyContent='center' alignItems='center'>{locationData?.locationName}</Box>}
+            <Box display='flex' justifyContent='center' alignItems='center'><UserAvatar /></Box>
         </Box>
     )
 }

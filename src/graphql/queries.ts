@@ -2020,6 +2020,73 @@ export const syncGiftCardLogs = /* GraphQL */ `
     }
   }
 `;
+export const getCoupon = /* GraphQL */ `
+  query GetCoupon($id: ID!) {
+    getCoupon(id: $id) {
+      id
+      name
+      type
+      amount
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listCoupons = /* GraphQL */ `
+  query ListCoupons(
+    $filter: ModelCouponFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listCoupons(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        type
+        amount
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncCoupons = /* GraphQL */ `
+  query SyncCoupons(
+    $filter: ModelCouponFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncCoupons(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        name
+        type
+        amount
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
 export const getCategoryAttribute = /* GraphQL */ `
   query GetCategoryAttribute($id: ID!) {
     getCategoryAttribute(id: $id) {

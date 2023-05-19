@@ -594,6 +594,7 @@ export enum TenderType {
   CREDIT_CARD = "CREDIT_CARD",
   GIFT_CARD = "GIFT_CARD",
   STORE_CREDIT = "STORE_CREDIT",
+  COUPON = "COUPON",
   TAX = "TAX",
 }
 
@@ -1137,6 +1138,60 @@ export type DeleteGiftCardLogInput = {
   _version?: number | null,
 };
 
+export type CreateCouponInput = {
+  id?: string | null,
+  name: string,
+  type: CouponType,
+  amount: number,
+  _version?: number | null,
+};
+
+export enum CouponType {
+  PERCENTAGE = "PERCENTAGE",
+  FLAT = "FLAT",
+}
+
+
+export type ModelCouponConditionInput = {
+  name?: ModelStringInput | null,
+  type?: ModelCouponTypeInput | null,
+  amount?: ModelIntInput | null,
+  and?: Array< ModelCouponConditionInput | null > | null,
+  or?: Array< ModelCouponConditionInput | null > | null,
+  not?: ModelCouponConditionInput | null,
+};
+
+export type ModelCouponTypeInput = {
+  eq?: CouponType | null,
+  ne?: CouponType | null,
+};
+
+export type Coupon = {
+  __typename: "Coupon",
+  id: string,
+  name: string,
+  type: CouponType,
+  amount: number,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+};
+
+export type UpdateCouponInput = {
+  id: string,
+  name?: string | null,
+  type?: CouponType | null,
+  amount?: number | null,
+  _version?: number | null,
+};
+
+export type DeleteCouponInput = {
+  id: string,
+  _version?: number | null,
+};
+
 export type CreateCategoryAttributeInput = {
   id?: string | null,
   categoryId: string,
@@ -1479,6 +1534,23 @@ export type ModelGiftCardLogConnection = {
   startedAt?: number | null,
 };
 
+export type ModelCouponFilterInput = {
+  id?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  type?: ModelCouponTypeInput | null,
+  amount?: ModelIntInput | null,
+  and?: Array< ModelCouponFilterInput | null > | null,
+  or?: Array< ModelCouponFilterInput | null > | null,
+  not?: ModelCouponFilterInput | null,
+};
+
+export type ModelCouponConnection = {
+  __typename: "ModelCouponConnection",
+  items:  Array<Coupon | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
 export type ModelCategoryAttributeFilterInput = {
   id?: ModelIDInput | null,
   categoryId?: ModelIDInput | null,
@@ -1745,6 +1817,15 @@ export type ModelSubscriptionGiftCardLogFilterInput = {
   type?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionGiftCardLogFilterInput | null > | null,
   or?: Array< ModelSubscriptionGiftCardLogFilterInput | null > | null,
+};
+
+export type ModelSubscriptionCouponFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  name?: ModelSubscriptionStringInput | null,
+  type?: ModelSubscriptionStringInput | null,
+  amount?: ModelSubscriptionIntInput | null,
+  and?: Array< ModelSubscriptionCouponFilterInput | null > | null,
+  or?: Array< ModelSubscriptionCouponFilterInput | null > | null,
 };
 
 export type ModelSubscriptionCategoryAttributeFilterInput = {
@@ -4236,6 +4317,66 @@ export type DeleteGiftCardLogMutation = {
   } | null,
 };
 
+export type CreateCouponMutationVariables = {
+  input: CreateCouponInput,
+  condition?: ModelCouponConditionInput | null,
+};
+
+export type CreateCouponMutation = {
+  createCoupon?:  {
+    __typename: "Coupon",
+    id: string,
+    name: string,
+    type: CouponType,
+    amount: number,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type UpdateCouponMutationVariables = {
+  input: UpdateCouponInput,
+  condition?: ModelCouponConditionInput | null,
+};
+
+export type UpdateCouponMutation = {
+  updateCoupon?:  {
+    __typename: "Coupon",
+    id: string,
+    name: string,
+    type: CouponType,
+    amount: number,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type DeleteCouponMutationVariables = {
+  input: DeleteCouponInput,
+  condition?: ModelCouponConditionInput | null,
+};
+
+export type DeleteCouponMutation = {
+  deleteCoupon?:  {
+    __typename: "Coupon",
+    id: string,
+    name: string,
+    type: CouponType,
+    amount: number,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
 export type CreateCategoryAttributeMutationVariables = {
   input: CreateCategoryAttributeInput,
   condition?: ModelCategoryAttributeConditionInput | null,
@@ -6558,6 +6699,78 @@ export type SyncGiftCardLogsQuery = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
       giftCardLogGiftCardId: string,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type GetCouponQueryVariables = {
+  id: string,
+};
+
+export type GetCouponQuery = {
+  getCoupon?:  {
+    __typename: "Coupon",
+    id: string,
+    name: string,
+    type: CouponType,
+    amount: number,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type ListCouponsQueryVariables = {
+  filter?: ModelCouponFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListCouponsQuery = {
+  listCoupons?:  {
+    __typename: "ModelCouponConnection",
+    items:  Array< {
+      __typename: "Coupon",
+      id: string,
+      name: string,
+      type: CouponType,
+      amount: number,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncCouponsQueryVariables = {
+  filter?: ModelCouponFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncCouponsQuery = {
+  syncCoupons?:  {
+    __typename: "ModelCouponConnection",
+    items:  Array< {
+      __typename: "Coupon",
+      id: string,
+      name: string,
+      type: CouponType,
+      amount: number,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
@@ -9267,6 +9480,63 @@ export type OnDeleteGiftCardLogSubscription = {
     _deleted?: boolean | null,
     _lastChangedAt: number,
     giftCardLogGiftCardId: string,
+  } | null,
+};
+
+export type OnCreateCouponSubscriptionVariables = {
+  filter?: ModelSubscriptionCouponFilterInput | null,
+};
+
+export type OnCreateCouponSubscription = {
+  onCreateCoupon?:  {
+    __typename: "Coupon",
+    id: string,
+    name: string,
+    type: CouponType,
+    amount: number,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnUpdateCouponSubscriptionVariables = {
+  filter?: ModelSubscriptionCouponFilterInput | null,
+};
+
+export type OnUpdateCouponSubscription = {
+  onUpdateCoupon?:  {
+    __typename: "Coupon",
+    id: string,
+    name: string,
+    type: CouponType,
+    amount: number,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnDeleteCouponSubscriptionVariables = {
+  filter?: ModelSubscriptionCouponFilterInput | null,
+};
+
+export type OnDeleteCouponSubscription = {
+  onDeleteCoupon?:  {
+    __typename: "Coupon",
+    id: string,
+    name: string,
+    type: CouponType,
+    amount: number,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 

@@ -1699,6 +1699,65 @@ export const schema = {
                 }
             ]
         },
+        "Coupon": {
+            "name": "Coupon",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "name": {
+                    "name": "name",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "type": {
+                    "name": "type",
+                    "isArray": false,
+                    "type": {
+                        "enum": "CouponType"
+                    },
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "amount": {
+                    "name": "amount",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "Coupons",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                }
+            ]
+        },
         "CategoryAttribute": {
             "name": "CategoryAttribute",
             "fields": {
@@ -1821,11 +1880,19 @@ export const schema = {
                 "CREDIT_CARD",
                 "GIFT_CARD",
                 "STORE_CREDIT",
+                "COUPON",
                 "TAX"
+            ]
+        },
+        "CouponType": {
+            "name": "CouponType",
+            "values": [
+                "PERCENT",
+                "FLAT"
             ]
         }
     },
     "nonModels": {},
     "codegenVersion": "3.4.2",
-    "version": "bcc453a9141a6df23bf10dc8701fab7a"
+    "version": "98e7c0c63300421454dc66f944b13197"
 };

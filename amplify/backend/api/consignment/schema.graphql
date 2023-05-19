@@ -18,7 +18,13 @@ enum TenderType {
   CREDIT_CARD
   GIFT_CARD
   STORE_CREDIT
+  COUPON
   TAX
+}
+
+enum CouponType {
+  PERCENT
+  FLAT
 }
 
 type Client @model {
@@ -198,4 +204,11 @@ type GiftCardLog @model {
   giftCard: GiftCard! @hasOne
   amount: Float!
   type: GiftCardLogType!
+}
+
+type Coupon @model {
+  id: ID!
+  name: String!
+  type: CouponType!
+  amount: Int!
 }

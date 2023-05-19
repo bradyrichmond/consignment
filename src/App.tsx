@@ -26,6 +26,7 @@ import UserManagement from './features/UserManagement';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import Reporting from './features/Reporting';
+import Coupons from './features/Coupons';
 Amplify.configure(awsExports);
 
 const checkProtectedRoute = (userGroups: string[], allowedGroups: string[]) => {
@@ -56,6 +57,10 @@ const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: string[]
       {
         path: 'consigners',
         element: checkProtectedRoute(userGroups, ['Salespeople', 'Processors', 'Managers', 'Admins']) ? <Clients /> : <Box>Access Denied</Box>
+      },
+      {
+        path: 'coupons',
+        element: checkProtectedRoute(userGroups, ['Manager', 'Admins']) ? <Coupons /> : <Box>Access Denied</Box>
       },
       {
         path: 'items',

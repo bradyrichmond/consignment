@@ -2186,6 +2186,51 @@ export const onDeleteGiftCardLog = /* GraphQL */ `
     }
   }
 `;
+export const onCreateCoupon = /* GraphQL */ `
+  subscription OnCreateCoupon($filter: ModelSubscriptionCouponFilterInput) {
+    onCreateCoupon(filter: $filter) {
+      id
+      name
+      type
+      amount
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onUpdateCoupon = /* GraphQL */ `
+  subscription OnUpdateCoupon($filter: ModelSubscriptionCouponFilterInput) {
+    onUpdateCoupon(filter: $filter) {
+      id
+      name
+      type
+      amount
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onDeleteCoupon = /* GraphQL */ `
+  subscription OnDeleteCoupon($filter: ModelSubscriptionCouponFilterInput) {
+    onDeleteCoupon(filter: $filter) {
+      id
+      name
+      type
+      amount
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
 export const onCreateCategoryAttribute = /* GraphQL */ `
   subscription OnCreateCategoryAttribute(
     $filter: ModelSubscriptionCategoryAttributeFilterInput
