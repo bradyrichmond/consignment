@@ -104,6 +104,7 @@ type Transaction @model {
   location: Location @hasOne
   tenders: [Tender!]! @hasMany
   coupons: [Coupon] @hasMany
+  missingItems: [Item] @hasMany
 }
 
 type Tender @model {

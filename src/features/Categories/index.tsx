@@ -1,12 +1,11 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Button, Checkbox, FormControlLabel, InputAdornment, Modal, TextField } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { DataStore, Predicates } from 'aws-amplify';
 import { Category } from '../../models';
 import { format } from 'date-fns';
 import ConfirmModal from '../../utils/ConfirmModal';
-import SearchIcon from '@mui/icons-material/Search';
 import { ProcessCsvButton } from '../Clients';
 import AddCategory from './AddCategory';
 import ViewCategoryAttributes from './ViewCategoryAttributes';

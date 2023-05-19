@@ -14,6 +14,7 @@ import { GiftCardLogType } from "../../models";
 import { TenderType } from "../../models";
 import SelectConsigner from "./SelectConsigner";
 import AddCoupon from "./AddCoupon";
+import AddMissingTagItem from "./AddMissingTagItem";
 
 interface CheckoutActionsProps {
     items: Item[]
@@ -40,10 +41,11 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
     const [selectedConsigner, setSelectedConsigner] = useState<Client>();
     const [selectedConsignerCredit, setSelectedConsignerCredit] = useState<StoreCredit>();
     const [isAddingCoupon, setIsAddingCoupon] = useState(false);
-    const [coupons, setCoupons] = useState<Coupon[]>([])
+    const [coupons, setCoupons] = useState<Coupon[]>([]);
+    const [isAddingMissingTagItem, setIsAddingMissingTagItem] = useState(false);
     const storeData = useStoreLocation();
 
-    // TODO: This file is really big, you should split it up more.
+    // TODO: This file is really big, you should split it up more. Seriously, this file is way too big
     
     const { handleSubmit, register, resetField } = useForm();
     
@@ -372,6 +374,18 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
         stopAddingConsigner();
     }
 
+    const startAddingMissingTagItem = () => {
+        setIsAddingMissingTagItem(true);
+    }
+
+    const stopAddingMissingTagItem = (item?: Item) => {
+        if (item) {
+            addItem(item);
+        }
+
+        setIsAddingMissingTagItem(false);
+    }
+
     return (
         <Box display='flex' flexDirection='column' height='100%'>
             <Modal
@@ -403,6 +417,12 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
                 onClose={() => setIsAddingCoupon(false)}
             >
                 <AddCoupon close={stopAddingCoupon} />
+            </Modal>
+            <Modal
+                open={isAddingMissingTagItem}
+                onClose={() => setIsAddingMissingTagItem(false)}
+            >
+                <AddMissingTagItem close={stopAddingMissingTagItem} />
             </Modal>
             <Modal
                 open={itemAlreadyScanned}
@@ -511,8 +531,9 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
                 <Button variant='contained' fullWidth={true} color='primary' disabled={tenderAmountHasBeenMet} onClick={startAddingCoupon}>Coupon</Button>
                 {selectedConsigner && <Button variant='contained' fullWidth={true} color='primary' disabled={tenderAmountHasBeenMet} onClick={addStoreCredit}>{currencyFormatter.format(parseFloat(selectedConsignerCredit?.amount.toString() ?? '0'))} Store Credit</Button>}
             </Box>
-            <Box>
-                <Button variant='contained' fullWidth={true} color='primary' onClick={startAddingConsigner}>Select Consigner</Button>
+            <Box marginTop='2rem'>
+                <Button variant='contained' fullWidth={true} color='primary' onClick={startAddingMissingTagItem}>Add item with missing tag</Button>
+                {!selectedConsigner && <Button variant='contained' fullWidth={true} color='primary' onClick={startAddingConsigner}>Select Consigner</Button>}
             </Box>
         </Box>
     )

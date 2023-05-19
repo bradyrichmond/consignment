@@ -1,6 +1,5 @@
 import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
-import { Box, InputAdornment, TextField } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import { Box, Checkbox, FormControlLabel } from '@mui/material';
 import { ProcessCsvButton } from '../Clients';
 import { DataGrid, GridColDef, GridEventListener } from '@mui/x-data-grid';
 import { DataStore, Predicates } from 'aws-amplify';
@@ -14,6 +13,7 @@ const Items = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [items, setItems] = useState<Item[]>([]);
     const [dataLoaded, setDataLoaded] = useState(false);
+    const [isFilteringMissingTags, setIsFilteringMissingTags] = useState(false);
 
     useEffect(() => {
         const getData = async () => {
@@ -35,7 +35,7 @@ const Items = () => {
             
             return () => clearTimeout(getData)
         }
-    }, [searchTerm])
+    }, [searchTerm, isFilteringMissingTags])
 
     const onSearchChange = (e:ChangeEvent<HTMLInputElement>) => {
         const changeSearchTerm = e.target.value;
@@ -48,7 +48,7 @@ const Items = () => {
             i.description.contains(searchTerm.toLowerCase()),
         ]));
 
-        setItems(filteredItems);
+        setItems(isFilteringMissingTags ? filteredItems.filter((i) => !i.clientItemsId) : filteredItems);
     }
 
     const fileReader = new FileReader();
@@ -158,6 +158,10 @@ const Items = () => {
         }    
     }
 
+    const filterMissingTagItems = () => {
+        setIsFilteringMissingTags((cur) => !cur);
+    }
+
     const handleRowClick: GridEventListener<'rowClick'> = (
         params,
         event,
@@ -186,6 +190,9 @@ const Items = () => {
                 <Box paddingLeft='2rem' display='flex' justifyContent='center' alignItems='center' width='30%'>
                     <ProcessCsvButton label='Bulk Upload Items' action={bulkAddItems} />
                 </Box>
+            </Box>
+            <Box paddingBottom='2rem'>
+                <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 50 }}} onChange={filterMissingTagItems} checked={isFilteringMissingTags} value={isFilteringMissingTags}/>} label="Missing tags only" />
             </Box>
             <Box flex='1'>
                 <DataGrid columns={columns} rows={rows} sx={{fontSize: '2rem'}} getRowHeight={() => 'auto'} onRowClick={handleRowClick}/>

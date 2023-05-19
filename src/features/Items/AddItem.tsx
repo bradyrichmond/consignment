@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Box } from '@mui/system';
 import { useParams } from 'react-router-dom';
 import { Stepper, Step, StepLabel, Typography } from '@mui/material';
-import QRCode from "react-qr-code";
 import NarrowBrand from './NarrowBrand';
 import SelectBrand from './SelectBrand';
 import { AttributeType, AttributeTypeValue, Brand, Category, CategoryAttribute, Client, Item } from '../../models';
@@ -85,6 +84,7 @@ const AddItem = () => {
         const client = await DataStore.query(Client, id ?? '');
         
         if (client) {
+            // need real userId
             await DataStore.save(new Item({ itemCategoryId: category, itemId: `${client?.account}-${client?.nextItemNumber}`, clientItemsId: id, itemBrandId: brand?.id, price: itemPrice, statusId: '1', userId: '1', itemName: `${brand?.description} ${fetchedCategory?.categoryName}` }));
             await DataStore.save(Client.copyOf(client, (updated) => {
                 updated.nextItemNumber = (parseInt(client.nextItemNumber) + 1).toString();
