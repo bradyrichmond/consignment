@@ -198,7 +198,7 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
 
     const completeTransaction = async () => {
         // needs correct userId
-        const transaction = await DataStore.save(new Transaction({ items, userId: '1', actTransAmt: amountWithTax.toString(), actTransTimestamp: Date.now().toString(), location: storeData, tenders }));
+        const transaction = await DataStore.save(new Transaction({ items, userId: '1', actTransAmt: amountWithTax.toString(), actTransTimestamp: Date.now().toString(), location: storeData, tenders, coupons }));
 
         const giftCardTenders = tenders.filter((t) => t.label === TenderType.GIFT_CARD);
 

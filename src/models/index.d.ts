@@ -236,6 +236,7 @@ type EagerTransaction = {
   readonly saleDetailId?: string | null;
   readonly location?: Location | null;
   readonly tenders: Tender[];
+  readonly coupons?: (Coupon | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly transactionLocationId?: string | null;
@@ -260,6 +261,7 @@ type LazyTransaction = {
   readonly saleDetailId?: string | null;
   readonly location: AsyncItem<Location | undefined>;
   readonly tenders: AsyncCollection<Tender>;
+  readonly coupons: AsyncCollection<Coupon>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly transactionLocationId?: string | null;
@@ -716,6 +718,7 @@ type EagerCoupon = {
   readonly amount: number;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly transactionCouponsId?: string | null;
 }
 
 type LazyCoupon = {
@@ -729,6 +732,7 @@ type LazyCoupon = {
   readonly amount: number;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly transactionCouponsId?: string | null;
 }
 
 export declare type Coupon = LazyLoading extends LazyLoadingDisabled ? EagerCoupon : LazyCoupon

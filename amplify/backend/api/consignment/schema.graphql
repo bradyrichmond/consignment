@@ -103,6 +103,7 @@ type Transaction @model {
   saleDetailId: String
   location: Location @hasOne
   tenders: [Tender!]! @hasMany
+  coupons: [Coupon] @hasMany
 }
 
 type Tender @model {

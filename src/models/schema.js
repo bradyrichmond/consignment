@@ -723,6 +723,22 @@ export const schema = {
                         ]
                     }
                 },
+                "coupons": {
+                    "name": "coupons",
+                    "isArray": true,
+                    "type": {
+                        "model": "Coupon"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "transactionCouponsId"
+                        ]
+                    }
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -1747,6 +1763,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
+                },
+                "transactionCouponsId": {
+                    "name": "transactionCouponsId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -1755,6 +1778,15 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "gsi-Transaction.coupons",
+                        "fields": [
+                            "transactionCouponsId"
+                        ]
+                    }
                 }
             ]
         },
@@ -1894,5 +1926,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.2",
-    "version": "98e7c0c63300421454dc66f944b13197"
+    "version": "df869f42d2d1cee9e849aa51760965e0"
 };
