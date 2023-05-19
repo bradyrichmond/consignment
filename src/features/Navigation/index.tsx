@@ -30,6 +30,11 @@ const navItems = [
         userGroups: ['Salespeople', 'Processors', 'Managers', 'Admins']
     },
     {
+        label: 'Coupons',
+        navUrl: 'coupons',
+        userGroups: ['Admins']
+    },
+    {
         label: 'Items',
         navUrl: 'items',
         userGroups: ['Salespeople', 'Processors', 'Managers', 'Admins']
@@ -40,13 +45,13 @@ const navItems = [
         userGroups: ['Salespeople', 'Processors', 'Managers', 'Admins']
     },
     {
-        label: 'Settings',
-        navUrl: 'settings',
-        userGroups: ['Admins']
+        label: 'Reports',
+        navUrl: 'reports',
+        userGroups: ['Manager', 'Admins']
     },
     {
-        label: 'Coupons',
-        navUrl: 'coupons',
+        label: 'Settings',
+        navUrl: 'settings',
         userGroups: ['Admins']
     },
     {
@@ -98,7 +103,7 @@ const NavItem = (props: NavItemProps) => {
     }
 
     return (
-        <Box flex='1' height='100%' display='flex' justifyContent='center' alignItems='center' onClick={handleClick} borderBottom={active ? '5px solid white' : 'inherit'}>
+        <Box flex='1' height='100%' display='flex' justifyContent='center' alignItems='center' onClick={handleClick} borderBottom={active ? '5px solid white' : 'inherit'} sx={{'&:hover': { cursor: 'pointer' }}}>
             <Typography variant='h5'>{label}</Typography>
         </Box>
     )
