@@ -21,10 +21,11 @@ const EndOfDayReport = () => {
     const [itemsAdded, setItemsAdded] = useState<Item[]>([])
     const [itemsRefunded, setItemsRefunded] = useState<Item[]>([]);
     const [consignedItems, setConsignedItems] = useState<Item[]>([]);
+    const [missingTagItems, setMissingTagItems] = useState<Item[]>([]);
     const [retailItems, setRetailItems] = useState<Item[]>([]);
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [coupons, setCoupons] = useState<Coupon[]>([]);
-    const [consignmentPercentage, setConsignmentPercentage] = useState('')
+    const [consignmentPercentage, setConsignmentPercentage] = useState('');
     const [tenders, setTenders] = useState<{cash: Tender[], card: Tender[], storeCredit: Tender[], giftCard: Tender[], tax: Tender[]}>();
 
     useEffect(() => {
@@ -50,12 +51,14 @@ const EndOfDayReport = () => {
             const filteredItemsReturned = todayItems.filter((i) => i.returned);
             const filteredItemsConsigned = todayItems.filter((i) => i.itemAcquireTypeId === '1');
             const filteredItemsRetail = todayItems.filter((i) => i.itemAcquireTypeId === '2');
+            const filteredMissingTags = todayItems.filter((i) => !i.clientItemsId);
 
             setItemsSold(filteredItemsSold);
             setItemsRefunded(filteredItemsReturned);
             setCoupons(todayCoupons);
             setConsignedItems(filteredItemsConsigned);
             setRetailItems(filteredItemsRetail);
+            setMissingTagItems(filteredMissingTags);
 
             const newItems = await DataStore.query(Item, (i) => i.createTimestamp.gt(todayStart))
             setItemsAdded(newItems);
@@ -192,6 +195,7 @@ const EndOfDayReport = () => {
                 </Box>
                 <Box display='flex' flexDirection='row'>
                     <InfoContainerItem value={coupons.length.toString()} title='Coupons' subtitle={currencyFormatter.format(coupons.reduce((a,b) => a + b.amount, 0))} />
+                    <InfoContainerItem value={missingTagItems.length.toString()} title='Missing tag items sold' />
                 </Box>
             </Box>
             <Box>

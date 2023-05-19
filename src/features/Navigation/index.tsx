@@ -124,7 +124,7 @@ const Status = () => {
     return (
         <Box display='flex' flexDirection='row' padding='2rem' fontSize='1rem'>
             <Box marginRight='2rem' display='flex' justifyContent='center' alignItems='center'><AccessTimeIcon color='primary' fontSize='large'/></Box>
-            <Box flex='1' display='flex' justifyContent='center' alignItems='center'>{format(time, "eee, M-dd-yyyy | h:mm bbb")}</Box>
+            <Box flex='1' display='flex' justifyContent='center' alignItems='center'>{format(time, "eeee MMM do, yyyy h:mm bbb")}</Box>
             {locationData?.locationName && <Box flex='1' display='flex' justifyContent='center' alignItems='center'>{locationData?.locationName}</Box>}
             <Box display='flex' justifyContent='center' alignItems='center'><UserAvatar /></Box>
         </Box>
