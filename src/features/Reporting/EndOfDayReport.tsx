@@ -2,7 +2,7 @@ import { ReactNode, useEffect, useRef, useState } from "react";
 import useStoreLocation from "../../utils/useStoreLocation";
 import { format, sub } from "date-fns";
 import { DataStore } from "aws-amplify";
-import { ConsignerSplit, Item, Tender, TenderType, Transaction } from "../../models";
+import { ConsignerSplit, Coupon, Item, Tender, TenderType, Transaction } from "../../models";
 import * as JSPM from "jsprintmanager";
 import * as htmlToImage from 'html-to-image';
 import { Box, Button, Typography } from "@mui/material";
@@ -23,6 +23,7 @@ const EndOfDayReport = () => {
     const [consignedItems, setConsignedItems] = useState<Item[]>([]);
     const [retailItems, setRetailItems] = useState<Item[]>([]);
     const [transactions, setTransactions] = useState<Transaction[]>([]);
+    const [coupons, setCoupons] = useState<Coupon[]>([]);
     const [consignmentPercentage, setConsignmentPercentage] = useState('')
     const [tenders, setTenders] = useState<{cash: Tender[], card: Tender[], storeCredit: Tender[], giftCard: Tender[], tax: Tender[]}>();
 
@@ -36,10 +37,13 @@ const EndOfDayReport = () => {
             setTransactions(fetchedTransactions);
             setTenders(transactionData);
             let todayItems: Item[] = [];
+            let todayCoupons: Coupon[] = [];
 
             for (let i = 0; i < fetchedTransactions.length; i++) {
                 const currentItems = await transactions[i].items.toArray();
-                todayItems = [...itemsSold, ...currentItems];
+                const currentCoupons = await transactions[i].coupons.toArray();
+                todayItems = [...todayItems, ...currentItems];
+                todayCoupons = [...todayCoupons, ...currentCoupons];
             }
             
             const filteredItemsSold = todayItems.filter((i) => !i.returned);
@@ -49,6 +53,7 @@ const EndOfDayReport = () => {
 
             setItemsSold(filteredItemsSold);
             setItemsRefunded(filteredItemsReturned);
+            setCoupons(todayCoupons);
             setConsignedItems(filteredItemsConsigned);
             setRetailItems(filteredItemsRetail);
 
@@ -166,24 +171,27 @@ const EndOfDayReport = () => {
                     <InfoContainerItem value={currencyFormatter.format(dayTotal)} title='Total Sales' icon={<SavingsIcon color='inherit' sx={{fontSize: '4rem'}} />} />
                 </Box>
                 <Box display='flex' flexDirection='row'>
-                    <InfoContainerItem value={itemsSold.length.toString()} title='Number of items sold' />
-                    <InfoContainerItem value={itemsRefunded.length.toString()} title='Number of items refunded' subtitle={`(${currencyFormatter.format(itemsRefunded.reduce((a,b) => a + parseFloat(b.price), 0))})`} />
+                    <InfoContainerItem value={itemsSold.length.toString()} title='Items sold' />
+                    <InfoContainerItem value={itemsRefunded.length.toString()} title='Items refunded' subtitle={`(${currencyFormatter.format(itemsRefunded.reduce((a,b) => a + parseFloat(b.price), 0))})`} />
                 </Box>
                 <Box display='flex' flexDirection='row'>
                     <InfoContainerItem value={transactions.length.toString()} title='Number of transactions' />
-                    <InfoContainerItem value={itemsAdded.length.toString()} title='Newly processed items' />
+                    <InfoContainerItem value={itemsAdded.length.toString()} title='Items processed' />
                 </Box>
                 <Box display='flex' flexDirection='row'>
-                    <InfoContainerItem value={retailItems.length.toString()} title='Number of retail items sold' />
+                    <InfoContainerItem value={retailItems.length.toString()} title='Retail items sold' />
                     <InfoContainerItem value={currencyFormatter.format(retailItems.reduce((a,b) => a + (parseFloat(b?.price) ?? 0), 0))} title='Retail Price sold' subtitle={`COGS ${currencyFormatter.format(retailItems.reduce((a,b) => a + parseFloat(b?.cost ?? '0'), 0))}`} />
                 </Box>
                 <Box display='flex' flexDirection='row'>
-                    <InfoContainerItem value={consignedItems.length.toString()} title='Number of consigned items sold' />
-                    <InfoContainerItem value={currencyFormatter.format(consignedItems.reduce((a,b) => a + (parseFloat(b?.price) ?? 0), 0))} title='Consigned price sold' subtitle={`COGS ${currencyFormatter.format(consignedItems.reduce((a,b) => a + parseFloat(b.price) * parseFloat(consignmentPercentage), 0))}`} />
+                    <InfoContainerItem value={consignedItems.length.toString()} title='Consignment items sold' />
+                    <InfoContainerItem value={currencyFormatter.format(consignedItems.reduce((a,b) => a + (parseFloat(b?.price) ?? 0), 0))} title='Consignment price sold' subtitle={`COGS ${currencyFormatter.format(consignedItems.reduce((a,b) => a + parseFloat(b.price) * parseFloat(consignmentPercentage), 0))}`} />
                 </Box>
                 <Box display='flex' flexDirection='row'>
                     <InfoContainerItem value={isNaN(itemsSold.length / transactions.length) ? '0' : (itemsSold.length / transactions.length).toString()} title='Average number of items per transaction' />
                     <InfoContainerItem value={isNaN(dayTotal / transactions.length) ? currencyFormatter.format(0) : currencyFormatter.format(dayTotal / transactions.length).toString()} title='Average sale per transaction' />
+                </Box>
+                <Box display='flex' flexDirection='row'>
+                    <InfoContainerItem value={coupons.length.toString()} title='Coupons' subtitle={currencyFormatter.format(coupons.reduce((a,b) => a + b.amount, 0))} />
                 </Box>
             </Box>
             <Box>
