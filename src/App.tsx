@@ -27,6 +27,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import Reporting from './features/Reporting';
 import Coupons from './features/Coupons';
+import { CognitoContext, DrawerContext } from './context';
 Amplify.configure(awsExports);
 
 const checkProtectedRoute = (userGroups: string[], allowedGroups: string[]) => {
@@ -89,16 +90,6 @@ const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: string[]
     element: <Login />
   }
 ]);
-
-export const CognitoContext = createContext({ userIsLoggedIn: false, setUserIsLoggedIn: (loggedIn: boolean) => {}, userGroups: [], setUserGroups: (groups: []) => {} });
-export const DrawerContext = createContext({ 
-  drawerContent: '', 
-  setDrawerContent: (drawerItem: string) => {}, 
-  drawerClientId: '', 
-  setDrawerClientId: (clientId: string) => {},
-  drawerItemId: '',
-  setDrawerItemId: (itemId: string) => {}
-});
 
 const dark = () => {
   return createTheme({
@@ -165,8 +156,6 @@ const light = () => {
     }
   })
 }
-
-
 
 const themes = [light, dark];
 

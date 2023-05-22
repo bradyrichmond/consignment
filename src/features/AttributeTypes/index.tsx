@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Button, Checkbox, FormControlLabel, InputAdornment, Modal, TextField } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { ProcessCsvButton } from '../Clients';
@@ -207,31 +207,41 @@ const AttributeTypes = () => {
                 open={isAddingAttributeType}
                 onClose={stopAddingAttributeType}
             >
-                <AddAttributeType close={stopAddingAttributeType} />
+                <Box>
+                    <AddAttributeType close={stopAddingAttributeType} />
+                </Box>
             </Modal>
             <Modal
                 open={isAddingAttributeTypeValue}
                 onClose={startAddingAttributeTypeValue}
             >
-                <AddAttributeTypeValues close={stopAddingAttributeTypeValue} attributeType={activeAttributeTypeId}/>
+                <Box>
+                    <AddAttributeTypeValues close={stopAddingAttributeTypeValue} attributeType={activeAttributeTypeId}/>
+                </Box>
             </Modal>
             <Modal
                 open={isDeletingAttributeType}
                 onClose={stopDeletingAttributeType}
             >
-                <ConfirmModal close={stopDeletingAttributeType} validationText={`Are you sure you want to mark ${activeAttributeType} inactive?`} cancelText='Cancel' confirmText='Confirm' confirm={deleteAttributeType} cancel={stopDeletingAttributeType}/>
+                <Box>
+                    <ConfirmModal close={stopDeletingAttributeType} validationText={`Are you sure you want to mark ${activeAttributeType} inactive?`} cancelText='Cancel' confirmText='Confirm' confirm={deleteAttributeType} cancel={stopDeletingAttributeType}/>
+                </Box>
             </Modal>
             <Modal
                 open={isRevivingAttributeType}
                 onClose={stopRevivingAttributeType}
             >
-                <ConfirmModal close={stopRevivingAttributeType} validationText={`Are you sure you want to mark ${activeAttributeType} active?`} cancelText='Cancel' confirmText='Confirm' confirm={reviveAttributeType} cancel={stopRevivingAttributeType}/>
+                <Box>
+                    <ConfirmModal close={stopRevivingAttributeType} validationText={`Are you sure you want to mark ${activeAttributeType} active?`} cancelText='Cancel' confirmText='Confirm' confirm={reviveAttributeType} cancel={stopRevivingAttributeType}/>
+                </Box>
             </Modal>
             <Modal
                 open={isViewingValues}
                 onClose={toggleViewValues}
             >
-                <ViewValues close={stopViewingValues} attributeTypeId={activeAttributeTypeId}/>
+                <Box>
+                    <ViewValues close={stopViewingValues} attributeTypeId={activeAttributeTypeId}/>
+                </Box>
             </Modal>
             <Box paddingTop='2rem' paddingBottom='2rem' display='flex' flexDirection='row' width='100%' alignItems='center'>
                 <Box flex='1'>
@@ -239,11 +249,11 @@ const AttributeTypes = () => {
                 </Box>
                 <Box paddingLeft='2rem' display='flex' justifyContent='center' alignItems='center' width='30%'>
                     <Box flex='1' display='flex' justifyContent='center' alignItems='center'>
-                        <ProcessCsvButton label='Bulk Upload Items' action={bulkAddAttributeTypes} />
+                        <ProcessCsvButton label='Bulk Upload Attribute Types' action={bulkAddAttributeTypes} />
                     </Box>
                     <Box flex='1' display='flex' justifyContent='center' alignItems='center'>
                         <Button variant="contained" component="label" onClick={startAddingAttributeType} sx={{margin: 0}}>
-                            Add Attribute Type
+                            Add an Attribute Type
                         </Button>
                     </Box>
                 </Box>

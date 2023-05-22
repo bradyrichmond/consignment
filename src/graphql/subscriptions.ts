@@ -57,6 +57,7 @@ export const onCreateClient = /* GraphQL */ `
           clientItemsId
           storeCreditItemsId
           transactionItemsId
+          transactionMissingItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -164,6 +165,7 @@ export const onUpdateClient = /* GraphQL */ `
           clientItemsId
           storeCreditItemsId
           transactionItemsId
+          transactionMissingItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -271,6 +273,7 @@ export const onDeleteClient = /* GraphQL */ `
           clientItemsId
           storeCreditItemsId
           transactionItemsId
+          transactionMissingItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -367,6 +370,7 @@ export const onCreateStoreCredit = /* GraphQL */ `
           clientItemsId
           storeCreditItemsId
           transactionItemsId
+          transactionMissingItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -426,6 +430,7 @@ export const onUpdateStoreCredit = /* GraphQL */ `
           clientItemsId
           storeCreditItemsId
           transactionItemsId
+          transactionMissingItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -485,6 +490,7 @@ export const onDeleteStoreCredit = /* GraphQL */ `
           clientItemsId
           storeCreditItemsId
           transactionItemsId
+          transactionMissingItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -599,6 +605,7 @@ export const onCreateItem = /* GraphQL */ `
       clientItemsId
       storeCreditItemsId
       transactionItemsId
+      transactionMissingItemsId
       itemCategoryId
       itemLocationId
       itemBrandId
@@ -704,6 +711,7 @@ export const onUpdateItem = /* GraphQL */ `
       clientItemsId
       storeCreditItemsId
       transactionItemsId
+      transactionMissingItemsId
       itemCategoryId
       itemLocationId
       itemBrandId
@@ -809,6 +817,7 @@ export const onDeleteItem = /* GraphQL */ `
       clientItemsId
       storeCreditItemsId
       transactionItemsId
+      transactionMissingItemsId
       itemCategoryId
       itemLocationId
       itemBrandId
@@ -898,6 +907,7 @@ export const onCreateTransaction = /* GraphQL */ `
           clientItemsId
           storeCreditItemsId
           transactionItemsId
+          transactionMissingItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -958,6 +968,67 @@ export const onCreateTransaction = /* GraphQL */ `
           _deleted
           _lastChangedAt
           transactionTendersId
+        }
+        nextToken
+        startedAt
+      }
+      coupons {
+        items {
+          id
+          name
+          type
+          amount
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          transactionCouponsId
+        }
+        nextToken
+        startedAt
+      }
+      missingItems {
+        items {
+          id
+          itemId
+          userId
+          userName
+          itemAcquireTypeId
+          sectionId
+          statusId
+          taxTypeId
+          number
+          itemName
+          description
+          receiveTimestamp
+          donateIndicator
+          price
+          cost
+          qty
+          qtyTagPrint
+          tagPrintedTimestamp
+          commission
+          itemAcquisitionTypeId
+          saleDetailId
+          titleChanged
+          modifiedBy
+          upcCode
+          returned
+          createTimestamp
+          entryTimestamp
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientItemsId
+          storeCreditItemsId
+          transactionItemsId
+          transactionMissingItemsId
+          itemCategoryId
+          itemLocationId
+          itemBrandId
         }
         nextToken
         startedAt
@@ -1054,6 +1125,7 @@ export const onUpdateTransaction = /* GraphQL */ `
           clientItemsId
           storeCreditItemsId
           transactionItemsId
+          transactionMissingItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -1114,6 +1186,67 @@ export const onUpdateTransaction = /* GraphQL */ `
           _deleted
           _lastChangedAt
           transactionTendersId
+        }
+        nextToken
+        startedAt
+      }
+      coupons {
+        items {
+          id
+          name
+          type
+          amount
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          transactionCouponsId
+        }
+        nextToken
+        startedAt
+      }
+      missingItems {
+        items {
+          id
+          itemId
+          userId
+          userName
+          itemAcquireTypeId
+          sectionId
+          statusId
+          taxTypeId
+          number
+          itemName
+          description
+          receiveTimestamp
+          donateIndicator
+          price
+          cost
+          qty
+          qtyTagPrint
+          tagPrintedTimestamp
+          commission
+          itemAcquisitionTypeId
+          saleDetailId
+          titleChanged
+          modifiedBy
+          upcCode
+          returned
+          createTimestamp
+          entryTimestamp
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientItemsId
+          storeCreditItemsId
+          transactionItemsId
+          transactionMissingItemsId
+          itemCategoryId
+          itemLocationId
+          itemBrandId
         }
         nextToken
         startedAt
@@ -1210,6 +1343,7 @@ export const onDeleteTransaction = /* GraphQL */ `
           clientItemsId
           storeCreditItemsId
           transactionItemsId
+          transactionMissingItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -1270,6 +1404,67 @@ export const onDeleteTransaction = /* GraphQL */ `
           _deleted
           _lastChangedAt
           transactionTendersId
+        }
+        nextToken
+        startedAt
+      }
+      coupons {
+        items {
+          id
+          name
+          type
+          amount
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          transactionCouponsId
+        }
+        nextToken
+        startedAt
+      }
+      missingItems {
+        items {
+          id
+          itemId
+          userId
+          userName
+          itemAcquireTypeId
+          sectionId
+          statusId
+          taxTypeId
+          number
+          itemName
+          description
+          receiveTimestamp
+          donateIndicator
+          price
+          cost
+          qty
+          qtyTagPrint
+          tagPrintedTimestamp
+          commission
+          itemAcquisitionTypeId
+          saleDetailId
+          titleChanged
+          modifiedBy
+          upcCode
+          returned
+          createTimestamp
+          entryTimestamp
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientItemsId
+          storeCreditItemsId
+          transactionItemsId
+          transactionMissingItemsId
+          itemCategoryId
+          itemLocationId
+          itemBrandId
         }
         nextToken
         startedAt
@@ -2198,6 +2393,7 @@ export const onCreateCoupon = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      transactionCouponsId
     }
   }
 `;
@@ -2213,6 +2409,7 @@ export const onUpdateCoupon = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      transactionCouponsId
     }
   }
 `;
@@ -2228,6 +2425,7 @@ export const onDeleteCoupon = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      transactionCouponsId
     }
   }
 `;

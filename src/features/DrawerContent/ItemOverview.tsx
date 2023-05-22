@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { DataStore } from 'aws-amplify';
-import { DrawerContext } from '../../App';
+import { DrawerContext } from '../../context';
 import { Client, Item } from '../../models';
 
 const ItemOverview = () => {

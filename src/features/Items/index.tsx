@@ -4,7 +4,7 @@ import { ProcessCsvButton } from '../Clients';
 import { DataGrid, GridColDef, GridEventListener } from '@mui/x-data-grid';
 import { DataStore, Predicates } from 'aws-amplify';
 import { Brand, Category, Client, Item, Location } from '../../models';
-import { DrawerContext } from '../../App';
+import { DrawerContext } from '../../context';
 import SearchBar from '../../components/SearchBar';
 
 

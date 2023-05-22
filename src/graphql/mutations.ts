@@ -60,6 +60,7 @@ export const createClient = /* GraphQL */ `
           clientItemsId
           storeCreditItemsId
           transactionItemsId
+          transactionMissingItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -170,6 +171,7 @@ export const updateClient = /* GraphQL */ `
           clientItemsId
           storeCreditItemsId
           transactionItemsId
+          transactionMissingItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -280,6 +282,7 @@ export const deleteClient = /* GraphQL */ `
           clientItemsId
           storeCreditItemsId
           transactionItemsId
+          transactionMissingItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -377,6 +380,7 @@ export const createStoreCredit = /* GraphQL */ `
           clientItemsId
           storeCreditItemsId
           transactionItemsId
+          transactionMissingItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -437,6 +441,7 @@ export const updateStoreCredit = /* GraphQL */ `
           clientItemsId
           storeCreditItemsId
           transactionItemsId
+          transactionMissingItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -497,6 +502,7 @@ export const deleteStoreCredit = /* GraphQL */ `
           clientItemsId
           storeCreditItemsId
           transactionItemsId
+          transactionMissingItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -614,6 +620,7 @@ export const createItem = /* GraphQL */ `
       clientItemsId
       storeCreditItemsId
       transactionItemsId
+      transactionMissingItemsId
       itemCategoryId
       itemLocationId
       itemBrandId
@@ -722,6 +729,7 @@ export const updateItem = /* GraphQL */ `
       clientItemsId
       storeCreditItemsId
       transactionItemsId
+      transactionMissingItemsId
       itemCategoryId
       itemLocationId
       itemBrandId
@@ -830,6 +838,7 @@ export const deleteItem = /* GraphQL */ `
       clientItemsId
       storeCreditItemsId
       transactionItemsId
+      transactionMissingItemsId
       itemCategoryId
       itemLocationId
       itemBrandId
@@ -920,6 +929,7 @@ export const createTransaction = /* GraphQL */ `
           clientItemsId
           storeCreditItemsId
           transactionItemsId
+          transactionMissingItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -980,6 +990,67 @@ export const createTransaction = /* GraphQL */ `
           _deleted
           _lastChangedAt
           transactionTendersId
+        }
+        nextToken
+        startedAt
+      }
+      coupons {
+        items {
+          id
+          name
+          type
+          amount
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          transactionCouponsId
+        }
+        nextToken
+        startedAt
+      }
+      missingItems {
+        items {
+          id
+          itemId
+          userId
+          userName
+          itemAcquireTypeId
+          sectionId
+          statusId
+          taxTypeId
+          number
+          itemName
+          description
+          receiveTimestamp
+          donateIndicator
+          price
+          cost
+          qty
+          qtyTagPrint
+          tagPrintedTimestamp
+          commission
+          itemAcquisitionTypeId
+          saleDetailId
+          titleChanged
+          modifiedBy
+          upcCode
+          returned
+          createTimestamp
+          entryTimestamp
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientItemsId
+          storeCreditItemsId
+          transactionItemsId
+          transactionMissingItemsId
+          itemCategoryId
+          itemLocationId
+          itemBrandId
         }
         nextToken
         startedAt
@@ -1077,6 +1148,7 @@ export const updateTransaction = /* GraphQL */ `
           clientItemsId
           storeCreditItemsId
           transactionItemsId
+          transactionMissingItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -1137,6 +1209,67 @@ export const updateTransaction = /* GraphQL */ `
           _deleted
           _lastChangedAt
           transactionTendersId
+        }
+        nextToken
+        startedAt
+      }
+      coupons {
+        items {
+          id
+          name
+          type
+          amount
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          transactionCouponsId
+        }
+        nextToken
+        startedAt
+      }
+      missingItems {
+        items {
+          id
+          itemId
+          userId
+          userName
+          itemAcquireTypeId
+          sectionId
+          statusId
+          taxTypeId
+          number
+          itemName
+          description
+          receiveTimestamp
+          donateIndicator
+          price
+          cost
+          qty
+          qtyTagPrint
+          tagPrintedTimestamp
+          commission
+          itemAcquisitionTypeId
+          saleDetailId
+          titleChanged
+          modifiedBy
+          upcCode
+          returned
+          createTimestamp
+          entryTimestamp
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientItemsId
+          storeCreditItemsId
+          transactionItemsId
+          transactionMissingItemsId
+          itemCategoryId
+          itemLocationId
+          itemBrandId
         }
         nextToken
         startedAt
@@ -1234,6 +1367,7 @@ export const deleteTransaction = /* GraphQL */ `
           clientItemsId
           storeCreditItemsId
           transactionItemsId
+          transactionMissingItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -1294,6 +1428,67 @@ export const deleteTransaction = /* GraphQL */ `
           _deleted
           _lastChangedAt
           transactionTendersId
+        }
+        nextToken
+        startedAt
+      }
+      coupons {
+        items {
+          id
+          name
+          type
+          amount
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          transactionCouponsId
+        }
+        nextToken
+        startedAt
+      }
+      missingItems {
+        items {
+          id
+          itemId
+          userId
+          userName
+          itemAcquireTypeId
+          sectionId
+          statusId
+          taxTypeId
+          number
+          itemName
+          description
+          receiveTimestamp
+          donateIndicator
+          price
+          cost
+          qty
+          qtyTagPrint
+          tagPrintedTimestamp
+          commission
+          itemAcquisitionTypeId
+          saleDetailId
+          titleChanged
+          modifiedBy
+          upcCode
+          returned
+          createTimestamp
+          entryTimestamp
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientItemsId
+          storeCreditItemsId
+          transactionItemsId
+          transactionMissingItemsId
+          itemCategoryId
+          itemLocationId
+          itemBrandId
         }
         nextToken
         startedAt
@@ -2303,6 +2498,7 @@ export const createCoupon = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      transactionCouponsId
     }
   }
 `;
@@ -2321,6 +2517,7 @@ export const updateCoupon = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      transactionCouponsId
     }
   }
 `;
@@ -2339,6 +2536,7 @@ export const deleteCoupon = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      transactionCouponsId
     }
   }
 `;

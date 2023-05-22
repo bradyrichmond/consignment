@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import Drawer from '../DrawerContent';
 import Navigation from '../Navigation';
-import { CognitoContext } from '../../App';
+import { CognitoContext } from '../../context';
 import { Auth } from 'aws-amplify';
 
 const Home = () => {

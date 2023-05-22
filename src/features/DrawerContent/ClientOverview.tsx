@@ -3,9 +3,9 @@ import { Button, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { DataStore } from 'aws-amplify';
-import { DrawerContext } from '../../App';
 import { Client, Item } from '../../models';
 import { useNavigate } from 'react-router-dom';
+import { DrawerContext } from '../../context';
 
 const ClientOverview = () => {
     const { drawerClientId } = useContext(DrawerContext);

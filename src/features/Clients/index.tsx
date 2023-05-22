@@ -4,11 +4,11 @@ import { Address, Client } from '../../models';
 import { DataGrid, GridColDef, GridEventListener, GridRenderCellParams, MuiEvent } from '@mui/x-data-grid';
 import { Box, Button, Checkbox, FormControlLabel, InputAdornment, Modal, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { DrawerContext } from '../../App';
 import AddClient from './AddClient';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import SearchBar from '../../components/SearchBar';
+import { DrawerContext } from '../../context';
 
 export const toTitleCase = (str: string) => {
     if (str.length > 0){

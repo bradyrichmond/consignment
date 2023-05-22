@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 import UserAvatar from "../../utils/UserAvatar";
 import useStoreLocation from '../../utils/useStoreLocation';
 import { useNavigate } from 'react-router-dom';
-import { CognitoContext } from '../../App';
+import { CognitoContext } from '../../context';
 
 // this should probably be decided by an admin too
 const navItems = [

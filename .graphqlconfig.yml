@@ -1,6 +1,6 @@
 projects:
   consignment:
-    schemaPath: src/graphql/schema.json
+    schemaPath: amplify/backend/api/consignment/build/schema.graphql
     includes:
       - src/graphql/**/*.ts
     excludes:

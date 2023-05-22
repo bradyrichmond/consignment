@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Box } from '@mui/material';
-import { DrawerContext } from '../../App';
+import { DrawerContext } from '../../context';
 import ClientOverview from './ClientOverview';
 import { Close } from '@mui/icons-material';
 import ItemOverview from './ItemOverview';

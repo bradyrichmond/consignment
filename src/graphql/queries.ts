@@ -57,6 +57,7 @@ export const getClient = /* GraphQL */ `
           clientItemsId
           storeCreditItemsId
           transactionItemsId
+          transactionMissingItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -261,6 +262,7 @@ export const getStoreCredit = /* GraphQL */ `
           clientItemsId
           storeCreditItemsId
           transactionItemsId
+          transactionMissingItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -431,6 +433,7 @@ export const getItem = /* GraphQL */ `
       clientItemsId
       storeCreditItemsId
       transactionItemsId
+      transactionMissingItemsId
       itemCategoryId
       itemLocationId
       itemBrandId
@@ -518,6 +521,7 @@ export const listItems = /* GraphQL */ `
         clientItemsId
         storeCreditItemsId
         transactionItemsId
+        transactionMissingItemsId
         itemCategoryId
         itemLocationId
         itemBrandId
@@ -614,6 +618,7 @@ export const syncItems = /* GraphQL */ `
         clientItemsId
         storeCreditItemsId
         transactionItemsId
+        transactionMissingItemsId
         itemCategoryId
         itemLocationId
         itemBrandId
@@ -704,6 +709,7 @@ export const getTransaction = /* GraphQL */ `
           clientItemsId
           storeCreditItemsId
           transactionItemsId
+          transactionMissingItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -764,6 +770,67 @@ export const getTransaction = /* GraphQL */ `
           _deleted
           _lastChangedAt
           transactionTendersId
+        }
+        nextToken
+        startedAt
+      }
+      coupons {
+        items {
+          id
+          name
+          type
+          amount
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          transactionCouponsId
+        }
+        nextToken
+        startedAt
+      }
+      missingItems {
+        items {
+          id
+          itemId
+          userId
+          userName
+          itemAcquireTypeId
+          sectionId
+          statusId
+          taxTypeId
+          number
+          itemName
+          description
+          receiveTimestamp
+          donateIndicator
+          price
+          cost
+          qty
+          qtyTagPrint
+          tagPrintedTimestamp
+          commission
+          itemAcquisitionTypeId
+          saleDetailId
+          titleChanged
+          modifiedBy
+          upcCode
+          returned
+          createTimestamp
+          entryTimestamp
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientItemsId
+          storeCreditItemsId
+          transactionItemsId
+          transactionMissingItemsId
+          itemCategoryId
+          itemLocationId
+          itemBrandId
         }
         nextToken
         startedAt
@@ -836,6 +903,14 @@ export const listTransactions = /* GraphQL */ `
           locationAddressId
         }
         tenders {
+          nextToken
+          startedAt
+        }
+        coupons {
+          nextToken
+          startedAt
+        }
+        missingItems {
           nextToken
           startedAt
         }
@@ -916,6 +991,14 @@ export const syncTransactions = /* GraphQL */ `
           locationAddressId
         }
         tenders {
+          nextToken
+          startedAt
+        }
+        coupons {
+          nextToken
+          startedAt
+        }
+        missingItems {
           nextToken
           startedAt
         }
@@ -2032,6 +2115,7 @@ export const getCoupon = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      transactionCouponsId
     }
   }
 `;
@@ -2052,6 +2136,7 @@ export const listCoupons = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        transactionCouponsId
       }
       nextToken
       startedAt
@@ -2081,6 +2166,7 @@ export const syncCoupons = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        transactionCouponsId
       }
       nextToken
       startedAt
