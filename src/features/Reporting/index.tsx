@@ -27,7 +27,7 @@ const Reporting = () => {
     return (
         <Box padding='2rem' display='flex' flexDirection='column' flexWrap='wrap'>
             <Box display='flex' flexDirection='row'>
-                {REPORTS.map((report: string) => <ReportButton label={report} handleClick={handleClick}/>)}
+                {REPORTS.map((report: string) => <ReportButton key={report} label={report} handleClick={handleClick} />)}
             </Box>
             <Box flex='1'>
                 {isShowingEndOfDayPreview && 

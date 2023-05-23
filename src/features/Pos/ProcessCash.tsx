@@ -44,7 +44,7 @@ const ProcessCash = (props: ProcessCashProps) => {
                     </Box>
                     <Box display='flex' flexDirection='row' flexWrap='wrap'>
                         {PAYMENT_OPTIONS.map((paymentOptionAmount) => 
-                            <Button variant='contained' onClick={() => { handleSelectPaymentAmount(paymentOptionAmount) }}>{paymentOptionAmount}</Button>
+                            <Button key={paymentOptionAmount} variant='contained' onClick={() => { handleSelectPaymentAmount(paymentOptionAmount) }}>{paymentOptionAmount}</Button>
                         )}
                     </Box>
                     <form onSubmit={handleSubmit(handleManualEntry)}>

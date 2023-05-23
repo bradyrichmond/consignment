@@ -30,7 +30,6 @@ const EndOfDayReport = () => {
 
     useEffect(() => {
         const getTransactionData = async () => {
-            // Need to collect coupon data too, needs to come after adding discount/coupons
             const todayStart = sub(Date.now(), { hours: 18 }).toString();
 
             const fetchedTransactions = await DataStore.query(Transaction, (t) => t.actTransTimestamp.gt(todayStart));

@@ -29,7 +29,9 @@ const SetPrice = (props: SetPriceProps) => {
                 open={isSettingManualPrice}
                 onClose={stopAddingManualPrice}
             >
-                <AddManualPrice selectPrice={selectPrice} close={stopAddingManualPrice}/>
+                <Box>
+                    <AddManualPrice selectPrice={selectPrice} close={stopAddingManualPrice}/>
+                </Box>
             </Modal>
             <Button variant='contained' onClick={startAddingManualPrice}>Override Pricing</Button>
         </Box>

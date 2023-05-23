@@ -11,7 +11,6 @@ interface AddCouponProps {
 
 const AddCoupon = (props: AddCouponProps) => {
     const { close } = props;
-    const { handleSubmit, register } = useForm();
 
     const handleAddCoupon = async (data: any) => {
         const { name, amount, type } = data;
@@ -26,25 +25,38 @@ const AddCoupon = (props: AddCouponProps) => {
                     <Typography id='modal-modal-title' variant='h6' component='h2' marginBottom='2rem'>
                         Add Attribute Type
                     </Typography>
-                    <form onSubmit={handleSubmit(handleAddCoupon)}>
-                        <Box display='flex' flexDirection='column'>
-                            <TextField label='Name' variant='standard' inputProps={{ 'data-testid': 'addCouponName' }} {...register('name', { required: true, minLength: 3 })} />
-                            <TextField label='Amount' variant='standard' inputProps={{ 'data-testid': 'addCouponAmount' }} {...register('amount', { required: true, minLength: 1 })} />
-                            <FormControl>
-                                <FormLabel>Type</FormLabel>
-                                <RadioGroup
-                                    {...register('type')}
-                                >
-                                    <FormControlLabel value={CouponType.FLAT} control={<Radio />} label='Dollars' />
-                                    <FormControlLabel value={CouponType.PERCENT} control={<Radio />} label='Percent' />
-                                </RadioGroup>
-                            </FormControl>
-                            <Button type='submit' variant='contained'>Add Coupon</Button>
-                        </Box>
-                    </form>
+                    <AddCouponForm handleAddCoupon={handleAddCoupon} />
                 </Box>
             </Box>
         </ModalContainer>
+    )
+}
+
+interface AddCouponFormProps {
+    handleAddCoupon: (data: any) => void
+}
+
+export const AddCouponForm = (props: AddCouponFormProps) => {
+    const { handleAddCoupon } = props;
+    const { handleSubmit, register } = useForm();
+
+    return (
+        <form onSubmit={handleSubmit(handleAddCoupon)}>
+            <Box display='flex' flexDirection='column'>
+                <TextField label='Name' variant='standard' inputProps={{ 'data-testid': 'addCouponName' }} {...register('name', { required: true, minLength: 3 })} />
+                <TextField label='Amount' variant='standard' inputProps={{ 'data-testid': 'addCouponAmount' }} {...register('amount', { required: true, minLength: 1 })} />
+                <FormControl>
+                    <FormLabel>Type</FormLabel>
+                    <RadioGroup
+                        {...register('type')}
+                    >
+                        <FormControlLabel value={CouponType.FLAT} control={<Radio />} label='Dollars' />
+                        <FormControlLabel value={CouponType.PERCENT} control={<Radio />} label='Percent' />
+                    </RadioGroup>
+                </FormControl>
+                <Button type='submit' variant='contained'>Add Coupon</Button>
+            </Box>
+        </form>
     )
 }
 

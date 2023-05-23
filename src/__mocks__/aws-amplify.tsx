@@ -15,6 +15,16 @@ export const Auth = {
     }
 }
 
+export const API = {
+    post: (api: string, endpoint: string) => {
+        if (api === 'stripeApi') {
+            if (endpoint === '/create-payment-intent') {
+                return { clientSecret: 'testSecret' };
+            }
+        }
+    }
+}
+
 export enum Predicates {
     ALL
 }

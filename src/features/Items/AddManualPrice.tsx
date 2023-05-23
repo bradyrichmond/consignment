@@ -24,12 +24,9 @@ const AddManualPrice = (props: AddManualPriceProps) => {
         <ModalContainer onClose={close}>
             <Box display='flex' justifyContent='center' alignItems='center' height='100%' width='100%'>
                 <Box bgcolor='rgba(255, 255, 255, 255)' borderRadius='1rem' padding='2rem'>
-                    <Typography id='modal-modal-title' variant='h6' component='h2' marginBottom='2rem'>
-                        Add Price
-                    </Typography>
                     <form onSubmit={handleSubmit(handleAddManualPrice)}>
                         <Box display='flex' flexDirection='column'>
-                            <TextField id='standard-basic' label='Price' variant='standard' {...register('price', { required: true, minLength: 2 })} />
+                            <TextField label='Price' variant='standard' inputProps={{ 'data-testid': 'addPrice' }} {...register('price', { required: true, minLength: 2 })} />
                             <Button type='submit' variant='contained'>Add Price</Button>
                         </Box>
                     </form>
