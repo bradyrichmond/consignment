@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
+import { Box, Button, Checkbox, FormControlLabel, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { Auth, DataStore, Predicates, SortDirection } from 'aws-amplify';
 import ModalContainer from '../../utils/ModalContainer';
@@ -35,28 +35,25 @@ const AddClient = ({ close }: AddClientProps) => {
         <ModalContainer onClose={close}>
             <Box display='flex' justifyContent='center' alignItems='center' height='100%' width='100%'>
                 <Box bgcolor='rgba(255, 255, 255, 255)' borderRadius='1rem' padding='2rem'>
-                    <Typography id="modal-modal-title" variant="h6" component="h2" marginBottom='2rem'>
-                        Add Client
-                    </Typography>
                     <form onSubmit={handleSubmit(handleAddClient)}>
                         <Box display='flex' flexDirection='column'>
                             <Box flexDirection='row'>
-                                <TextField id="standard-basic" label="First Name" variant="standard" {...register('firstName', { required: true, minLength: 2 })} />
-                                <TextField id="standard-basic" label="Last Name" variant="standard" {...register('lastName', { required: true, minLength: 2 })} sx={{marginLeft: '1rem'}} />
+                                <TextField label="First Name" variant="standard" inputProps={{ 'data-testid': 'newClientFirstName' }} {...register('firstName', { required: true, minLength: 2 })} />
+                                <TextField label="Last Name" variant="standard" inputProps={{ 'data-testid': 'newClientLastName' }} {...register('lastName', { required: true, minLength: 2 })} sx={{marginLeft: '1rem'}} />
                             </Box>
-                            <TextField id="standard-basic" label="Company Name" variant="standard" {...register('companyName', { minLength: 2 })} />
-                            <TextField id="standard-basic" label="Phone Number" variant="standard" {...register('phoneNumber', { required: true, minLength: 2 })} />            
-                            <TextField id="standard-basic" label="Email" variant="standard" {...register('email', { required: true, minLength: 2 })} />
+                            <TextField label="Company Name" variant="standard" inputProps={{ 'data-testid': 'newClientCompanyName' }} {...register('companyName', { minLength: 2 })} />
+                            <TextField label="Phone Number" variant="standard" inputProps={{ 'data-testid': 'newClientPhoneNumber' }} {...register('phoneNumber', { required: true, minLength: 2 })} />            
+                            <TextField label="Email" variant="standard" inputProps={{ 'data-testid': 'newClientEmail' }} {...register('email', { required: true, minLength: 2 })} />
                             <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }} />} label="Receive promotional email" />
-                            <TextField id="standard-basic" label="Address Label" variant="standard" {...register('addressLabel', { minLength: 2 })} />
-                            <TextField id="standard-basic" label="Address 1" variant="standard" {...register('address1', { required: true, minLength: 2 })} />
-                            <TextField id="standard-basic" label="Address 2" variant="standard" {...register('address2')} />
-                            <TextField id="standard-basic" label="Address 3" variant="standard" {...register('address3')} />
+                            <TextField label="Address Label" variant="standard" inputProps={{ 'data-testid': 'newClientAddressLabel' }} {...register('addressLabel', { minLength: 2 })} />
+                            <TextField label="Address 1" variant="standard" inputProps={{ 'data-testid': 'newClientAddress1' }} {...register('address1', { required: true, minLength: 2 })} />
+                            <TextField label="Address 2" variant="standard" inputProps={{ 'data-testid': 'newClientAddress2' }} {...register('address2')} />
+                            <TextField label="Address 3" variant="standard" inputProps={{ 'data-testid': 'newClientAddress3' }} {...register('address3')} />
                             <Box flexDirection='row'>
-                                <TextField id="standard-basic" label="City" variant="standard" {...register('city', { required: true, minLength: 2 })} />
-                                <TextField id="standard-basic" label="State" variant="standard" {...register('state', { required: true, minLength: 2 })} sx={{marginLeft: '1rem'}} />
+                                <TextField label="City" variant="standard" inputProps={{ 'data-testid': 'newClientCity' }} {...register('city', { required: true, minLength: 2 })} />
+                                <TextField label="State" variant="standard" inputProps={{ 'data-testid': 'newClientState' }} {...register('state', { required: true, minLength: 2 })} sx={{marginLeft: '1rem'}} />
                             </Box>
-                            <TextField id="standard-basic" label="Zip Code" variant="standard" {...register('zipCode', { required: true, minLength: 2 })} />
+                            <TextField label="Zip Code" variant="standard" inputProps={{ 'data-testid': 'newClientZipCode' }} {...register('zipCode', { required: true, minLength: 2 })} />
                             <Box marginTop='2rem'>
                                 <Button variant='outlined' type='submit'>Add Client</Button>
                             </Box>

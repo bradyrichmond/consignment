@@ -27,13 +27,10 @@ const AddAttributeTypeValues = (props: AddAttributeTypeValuesProps) => {
         <ModalContainer onClose={close}>
             <Box display='flex' justifyContent='center' alignItems='center' height='100%' width='100%'>
                 <Box bgcolor='rgba(255, 255, 255, 255)' borderRadius='1rem' padding='2rem'>
-                    <Typography id='modal-modal-title' variant='h6' component='h2' marginBottom='2rem'>
-                        Add Attribute Type
-                    </Typography>
                     <form onSubmit={handleSubmit(handleAddAttributeTypeValue)}>
                         <Box display='flex' flexDirection='column'>
-                            <TextField id='standard-basic' label='Attribute Type Value' variant='standard' {...register('attributeTypeValue', { required: true, minLength: 2 })} />
-                            <Button type='submit' variant='contained'>Add Attribute Type</Button>
+                            <TextField id='standard-basic' label='Attribute Type Value' variant='standard' inputProps={{ 'data-testid': 'attributeTypeValue' }} {...register('attributeTypeValue', { required: true, minLength: 2 })} />
+                            <Button type='submit' variant='contained'>Add Attribute Type Value</Button>
                         </Box>
                     </form>
                 </Box>

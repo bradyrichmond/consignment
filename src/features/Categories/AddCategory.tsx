@@ -43,12 +43,9 @@ const AddCategory = (props: AddCategoryProps) => {
         <ModalContainer onClose={close}>
             <Box display='flex' justifyContent='center' alignItems='center' height='100%' width='100%'>
                 <Box bgcolor='rgba(255, 255, 255, 255)' borderRadius='1rem' padding='2rem'>
-                    <Typography id='modal-modal-title' variant='h6' component='h2' marginBottom='2rem'>
-                        Add Category
-                    </Typography>
                     <form onSubmit={handleSubmit(handleAddCategory)}>
                         <Box display='flex' flexDirection='column'>
-                            <TextField id='standard-basic' label='Category Name' variant='standard' {...register('categoryName', { required: true, minLength: 2 })} />
+                            <TextField label='Category Name' variant='standard' inputProps={{ 'data-testid': 'addCategoryName' }} {...register('categoryName', { required: true, minLength: 2 })} />
                             <Box marginTop='1rem'>
                                 <FormControl fullWidth>
                                     <InputLabel>Parent Category</InputLabel>

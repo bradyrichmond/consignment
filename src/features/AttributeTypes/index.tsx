@@ -33,7 +33,7 @@ const AttributeTypes = () => {
             });
 
             setAttributeTypes(filterInactiveAttributeTypes ? fetchedAttributeTypes.filter((b) => !b.inactive) : fetchedAttributeTypes);
-            setInactiveAttributeTypes(fetchedAttributeTypes.filter((b) => b.inactive).map((b) => b.id))
+            setInactiveAttributeTypes(fetchedAttributeTypes.filter((b) => b.inactive).map((b) => b.id));
         }
 
         getData();
@@ -57,7 +57,7 @@ const AttributeTypes = () => {
     }
 
     const columns: GridColDef[] = [
-        {field: 'attributeTypeDescription', headerName: 'Attribute Type Name', flex: 1},
+        {field: 'attributeTypeDescription', headerName: 'Name', flex: 1},
         {field: 'lastUpdateTimestamp', headerName: 'Last Updated', flex: 1},
         {field: 'toggleActive', headerName: 'Mark inactive?', flex: 1, renderCell: (params: GridRenderCellParams<String>) => {
             return (

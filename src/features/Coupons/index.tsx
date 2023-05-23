@@ -78,7 +78,9 @@ const Coupons = () => {
                 open={isAddingCoupon}
                 onClose={stopAddingCoupon}
             >
-                <AddCoupon close={stopAddingCoupon} />
+                <Box>
+                    <AddCoupon close={stopAddingCoupon} />
+                </Box>
             </Modal>
             <Box paddingTop='2rem' paddingBottom='2rem' display='flex' flexDirection='row' width='100%' alignItems='center'>
                 <Box flex='1'>
@@ -87,7 +89,7 @@ const Coupons = () => {
                 <Box paddingLeft='2rem' display='flex' justifyContent='center' alignItems='center' width='30%'>
                     <Box flex='1' display='flex' justifyContent='center' alignItems='center'>
                         <Button variant="contained" component="label" onClick={startAddingCoupon} sx={{margin: 0}}>
-                            Add Coupon
+                            Add a Coupon
                         </Button>
                     </Box>
                 </Box>

@@ -1,9 +1,8 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Button, Checkbox, FormControlLabel, InputAdornment, Modal, TextField } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { ProcessCsvButton } from '../Clients';
-import SearchIcon from '@mui/icons-material/Search';
 import { Brand } from '../../models';
 import { DataStore, Predicates } from 'aws-amplify';
 import { format } from 'date-fns';
@@ -167,19 +166,25 @@ const Brands = () => {
                 open={isAddingBrand}
                 onClose={stopAddingBrand}
             >
-                <AddBrand close={stopAddingBrand}/>
+                <Box>
+                    <AddBrand close={stopAddingBrand}/>
+                </Box>
             </Modal>
             <Modal
                 open={isDeletingBrand}
                 onClose={stopDeletingBrand}
             >
-                <ConfirmModal close={stopDeletingBrand} validationText={`Are you sure you want to mark ${activeBrand} inactive?`} cancelText='Cancel' confirmText='Confirm' confirm={deleteBrand} cancel={stopDeletingBrand}/>
+                <Box>
+                    <ConfirmModal close={stopDeletingBrand} validationText={`Are you sure you want to mark ${activeBrand} inactive?`} cancelText='Cancel' confirmText='Confirm' confirm={deleteBrand} cancel={stopDeletingBrand}/>
+                </Box>
             </Modal>
             <Modal
                 open={isRevivingBrand}
                 onClose={stopRevivingBrand}
             >
-                <ConfirmModal close={stopRevivingBrand} validationText={`Are you sure you want to mark ${activeBrand} active?`} cancelText='Cancel' confirmText='Confirm' confirm={reviveBrand} cancel={stopRevivingBrand}/>
+                <Box>
+                    <ConfirmModal close={stopRevivingBrand} validationText={`Are you sure you want to mark ${activeBrand} active?`} cancelText='Cancel' confirmText='Confirm' confirm={reviveBrand} cancel={stopRevivingBrand}/>
+                </Box>
             </Modal>
             <Box paddingTop='2rem' paddingBottom='2rem' display='flex' flexDirection='row' width='100%' alignItems='center'>
                 <Box flex='1'>
@@ -191,7 +196,7 @@ const Brands = () => {
                     </Box>
                     <Box display='flex' justifyContent='center' alignItems='center'>
                         <Button variant="contained" component="label" onClick={startAddingBrand} sx={{margin: 0}}>
-                            Add Brand
+                            Add a Brand
                         </Button>
                     </Box>
                 </Box>

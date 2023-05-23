@@ -210,31 +210,41 @@ const Categories = () => {
                 open={isAddingCategory}
                 onClose={stopAddingCategory}
             >
-                <AddCategory close={stopAddingCategory} />
+                <Box>
+                    <AddCategory close={stopAddingCategory} />
+                </Box>
             </Modal>
             <Modal
                 open={isAttachingCategoryAttributes}
                 onClose={stopAttachingCategoryAttributes}
             >
-                <AttachAttribute close={stopAttachingCategoryAttributes} categoryId={activeCategory}/>
+                <Box>
+                    <AttachAttribute close={stopAttachingCategoryAttributes} categoryId={activeCategory}/>
+                </Box>
             </Modal>
             <Modal
                 open={isViewingCategoryAttributes}
                 onClose={stopViewingCategoryAttributes}
             >
-                <ViewCategoryAttributes close={stopViewingCategoryAttributes} categoryId={activeCategory}/>
+                <Box>
+                    <ViewCategoryAttributes close={stopViewingCategoryAttributes} categoryId={activeCategory}/>
+                </Box>
             </Modal>
             <Modal
                 open={isDeletingCategory}
                 onClose={stopDeletingCategory}
             >
-                <ConfirmModal close={stopDeletingCategory} validationText={`Are you sure you want to mark ${activeCategory} inactive?`} cancelText='Cancel' confirmText='Confirm' confirm={deleteCategory} cancel={stopDeletingCategory} />
+                <Box>
+                    <ConfirmModal close={stopDeletingCategory} validationText={`Are you sure you want to mark ${activeCategory} inactive?`} cancelText='Cancel' confirmText='Confirm' confirm={deleteCategory} cancel={stopDeletingCategory} />
+                </Box>
             </Modal>
             <Modal
                 open={isRevivingCategory}
                 onClose={stopRevivingCategory}
             >
-                <ConfirmModal close={stopRevivingCategory} validationText={`Are you sure you want to mark ${activeCategory} active?`} cancelText='Cancel' confirmText='Confirm' confirm={reviveCategory} cancel={stopRevivingCategory} />
+                <Box>
+                    <ConfirmModal close={stopRevivingCategory} validationText={`Are you sure you want to mark ${activeCategory} active?`} cancelText='Cancel' confirmText='Confirm' confirm={reviveCategory} cancel={stopRevivingCategory} />
+                </Box>
             </Modal>
             <Box paddingTop='2rem' paddingBottom='2rem' display='flex' flexDirection='row' width='100%' alignItems='center'>
                 <Box flex='1'>
@@ -246,7 +256,7 @@ const Categories = () => {
                     </Box>
                     <Box display='flex' justifyContent='center' alignItems='center'>
                         <Button variant="contained" component="label" sx={{margin: 0}} onClick={startAddingCategory}>
-                            Add Category
+                            Add a Category
                         </Button>
                     </Box>
                 </Box>

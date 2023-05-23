@@ -26,12 +26,9 @@ const AddBrand = (props: AddBrandProps) => {
         <ModalContainer onClose={close}>
             <Box display='flex' justifyContent='center' alignItems='center' height='100%' width='100%'>
                 <Box bgcolor='rgba(255, 255, 255, 255)' borderRadius='1rem' padding='2rem'>
-                    <Typography id='modal-modal-title' variant='h6' component='h2' marginBottom='2rem'>
-                        Add Brand
-                    </Typography>
                     <form onSubmit={handleSubmit(handleAddBrand)}>
                         <Box display='flex' flexDirection='column'>
-                            <TextField id='standard-basic' label='Brand Name' variant='standard' {...register('description', { required: true, minLength: 2 })} />
+                            <TextField label='Brand Name' variant='standard' inputProps={{ 'data-testid': 'addBrandName' }} {...register('description', { required: true, minLength: 2 })} />
                             <Button type='submit' variant='contained'>Add Brand</Button>
                         </Box>
                     </form>

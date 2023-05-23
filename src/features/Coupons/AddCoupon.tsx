@@ -28,8 +28,8 @@ const AddCoupon = (props: AddCouponProps) => {
                     </Typography>
                     <form onSubmit={handleSubmit(handleAddCoupon)}>
                         <Box display='flex' flexDirection='column'>
-                            <TextField label='Name' variant='standard' {...register('name', { required: true, minLength: 3 })} />
-                            <TextField label='Amount' variant='standard' {...register('amount', { required: true, minLength: 1 })} />
+                            <TextField label='Name' variant='standard' inputProps={{ 'data-testid': 'addCouponName' }} {...register('name', { required: true, minLength: 3 })} />
+                            <TextField label='Amount' variant='standard' inputProps={{ 'data-testid': 'addCouponAmount' }} {...register('amount', { required: true, minLength: 1 })} />
                             <FormControl>
                                 <FormLabel>Type</FormLabel>
                                 <RadioGroup

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box } from '@mui/system';
 import ModalContainer from '../../utils/ModalContainer';
 import { Button, TextField, Typography } from '@mui/material';
@@ -14,12 +14,18 @@ interface AddAttributeTypeProps {
 const AddAttributeType = (props: AddAttributeTypeProps) => {
     const { close } = props;
     const { handleSubmit, register } = useForm();
+    const [error, setError] = useState('');
 
     const handleAddAttributeType = async (data: any) => {
         const { attributeTypeDescription } = data;
+        setError('');
 
-        await DataStore.save(new AttributeType({ attributeTypeDescription, lastUpdateTimestamp: format(Date.now(), 'yyyy-MM-dd') }));
-        close();
+        try {
+            await DataStore.save(new AttributeType({ attributeTypeDescription, lastUpdateTimestamp: format(Date.now(), 'yyyy-MM-dd') }));
+            close();
+        } catch (e: any) {
+            setError('Error creating attribute type');
+        }
     }
 
     return (
@@ -28,7 +34,8 @@ const AddAttributeType = (props: AddAttributeTypeProps) => {
                 <Box bgcolor='rgba(255, 255, 255, 255)' borderRadius='1rem' padding='2rem'>
                     <form onSubmit={handleSubmit(handleAddAttributeType)}>
                         <Box display='flex' flexDirection='column'>
-                            <TextField label='AttributeType Name' variant='standard' {...register('attributeTypeDescription', { required: true, minLength: 2 })} />
+                            <TextField label='Attribute Type Name' variant='standard' inputProps={{ 'data-testid': 'attributeTypeDescription' }} {...register('attributeTypeDescription', { required: true, minLength: 2 })} sx={{marginBottom: '2rem'}} />
+                            {error && <Typography color='error'>{error}</Typography>}
                             <Button type='submit' variant='contained'>Add Attribute Type</Button>
                         </Box>
                     </form>

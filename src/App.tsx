@@ -34,7 +34,7 @@ const checkProtectedRoute = (userGroups: string[], allowedGroups: string[]) => {
   return userGroups.filter((value) => allowedGroups.includes(value)).length > 0;
 }
 
-const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: string[]) => createBrowserRouter([
+export const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: string[]) => createBrowserRouter([
   {
     path: '/',
     element: isLoggedIn ? <Home /> : <Navigate to='/login' state={{goto: pathname}}/>,

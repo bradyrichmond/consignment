@@ -2,8 +2,7 @@ import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
 import { DataStore, Predicates } from 'aws-amplify';
 import { Address, Client } from '../../models';
 import { DataGrid, GridColDef, GridEventListener, GridRenderCellParams, MuiEvent } from '@mui/x-data-grid';
-import { Box, Button, Checkbox, FormControlLabel, InputAdornment, Modal, TextField } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import { Box, Button, Checkbox, FormControlLabel, Modal} from '@mui/material';
 import AddClient from './AddClient';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
@@ -218,7 +217,9 @@ const Clients = (props: ClientsProps) => {
                 open={isAddingClient}
                 onClose={stopAddingClient}
             >
-                <AddClient close={stopAddingClient}/>
+                <Box>
+                    <AddClient close={stopAddingClient}/>
+                </Box>
             </Modal>
 
             <Box paddingTop='2rem' paddingBottom='2rem' display='flex' flexDirection='row' width='100%' alignItems='center'>
@@ -232,7 +233,7 @@ const Clients = (props: ClientsProps) => {
                         </Box>
                         <Box flex='1' justifyContent='center' alignItems='center'>
                             <Button variant="contained" component="label" sx={{margin: 0}} onClick={startAddingClient}>
-                                Add Client
+                                Add a Client
                             </Button>
                         </Box>
                     </Box>

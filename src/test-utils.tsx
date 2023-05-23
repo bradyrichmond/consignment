@@ -3,6 +3,7 @@ import {render, RenderOptions} from '@testing-library/react';
 import { Theme, ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material';
 import { CognitoContext, DrawerContext } from './context';
+import { BrowserRouter, RouterProvider } from 'react-router-dom';
 
 const light = () => {
     return createTheme({
@@ -30,12 +31,12 @@ const light = () => {
             root: {
               fontSize: '2rem',
               marginBottom: '2rem'
-            }
           }
         }
       }
-    })
-  }
+    }
+  })
+}
   
 
 const AllTheProviders = ({children}: {children: React.ReactNode}) => {
@@ -50,7 +51,9 @@ const AllTheProviders = ({children}: {children: React.ReactNode}) => {
         <CognitoContext.Provider value={{userIsLoggedIn, setUserIsLoggedIn, userGroups, setUserGroups}}>
             <DrawerContext.Provider value={{drawerContent, setDrawerContent, drawerClientId, setDrawerClientId, drawerItemId, setDrawerItemId}}>
                 <ThemeProvider theme={theme}>
+                  <BrowserRouter>
                     {children}
+                  </BrowserRouter>
                 </ThemeProvider>
             </DrawerContext.Provider>
         </CognitoContext.Provider>
