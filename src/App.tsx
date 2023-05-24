@@ -28,6 +28,11 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import Reporting from './features/Reporting';
 import Coupons from './features/Coupons';
 import { CognitoContext, DrawerContext } from './context';
+import Concierge from './features/Concierge';
+import CreateDropOff from './features/Concierge/CreateDropOff';
+import DropOffComplete from './features/Concierge/DropOffComplete';
+import EmployeeDisplay from './features/Concierge/Employee';
+import Checkin from './features/Concierge/CheckIn';
 Amplify.configure(awsExports);
 
 const checkProtectedRoute = (userGroups: string[], allowedGroups: string[]) => {
@@ -84,6 +89,26 @@ export const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: s
         element: checkProtectedRoute(userGroups, ['Admins']) ? <UserManagement /> : <Box>Access Denied</Box>
       }
     ]
+  },
+  {
+    path: '/concierge',
+    element: <Concierge />
+  },
+  {
+    path: '/concierge/client',
+    element: <Checkin />
+  },
+  {
+    path: '/concierge/client/complete',
+    element: <DropOffComplete />
+  },
+  {
+    path: '/concierge/create-dropoff',
+    element: <CreateDropOff />
+  },
+  {
+    path: '/concierge/employee',
+    element: <EmployeeDisplay />
   },
   {
     path: '/login',

@@ -164,6 +164,7 @@ type EagerItem = {
   readonly itemLocationId?: string | null;
   readonly itemBrandId?: string | null;
   readonly transactionItemsId?: string | null;
+  readonly transactionMissingItemsId?: string | null;
 }
 
 type LazyItem = {
@@ -209,6 +210,7 @@ type LazyItem = {
   readonly itemLocationId?: string | null;
   readonly itemBrandId?: string | null;
   readonly transactionItemsId?: string | null;
+  readonly transactionMissingItemsId?: string | null;
 }
 
 export declare type Item = LazyLoading extends LazyLoadingDisabled ? EagerItem : LazyItem
@@ -237,6 +239,7 @@ type EagerTransaction = {
   readonly location?: Location | null;
   readonly tenders: Tender[];
   readonly coupons?: (Coupon | null)[] | null;
+  readonly missingItems?: (Item | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly transactionLocationId?: string | null;
@@ -262,6 +265,7 @@ type LazyTransaction = {
   readonly location: AsyncItem<Location | undefined>;
   readonly tenders: AsyncCollection<Tender>;
   readonly coupons: AsyncCollection<Coupon>;
+  readonly missingItems: AsyncCollection<Item>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly transactionLocationId?: string | null;
@@ -739,6 +743,94 @@ export declare type Coupon = LazyLoading extends LazyLoadingDisabled ? EagerCoup
 
 export declare const Coupon: (new (init: ModelInit<Coupon>) => Coupon) & {
   copyOf(source: Coupon, mutator: (draft: MutableModel<Coupon>) => MutableModel<Coupon> | void): Coupon;
+}
+
+type EagerConsignmentDropoff = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<ConsignmentDropoff, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly firstName: string;
+  readonly lastName: string;
+  readonly phone: string;
+  readonly complete: boolean;
+  readonly showError?: boolean | null;
+  readonly errorPrompt?: string | null;
+  readonly cubby?: Cubby | null;
+  readonly oversizedDescription?: string | null;
+  readonly oversizedItems?: boolean | null;
+  readonly newConsigner?: boolean | null;
+  readonly timerCleared?: boolean | null;
+  readonly createdTime: string;
+  readonly hasAppointment?: boolean | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly consignmentDropoffCubbyId?: string | null;
+}
+
+type LazyConsignmentDropoff = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<ConsignmentDropoff, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly firstName: string;
+  readonly lastName: string;
+  readonly phone: string;
+  readonly complete: boolean;
+  readonly showError?: boolean | null;
+  readonly errorPrompt?: string | null;
+  readonly cubby: AsyncItem<Cubby | undefined>;
+  readonly oversizedDescription?: string | null;
+  readonly oversizedItems?: boolean | null;
+  readonly newConsigner?: boolean | null;
+  readonly timerCleared?: boolean | null;
+  readonly createdTime: string;
+  readonly hasAppointment?: boolean | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly consignmentDropoffCubbyId?: string | null;
+}
+
+export declare type ConsignmentDropoff = LazyLoading extends LazyLoadingDisabled ? EagerConsignmentDropoff : LazyConsignmentDropoff
+
+export declare const ConsignmentDropoff: (new (init: ModelInit<ConsignmentDropoff>) => ConsignmentDropoff) & {
+  copyOf(source: ConsignmentDropoff, mutator: (draft: MutableModel<ConsignmentDropoff>) => MutableModel<ConsignmentDropoff> | void): ConsignmentDropoff;
+}
+
+type EagerCubby = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Cubby, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly cubbyNumber: string;
+  readonly location: Location;
+  readonly inUse: boolean;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly cubbyLocationId: string;
+}
+
+type LazyCubby = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Cubby, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly cubbyNumber: string;
+  readonly location: AsyncItem<Location>;
+  readonly inUse: boolean;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly cubbyLocationId: string;
+}
+
+export declare type Cubby = LazyLoading extends LazyLoadingDisabled ? EagerCubby : LazyCubby
+
+export declare const Cubby: (new (init: ModelInit<Cubby>) => Cubby) & {
+  copyOf(source: Cubby, mutator: (draft: MutableModel<Cubby>) => MutableModel<Cubby> | void): Cubby;
 }
 
 type EagerCategoryAttribute = {

@@ -214,3 +214,27 @@ type Coupon @model {
   type: CouponType!
   amount: Int!
 }
+
+type ConsignmentDropoff @model {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  phone: String!
+  complete: Boolean!
+  showError: Boolean
+  errorPrompt: String
+  cubby: Cubby @hasOne
+  oversizedDescription: String
+  oversizedItems: Boolean
+  newConsigner: Boolean
+  timerCleared: Boolean
+  createdTime: AWSDateTime!
+  hasAppointment: Boolean
+}
+
+type Cubby @model {
+  id: ID!
+  cubbyNumber: String!
+  location: Location! @hasOne
+  inUse: Boolean!
+}
