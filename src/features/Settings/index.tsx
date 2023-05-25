@@ -9,11 +9,13 @@ import CardReaderSelector from './CardReaderSelector';
 import LocationSettings from './LocationSettings';
 import ConsignerSettings from './ConsignerSettings';
 import { TenderType } from '../../models';
+import ConciergeSettings from './ConciergeSettings';
 
 const Settings = () => {
     const [printers, setPrinters] = useState<any>([]);
     const [cardReaderOptions, setCardReaderOptions] = useState([])
     const [storedCardReaderId, setStoredCardReaderId] = useState('');
+    const [storedStoreId, setStoredStoreId] = useState('');
     const [socketStatus, setsocketStatus] = useState<JSPM.WSStatus>(JSPM.WSStatus.WaitingForUserResponse);
     const [storeLocations, setStoreLocations] = useState<Location[]>([]);
 
@@ -54,6 +56,8 @@ const Settings = () => {
         getCardReaderIds();
         getStoreLocations();
         setUpJspm();
+
+        setStoredStoreId(localStorage.getItem('locationId') ?? '');
     }, [])
 
     const setPrinter = (printerName: string, lsKey: string) => {
@@ -95,10 +99,18 @@ const Settings = () => {
                 <Typography variant='h2'>Location</Typography>
                 <LocationSettings onLocationChange={handleLocationChange} locations={storeLocations} handleAddLocation={handleAddLocation} />
             </Box>
-            <Box marginTop='2rem'>
-                <Typography variant='h2'>Consigner Percentage</Typography>
-                <ConsignerSettings />
-            </Box>
+            {storedStoreId && 
+                <>
+                    <Box marginTop='2rem'>
+                        <Typography variant='h2'>Consigner Percentage</Typography>
+                        <ConsignerSettings />
+                    </Box>
+                    <Box marginTop='2rem'>
+                        <Typography variant='h2'>Concierge Settings</Typography>
+                        <ConciergeSettings />
+                    </Box>
+                </>
+            }
         </Box>
     )
 }

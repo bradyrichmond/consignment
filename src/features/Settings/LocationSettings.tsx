@@ -53,6 +53,10 @@ const LocationSettings = (props: LocationSettingsProps) => {
         setUpdatingTaxRate(false);
     }
 
+    const setTerminalLocation = () => {
+        localStorage.setItem('locationId', selectedLocation);
+    }
+
     return (
         <Box>
             <Modal
@@ -87,7 +91,7 @@ const LocationSettings = (props: LocationSettingsProps) => {
                             </Box>
                             <Box display='flex' flexDirection='row'>
                                 <Box flex='1'>
-                                    <Button type='submit' variant='contained' fullWidth>Select location</Button>
+                                    <Button type='submit' variant='contained' onClick={setTerminalLocation} fullWidth>Select location</Button>
                                 </Box>
                             </Box>
                         </>

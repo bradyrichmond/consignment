@@ -1,12 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Box, Button, Typography } from '@mui/material';
-import useStoreLocation from '../../utils/useStoreLocation';
-
-import { format, sub } from 'date-fns';
-
-import { Item, Tender, TenderType, Transaction } from '../../models';
-import { currencyFormatter } from '../../utils/PrintReceipt';
-import { Amplify, DataStore } from 'aws-amplify';
+import React, { useState } from 'react';
+import { Box, Button } from '@mui/material';
 import EndOfDayReport from './EndOfDayReport';
 
 const REPORTS: string[] = ['End of day'];
