@@ -61,7 +61,7 @@ const CreateDropOff = () => {
     }
 
     return (
-        <Box>
+        <Box height='100%' width='100%' display='flex' justifyContent='center' alignItems='center' bgcolor='background.default'>
             <Modal
                 open={validatingNewPolicy}
                 onClose={closeModals}
@@ -80,21 +80,13 @@ const CreateDropOff = () => {
             </Modal>
             <Typography>We're so glad you're here! Please sign in!</Typography>
             <form onSubmit={handleSubmit(confirmNewPolicy)}>
-                <Box className='checkin-input-container'>
-                    <TextField label='First Name' className='checkin-input' {...register('firstName', { required: true, minLength: 2 })} autoComplete="off" autoCorrect="off" spellCheck="false" />
-                </Box>
-                <Box className='checkin-input-container'>
-                    <TextField label='Last Name' className='checkin-input' {...register('lastName', { required: true, minLength: 2 })} autoComplete="off" autoCorrect="off" spellCheck="false" />
-                </Box>
-                <Box className='checkin-input-container'>
-                    <TextField label='Phone' className='checkin-input' {...register('phone', { required: true, minLength: 10 })} autoComplete="off" autoCorrect="off" spellCheck="false" />
-                </Box>
+                <TextField label='First Name' {...register('firstName', { required: true, minLength: 2 })} autoComplete="off" autoCorrect="off" spellCheck="false" />
+                <TextField label='Last Name' {...register('lastName', { required: true, minLength: 2 })} autoComplete="off" autoCorrect="off" spellCheck="false" />
+                <TextField label='Phone' {...register('phone', { required: true, minLength: 10 })} autoComplete="off" autoCorrect="off" spellCheck="false" />
                 <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }} />} label="New Consigner?" onChange={() => {setNewConsigner((cur) => !cur)}} />
                 <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }} />} label="Oversized Items?" onChange={() => {setOversizedItem((cur) => !cur)}} />
                 {oversizedItems && 
-                    <Box className='checkin-input-container'>
-                        <TextField label='List Oversized Items' className='checkin-input' {...register('oversizedDescription', { required: true, minLength: 2 })} autoComplete="off" autoCorrect="off" spellCheck="false" />
-                    </Box>
+                    <TextField label='List Oversized Items' {...register('oversizedDescription', { required: true, minLength: 2 })} autoComplete="off" autoCorrect="off" spellCheck="false" />
                 }
                 <Button variant='contained' type='submit' onClick={confirmNewPolicy}>Next</Button>
             </form>

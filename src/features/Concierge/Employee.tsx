@@ -5,8 +5,18 @@ import TodayIcon from '@mui/icons-material/Today';
 import FiberNewIcon from '@mui/icons-material/FiberNew';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import { Box, Modal, Typography } from '@mui/material';
+import { Box, Modal, Typography, keyframes } from '@mui/material';
 import { ConsignmentDropoff, Cubby } from '../../models';
+import useStoreLocation from '../../utils/useStoreLocation';
+
+const pulse = keyframes`
+    from {
+        opacity: 1 
+    }
+    to {
+        opacity: 0
+    }
+`
 
 const EmployeeDisplay = () => {
     const [customers, setCustomers] = useState<ConsignmentDropoff[]>([])
@@ -16,6 +26,8 @@ const EmployeeDisplay = () => {
     const [oversizedDescription, setOversizedDescription] = useState('');
     const [showingOversizedDescription, setShowingOversizedDescription] = useState(false);
     const [activeId, setActiveId] = useState('');
+    const [cubbyData, setCubbyData] = useState<Cubby[]>([]);
+    const locationData = useStoreLocation();
 
     useEffect(() => {
         const waitingSub = DataStore.observeQuery(
@@ -46,9 +58,21 @@ const EmployeeDisplay = () => {
             }
         });
 
+        const cubbySub = DataStore.observeQuery(
+            Cubby,
+            (c) => c.cubbyLocationId.eq(locationData?.id ?? '')
+          ).subscribe(snapshot => {
+            const { items, isSynced } = snapshot;
+
+            if (isSynced) {
+                setCubbyData(items);
+            }
+        });
+
         return () => {
             waitingSub.unsubscribe();
             deletedSub.unsubscribe();
+            cubbySub.unsubscribe();
         }
     }, [])
 
@@ -96,48 +120,54 @@ const EmployeeDisplay = () => {
     }
 
     return (
-        <Box className='employee-display'>
-            <Modal
-                open={validatingDelete}
-                onClose={closeModals}
-            >
-                <Box>
-                    <ConfirmModal validationText='Are you sure you want to mark customer as completed?' confirmText='Yes' cancelText='No' confirm={deleteCustomer} cancel={closeModals} close={closeModals} />
-                </Box>
-            </Modal>
-            <Modal
-                open={validatingRevive}
-                onClose={closeModals}
-            >
-                <ConfirmModal validationText='Are you sure you want to mark customer as active?' confirmText='Yes' cancelText='No' confirm={reviveCustomer} cancel={closeModals} close={closeModals} />
-            </Modal>
-            <Modal
-                open={showingOversizedDescription}
-                onClose={closeModals}
-            >
-                <ConfirmModal validationText={`Oversized items: ${oversizedDescription}`} confirmText='OK' confirm={hideOversizedDescription} close={closeModals} />
-            </Modal>
-            <Box className='waiting-customer-container'>
-                <Typography className='employee-display-header'>Customers waiting:</Typography>
-                {customers && customers.length < 1 &&
-                    <Typography className='no-waiting'>No customers waiting.</Typography>
-                }
-                {customers.length > 0 &&
-                    <Box>
-                        {customers.map((customer: any) => {
-                            return (
-                                <WaitingCustomer customer={customer} key={customer.id} infoAction={showOversizedDescription} setActiveId={() => { setActiveId(customer.id) }} setValidatingDelete={() => { setValidatingDelete(true) }} />
-                            )
-                        })}
+        <Box display='flex' flexDirection='row' bgcolor='background.default' padding='2rem' height='100%' width='100%'>
+            {cubbyData.length < 1 ?
+                <Typography variant='h1'>Your admin needs to add cubbies to this location.</Typography>
+                :
+                <>
+                    <Modal
+                        open={validatingDelete}
+                        onClose={closeModals}
+                    >
+                        <Box>
+                            <ConfirmModal validationText='Are you sure you want to mark customer as completed?' confirmText='Yes' cancelText='No' confirm={deleteCustomer} cancel={closeModals} close={closeModals} />
+                        </Box>
+                    </Modal>
+                    <Modal
+                        open={validatingRevive}
+                        onClose={closeModals}
+                    >
+                        <ConfirmModal validationText='Are you sure you want to mark customer as active?' confirmText='Yes' cancelText='No' confirm={reviveCustomer} cancel={closeModals} close={closeModals} />
+                    </Modal>
+                    <Modal
+                        open={showingOversizedDescription}
+                        onClose={closeModals}
+                    >
+                        <ConfirmModal validationText={`Oversized items: ${oversizedDescription}`} confirmText='OK' confirm={hideOversizedDescription} close={closeModals} />
+                    </Modal>
+                    <Box display='flex' flexDirection='column' flex='1'>
+                        <Typography variant='h2' sx={{ marginBottom: '2rem' }}>Customers waiting:</Typography>
+                        {customers && customers.length < 1 &&
+                            <Typography variant='h2'>No customers waiting.</Typography>
+                        }
+                        {customers.length > 0 &&
+                            <Box>
+                                {customers.map((customer: any) => {
+                                    return (
+                                        <WaitingCustomer customer={customer} key={customer.id} infoAction={showOversizedDescription} setActiveId={() => { setActiveId(customer.id) }} setValidatingDelete={() => { setValidatingDelete(true) }} />
+                                    )
+                                })}
+                            </Box>
+                        }
                     </Box>
-                }
-            </Box>
-            <Box className='deleted-customer-container'>
-                <Typography className='employee-display-header'>Recently completed:</Typography>
-                <Box>
-                    {deletedCustomers.map((deletedCustomer: any) => <Typography className='deleted-customer' key={deletedCustomer.id} onClick={() => { setValidatingRevive(true); setActiveId(deletedCustomer.id) }} >{deletedCustomer.firstName} {deletedCustomer.lastName}</Typography>)}
-                </Box>
-            </Box>
+                    <Box display='flex' flexDirection='column' flex='1'>
+                        <Typography variant='h2'>Recently completed:</Typography>
+                        <Box>
+                            {deletedCustomers.map((deletedCustomer: any) => <Typography key={deletedCustomer.id} onClick={() => { setValidatingRevive(true); setActiveId(deletedCustomer.id) }} >{deletedCustomer.firstName} {deletedCustomer.lastName}</Typography>)}
+                        </Box>
+                    </Box>
+                </>
+            }
         </Box>
     )
 }
@@ -151,7 +181,8 @@ interface WaitingCustomerProps {
 
 const WaitingCustomer = (props: WaitingCustomerProps) => {
     const { customer, setValidatingDelete, setActiveId, infoAction } = props;
-    const [waitingLevel, setWaitingLevel] = useState('');
+    const [dotColor, setDotColor] = useState('success');
+    const [dotFlashing, setDotFlashing] = useState(false);
     const [validatingTimer, setValidatingTimer] = useState(false);
     const [dotUpdater, setDotUpdater] = useState<NodeJS.Timer>();
     const [cubbyData, setCubbyData] = useState<Cubby>();
@@ -177,6 +208,8 @@ const WaitingCustomer = (props: WaitingCustomerProps) => {
     }, [])
 
     const clearTimer = async () => {
+        clearInterval(dotUpdater);
+
         const currentCustomer = await DataStore.query(ConsignmentDropoff, customer.id);
         if (currentCustomer) {
             await DataStore.save(ConsignmentDropoff.copyOf(currentCustomer, updated => {
@@ -188,18 +221,13 @@ const WaitingCustomer = (props: WaitingCustomerProps) => {
     const checkDotData = () => {
         let waitingTime = Date.now() - Date.parse(customer.createdTime);
 
-        if (customer.timerCleared) {
-            setWaitingLevel('cancelled');
-            return;
-        }
-
         // may want to add this to admin settings
         if (waitingTime > 420000 && waitingTime < 639000) {
-            setWaitingLevel('level-two');
+            setDotColor('warning');
         } else if (waitingTime > 639000 && waitingTime < 810000) {
-            setWaitingLevel('level-three');
+            setDotColor('error');
         } else if (waitingTime > 810000) {
-            setWaitingLevel('level-three flashing');
+            setDotFlashing(true);
         }
     }
 
@@ -208,11 +236,11 @@ const WaitingCustomer = (props: WaitingCustomerProps) => {
             checkDotData();
         }, 10000);
 
-        setDotUpdater(dotUpdaterFunction)
+        setDotUpdater(dotUpdaterFunction);
     }
 
     const clearDotUpdater = () => {
-        setWaitingLevel('cancelled');
+        setDotFlashing(false);
         clearTimer();
         clearValidatingTimer();
     }
@@ -226,33 +254,33 @@ const WaitingCustomer = (props: WaitingCustomerProps) => {
     }
 
     return (
-        <Box className='waiting-customer'>
+        <Box width='100%' display='flex' flexDirection='row' borderRadius='.25rem'>
             <Modal
                 open={validatingTimer}
                 onClose={clearValidatingTimer}
             >
                 <ConfirmModal validationText='Are you sure you want to clear the timer?' confirmText='Yes' cancelText='No' confirm={clearDotUpdater} cancel={clearValidatingTimer} close={clearValidatingTimer} />
             </Modal>
-            <Box className='waiting-dot-container'>
-            {!customer.timerCleared && <Box className={`waiting-dot ${waitingLevel}`} onClick={ConfirmModalTimer}/>}
+            <Box display='flex' justifyContent='center' alignItems='center'>
+                {!customer.timerCleared && <Box sx={{ width: '1rem', height: '1rem', borderRadius: '1rem', bgcolor: { dotColor }, animation: dotFlashing ? `${pulse} 1s infinite ease` : 'none' }} onClick={ConfirmModalTimer}/>}
             </Box>
-            <Box className='customer-container'>
-                <Box className='customer-data-container'>
-                    <Box className='customer-name'>{customer.firstName} {customer.lastName}</Box>
+            <Box display='flex' flex='1' flexDirection='column'>
+                <Box display='flex' justifyContent='center' alignItems='center'>
+                    <Typography variant='h3'>{customer.firstName} {customer.lastName}</Typography>
                 </Box>
-                <Box className='waiting-customer-data'>
+                <Box display='flex' justifyContent='center' alignItems='center' flexDirection='row'>
                     {customer.phone && 
-                        <Box className='waiting-customer-phone'>{customer.phone}</Box>
+                        <Typography>{customer.phone}</Typography>
                     }
                     {customer.oversizedItems && <InventoryIcon onClick={() => {infoAction(customer?.oversizedDescription ?? 'Missing description')}}/>}
                     {customer.newConsigner && <FiberNewIcon />}
                     {customer.hasAppointment && <TodayIcon />}
                     {cubbyData?.cubbyNumber && 
-                        <Box className='waiting-customer-cubby'>Bin {cubbyData?.cubbyNumber}</Box>
+                        <Typography>Bin {cubbyData?.cubbyNumber}</Typography>
                     }
                 </Box>
             </Box>
-            <Box className='move-customer' onClick={() => { setValidatingDelete(true); setActiveId(customer.id); }}>
+            <Box display='flex' justifyContent='center' alignItems='center' onClick={() => { setValidatingDelete(true); setActiveId(customer.id); }}>
                 <ExitToAppIcon />
             </Box>
         </Box>

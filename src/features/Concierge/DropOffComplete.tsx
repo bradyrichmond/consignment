@@ -14,19 +14,17 @@ const DropOffComplete = () => {
     }, [])
 
     return (
-        <Box>
-            <Box className='checkin-complete-message'>
-                <Box>
-                    <Typography>Please place your items in</Typography>
-                    <Box className='cubby-display'>bin #{cubbyNumber}</Box>
-                    <Typography>
-                        We will call your name as soon as we have finished looking through your items.
-                    </Typography>
-                    <Typography>
-                        Thank you for consigning with us!
-                    </Typography>
-                </Box>
-            </Box>    
+        <Box height='100%' width='100%' display='flex' justifyContent='center' alignItems='center' bgcolor='background.default'>
+            <Box>
+                <Typography variant='h2'>Please place your items in</Typography>
+                <Typography variant='h3' sx={{ marginBottom: '2rem' }}>bin #{cubbyNumber}</Typography>
+                <Typography variant='h3'>
+                    We will call your name as soon as we have finished looking through your items.
+                </Typography>
+                <Typography variant='h3'>
+                    Thank you for consigning with us!
+                </Typography>
+            </Box>
         </Box>
     )
 }

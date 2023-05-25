@@ -14,7 +14,7 @@ const Concierge = () => {
     }
 
     return (
-        <Box height='100%' width='100%' display='flex' justifyContent='center' alignItems='center'>
+        <Box height='100%' width='100%' display='flex' justifyContent='center' alignItems='center' bgcolor='background.default'>
             <Button variant='contained' onClick={showClient} sx={{marginBottom: '2rem'}}>Client</Button>
             <Button variant='contained' onClick={showEmployee}>Employee</Button>
         </Box>

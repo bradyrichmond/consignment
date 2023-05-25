@@ -21,12 +21,10 @@ const ConciergeSettings = () => {
                 setCubbies(items);
             }
         });
-        const getCubbyData = async () => {
-            const fetchedCubbies = await DataStore.query(Cubby, (c) => c.cubbyLocationId.eq(locationData?.id ?? ''));
-            setCubbies(fetchedCubbies);
-        }
-
-        getCubbyData();
+        
+        return (() => {
+            cubbySub.unsubscribe();
+        })
     }, [])
 
     const addACubby = async () => {
