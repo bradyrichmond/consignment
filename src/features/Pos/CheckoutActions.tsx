@@ -392,94 +392,76 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
                 open={isProcessingCash}
                 onClose={stopProcessingPayment}
             >
-                <Box>
-                    <ProcessCash close={addCashTender} amount={amountWithTax}/>
-                </Box>
+                <ProcessCash close={addCashTender} amount={amountWithTax}/>
             </Modal>
             <Modal
                 open={isProcessingCard}
                 onClose={stopProcessingPayment}
             >
-                <Box>
-                    <ProcessingCard step={cardProcessingStep} close={stopProcessingPayment}/>
-                </Box>
+                <ProcessingCard step={cardProcessingStep} close={stopProcessingPayment}/>
             </Modal>
             <Modal
                 open={isProcessingGiftCard}
                 onClose={stopProcessingPayment}
             >
-                <Box>
-                    <ProcessGiftCard close={intakeGiftCardData}/>
-                </Box>
+                <ProcessGiftCard close={intakeGiftCardData}/>
             </Modal>
             <Modal
                 open={isAddingConsigner}
                 onClose={stopAddingConsigner}
             >
-                <Box>
-                    <SelectConsigner close={handleAddConsigner}/>
-                </Box>
+                <SelectConsigner close={handleAddConsigner}/>
             </Modal>
             <Modal
                 open={isAddingCoupon}
                 onClose={() => setIsAddingCoupon(false)}
             >
-                <Box>
-                    <AddCoupon close={stopAddingCoupon} />
-                </Box>
+                <AddCoupon close={stopAddingCoupon} />
             </Modal>
             <Modal
                 open={isAddingMissingTagItem}
                 onClose={() => setIsAddingMissingTagItem(false)}
             >
-                <Box>
-                    <AddMissingTagItem close={stopAddingMissingTagItem} />
-                </Box>
+                <AddMissingTagItem close={stopAddingMissingTagItem} />
             </Modal>
             <Modal
                 open={itemAlreadyScanned}
                 onClose={hideItemAlreadyScanned}
             >
-                <Box>
-                    <ModalContainer onClose={hideItemAlreadyScanned}>
-                        <Box display='flex' justifyContent='center' alignItems='center' height='100%' width='100%'>
-                            <Box bgcolor='rgba(255, 255, 255, 255)' borderRadius='1rem' padding='2rem' display='flex' flexDirection='column' justifyContent='center' alignItems='center'>
-                                <Typography mb='2rem' variant='h2'>Item has already been added to this transaction.</Typography>
-                                <Button variant='contained' fullWidth={true} color='secondary' onClick={hideItemAlreadyScanned}>Ok</Button>
-                            </Box>
+                <ModalContainer onClose={hideItemAlreadyScanned}>
+                    <Box display='flex' justifyContent='center' alignItems='center' height='100%' width='100%'>
+                        <Box bgcolor='rgba(255, 255, 255, 255)' borderRadius='1rem' padding='2rem' display='flex' flexDirection='column' justifyContent='center' alignItems='center'>
+                            <Typography mb='2rem' variant='h2'>Item has already been added to this transaction.</Typography>
+                            <Button variant='contained' fullWidth={true} color='secondary' onClick={hideItemAlreadyScanned}>Ok</Button>
                         </Box>
-                    </ModalContainer>
-                </Box>
+                    </Box>
+                </ModalContainer>
             </Modal>
             <Modal
                 open={itemAlreadySold}
                 onClose={hideItemAlreadySold}
             >
-                <Box>
-                    <ModalContainer onClose={hideItemAlreadySold}>
-                        <Box display='flex' justifyContent='center' alignItems='center' height='100%' width='100%'>
-                            <Box bgcolor='rgba(255, 255, 255, 255)' borderRadius='1rem' padding='2rem' display='flex' flexDirection='column' justifyContent='center' alignItems='center'>
-                                <Typography mb='2rem' variant='h2'>Item has already been sold.</Typography>
-                                <Button variant='contained' fullWidth={true} color='secondary' onClick={hideItemAlreadySold}>Ok</Button>
-                            </Box>
+                <ModalContainer onClose={hideItemAlreadySold}>
+                    <Box display='flex' justifyContent='center' alignItems='center' height='100%' width='100%'>
+                        <Box bgcolor='rgba(255, 255, 255, 255)' borderRadius='1rem' padding='2rem' display='flex' flexDirection='column' justifyContent='center' alignItems='center'>
+                            <Typography mb='2rem' variant='h2'>Item has already been sold.</Typography>
+                            <Button variant='contained' fullWidth={true} color='secondary' onClick={hideItemAlreadySold}>Ok</Button>
                         </Box>
-                    </ModalContainer>
-                </Box>
+                    </Box>
+                </ModalContainer>
             </Modal>
             <Modal
                 open={itemNotFound}
                 onClose={hideItemNotFound}
             >
-                <Box>
-                    <ModalContainer onClose={hideItemNotFound}>
-                        <Box display='flex' justifyContent='center' alignItems='center' height='100%' width='100%'>
-                            <Box bgcolor='rgba(255, 255, 255, 255)' borderRadius='1rem' padding='2rem' display='flex' flexDirection='column' justifyContent='center' alignItems='center'>
-                                <Typography mb='2rem' variant='h2'>Item not found.</Typography>
-                                <Button variant='contained' fullWidth={true} color='secondary' onClick={hideItemNotFound}>Ok</Button>
-                            </Box>
+                <ModalContainer onClose={hideItemNotFound}>
+                    <Box display='flex' justifyContent='center' alignItems='center' height='100%' width='100%'>
+                        <Box bgcolor='rgba(255, 255, 255, 255)' borderRadius='1rem' padding='2rem' display='flex' flexDirection='column' justifyContent='center' alignItems='center'>
+                            <Typography mb='2rem' variant='h2'>Item not found.</Typography>
+                            <Button variant='contained' fullWidth={true} color='secondary' onClick={hideItemNotFound}>Ok</Button>
                         </Box>
-                    </ModalContainer>
-                </Box>
+                    </Box>
+                </ModalContainer>
             </Modal>
             <Box flex='1'>
                 {coupons && 

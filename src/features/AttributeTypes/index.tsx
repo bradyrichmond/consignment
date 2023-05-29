@@ -207,41 +207,31 @@ const AttributeTypes = () => {
                 open={isAddingAttributeType}
                 onClose={stopAddingAttributeType}
             >
-                <Box>
-                    <AddAttributeType close={stopAddingAttributeType} />
-                </Box>
+                <AddAttributeType close={stopAddingAttributeType} />
             </Modal>
             <Modal
                 open={isAddingAttributeTypeValue}
                 onClose={startAddingAttributeTypeValue}
             >
-                <Box>
-                    <AddAttributeTypeValues close={stopAddingAttributeTypeValue} attributeType={activeAttributeTypeId}/>
-                </Box>
+                <AddAttributeTypeValues close={stopAddingAttributeTypeValue} attributeType={activeAttributeTypeId}/>
             </Modal>
             <Modal
                 open={isDeletingAttributeType}
                 onClose={stopDeletingAttributeType}
             >
-                <Box>
-                    <ConfirmModal close={stopDeletingAttributeType} validationText={`Are you sure you want to mark ${activeAttributeType} inactive?`} cancelText='Cancel' confirmText='Confirm' confirm={deleteAttributeType} cancel={stopDeletingAttributeType}/>
-                </Box>
+                <ConfirmModal close={stopDeletingAttributeType} validationText={`Are you sure you want to mark ${activeAttributeType} inactive?`} cancelText='Cancel' confirmText='Confirm' confirm={deleteAttributeType} cancel={stopDeletingAttributeType}/>
             </Modal>
             <Modal
                 open={isRevivingAttributeType}
                 onClose={stopRevivingAttributeType}
             >
-                <Box>
-                    <ConfirmModal close={stopRevivingAttributeType} validationText={`Are you sure you want to mark ${activeAttributeType} active?`} cancelText='Cancel' confirmText='Confirm' confirm={reviveAttributeType} cancel={stopRevivingAttributeType}/>
-                </Box>
+                <ConfirmModal close={stopRevivingAttributeType} validationText={`Are you sure you want to mark ${activeAttributeType} active?`} cancelText='Cancel' confirmText='Confirm' confirm={reviveAttributeType} cancel={stopRevivingAttributeType}/>
             </Modal>
             <Modal
                 open={isViewingValues}
                 onClose={toggleViewValues}
             >
-                <Box>
-                    <ViewValues close={stopViewingValues} attributeTypeId={activeAttributeTypeId}/>
-                </Box>
+                <ViewValues close={stopViewingValues} attributeTypeId={activeAttributeTypeId}/>
             </Modal>
             <Box paddingTop='2rem' paddingBottom='2rem' display='flex' flexDirection='row' width='100%' alignItems='center'>
                 <Box flex='1'>

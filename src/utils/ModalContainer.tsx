@@ -1,5 +1,5 @@
 import { Box, Fab } from '@mui/material';
-import React from 'react';
+import React, { forwardRef } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 
 interface ModalContainerProps {
@@ -7,7 +7,7 @@ interface ModalContainerProps {
     onClose?: () => void
 }
 
-const ModalContainer = (props: ModalContainerProps) => {
+const ModalContainer = forwardRef((props: ModalContainerProps) => {
     const { children, onClose } = props;
 
     return (
@@ -22,6 +22,6 @@ const ModalContainer = (props: ModalContainerProps) => {
             </Box>
         </Box>
     )
-}
+})
 
 export default ModalContainer;

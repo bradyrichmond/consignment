@@ -217,9 +217,7 @@ const Clients = (props: ClientsProps) => {
                 open={isAddingClient}
                 onClose={stopAddingClient}
             >
-                <Box>
-                    <AddClient close={stopAddingClient}/>
-                </Box>
+                <AddClient close={stopAddingClient}/>
             </Modal>
 
             <Box paddingTop='2rem' paddingBottom='2rem' display='flex' flexDirection='row' width='100%' alignItems='center'>

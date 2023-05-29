@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '@mui/system';
 import { Button, Typography } from '@mui/material';
 import ModalContainer from './ModalContainer';
@@ -12,7 +12,7 @@ interface ConfirmModalProps {
     confirmText: string
 }
 
-const ConfirmModal = (props: ConfirmModalProps) => {
+const ConfirmModal = forwardRef((props: ConfirmModalProps) => {
     const { cancel, confirm, close, validationText, cancelText, confirmText } = props;
 
     return (
@@ -30,6 +30,6 @@ const ConfirmModal = (props: ConfirmModalProps) => {
             </Box>
         </ModalContainer>
     )
-}
+})
 
 export default ConfirmModal;

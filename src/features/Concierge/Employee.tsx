@@ -129,18 +129,13 @@ const EmployeeDisplay = () => {
                         open={validatingDelete}
                         onClose={closeModals}
                     >
-                        <Box>
-                            <ConfirmModal validationText='Are you sure you want to mark customer as completed?' confirmText='Yes' cancelText='No' confirm={deleteCustomer} cancel={closeModals} close={closeModals} />
-                        </Box>
+                        <ConfirmModal validationText='Are you sure you want to mark customer as completed?' confirmText='Yes' cancelText='No' confirm={deleteCustomer} cancel={closeModals} close={closeModals} />
                     </Modal>
                     <Modal
                         open={validatingRevive}
                         onClose={closeModals}
                     >
-                        <Box>
                         <ConfirmModal validationText='Are you sure you want to mark customer as active?' confirmText='Yes' cancelText='No' confirm={reviveCustomer} cancel={closeModals} close={closeModals} />
-                        {activeId}
-                        </Box>
                     </Modal>
                     <Modal
                         open={showingOversizedDescription}
@@ -228,7 +223,6 @@ const WaitingCustomer = (props: WaitingCustomerProps) => {
 
     const checkDotData = () => {
         let waitingTime = Date.now() - Date.parse(customer.createdTime);
-        console.log(`checkDotData ${waitingTime}`)
 
         // may want to add this to admin settings
         if (waitingTime > 420000 && waitingTime < 639000) {
