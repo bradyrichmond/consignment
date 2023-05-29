@@ -14,7 +14,11 @@ const useStoreLocation = () => {
             }
         }
 
+        const locationChecker = setInterval(getLocationData, 5000);
+
         getLocationData();
+
+        return (() => clearInterval(locationChecker))
     }, [])
 
     return location;

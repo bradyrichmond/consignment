@@ -1209,6 +1209,133 @@ export type DeleteCouponInput = {
   _version?: number | null,
 };
 
+export type CreateConsignmentDropoffInput = {
+  id?: string | null,
+  firstName: string,
+  lastName: string,
+  phone: string,
+  complete: boolean,
+  showError?: boolean | null,
+  errorPrompt?: string | null,
+  oversizedDescription?: string | null,
+  oversizedItems?: boolean | null,
+  newConsigner?: boolean | null,
+  timerCleared?: boolean | null,
+  createdTime: string,
+  hasAppointment?: boolean | null,
+  _version?: number | null,
+  consignmentDropoffCubbyId?: string | null,
+};
+
+export type ModelConsignmentDropoffConditionInput = {
+  firstName?: ModelStringInput | null,
+  lastName?: ModelStringInput | null,
+  phone?: ModelStringInput | null,
+  complete?: ModelBooleanInput | null,
+  showError?: ModelBooleanInput | null,
+  errorPrompt?: ModelStringInput | null,
+  oversizedDescription?: ModelStringInput | null,
+  oversizedItems?: ModelBooleanInput | null,
+  newConsigner?: ModelBooleanInput | null,
+  timerCleared?: ModelBooleanInput | null,
+  createdTime?: ModelStringInput | null,
+  hasAppointment?: ModelBooleanInput | null,
+  and?: Array< ModelConsignmentDropoffConditionInput | null > | null,
+  or?: Array< ModelConsignmentDropoffConditionInput | null > | null,
+  not?: ModelConsignmentDropoffConditionInput | null,
+  consignmentDropoffCubbyId?: ModelIDInput | null,
+};
+
+export type ConsignmentDropoff = {
+  __typename: "ConsignmentDropoff",
+  id: string,
+  firstName: string,
+  lastName: string,
+  phone: string,
+  complete: boolean,
+  showError?: boolean | null,
+  errorPrompt?: string | null,
+  cubby?: Cubby | null,
+  oversizedDescription?: string | null,
+  oversizedItems?: boolean | null,
+  newConsigner?: boolean | null,
+  timerCleared?: boolean | null,
+  createdTime: string,
+  hasAppointment?: boolean | null,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+  consignmentDropoffCubbyId?: string | null,
+};
+
+export type Cubby = {
+  __typename: "Cubby",
+  id: string,
+  cubbyNumber: string,
+  locationId: string,
+  inUse: boolean,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+};
+
+export type UpdateConsignmentDropoffInput = {
+  id: string,
+  firstName?: string | null,
+  lastName?: string | null,
+  phone?: string | null,
+  complete?: boolean | null,
+  showError?: boolean | null,
+  errorPrompt?: string | null,
+  oversizedDescription?: string | null,
+  oversizedItems?: boolean | null,
+  newConsigner?: boolean | null,
+  timerCleared?: boolean | null,
+  createdTime?: string | null,
+  hasAppointment?: boolean | null,
+  _version?: number | null,
+  consignmentDropoffCubbyId?: string | null,
+};
+
+export type DeleteConsignmentDropoffInput = {
+  id: string,
+  _version?: number | null,
+};
+
+export type CreateCubbyInput = {
+  id?: string | null,
+  cubbyNumber: string,
+  locationId: string,
+  inUse: boolean,
+  _version?: number | null,
+};
+
+export type ModelCubbyConditionInput = {
+  cubbyNumber?: ModelStringInput | null,
+  locationId?: ModelStringInput | null,
+  inUse?: ModelBooleanInput | null,
+  and?: Array< ModelCubbyConditionInput | null > | null,
+  or?: Array< ModelCubbyConditionInput | null > | null,
+  not?: ModelCubbyConditionInput | null,
+};
+
+export type UpdateCubbyInput = {
+  id: string,
+  cubbyNumber?: string | null,
+  locationId?: string | null,
+  inUse?: boolean | null,
+  _version?: number | null,
+};
+
+export type DeleteCubbyInput = {
+  id: string,
+  _version?: number | null,
+};
+
 export type CreateCategoryAttributeInput = {
   id?: string | null,
   categoryId: string,
@@ -1563,6 +1690,50 @@ export type ModelCouponFilterInput = {
   transactionCouponsId?: ModelIDInput | null,
 };
 
+export type ModelConsignmentDropoffFilterInput = {
+  id?: ModelIDInput | null,
+  firstName?: ModelStringInput | null,
+  lastName?: ModelStringInput | null,
+  phone?: ModelStringInput | null,
+  complete?: ModelBooleanInput | null,
+  showError?: ModelBooleanInput | null,
+  errorPrompt?: ModelStringInput | null,
+  oversizedDescription?: ModelStringInput | null,
+  oversizedItems?: ModelBooleanInput | null,
+  newConsigner?: ModelBooleanInput | null,
+  timerCleared?: ModelBooleanInput | null,
+  createdTime?: ModelStringInput | null,
+  hasAppointment?: ModelBooleanInput | null,
+  and?: Array< ModelConsignmentDropoffFilterInput | null > | null,
+  or?: Array< ModelConsignmentDropoffFilterInput | null > | null,
+  not?: ModelConsignmentDropoffFilterInput | null,
+  consignmentDropoffCubbyId?: ModelIDInput | null,
+};
+
+export type ModelConsignmentDropoffConnection = {
+  __typename: "ModelConsignmentDropoffConnection",
+  items:  Array<ConsignmentDropoff | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
+export type ModelCubbyFilterInput = {
+  id?: ModelIDInput | null,
+  cubbyNumber?: ModelStringInput | null,
+  locationId?: ModelStringInput | null,
+  inUse?: ModelBooleanInput | null,
+  and?: Array< ModelCubbyFilterInput | null > | null,
+  or?: Array< ModelCubbyFilterInput | null > | null,
+  not?: ModelCubbyFilterInput | null,
+};
+
+export type ModelCubbyConnection = {
+  __typename: "ModelCubbyConnection",
+  items:  Array<Cubby | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
 export type ModelCategoryAttributeFilterInput = {
   id?: ModelIDInput | null,
   categoryId?: ModelIDInput | null,
@@ -1838,6 +2009,33 @@ export type ModelSubscriptionCouponFilterInput = {
   amount?: ModelSubscriptionIntInput | null,
   and?: Array< ModelSubscriptionCouponFilterInput | null > | null,
   or?: Array< ModelSubscriptionCouponFilterInput | null > | null,
+};
+
+export type ModelSubscriptionConsignmentDropoffFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  firstName?: ModelSubscriptionStringInput | null,
+  lastName?: ModelSubscriptionStringInput | null,
+  phone?: ModelSubscriptionStringInput | null,
+  complete?: ModelSubscriptionBooleanInput | null,
+  showError?: ModelSubscriptionBooleanInput | null,
+  errorPrompt?: ModelSubscriptionStringInput | null,
+  oversizedDescription?: ModelSubscriptionStringInput | null,
+  oversizedItems?: ModelSubscriptionBooleanInput | null,
+  newConsigner?: ModelSubscriptionBooleanInput | null,
+  timerCleared?: ModelSubscriptionBooleanInput | null,
+  createdTime?: ModelSubscriptionStringInput | null,
+  hasAppointment?: ModelSubscriptionBooleanInput | null,
+  and?: Array< ModelSubscriptionConsignmentDropoffFilterInput | null > | null,
+  or?: Array< ModelSubscriptionConsignmentDropoffFilterInput | null > | null,
+};
+
+export type ModelSubscriptionCubbyFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  cubbyNumber?: ModelSubscriptionStringInput | null,
+  locationId?: ModelSubscriptionStringInput | null,
+  inUse?: ModelSubscriptionBooleanInput | null,
+  and?: Array< ModelSubscriptionCubbyFilterInput | null > | null,
+  or?: Array< ModelSubscriptionCubbyFilterInput | null > | null,
 };
 
 export type ModelSubscriptionCategoryAttributeFilterInput = {
@@ -4599,6 +4797,192 @@ export type DeleteCouponMutation = {
   } | null,
 };
 
+export type CreateConsignmentDropoffMutationVariables = {
+  input: CreateConsignmentDropoffInput,
+  condition?: ModelConsignmentDropoffConditionInput | null,
+};
+
+export type CreateConsignmentDropoffMutation = {
+  createConsignmentDropoff?:  {
+    __typename: "ConsignmentDropoff",
+    id: string,
+    firstName: string,
+    lastName: string,
+    phone: string,
+    complete: boolean,
+    showError?: boolean | null,
+    errorPrompt?: string | null,
+    cubby?:  {
+      __typename: "Cubby",
+      id: string,
+      cubbyNumber: string,
+      locationId: string,
+      inUse: boolean,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    oversizedDescription?: string | null,
+    oversizedItems?: boolean | null,
+    newConsigner?: boolean | null,
+    timerCleared?: boolean | null,
+    createdTime: string,
+    hasAppointment?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    consignmentDropoffCubbyId?: string | null,
+  } | null,
+};
+
+export type UpdateConsignmentDropoffMutationVariables = {
+  input: UpdateConsignmentDropoffInput,
+  condition?: ModelConsignmentDropoffConditionInput | null,
+};
+
+export type UpdateConsignmentDropoffMutation = {
+  updateConsignmentDropoff?:  {
+    __typename: "ConsignmentDropoff",
+    id: string,
+    firstName: string,
+    lastName: string,
+    phone: string,
+    complete: boolean,
+    showError?: boolean | null,
+    errorPrompt?: string | null,
+    cubby?:  {
+      __typename: "Cubby",
+      id: string,
+      cubbyNumber: string,
+      locationId: string,
+      inUse: boolean,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    oversizedDescription?: string | null,
+    oversizedItems?: boolean | null,
+    newConsigner?: boolean | null,
+    timerCleared?: boolean | null,
+    createdTime: string,
+    hasAppointment?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    consignmentDropoffCubbyId?: string | null,
+  } | null,
+};
+
+export type DeleteConsignmentDropoffMutationVariables = {
+  input: DeleteConsignmentDropoffInput,
+  condition?: ModelConsignmentDropoffConditionInput | null,
+};
+
+export type DeleteConsignmentDropoffMutation = {
+  deleteConsignmentDropoff?:  {
+    __typename: "ConsignmentDropoff",
+    id: string,
+    firstName: string,
+    lastName: string,
+    phone: string,
+    complete: boolean,
+    showError?: boolean | null,
+    errorPrompt?: string | null,
+    cubby?:  {
+      __typename: "Cubby",
+      id: string,
+      cubbyNumber: string,
+      locationId: string,
+      inUse: boolean,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    oversizedDescription?: string | null,
+    oversizedItems?: boolean | null,
+    newConsigner?: boolean | null,
+    timerCleared?: boolean | null,
+    createdTime: string,
+    hasAppointment?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    consignmentDropoffCubbyId?: string | null,
+  } | null,
+};
+
+export type CreateCubbyMutationVariables = {
+  input: CreateCubbyInput,
+  condition?: ModelCubbyConditionInput | null,
+};
+
+export type CreateCubbyMutation = {
+  createCubby?:  {
+    __typename: "Cubby",
+    id: string,
+    cubbyNumber: string,
+    locationId: string,
+    inUse: boolean,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type UpdateCubbyMutationVariables = {
+  input: UpdateCubbyInput,
+  condition?: ModelCubbyConditionInput | null,
+};
+
+export type UpdateCubbyMutation = {
+  updateCubby?:  {
+    __typename: "Cubby",
+    id: string,
+    cubbyNumber: string,
+    locationId: string,
+    inUse: boolean,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type DeleteCubbyMutationVariables = {
+  input: DeleteCubbyInput,
+  condition?: ModelCubbyConditionInput | null,
+};
+
+export type DeleteCubbyMutation = {
+  deleteCubby?:  {
+    __typename: "Cubby",
+    id: string,
+    cubbyNumber: string,
+    locationId: string,
+    inUse: boolean,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
 export type CreateCategoryAttributeMutationVariables = {
   input: CreateCategoryAttributeInput,
   condition?: ModelCategoryAttributeConditionInput | null,
@@ -7087,6 +7471,216 @@ export type SyncCouponsQuery = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
       transactionCouponsId?: string | null,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type GetConsignmentDropoffQueryVariables = {
+  id: string,
+};
+
+export type GetConsignmentDropoffQuery = {
+  getConsignmentDropoff?:  {
+    __typename: "ConsignmentDropoff",
+    id: string,
+    firstName: string,
+    lastName: string,
+    phone: string,
+    complete: boolean,
+    showError?: boolean | null,
+    errorPrompt?: string | null,
+    cubby?:  {
+      __typename: "Cubby",
+      id: string,
+      cubbyNumber: string,
+      locationId: string,
+      inUse: boolean,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    oversizedDescription?: string | null,
+    oversizedItems?: boolean | null,
+    newConsigner?: boolean | null,
+    timerCleared?: boolean | null,
+    createdTime: string,
+    hasAppointment?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    consignmentDropoffCubbyId?: string | null,
+  } | null,
+};
+
+export type ListConsignmentDropoffsQueryVariables = {
+  filter?: ModelConsignmentDropoffFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListConsignmentDropoffsQuery = {
+  listConsignmentDropoffs?:  {
+    __typename: "ModelConsignmentDropoffConnection",
+    items:  Array< {
+      __typename: "ConsignmentDropoff",
+      id: string,
+      firstName: string,
+      lastName: string,
+      phone: string,
+      complete: boolean,
+      showError?: boolean | null,
+      errorPrompt?: string | null,
+      cubby?:  {
+        __typename: "Cubby",
+        id: string,
+        cubbyNumber: string,
+        locationId: string,
+        inUse: boolean,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null,
+      oversizedDescription?: string | null,
+      oversizedItems?: boolean | null,
+      newConsigner?: boolean | null,
+      timerCleared?: boolean | null,
+      createdTime: string,
+      hasAppointment?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      consignmentDropoffCubbyId?: string | null,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncConsignmentDropoffsQueryVariables = {
+  filter?: ModelConsignmentDropoffFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncConsignmentDropoffsQuery = {
+  syncConsignmentDropoffs?:  {
+    __typename: "ModelConsignmentDropoffConnection",
+    items:  Array< {
+      __typename: "ConsignmentDropoff",
+      id: string,
+      firstName: string,
+      lastName: string,
+      phone: string,
+      complete: boolean,
+      showError?: boolean | null,
+      errorPrompt?: string | null,
+      cubby?:  {
+        __typename: "Cubby",
+        id: string,
+        cubbyNumber: string,
+        locationId: string,
+        inUse: boolean,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null,
+      oversizedDescription?: string | null,
+      oversizedItems?: boolean | null,
+      newConsigner?: boolean | null,
+      timerCleared?: boolean | null,
+      createdTime: string,
+      hasAppointment?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      consignmentDropoffCubbyId?: string | null,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type GetCubbyQueryVariables = {
+  id: string,
+};
+
+export type GetCubbyQuery = {
+  getCubby?:  {
+    __typename: "Cubby",
+    id: string,
+    cubbyNumber: string,
+    locationId: string,
+    inUse: boolean,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type ListCubbiesQueryVariables = {
+  filter?: ModelCubbyFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListCubbiesQuery = {
+  listCubbies?:  {
+    __typename: "ModelCubbyConnection",
+    items:  Array< {
+      __typename: "Cubby",
+      id: string,
+      cubbyNumber: string,
+      locationId: string,
+      inUse: boolean,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncCubbiesQueryVariables = {
+  filter?: ModelCubbyFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncCubbiesQuery = {
+  syncCubbies?:  {
+    __typename: "ModelCubbyConnection",
+    items:  Array< {
+      __typename: "Cubby",
+      id: string,
+      cubbyNumber: string,
+      locationId: string,
+      inUse: boolean,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
@@ -10063,6 +10657,186 @@ export type OnDeleteCouponSubscription = {
     _deleted?: boolean | null,
     _lastChangedAt: number,
     transactionCouponsId?: string | null,
+  } | null,
+};
+
+export type OnCreateConsignmentDropoffSubscriptionVariables = {
+  filter?: ModelSubscriptionConsignmentDropoffFilterInput | null,
+};
+
+export type OnCreateConsignmentDropoffSubscription = {
+  onCreateConsignmentDropoff?:  {
+    __typename: "ConsignmentDropoff",
+    id: string,
+    firstName: string,
+    lastName: string,
+    phone: string,
+    complete: boolean,
+    showError?: boolean | null,
+    errorPrompt?: string | null,
+    cubby?:  {
+      __typename: "Cubby",
+      id: string,
+      cubbyNumber: string,
+      locationId: string,
+      inUse: boolean,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    oversizedDescription?: string | null,
+    oversizedItems?: boolean | null,
+    newConsigner?: boolean | null,
+    timerCleared?: boolean | null,
+    createdTime: string,
+    hasAppointment?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    consignmentDropoffCubbyId?: string | null,
+  } | null,
+};
+
+export type OnUpdateConsignmentDropoffSubscriptionVariables = {
+  filter?: ModelSubscriptionConsignmentDropoffFilterInput | null,
+};
+
+export type OnUpdateConsignmentDropoffSubscription = {
+  onUpdateConsignmentDropoff?:  {
+    __typename: "ConsignmentDropoff",
+    id: string,
+    firstName: string,
+    lastName: string,
+    phone: string,
+    complete: boolean,
+    showError?: boolean | null,
+    errorPrompt?: string | null,
+    cubby?:  {
+      __typename: "Cubby",
+      id: string,
+      cubbyNumber: string,
+      locationId: string,
+      inUse: boolean,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    oversizedDescription?: string | null,
+    oversizedItems?: boolean | null,
+    newConsigner?: boolean | null,
+    timerCleared?: boolean | null,
+    createdTime: string,
+    hasAppointment?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    consignmentDropoffCubbyId?: string | null,
+  } | null,
+};
+
+export type OnDeleteConsignmentDropoffSubscriptionVariables = {
+  filter?: ModelSubscriptionConsignmentDropoffFilterInput | null,
+};
+
+export type OnDeleteConsignmentDropoffSubscription = {
+  onDeleteConsignmentDropoff?:  {
+    __typename: "ConsignmentDropoff",
+    id: string,
+    firstName: string,
+    lastName: string,
+    phone: string,
+    complete: boolean,
+    showError?: boolean | null,
+    errorPrompt?: string | null,
+    cubby?:  {
+      __typename: "Cubby",
+      id: string,
+      cubbyNumber: string,
+      locationId: string,
+      inUse: boolean,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    oversizedDescription?: string | null,
+    oversizedItems?: boolean | null,
+    newConsigner?: boolean | null,
+    timerCleared?: boolean | null,
+    createdTime: string,
+    hasAppointment?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    consignmentDropoffCubbyId?: string | null,
+  } | null,
+};
+
+export type OnCreateCubbySubscriptionVariables = {
+  filter?: ModelSubscriptionCubbyFilterInput | null,
+};
+
+export type OnCreateCubbySubscription = {
+  onCreateCubby?:  {
+    __typename: "Cubby",
+    id: string,
+    cubbyNumber: string,
+    locationId: string,
+    inUse: boolean,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnUpdateCubbySubscriptionVariables = {
+  filter?: ModelSubscriptionCubbyFilterInput | null,
+};
+
+export type OnUpdateCubbySubscription = {
+  onUpdateCubby?:  {
+    __typename: "Cubby",
+    id: string,
+    cubbyNumber: string,
+    locationId: string,
+    inUse: boolean,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnDeleteCubbySubscriptionVariables = {
+  filter?: ModelSubscriptionCubbyFilterInput | null,
+};
+
+export type OnDeleteCubbySubscription = {
+  onDeleteCubby?:  {
+    __typename: "Cubby",
+    id: string,
+    cubbyNumber: string,
+    locationId: string,
+    inUse: boolean,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 

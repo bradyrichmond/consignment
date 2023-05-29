@@ -2540,6 +2540,177 @@ export const deleteCoupon = /* GraphQL */ `
     }
   }
 `;
+export const createConsignmentDropoff = /* GraphQL */ `
+  mutation CreateConsignmentDropoff(
+    $input: CreateConsignmentDropoffInput!
+    $condition: ModelConsignmentDropoffConditionInput
+  ) {
+    createConsignmentDropoff(input: $input, condition: $condition) {
+      id
+      firstName
+      lastName
+      phone
+      complete
+      showError
+      errorPrompt
+      cubby {
+        id
+        cubbyNumber
+        locationId
+        inUse
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      oversizedDescription
+      oversizedItems
+      newConsigner
+      timerCleared
+      createdTime
+      hasAppointment
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      consignmentDropoffCubbyId
+    }
+  }
+`;
+export const updateConsignmentDropoff = /* GraphQL */ `
+  mutation UpdateConsignmentDropoff(
+    $input: UpdateConsignmentDropoffInput!
+    $condition: ModelConsignmentDropoffConditionInput
+  ) {
+    updateConsignmentDropoff(input: $input, condition: $condition) {
+      id
+      firstName
+      lastName
+      phone
+      complete
+      showError
+      errorPrompt
+      cubby {
+        id
+        cubbyNumber
+        locationId
+        inUse
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      oversizedDescription
+      oversizedItems
+      newConsigner
+      timerCleared
+      createdTime
+      hasAppointment
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      consignmentDropoffCubbyId
+    }
+  }
+`;
+export const deleteConsignmentDropoff = /* GraphQL */ `
+  mutation DeleteConsignmentDropoff(
+    $input: DeleteConsignmentDropoffInput!
+    $condition: ModelConsignmentDropoffConditionInput
+  ) {
+    deleteConsignmentDropoff(input: $input, condition: $condition) {
+      id
+      firstName
+      lastName
+      phone
+      complete
+      showError
+      errorPrompt
+      cubby {
+        id
+        cubbyNumber
+        locationId
+        inUse
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      oversizedDescription
+      oversizedItems
+      newConsigner
+      timerCleared
+      createdTime
+      hasAppointment
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      consignmentDropoffCubbyId
+    }
+  }
+`;
+export const createCubby = /* GraphQL */ `
+  mutation CreateCubby(
+    $input: CreateCubbyInput!
+    $condition: ModelCubbyConditionInput
+  ) {
+    createCubby(input: $input, condition: $condition) {
+      id
+      cubbyNumber
+      locationId
+      inUse
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateCubby = /* GraphQL */ `
+  mutation UpdateCubby(
+    $input: UpdateCubbyInput!
+    $condition: ModelCubbyConditionInput
+  ) {
+    updateCubby(input: $input, condition: $condition) {
+      id
+      cubbyNumber
+      locationId
+      inUse
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteCubby = /* GraphQL */ `
+  mutation DeleteCubby(
+    $input: DeleteCubbyInput!
+    $condition: ModelCubbyConditionInput
+  ) {
+    deleteCubby(input: $input, condition: $condition) {
+      id
+      cubbyNumber
+      locationId
+      inUse
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
 export const createCategoryAttribute = /* GraphQL */ `
   mutation CreateCategoryAttribute(
     $input: CreateCategoryAttributeInput!

@@ -2429,6 +2429,165 @@ export const onDeleteCoupon = /* GraphQL */ `
     }
   }
 `;
+export const onCreateConsignmentDropoff = /* GraphQL */ `
+  subscription OnCreateConsignmentDropoff(
+    $filter: ModelSubscriptionConsignmentDropoffFilterInput
+  ) {
+    onCreateConsignmentDropoff(filter: $filter) {
+      id
+      firstName
+      lastName
+      phone
+      complete
+      showError
+      errorPrompt
+      cubby {
+        id
+        cubbyNumber
+        locationId
+        inUse
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      oversizedDescription
+      oversizedItems
+      newConsigner
+      timerCleared
+      createdTime
+      hasAppointment
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      consignmentDropoffCubbyId
+    }
+  }
+`;
+export const onUpdateConsignmentDropoff = /* GraphQL */ `
+  subscription OnUpdateConsignmentDropoff(
+    $filter: ModelSubscriptionConsignmentDropoffFilterInput
+  ) {
+    onUpdateConsignmentDropoff(filter: $filter) {
+      id
+      firstName
+      lastName
+      phone
+      complete
+      showError
+      errorPrompt
+      cubby {
+        id
+        cubbyNumber
+        locationId
+        inUse
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      oversizedDescription
+      oversizedItems
+      newConsigner
+      timerCleared
+      createdTime
+      hasAppointment
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      consignmentDropoffCubbyId
+    }
+  }
+`;
+export const onDeleteConsignmentDropoff = /* GraphQL */ `
+  subscription OnDeleteConsignmentDropoff(
+    $filter: ModelSubscriptionConsignmentDropoffFilterInput
+  ) {
+    onDeleteConsignmentDropoff(filter: $filter) {
+      id
+      firstName
+      lastName
+      phone
+      complete
+      showError
+      errorPrompt
+      cubby {
+        id
+        cubbyNumber
+        locationId
+        inUse
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      oversizedDescription
+      oversizedItems
+      newConsigner
+      timerCleared
+      createdTime
+      hasAppointment
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      consignmentDropoffCubbyId
+    }
+  }
+`;
+export const onCreateCubby = /* GraphQL */ `
+  subscription OnCreateCubby($filter: ModelSubscriptionCubbyFilterInput) {
+    onCreateCubby(filter: $filter) {
+      id
+      cubbyNumber
+      locationId
+      inUse
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onUpdateCubby = /* GraphQL */ `
+  subscription OnUpdateCubby($filter: ModelSubscriptionCubbyFilterInput) {
+    onUpdateCubby(filter: $filter) {
+      id
+      cubbyNumber
+      locationId
+      inUse
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onDeleteCubby = /* GraphQL */ `
+  subscription OnDeleteCubby($filter: ModelSubscriptionCubbyFilterInput) {
+    onDeleteCubby(filter: $filter) {
+      id
+      cubbyNumber
+      locationId
+      inUse
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
 export const onCreateCategoryAttribute = /* GraphQL */ `
   subscription OnCreateCategoryAttribute(
     $filter: ModelSubscriptionCategoryAttributeFilterInput

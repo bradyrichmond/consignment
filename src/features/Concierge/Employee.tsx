@@ -27,7 +27,6 @@ const EmployeeDisplay = () => {
     const [showingOversizedDescription, setShowingOversizedDescription] = useState(false);
     const [activeId, setActiveId] = useState('');
     const [cubbyData, setCubbyData] = useState<Cubby[]>([]);
-    const locationData = useStoreLocation();
 
     useEffect(() => {
         const waitingSub = DataStore.observeQuery(
@@ -37,10 +36,8 @@ const EmployeeDisplay = () => {
             }
           ).subscribe(snapshot => {
             const { items, isSynced } = snapshot;
-
-            if (isSynced) {
-                setCustomers(items);
-            }
+            console.log('customers update detected');
+            setCustomers(items);
         });
 
         const deletedSub = DataStore.observeQuery(
@@ -51,22 +48,20 @@ const EmployeeDisplay = () => {
           ).subscribe(snapshot => {
             const { items, isSynced } = snapshot;
 
-            const subset = items.slice(0, 10);
+            console.log('deleted customers update detected');
 
-            if (isSynced) {
-                setDeletedCustomers(subset);
-            }
+            const subset = items.slice(0, 10);
+            setDeletedCustomers(subset);
         });
 
+        const locationId = localStorage.getItem('locationId');
         const cubbySub = DataStore.observeQuery(
             Cubby,
-            (c) => c.cubbyLocationId.eq(locationData?.id ?? '')
+            (c) => c.locationId.eq(locationId ?? '')
           ).subscribe(snapshot => {
             const { items, isSynced } = snapshot;
-
-            if (isSynced) {
-                setCubbyData(items);
-            }
+            console.log('cubby update detected');
+            setCubbyData(items);
         });
 
         return () => {
@@ -92,15 +87,20 @@ const EmployeeDisplay = () => {
                 }))
             }
         }
+
+        closeModals();
     }
 
     const reviveCustomer = async () => {
         const customer = await DataStore.query(ConsignmentDropoff, activeId);
+
         if (customer) {
             await DataStore.save(ConsignmentDropoff.copyOf(customer, updated => {
-                updated.complete = true;
+                updated.complete = false;
             }))
         }
+
+        closeModals();
     }
 
     const closeModals = () => {
@@ -137,7 +137,10 @@ const EmployeeDisplay = () => {
                         open={validatingRevive}
                         onClose={closeModals}
                     >
+                        <Box>
                         <ConfirmModal validationText='Are you sure you want to mark customer as active?' confirmText='Yes' cancelText='No' confirm={reviveCustomer} cancel={closeModals} close={closeModals} />
+                        {activeId}
+                        </Box>
                     </Modal>
                     <Modal
                         open={showingOversizedDescription}
@@ -145,14 +148,14 @@ const EmployeeDisplay = () => {
                     >
                         <ConfirmModal validationText={`Oversized items: ${oversizedDescription}`} confirmText='OK' confirm={hideOversizedDescription} close={closeModals} />
                     </Modal>
-                    <Box display='flex' flexDirection='column' flex='1'>
+                    <Box display='flex' flexDirection='column' flex='1' marginRight='2rem'>
                         <Typography variant='h2' sx={{ marginBottom: '2rem' }}>Customers waiting:</Typography>
                         {customers && customers.length < 1 &&
                             <Typography variant='h2'>No customers waiting.</Typography>
                         }
                         {customers.length > 0 &&
                             <Box>
-                                {customers.map((customer: any) => {
+                                {customers.map((customer: ConsignmentDropoff) => {
                                     return (
                                         <WaitingCustomer customer={customer} key={customer.id} infoAction={showOversizedDescription} setActiveId={() => { setActiveId(customer.id) }} setValidatingDelete={() => { setValidatingDelete(true) }} />
                                     )
@@ -160,10 +163,18 @@ const EmployeeDisplay = () => {
                             </Box>
                         }
                     </Box>
-                    <Box display='flex' flexDirection='column' flex='1'>
+                    <Box display='flex' flexDirection='column' flex='1' paddingRight='2rem'>
                         <Typography variant='h2'>Recently completed:</Typography>
-                        <Box>
-                            {deletedCustomers.map((deletedCustomer: any) => <Typography key={deletedCustomer.id} onClick={() => { setValidatingRevive(true); setActiveId(deletedCustomer.id) }} >{deletedCustomer.firstName} {deletedCustomer.lastName}</Typography>)}
+                        <Box marginTop='2rem'>
+                            {deletedCustomers.map((deletedCustomer: ConsignmentDropoff) => 
+                                {
+                                    return (
+                                        <Box key={deletedCustomer.id} width='100%' display='flex' flexDirection='row' justifyContent='center' alignItems='center' border='.25rem solid black' borderRadius='.25rem' bgcolor='GrayText' padding='2rem' marginBottom='2rem'>
+                                            <Typography variant='h3' onClick={() => { setValidatingRevive(true); setActiveId(deletedCustomer.id) }} color='whitesmoke'>{deletedCustomer.firstName} {deletedCustomer.lastName}</Typography>
+                                        </Box>
+                                    )
+                                })
+                            }
                         </Box>
                     </Box>
                 </>
@@ -181,7 +192,7 @@ interface WaitingCustomerProps {
 
 const WaitingCustomer = (props: WaitingCustomerProps) => {
     const { customer, setValidatingDelete, setActiveId, infoAction } = props;
-    const [dotColor, setDotColor] = useState('success');
+    const [dotColor, setDotColor] = useState('#2E7D32');
     const [dotFlashing, setDotFlashing] = useState(false);
     const [validatingTimer, setValidatingTimer] = useState(false);
     const [dotUpdater, setDotUpdater] = useState<NodeJS.Timer>();
@@ -196,10 +207,7 @@ const WaitingCustomer = (props: WaitingCustomerProps) => {
             (c) => c.id.eq(customer.consignmentDropoffCubbyId ?? '')
           ).subscribe(snapshot => {
             const { items, isSynced } = snapshot;
-
-            if (isSynced) {
-                setCubbyData(items[0]);
-            }
+            setCubbyData(items[0]);
         });
 
         return () => {
@@ -220,13 +228,16 @@ const WaitingCustomer = (props: WaitingCustomerProps) => {
 
     const checkDotData = () => {
         let waitingTime = Date.now() - Date.parse(customer.createdTime);
+        console.log(`checkDotData ${waitingTime}`)
 
         // may want to add this to admin settings
         if (waitingTime > 420000 && waitingTime < 639000) {
-            setDotColor('warning');
-        } else if (waitingTime > 639000 && waitingTime < 810000) {
-            setDotColor('error');
-        } else if (waitingTime > 810000) {
+            setDotColor('#FF9800');
+        } else if (waitingTime > 639000) {
+            setDotColor('#FF0000');
+        }
+        
+        if (waitingTime > 810000) {
             setDotFlashing(true);
         }
     }
@@ -254,34 +265,34 @@ const WaitingCustomer = (props: WaitingCustomerProps) => {
     }
 
     return (
-        <Box width='100%' display='flex' flexDirection='row' borderRadius='.25rem'>
+        <Box width='100%' display='flex' flexDirection='row' border='.25rem solid black' borderRadius='.25rem' sx={{background: 'white'}} padding='2rem' marginBottom='2rem'>
             <Modal
                 open={validatingTimer}
                 onClose={clearValidatingTimer}
             >
                 <ConfirmModal validationText='Are you sure you want to clear the timer?' confirmText='Yes' cancelText='No' confirm={clearDotUpdater} cancel={clearValidatingTimer} close={clearValidatingTimer} />
             </Modal>
-            <Box display='flex' justifyContent='center' alignItems='center'>
-                {!customer.timerCleared && <Box sx={{ width: '1rem', height: '1rem', borderRadius: '1rem', bgcolor: { dotColor }, animation: dotFlashing ? `${pulse} 1s infinite ease` : 'none' }} onClick={ConfirmModalTimer}/>}
+            <Box display='flex' justifyContent='center' alignItems='center' width='2rem'>
+                {!customer.timerCleared && <Box sx={{ width: '2rem', height: '2rem', borderRadius: '2rem', background: dotColor, animation: dotFlashing ? `${pulse} 1s infinite ease` : 'none' }} onClick={ConfirmModalTimer}/>}
             </Box>
             <Box display='flex' flex='1' flexDirection='column'>
                 <Box display='flex' justifyContent='center' alignItems='center'>
                     <Typography variant='h3'>{customer.firstName} {customer.lastName}</Typography>
                 </Box>
-                <Box display='flex' justifyContent='center' alignItems='center' flexDirection='row'>
+                <Box display='flex' justifyContent='center' alignItems='center' flexDirection='row' fontSize='3rem'>
                     {customer.phone && 
-                        <Typography>{customer.phone}</Typography>
+                        <Typography variant='h4'>{customer.phone}</Typography>
                     }
-                    {customer.oversizedItems && <InventoryIcon onClick={() => {infoAction(customer?.oversizedDescription ?? 'Missing description')}}/>}
-                    {customer.newConsigner && <FiberNewIcon />}
-                    {customer.hasAppointment && <TodayIcon />}
+                    {customer.oversizedItems && <InventoryIcon fontSize='inherit' onClick={() => {infoAction(customer?.oversizedDescription ?? 'Missing description')}}/>}
+                    {customer.newConsigner && <FiberNewIcon fontSize='inherit' />}
+                    {customer.hasAppointment && <TodayIcon fontSize='inherit' />}
                     {cubbyData?.cubbyNumber && 
-                        <Typography>Bin {cubbyData?.cubbyNumber}</Typography>
+                        <Typography variant='h4'>Bin {cubbyData?.cubbyNumber}</Typography>
                     }
                 </Box>
             </Box>
-            <Box display='flex' justifyContent='center' alignItems='center' onClick={() => { setValidatingDelete(true); setActiveId(customer.id); }}>
-                <ExitToAppIcon />
+            <Box display='flex' justifyContent='center' alignItems='center' onClick={() => { setValidatingDelete(true); setActiveId(customer.id); }} fontSize='3rem'>
+                <ExitToAppIcon fontSize='inherit' />
             </Box>
         </Box>
     )

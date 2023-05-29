@@ -30,6 +30,11 @@ const navItems = [
         userGroups: ['Salespeople', 'Processors', 'Managers', 'Admins']
     },
     {
+        label: 'Concierge',
+        navUrl: 'concierge/employee',
+        userGroups: ['Salespeople', 'Processors', 'Managers', 'Admins']
+    },
+    {
         label: 'Coupons',
         navUrl: 'coupons',
         userGroups: ['Admins']

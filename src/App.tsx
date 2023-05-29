@@ -61,6 +61,10 @@ export const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: s
         element: checkProtectedRoute(userGroups, ['Manager', 'Admins']) ? <Categories /> : <Box>Access Denied</Box>
       },
       {
+        path: 'concierge/employee',
+        element: checkProtectedRoute(userGroups, ['Salespeople', 'Processors', 'Managers', 'Admins']) ? <EmployeeDisplay /> : <Box>Access Denied</Box>
+      },
+      {
         path: 'consigners',
         element: checkProtectedRoute(userGroups, ['Salespeople', 'Processors', 'Managers', 'Admins']) ? <Clients /> : <Box>Access Denied</Box>
       },
@@ -105,10 +109,6 @@ export const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: s
   {
     path: '/concierge/create-dropoff',
     element: <CreateDropOff />
-  },
-  {
-    path: '/concierge/employee',
-    element: <EmployeeDisplay />
   },
   {
     path: '/login',

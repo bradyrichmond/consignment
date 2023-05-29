@@ -235,6 +235,6 @@ type ConsignmentDropoff @model {
 type Cubby @model {
   id: ID!
   cubbyNumber: String!
-  location: Location! @hasOne
+  locationId: String!
   inUse: Boolean!
 }

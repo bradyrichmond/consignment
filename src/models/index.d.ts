@@ -806,11 +806,10 @@ type EagerCubby = {
   };
   readonly id: string;
   readonly cubbyNumber: string;
-  readonly location: Location;
+  readonly locationId: string;
   readonly inUse: boolean;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  readonly cubbyLocationId: string;
 }
 
 type LazyCubby = {
@@ -820,11 +819,10 @@ type LazyCubby = {
   };
   readonly id: string;
   readonly cubbyNumber: string;
-  readonly location: AsyncItem<Location>;
+  readonly locationId: string;
   readonly inUse: boolean;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  readonly cubbyLocationId: string;
 }
 
 export declare type Cubby = LazyLoading extends LazyLoadingDisabled ? EagerCubby : LazyCubby

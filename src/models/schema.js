@@ -1984,23 +1984,12 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "location": {
-                    "name": "location",
+                "locationId": {
+                    "name": "locationId",
                     "isArray": false,
-                    "type": {
-                        "model": "Location"
-                    },
+                    "type": "String",
                     "isRequired": true,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "HAS_ONE",
-                        "associatedWith": [
-                            "id"
-                        ],
-                        "targetNames": [
-                            "cubbyLocationId"
-                        ]
-                    }
+                    "attributes": []
                 },
                 "inUse": {
                     "name": "inUse",
@@ -2024,13 +2013,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
-                },
-                "cubbyLocationId": {
-                    "name": "cubbyLocationId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
                 }
             },
             "syncable": true,
@@ -2178,5 +2160,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.2",
-    "version": "e8633880c985e6c33464ca6e66877f26"
+    "version": "f9ff41c56f548ecfd965e201987957e7"
 };

@@ -2173,6 +2173,207 @@ export const syncCoupons = /* GraphQL */ `
     }
   }
 `;
+export const getConsignmentDropoff = /* GraphQL */ `
+  query GetConsignmentDropoff($id: ID!) {
+    getConsignmentDropoff(id: $id) {
+      id
+      firstName
+      lastName
+      phone
+      complete
+      showError
+      errorPrompt
+      cubby {
+        id
+        cubbyNumber
+        locationId
+        inUse
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      oversizedDescription
+      oversizedItems
+      newConsigner
+      timerCleared
+      createdTime
+      hasAppointment
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      consignmentDropoffCubbyId
+    }
+  }
+`;
+export const listConsignmentDropoffs = /* GraphQL */ `
+  query ListConsignmentDropoffs(
+    $filter: ModelConsignmentDropoffFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listConsignmentDropoffs(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        firstName
+        lastName
+        phone
+        complete
+        showError
+        errorPrompt
+        cubby {
+          id
+          cubbyNumber
+          locationId
+          inUse
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        oversizedDescription
+        oversizedItems
+        newConsigner
+        timerCleared
+        createdTime
+        hasAppointment
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        consignmentDropoffCubbyId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncConsignmentDropoffs = /* GraphQL */ `
+  query SyncConsignmentDropoffs(
+    $filter: ModelConsignmentDropoffFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncConsignmentDropoffs(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        firstName
+        lastName
+        phone
+        complete
+        showError
+        errorPrompt
+        cubby {
+          id
+          cubbyNumber
+          locationId
+          inUse
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        oversizedDescription
+        oversizedItems
+        newConsigner
+        timerCleared
+        createdTime
+        hasAppointment
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        consignmentDropoffCubbyId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getCubby = /* GraphQL */ `
+  query GetCubby($id: ID!) {
+    getCubby(id: $id) {
+      id
+      cubbyNumber
+      locationId
+      inUse
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listCubbies = /* GraphQL */ `
+  query ListCubbies(
+    $filter: ModelCubbyFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listCubbies(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        cubbyNumber
+        locationId
+        inUse
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncCubbies = /* GraphQL */ `
+  query SyncCubbies(
+    $filter: ModelCubbyFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncCubbies(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        cubbyNumber
+        locationId
+        inUse
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
 export const getCategoryAttribute = /* GraphQL */ `
   query GetCategoryAttribute($id: ID!) {
     getCategoryAttribute(id: $id) {

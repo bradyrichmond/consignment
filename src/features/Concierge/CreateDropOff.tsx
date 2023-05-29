@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { ConsignmentDropoff, Cubby } from '../../models';
 import { DataStore, SortDirection } from 'aws-amplify';
 import { useLocation, useNavigate } from 'react-router-dom';
-import useStoreLocation from '../../utils/useStoreLocation';
+import { format } from 'date-fns';
 
 const CreateDropOff = () => {
     const [validatingNewPolicy, setValidatingNewPolicy] = useState(false);
@@ -17,7 +17,6 @@ const CreateDropOff = () => {
     const navigate = useNavigate();
     const { state } = useLocation();
     const { hasAppointment } = state;
-    const storeData = useStoreLocation();
 
     const confirmNewPolicy = (data: any) => {
         setFormData(data);
@@ -40,19 +39,23 @@ const CreateDropOff = () => {
 
     const submitCustomer = async () => {
         const { firstName, lastName, phone, oversizedDescription } = formData;
+        const locationId = localStorage.getItem('locationId');
         const availableCubbies = await DataStore.query(Cubby, (c) => c.and((c) => [
-                c.cubbyLocationId.eq(storeData?.id ?? ''),
+                c.locationId.eq(locationId ?? ''),
                 c.inUse.eq(false)
             ]),
             {
                 sort: (s) => s.cubbyNumber(SortDirection.ASCENDING)
             }
         );
-        const assignedCubby = availableCubbies[0].cubbyNumber;
 
-        await DataStore.save(new ConsignmentDropoff({ firstName, lastName, phone, oversizedItems, complete: false, createdTime: Date.now().toString(), newConsigner, hasAppointment, oversizedDescription }));
-        reset();
-        navigate('/concierge/client/complete', { state: { cubbyNumber: assignedCubby }});
+        if (availableCubbies.length > 0) {
+            const assignedCubby = availableCubbies[0];
+
+            await DataStore.save(new ConsignmentDropoff({ firstName, lastName, phone, oversizedItems, complete: false, createdTime: `${format(Date.now(), "yyyy-MM-dd")}T${format(Date.now(), "hh:mm:ss.sss")}Z`, newConsigner, hasAppointment, oversizedDescription, cubby: assignedCubby }));
+            reset();
+            navigate('/concierge/client/complete', { state: { cubbyNumber: assignedCubby.cubbyNumber }});
+        }
     }
 
     const closeModals = () => {
@@ -75,7 +78,7 @@ const CreateDropOff = () => {
                 onClose={closeModals}
             >
                 <Box>
-                    <ConfirmModal validationText='Effective January 1, 2023, all items consigned are eligible for store credit only.' confirmText='I agree' confirm={validateBeforeSubmitCustomer} cancel={closeModals} close={closeModals} />
+                    <ConfirmModal validationText='Effective January 1, 2023, all items consigned are eligible for store credit only.' confirmText='I agree' confirm={validateBeforeSubmitCustomer} close={closeModals} />
                 </Box>
             </Modal>
             <Typography>We're so glad you're here! Please sign in!</Typography>
