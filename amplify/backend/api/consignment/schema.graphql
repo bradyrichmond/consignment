@@ -38,7 +38,7 @@ type Client @model {
   receiveMailInd: Boolean!
   nextItemNumber: String!
   phone: String
-  email: String
+  email: AWSEmail
   createTimestamp: AWSDate
   activeTimestamp: AWSDate
   inactiveTimestamp: AWSDate
@@ -46,6 +46,7 @@ type Client @model {
   items: [Item] @hasMany
   addresses: [Address] @hasMany
   credit: StoreCredit @hasOne
+  transactions: [Transaction] @hasMany
 }
 
 type StoreCredit @model {
@@ -89,7 +90,6 @@ type Item @model {
 
 type Transaction @model {
   id: ID!
-  client: Client
   items: [Item!]! @hasMany
   payoutId: String
   transCdId: String

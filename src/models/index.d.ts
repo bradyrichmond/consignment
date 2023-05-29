@@ -52,6 +52,7 @@ type EagerClient = {
   readonly items?: (Item | null)[] | null;
   readonly addresses?: (Address | null)[] | null;
   readonly credit?: StoreCredit | null;
+  readonly transactions?: (Transaction | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly clientCreditId?: string | null;
@@ -80,6 +81,7 @@ type LazyClient = {
   readonly items: AsyncCollection<Item>;
   readonly addresses: AsyncCollection<Address>;
   readonly credit: AsyncItem<StoreCredit | undefined>;
+  readonly transactions: AsyncCollection<Transaction>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly clientCreditId?: string | null;
@@ -242,6 +244,7 @@ type EagerTransaction = {
   readonly missingItems?: (Item | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly clientTransactionsId?: string | null;
   readonly transactionLocationId?: string | null;
 }
 
@@ -268,6 +271,7 @@ type LazyTransaction = {
   readonly missingItems: AsyncCollection<Item>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly clientTransactionsId?: string | null;
   readonly transactionLocationId?: string | null;
 }
 

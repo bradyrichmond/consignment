@@ -78,7 +78,7 @@ export const schema = {
                 "email": {
                     "name": "email",
                     "isArray": false,
-                    "type": "String",
+                    "type": "AWSEmail",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -157,6 +157,22 @@ export const schema = {
                         ],
                         "targetNames": [
                             "clientCreditId"
+                        ]
+                    }
+                },
+                "transactions": {
+                    "name": "transactions",
+                    "isArray": true,
+                    "type": {
+                        "model": "Transaction"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "clientTransactionsId"
                         ]
                     }
                 },
@@ -787,6 +803,13 @@ export const schema = {
                     "attributes": [],
                     "isReadOnly": true
                 },
+                "clientTransactionsId": {
+                    "name": "clientTransactionsId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "transactionLocationId": {
                     "name": "transactionLocationId",
                     "isArray": false,
@@ -801,6 +824,15 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "gsi-Client.transactions",
+                        "fields": [
+                            "clientTransactionsId"
+                        ]
+                    }
                 }
             ]
         },
@@ -2160,5 +2192,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.2",
-    "version": "f9ff41c56f548ecfd965e201987957e7"
+    "version": "9e441406effca026c1076c4c76aa7e3f"
 };
