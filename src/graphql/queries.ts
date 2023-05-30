@@ -101,6 +101,30 @@ export const getClient = /* GraphQL */ `
         _deleted
         _lastChangedAt
       }
+      transactions {
+        items {
+          id
+          payoutId
+          transCdId
+          userId
+          actTransTimestamp
+          actTransDesc
+          actTransAmt
+          hold
+          glExportInd
+          syncInd
+          saleDetailId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientTransactionsId
+          transactionLocationId
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -149,6 +173,10 @@ export const listClients = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+        }
+        transactions {
+          nextToken
+          startedAt
         }
         createdAt
         updatedAt
@@ -207,6 +235,10 @@ export const syncClients = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+        }
+        transactions {
+          nextToken
+          startedAt
         }
         createdAt
         updatedAt
@@ -632,46 +664,6 @@ export const getTransaction = /* GraphQL */ `
   query GetTransaction($id: ID!) {
     getTransaction(id: $id) {
       id
-      client {
-        id
-        clientId
-        clientType
-        firstName
-        lastName
-        companyName
-        account
-        receiveMailInd
-        nextItemNumber
-        phone
-        email
-        createTimestamp
-        activeTimestamp
-        inactiveTimestamp
-        modifiedBy
-        items {
-          nextToken
-          startedAt
-        }
-        addresses {
-          nextToken
-          startedAt
-        }
-        credit {
-          id
-          amount
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        clientCreditId
-      }
       items {
         items {
           id
@@ -840,6 +832,7 @@ export const getTransaction = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      clientTransactionsId
       transactionLocationId
     }
   }
@@ -853,29 +846,6 @@ export const listTransactions = /* GraphQL */ `
     listTransactions(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        client {
-          id
-          clientId
-          clientType
-          firstName
-          lastName
-          companyName
-          account
-          receiveMailInd
-          nextItemNumber
-          phone
-          email
-          createTimestamp
-          activeTimestamp
-          inactiveTimestamp
-          modifiedBy
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          clientCreditId
-        }
         items {
           nextToken
           startedAt
@@ -919,6 +889,7 @@ export const listTransactions = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        clientTransactionsId
         transactionLocationId
       }
       nextToken
@@ -941,29 +912,6 @@ export const syncTransactions = /* GraphQL */ `
     ) {
       items {
         id
-        client {
-          id
-          clientId
-          clientType
-          firstName
-          lastName
-          companyName
-          account
-          receiveMailInd
-          nextItemNumber
-          phone
-          email
-          createTimestamp
-          activeTimestamp
-          inactiveTimestamp
-          modifiedBy
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          clientCreditId
-        }
         items {
           nextToken
           startedAt
@@ -1007,6 +955,7 @@ export const syncTransactions = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        clientTransactionsId
         transactionLocationId
       }
       nextToken

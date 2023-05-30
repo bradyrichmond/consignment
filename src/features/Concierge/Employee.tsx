@@ -7,7 +7,6 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { Box, Modal, Typography, keyframes } from '@mui/material';
 import { ConsignmentDropoff, Cubby } from '../../models';
-import useStoreLocation from '../../utils/useStoreLocation';
 
 const pulse = keyframes`
     from {
@@ -32,11 +31,10 @@ const EmployeeDisplay = () => {
         const waitingSub = DataStore.observeQuery(
             ConsignmentDropoff,
             c => c.complete.eq(false), {
-              sort: s => s.createdAt(SortDirection.DESCENDING)
+              sort: s => s.createdAt(SortDirection.ASCENDING)
             }
           ).subscribe(snapshot => {
             const { items, isSynced } = snapshot;
-            console.log('customers update detected');
             setCustomers(items);
         });
 
@@ -48,8 +46,6 @@ const EmployeeDisplay = () => {
           ).subscribe(snapshot => {
             const { items, isSynced } = snapshot;
 
-            console.log('deleted customers update detected');
-
             const subset = items.slice(0, 10);
             setDeletedCustomers(subset);
         });
@@ -60,7 +56,6 @@ const EmployeeDisplay = () => {
             (c) => c.locationId.eq(locationId ?? '')
           ).subscribe(snapshot => {
             const { items, isSynced } = snapshot;
-            console.log('cubby update detected');
             setCubbyData(items);
         });
 
@@ -199,7 +194,10 @@ const WaitingCustomer = (props: WaitingCustomerProps) => {
 
         const cubbySub = DataStore.observeQuery(
             Cubby,
-            (c) => c.id.eq(customer.consignmentDropoffCubbyId ?? '')
+            (c) => c.and((c) => [
+                c.id.eq(customer.consignmentDropoffCubbyId ?? ''),
+                c.locationId.eq(localStorage.getItem('locationId') ?? '')
+            ])
           ).subscribe(snapshot => {
             const { items, isSynced } = snapshot;
             setCubbyData(items[0]);
@@ -222,7 +220,7 @@ const WaitingCustomer = (props: WaitingCustomerProps) => {
     }
 
     const checkDotData = () => {
-        let waitingTime = Date.now() - Date.parse(customer.createdTime);
+        let waitingTime = (Date.now() - Date.parse(customer?.createdAt ?? '0'));
 
         // may want to add this to admin settings
         if (waitingTime > 420000 && waitingTime < 639000) {
@@ -250,12 +248,18 @@ const WaitingCustomer = (props: WaitingCustomerProps) => {
         clearValidatingTimer();
     }
 
-    const ConfirmModalTimer = () => {
+    const confirmModalTimer = () => {
         setValidatingTimer(true);
     }
 
     const clearValidatingTimer = () => {
         setValidatingTimer(false);
+    }
+
+    const handleDelete = () => {
+        setValidatingDelete(true); 
+        setActiveId(customer.id);
+        clearTimer();
     }
 
     return (
@@ -267,7 +271,7 @@ const WaitingCustomer = (props: WaitingCustomerProps) => {
                 <ConfirmModal validationText='Are you sure you want to clear the timer?' confirmText='Yes' cancelText='No' confirm={clearDotUpdater} cancel={clearValidatingTimer} close={clearValidatingTimer} />
             </Modal>
             <Box display='flex' justifyContent='center' alignItems='center' width='2rem'>
-                {!customer.timerCleared && <Box sx={{ width: '2rem', height: '2rem', borderRadius: '2rem', background: dotColor, animation: dotFlashing ? `${pulse} 1s infinite ease` : 'none' }} onClick={ConfirmModalTimer}/>}
+                {!customer.timerCleared && <Box sx={{ width: '2rem', height: '2rem', borderRadius: '2rem', background: dotColor, animation: dotFlashing ? `${pulse} 1s infinite ease` : 'none' }} onClick={confirmModalTimer}/>}
             </Box>
             <Box display='flex' flex='1' flexDirection='column'>
                 <Box display='flex' justifyContent='center' alignItems='center'>
@@ -285,7 +289,7 @@ const WaitingCustomer = (props: WaitingCustomerProps) => {
                     }
                 </Box>
             </Box>
-            <Box display='flex' justifyContent='center' alignItems='center' onClick={() => { setValidatingDelete(true); setActiveId(customer.id); }} fontSize='3rem'>
+            <Box display='flex' justifyContent='center' alignItems='center' onClick={handleDelete} fontSize='3rem'>
                 <ExitToAppIcon fontSize='inherit' />
             </Box>
         </Box>

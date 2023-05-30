@@ -40,21 +40,29 @@ const CreateDropOff = () => {
     const submitCustomer = async () => {
         const { firstName, lastName, phone, oversizedDescription } = formData;
         const locationId = localStorage.getItem('locationId');
-        const availableCubbies = await DataStore.query(Cubby, (c) => c.and((c) => [
-                c.locationId.eq(locationId ?? ''),
-                c.inUse.eq(false)
-            ]),
-            {
-                sort: (s) => s.cubbyNumber(SortDirection.ASCENDING)
+        
+        if (locationId) {
+            const availableCubbies = await DataStore.query(Cubby, (c) => c.and((c) => 
+                [
+                    c.locationId.eq(locationId),
+                    c.inUse.eq(false)
+                ]),
+                {
+                    sort: (s) => s.cubbyNumber(SortDirection.ASCENDING)
+                }
+            );
+
+            if (availableCubbies.length > 0) {
+                const assignedCubby = availableCubbies[0];
+
+                await DataStore.save(Cubby.copyOf(assignedCubby, (updated) => {
+                    updated.inUse = true;
+                }));
+
+                await DataStore.save(new ConsignmentDropoff({ firstName, lastName, phone, oversizedItems, complete: false, createdTime: `${format(Date.now(), "yyyy-MM-dd")}T${format(Date.now(), "hh:mm:ss.sss")}Z`, newConsigner, hasAppointment, oversizedDescription, cubby: assignedCubby }));
+                reset();
+                navigate('/concierge/client/complete', { state: { cubbyNumber: assignedCubby.cubbyNumber } });
             }
-        );
-
-        if (availableCubbies.length > 0) {
-            const assignedCubby = availableCubbies[0];
-
-            await DataStore.save(new ConsignmentDropoff({ firstName, lastName, phone, oversizedItems, complete: false, createdTime: `${format(Date.now(), "yyyy-MM-dd")}T${format(Date.now(), "hh:mm:ss.sss")}Z`, newConsigner, hasAppointment, oversizedDescription, cubby: assignedCubby }));
-            reset();
-            navigate('/concierge/client/complete', { state: { cubbyNumber: assignedCubby.cubbyNumber }});
         }
     }
 

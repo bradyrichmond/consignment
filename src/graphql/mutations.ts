@@ -104,6 +104,30 @@ export const createClient = /* GraphQL */ `
         _deleted
         _lastChangedAt
       }
+      transactions {
+        items {
+          id
+          payoutId
+          transCdId
+          userId
+          actTransTimestamp
+          actTransDesc
+          actTransAmt
+          hold
+          glExportInd
+          syncInd
+          saleDetailId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientTransactionsId
+          transactionLocationId
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -215,6 +239,30 @@ export const updateClient = /* GraphQL */ `
         _deleted
         _lastChangedAt
       }
+      transactions {
+        items {
+          id
+          payoutId
+          transCdId
+          userId
+          actTransTimestamp
+          actTransDesc
+          actTransAmt
+          hold
+          glExportInd
+          syncInd
+          saleDetailId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientTransactionsId
+          transactionLocationId
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -325,6 +373,30 @@ export const deleteClient = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+      }
+      transactions {
+        items {
+          id
+          payoutId
+          transCdId
+          userId
+          actTransTimestamp
+          actTransDesc
+          actTransAmt
+          hold
+          glExportInd
+          syncInd
+          saleDetailId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientTransactionsId
+          transactionLocationId
+        }
+        nextToken
+        startedAt
       }
       createdAt
       updatedAt
@@ -852,46 +924,6 @@ export const createTransaction = /* GraphQL */ `
   ) {
     createTransaction(input: $input, condition: $condition) {
       id
-      client {
-        id
-        clientId
-        clientType
-        firstName
-        lastName
-        companyName
-        account
-        receiveMailInd
-        nextItemNumber
-        phone
-        email
-        createTimestamp
-        activeTimestamp
-        inactiveTimestamp
-        modifiedBy
-        items {
-          nextToken
-          startedAt
-        }
-        addresses {
-          nextToken
-          startedAt
-        }
-        credit {
-          id
-          amount
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        clientCreditId
-      }
       items {
         items {
           id
@@ -1060,6 +1092,7 @@ export const createTransaction = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      clientTransactionsId
       transactionLocationId
     }
   }
@@ -1071,46 +1104,6 @@ export const updateTransaction = /* GraphQL */ `
   ) {
     updateTransaction(input: $input, condition: $condition) {
       id
-      client {
-        id
-        clientId
-        clientType
-        firstName
-        lastName
-        companyName
-        account
-        receiveMailInd
-        nextItemNumber
-        phone
-        email
-        createTimestamp
-        activeTimestamp
-        inactiveTimestamp
-        modifiedBy
-        items {
-          nextToken
-          startedAt
-        }
-        addresses {
-          nextToken
-          startedAt
-        }
-        credit {
-          id
-          amount
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        clientCreditId
-      }
       items {
         items {
           id
@@ -1279,6 +1272,7 @@ export const updateTransaction = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      clientTransactionsId
       transactionLocationId
     }
   }
@@ -1290,46 +1284,6 @@ export const deleteTransaction = /* GraphQL */ `
   ) {
     deleteTransaction(input: $input, condition: $condition) {
       id
-      client {
-        id
-        clientId
-        clientType
-        firstName
-        lastName
-        companyName
-        account
-        receiveMailInd
-        nextItemNumber
-        phone
-        email
-        createTimestamp
-        activeTimestamp
-        inactiveTimestamp
-        modifiedBy
-        items {
-          nextToken
-          startedAt
-        }
-        addresses {
-          nextToken
-          startedAt
-        }
-        credit {
-          id
-          amount
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        clientCreditId
-      }
       items {
         items {
           id
@@ -1498,6 +1452,7 @@ export const deleteTransaction = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      clientTransactionsId
       transactionLocationId
     }
   }

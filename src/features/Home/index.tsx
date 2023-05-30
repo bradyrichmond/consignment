@@ -1,13 +1,17 @@
-import React, { useContext, useEffect } from 'react';
-import { Box } from '@mui/material';
+import React, { useContext, useEffect, useState } from 'react';
+import { Alert, Box, Snackbar } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import Drawer from '../DrawerContent';
 import Navigation from '../Navigation';
 import { CognitoContext } from '../../context';
-import { Auth } from 'aws-amplify';
+import { Auth, DataStore, SortDirection } from 'aws-amplify';
+import { ConsignmentDropoff } from '../../models';
 
 const Home = () => {
     const { setUserGroups } = useContext(CognitoContext);
+    const [showSnackbar, setShowSnackbar] = useState(false);
+    const [newestWaiting, setNewestWaiting] = useState<ConsignmentDropoff>();
+    const [waitingCount, setWaitingCount] = useState(0);
 
     useEffect(() => {
         const getUserGroups = async () => {
@@ -17,7 +21,34 @@ const Home = () => {
         }
 
         getUserGroups();
+
+        const waitingSub = DataStore.observeQuery(
+            ConsignmentDropoff,
+            c => c.and((c) => [
+                c.complete.eq(false),
+                c.cubby.locationId.eq(localStorage.getItem('locationId') ?? '')
+            ]), {
+                sort: s => s.createdAt(SortDirection.DESCENDING)
+            }
+            ).subscribe(snapshot => {
+                const { items, isSynced } = snapshot;
+                
+                if (waitingCount < items.length){
+                    setNewestWaiting(items[0]);
+                    setShowSnackbar(true);
+                }
+                
+                setWaitingCount(items.length);
+            });
+
+        return () => {
+            waitingSub.unsubscribe()
+        }
     }, [])
+
+    const handleClose = () => {
+        setShowSnackbar(false);
+    }
 
     return (
         <Box display='flex' flexDirection='column' height='100%'>
@@ -30,6 +61,11 @@ const Home = () => {
                     <Drawer />
                 </Box>
             </Box>
+            <Snackbar open={showSnackbar} autoHideDuration={10000} onClose={handleClose} anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}>
+                <Alert onClose={handleClose} severity="success" sx={{ width: '100%', fontSize: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    {newestWaiting?.firstName} {newestWaiting?.lastName} just checked in for {newestWaiting?.hasAppointment ? 'their appointment' : 'a 6 item dropoff'}
+                </Alert>
+            </Snackbar>
         </Box>
     );
 }

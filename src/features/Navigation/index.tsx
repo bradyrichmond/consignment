@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Badge, Box, Typography } from '@mui/material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { format } from 'date-fns';
 import UserAvatar from "../../utils/UserAvatar";
 import useStoreLocation from '../../utils/useStoreLocation';
 import { useNavigate } from 'react-router-dom';
 import { CognitoContext } from '../../context';
+import { DataStore } from 'aws-amplify';
+import { ConsignmentDropoff } from '../../models';
 
 // this should probably be decided by an admin too
 const navItems = [
@@ -80,7 +82,9 @@ const Navigation = () => {
                 {navItems.length > 0 && 
                     navItems.map((ni) => {
                         const allowed = userGroups.filter((value) => ni.userGroups.includes(value));
-                        return allowed.length > 0 ? <NavItem key={ni.label} label={ni.label} navUrl={ni.navUrl} onClick={() => setActiveNav(ni.label)} active={ni.label === activeTab}/> : null;
+                        if (allowed.length > 0) {
+                            return ni.label === 'Concierge' ? <ConciergeNavItem key={ni.label} label={ni.label} navUrl={ni.navUrl} onClick={() => setActiveNav(ni.label)} active={ni.label === activeTab}/> : <NavItem key={ni.label} label={ni.label} navUrl={ni.navUrl} onClick={() => setActiveNav(ni.label)} active={ni.label === activeTab}/>;
+                        }
                     })
                 }
             </Box>
@@ -110,6 +114,42 @@ const NavItem = (props: NavItemProps) => {
     return (
         <Box flex='1' height='100%' display='flex' justifyContent='center' alignItems='center' onClick={handleClick} borderBottom={active ? '5px solid white' : 'inherit'} sx={{'&:hover': { cursor: 'pointer' }}}>
             <Typography variant='h5'>{label}</Typography>
+        </Box>
+    )
+}
+
+const ConciergeNavItem = (props: NavItemProps) => {
+    const { active, label, navUrl, onClick } = props;
+    const navigate = useNavigate();
+    const [waitingCount, setWaitingCount] = useState(0);
+
+    useEffect(() => {
+        const waitingSub = DataStore.observeQuery(
+            ConsignmentDropoff,
+                c => c.and((c) => [
+                    c.complete.eq(false),
+                    c.cubby.locationId.eq(localStorage.getItem('locationId') ?? '')
+                ])
+            ).subscribe(snapshot => {
+                const { items, isSynced } = snapshot;
+                setWaitingCount(items.length);
+        });
+
+        return () => {
+            waitingSub.unsubscribe();
+        }
+    }, [])
+
+    const handleClick = () => {
+        navigate(navUrl);
+        onClick();
+    }
+
+    return (
+        <Box flex='1' height='100%' display='flex' justifyContent='center' alignItems='center' onClick={handleClick} borderBottom={active ? '5px solid white' : 'inherit'} sx={{'&:hover': { cursor: 'pointer' }}}>
+            <Badge badgeContent={waitingCount} color='error'>
+                <Typography variant='h5'>{label}</Typography>
+            </Badge>
         </Box>
     )
 }
