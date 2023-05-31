@@ -51,9 +51,9 @@ const Home = () => {
     }
 
     return (
-        <Box display='flex' flexDirection='column' height='100%'>
-            <Navigation />
-            <Box display='flex' flexDirection='row' flex='1' sx={{bgcolor: 'background.default'}}>
+        <>
+            <Box display='flex' flexDirection='row' height='100%' width='100%' sx={{bgcolor: 'background.default'}}>
+                <Navigation />
                 <Box flex='1'>
                     <Outlet />
                 </Box>
@@ -66,7 +66,7 @@ const Home = () => {
                     {newestWaiting?.firstName} {newestWaiting?.lastName} just checked in for {newestWaiting?.hasAppointment ? 'their appointment' : 'a 6 item dropoff'}
                 </Alert>
             </Snackbar>
-        </Box>
+        </>
     );
 }
 

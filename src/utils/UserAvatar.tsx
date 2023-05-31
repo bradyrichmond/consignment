@@ -3,7 +3,12 @@ import { Auth } from "aws-amplify";
 import { useEffect, useState } from "react";
 import { toTitleCase } from "../features/Clients";
 
-const UserAvatar = () => {
+interface UserAvatarProps {
+    small?: boolean
+}
+
+const UserAvatar = (props: UserAvatarProps) => {
+    const { small } = props;
     const [name, setName] = useState('');
     const [initial, setInitial] = useState('');
 
@@ -19,8 +24,8 @@ const UserAvatar = () => {
 
     return (
         <Box display='flex' flexDirection='row' justifyContent='center' alignItems='center'>
-            <Box marginRight='2rem'><Avatar>{initial}</Avatar></Box>
-            <Typography fontSize='1rem'>{toTitleCase(name)}</Typography>
+            <Box><Avatar>{initial}</Avatar></Box>
+            {!small && <Typography color='secondary' fontSize='1rem' marginLeft='2rem'>{toTitleCase(name)}</Typography>}
         </Box>
     )
 }

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Badge, Box, Typography } from '@mui/material';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import { Badge, Box, Tooltip, Typography } from '@mui/material';
+import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import { format } from 'date-fns';
 import UserAvatar from "../../utils/UserAvatar";
 import useStoreLocation from '../../utils/useStoreLocation';
@@ -8,89 +8,119 @@ import { useNavigate } from 'react-router-dom';
 import { CognitoContext } from '../../context';
 import { DataStore } from 'aws-amplify';
 import { ConsignmentDropoff } from '../../models';
+import StyleIcon from '@mui/icons-material/Style';
+import CategoryIcon from '@mui/icons-material/Category';
+import ContactEmergencyIcon from '@mui/icons-material/ContactEmergency';
+import RoomServiceIcon from '@mui/icons-material/RoomService';
+import PriceChangeIcon from '@mui/icons-material/PriceChange';
+import ExtensionIcon from '@mui/icons-material/Extension';
+import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
+import SsidChartIcon from '@mui/icons-material/SsidChart';
+import TuneIcon from '@mui/icons-material/Tune';
+import GroupIcon from '@mui/icons-material/Group';
+import CreateIcon from '@mui/icons-material/Create';
+import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
+import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 
 // this should probably be decided by an admin too
 const navItems = [
     {
         label: 'Attribute Types',
         navUrl: 'attribute-types',
-        userGroups: ['Manager', 'Admins']
+        userGroups: ['Manager', 'Admins'],
+        icon: <CreateIcon fontSize='large' />
     },
     {
         label: 'Brands',
         navUrl: 'brands',
-        userGroups: ['Manager', 'Admins']
+        userGroups: ['Manager', 'Admins'],
+        icon: <StyleIcon fontSize='large' />
     },
     {
         label: 'Categories',
         navUrl: 'categories',
-        userGroups: ['Manager', 'Admins']
+        userGroups: ['Manager', 'Admins'],
+        icon: <CategoryIcon fontSize='large' />
     },
     {
         label: 'Consigners',
         navUrl: 'consigners',
-        userGroups: ['Salespeople', 'Processors', 'Managers', 'Admins']
+        userGroups: ['Salespeople', 'Processors', 'Managers', 'Admins'],
+        icon: <ContactEmergencyIcon fontSize='large' />
     },
     {
         label: 'Concierge',
         navUrl: 'concierge/employee',
-        userGroups: ['Salespeople', 'Processors', 'Managers', 'Admins']
+        userGroups: ['Salespeople', 'Processors', 'Managers', 'Admins'],
+        icon: <RoomServiceIcon fontSize='large' />
     },
     {
         label: 'Coupons',
         navUrl: 'coupons',
-        userGroups: ['Admins']
+        userGroups: ['Admins'],
+        icon: <PriceChangeIcon fontSize='large' />   
     },
     {
         label: 'Items',
         navUrl: 'items',
-        userGroups: ['Salespeople', 'Processors', 'Managers', 'Admins']
+        userGroups: ['Salespeople', 'Processors', 'Managers', 'Admins'],
+        icon: <ExtensionIcon fontSize='large' />
     },
     {
         label: 'Point of Sale',
         navUrl: 'pos',
-        userGroups: ['Salespeople', 'Processors', 'Managers', 'Admins']
+        userGroups: ['Salespeople', 'Processors', 'Managers', 'Admins'],
+        icon: <PointOfSaleIcon fontSize='large' />
     },
     {
         label: 'Reports',
         navUrl: 'reports',
-        userGroups: ['Manager', 'Admins']
+        userGroups: ['Manager', 'Admins'],
+        icon: <SsidChartIcon fontSize='large' />
     },
     {
         label: 'Settings',
         navUrl: 'settings',
-        userGroups: ['Admins']
+        userGroups: ['Admins'],
+        icon: <TuneIcon fontSize='large' />
     },
     {
         label: 'User Management',
         navUrl: 'user-management',
-        userGroups: ['Admins']
+        userGroups: ['Admins'],
+        icon: <GroupIcon fontSize='large' />
     },
 ];
 
 const Navigation = () => {
     const [activeTab, setActiveTab] = useState('');
+    const [expanded, setExpanded] = useState(true);
     const { userGroups } = useContext(CognitoContext);
 
     const setActiveNav = (label: string) => {
         setActiveTab(label);
     }
 
+    const toggleExpand = () => {
+        setExpanded((cur) => !cur);
+    }
+
     return (
-        <Box display='flex' flexDirection='row' width='100%'  bgcolor='background.default' borderBottom='1px solid' borderColor='primary'>
-            <Box flex='1' display='flex' flexDirection='row' padding='2rem' height='100%'>
+        <Box display='flex' flexDirection='column' bgcolor='primary.main'>
+            <Box padding='2rem' color='white' display='flex' flexDirection='row' justifyContent={expanded ? 'flex-end' : 'flex-start'} onClick={toggleExpand}>
+                {expanded ? <KeyboardDoubleArrowLeftIcon /> : <DoubleArrowIcon />}
+            </Box>
+            <Box flex='1' display='flex' flexDirection='column' padding='2rem' height='100%'>
                 {navItems.length > 0 && 
                     navItems.map((ni) => {
                         const allowed = userGroups.filter((value) => ni.userGroups.includes(value));
                         if (allowed.length > 0) {
-                            return ni.label === 'Concierge' ? <ConciergeNavItem key={ni.label} label={ni.label} navUrl={ni.navUrl} onClick={() => setActiveNav(ni.label)} active={ni.label === activeTab}/> : <NavItem key={ni.label} label={ni.label} navUrl={ni.navUrl} onClick={() => setActiveNav(ni.label)} active={ni.label === activeTab}/>;
+                            return ni.label === 'Concierge' ? <ConciergeNavItem key={ni.label} label={ni.label} navUrl={ni.navUrl} icon={ni.icon} onClick={() => setActiveNav(ni.label)} active={ni.label === activeTab} expanded={expanded} /> : <NavItem key={ni.label} label={ni.label} navUrl={ni.navUrl} icon={ni.icon} onClick={() => setActiveNav(ni.label)} active={ni.label === activeTab} expanded={expanded} />;
                         }
                     })
                 }
             </Box>
-            <Box minWidth='20%'>
-                <Status />
-            </Box>
+            <Status expanded={expanded} />
         </Box>
     )
 }
@@ -100,10 +130,12 @@ interface NavItemProps {
     label: string
     navUrl: string
     onClick: () => void
+    icon?: React.ReactElement
+    expanded: boolean
 }
 
 const NavItem = (props: NavItemProps) => {
-    const { active, label, navUrl, onClick } = props;
+    const { active, label, navUrl, onClick, icon, expanded } = props;
     const navigate = useNavigate();
 
     const handleClick = () => {
@@ -112,14 +144,15 @@ const NavItem = (props: NavItemProps) => {
     }
 
     return (
-        <Box flex='1' height='100%' display='flex' justifyContent='center' alignItems='center' onClick={handleClick} borderBottom={active ? '5px solid white' : 'inherit'} sx={{'&:hover': { cursor: 'pointer' }}}>
-            <Typography variant='h5'>{label}</Typography>
+        <Box flex='1' height='100%' display='flex' flexDirection='row' alignItems='center' color='white' onClick={handleClick} sx={{'&:hover': { cursor: 'pointer' }}}>
+            {icon}
+            {expanded && <Typography variant='h5' sx={{marginLeft: '2rem', whiteSpace: 'nowrap'}}>{label}</Typography>}
         </Box>
     )
 }
 
 const ConciergeNavItem = (props: NavItemProps) => {
-    const { active, label, navUrl, onClick } = props;
+    const { active, label, navUrl, onClick, icon, expanded } = props;
     const navigate = useNavigate();
     const [waitingCount, setWaitingCount] = useState(0);
 
@@ -146,15 +179,21 @@ const ConciergeNavItem = (props: NavItemProps) => {
     }
 
     return (
-        <Box flex='1' height='100%' display='flex' justifyContent='center' alignItems='center' onClick={handleClick} borderBottom={active ? '5px solid white' : 'inherit'} sx={{'&:hover': { cursor: 'pointer' }}}>
+        <Box flex='1' height='100%' display='flex' alignItems='center' flexDirection='row' color='white' onClick={handleClick} sx={{'&:hover': { cursor: 'pointer' }}}>
             <Badge badgeContent={waitingCount} color='error'>
-                <Typography variant='h5'>{label}</Typography>
+                {icon}
+                {expanded && <Typography variant='h5' sx={{marginLeft: '2rem'}}>{label}</Typography>}
             </Badge>
         </Box>
     )
 }
 
-const Status = () => {
+interface StatusProps {
+    expanded: boolean
+}
+
+const Status = (props: StatusProps) => {
+    const { expanded } = props;
     const [time, setTime] = useState<number>(0);
     const locationData = useStoreLocation();
 
@@ -172,11 +211,19 @@ const Status = () => {
     }, [])
 
     return (
-        <Box display='flex' flexDirection='row' padding='2rem' fontSize='1rem'>
-            <Box marginRight='2rem' display='flex' justifyContent='center' alignItems='center'><AccessTimeIcon color='primary' fontSize='large'/></Box>
-            <Box flex='1' display='flex' justifyContent='center' alignItems='center'>{format(time, "eeee MMM do, yyyy h:mm bbb")}</Box>
-            {locationData?.locationName && <Box flex='1' display='flex' justifyContent='center' alignItems='center'>{locationData?.locationName}</Box>}
-            <Box display='flex' justifyContent='center' alignItems='center'><UserAvatar /></Box>
+        <Box display='flex' flexDirection='column' padding='2rem' fontSize='1rem'>
+            <Box display='flex' flexDirection='row' color='white'>
+                {!expanded &&
+                    <Tooltip title={format(time, "eeee MMM do, yyyy h:mm bbb")}>
+                        <Box display='flex' alignItems='center'><AccessTimeFilledIcon color='secondary' fontSize='large'/></Box>
+                    </Tooltip>
+                }
+                {expanded && <Box flex='1' display='flex' alignItems='flex-start' marginLeft='2rem'>{format(time, "eee MMM do, yyyy h:mm bbb")}</Box>}
+            </Box>
+            {expanded && locationData?.locationName && <Box flex='1' display='flex' justifyContent='center' alignItems='center' color='white'>{locationData?.locationName}</Box>}
+            <Box display='flex' flexDirection='column' color='white' marginTop='2rem'>
+                <Box display='flex' alignItems='center' marginTop='2rem'><UserAvatar small={!expanded}/></Box>
+            </Box>
         </Box>
     )
 }

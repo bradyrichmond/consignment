@@ -57,9 +57,9 @@ const AttributeTypes = () => {
     }
 
     const columns: GridColDef[] = [
-        {field: 'attributeTypeDescription', headerName: 'Name', flex: 1},
-        {field: 'lastUpdateTimestamp', headerName: 'Last Updated', flex: 1},
-        {field: 'toggleActive', headerName: 'Mark inactive?', flex: 1, renderCell: (params: GridRenderCellParams<String>) => {
+        {field: 'attributeTypeDescription', headerName: 'Name', width: 400},
+        {field: 'lastUpdateTimestamp', headerName: 'Last Updated', width: 400},
+        {field: 'toggleActive', headerName: 'Mark inactive?', width: 400, renderCell: (params: GridRenderCellParams<String>) => {
             return (
                 <>
                     {inactiveAttributeTypes.includes(params.id.toString()) ?
@@ -74,7 +74,7 @@ const AttributeTypes = () => {
                 </>
             )
         }},
-        {field: 'addValues', headerName: 'Add Type Value?', flex: 1, renderCell: (params: GridRenderCellParams<String>) => {
+        {field: 'addValues', headerName: 'Add Type Value?', width: 400, renderCell: (params: GridRenderCellParams<String>) => {
             return (
                 <>
                     <Button variant="contained" component="label" sx={{marginBottom: '2rem', marginTop: '2rem'}} onClick={() => startAddingAttributeTypeValue(params.id.toString())}>
@@ -83,7 +83,7 @@ const AttributeTypes = () => {
                 </>
             )
         }},
-        {field: 'viewValues', headerName: 'View Values?', flex: 1, renderCell: (params: GridRenderCellParams<String>) => {
+        {field: 'viewValues', headerName: 'View Values?', width: 400, renderCell: (params: GridRenderCellParams<String>) => {
             return (
                 <>
                     <Button variant="contained" component="label" sx={{marginBottom: '2rem', marginTop: '2rem'}} onClick={() => toggleViewValues(params.id.toString())}>
@@ -202,7 +202,7 @@ const AttributeTypes = () => {
     }
 
     return (
-        <Box height='100%' display='flex' flexDirection='column' padding='2rem'>
+        <Box height='100%' display='flex' flexDirection='column' padding='2rem' width='100%'>
             <Modal
                 open={isAddingAttributeType}
                 onClose={stopAddingAttributeType}

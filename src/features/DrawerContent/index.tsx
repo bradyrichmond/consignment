@@ -13,10 +13,12 @@ const Drawer = () => {
     }
 
     return (
-        <Box position='relative' height='100%' bgcolor='black'>
-            <Box borderRadius='2rem' overflow='hidden' width='2rem' height='2rem' position='absolute' right='2rem' top='2rem' display='flex' justifyContent='center' alignItems='center' onClick={closeDrawer} zIndex='1000' bgcolor='white' >
-                <Close style={{color: 'black'}}/>
-            </Box>
+        <Box height='100%' bgcolor='primary'>
+            {drawerContent && 
+                <Box borderRadius='2rem' overflow='hidden' width='2rem' height='2rem' position='absolute' right='2rem' top='2rem' display='flex' justifyContent='center' alignItems='center' onClick={closeDrawer} zIndex='1000'>
+                    <Close color='primary' />
+                </Box>
+            }
             <DrawerContentPicker drawerContent={drawerContent} />
         </Box>
     );

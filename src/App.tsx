@@ -124,7 +124,7 @@ const dark = () => {
         main: '#4cbfa6',
       },
       secondary: {
-        main: '#f6ebf4',
+        main: '#e0e2e6',
       },
       error: {
         main: '#ed0b70',
@@ -154,7 +154,7 @@ const light = () => {
     palette: {
       mode: 'light',
       primary: {
-        main: '#4cbfa6',
+        main: '#434ce6',
       },
       secondary: {
         main: '#f6ebf4',
