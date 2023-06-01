@@ -54,7 +54,7 @@ const Home = () => {
         <>
             <Box display='flex' flexDirection='row' height='100%' width='100%' sx={{bgcolor: 'background.default'}}>
                 <Navigation />
-                <Box flex='1'>
+                <Box flex='1' sx={{ overflowY: 'auto' }}>
                     <Outlet />
                 </Box>
                 <Box maxWidth='25%' overflow='hidden'>
