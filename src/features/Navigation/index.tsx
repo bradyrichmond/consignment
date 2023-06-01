@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Badge, Box, Tooltip, Typography } from '@mui/material';
+import { Badge, Box, Modal, Tooltip, Typography } from '@mui/material';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import { format } from 'date-fns';
 import UserAvatar from "../../utils/UserAvatar";
 import useStoreLocation from '../../utils/useStoreLocation';
 import { useNavigate } from 'react-router-dom';
 import { CognitoContext } from '../../context';
-import { DataStore } from 'aws-amplify';
+import { Auth, DataStore } from 'aws-amplify';
 import { ConsignmentDropoff } from '../../models';
 import StyleIcon from '@mui/icons-material/Style';
 import CategoryIcon from '@mui/icons-material/Category';
@@ -21,6 +21,8 @@ import GroupIcon from '@mui/icons-material/Group';
 import CreateIcon from '@mui/icons-material/Create';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
+import ConfirmModal from '../../utils/ConfirmModal';
+import ModalContainer from '../../utils/ModalContainer';
 
 // this should probably be decided by an admin too
 const navItems = [
@@ -196,6 +198,10 @@ const Status = (props: StatusProps) => {
     const { expanded } = props;
     const [time, setTime] = useState<number>(0);
     const locationData = useStoreLocation();
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
+    const [waitingForLogout, setWaitingForLogout] = useState(false);
+    const navigate = useNavigate();
+    const cognito = useContext(CognitoContext);
 
     useEffect(() => {
         const getTime = () => {
@@ -210,8 +216,47 @@ const Status = (props: StatusProps) => {
         }
     }, [])
 
+    const cancelLogOut = () => {
+        setIsLoggingOut(false);
+    }
+
+    const startLogOut = () => {
+        setIsLoggingOut(true);
+    }
+
+    const finishLogOut = () => {
+        Auth.signOut();
+        cancelLogOut();
+        setWaitingForLogout(true);
+
+        setTimeout(() => {
+            cognito.setUserIsLoggedIn(false);
+            cognito.setUserGroups([]);
+            setWaitingForLogout(false);
+            navigate('/');
+        }, 3000)
+    }
+
     return (
         <Box display='flex' flexDirection='column' padding='2rem' fontSize='1rem'>
+            <Modal
+                open={isLoggingOut}
+                onClose={cancelLogOut}
+            >
+                <ConfirmModal close={cancelLogOut} validationText={`Are you sure you want to log out?`} cancelText='Cancel' confirmText='Log Out' confirm={finishLogOut} cancel={cancelLogOut}/>
+            </Modal>
+            <Modal
+                open={waitingForLogout}
+                onClose={() => {}}
+            >
+                <ModalContainer onClose={() => {}}>
+                    <Box display='flex' justifyContent='center' alignItems='center' height='100%' width='100%'>
+                        <Box bgcolor='rgba(255, 255, 255, 255)' borderRadius='1rem' padding='2rem'>
+                            <Typography>Logging out...</Typography>
+                        </Box>
+                    </Box>
+                </ModalContainer>
+            </Modal>
             <Box display='flex' flexDirection='row' color='white'>
                 {!expanded &&
                     <Tooltip title={format(time, "eeee MMM do, yyyy h:mm bbb")}>
@@ -221,8 +266,8 @@ const Status = (props: StatusProps) => {
                 {expanded && <Box flex='1' display='flex' alignItems='flex-start' marginLeft='2rem'>{format(time, "eee MMM do, yyyy h:mm bbb")}</Box>}
             </Box>
             {expanded && locationData?.locationName && <Box flex='1' display='flex' justifyContent='center' alignItems='center' color='white'>{locationData?.locationName}</Box>}
-            <Box display='flex' flexDirection='column' color='white' marginTop='2rem'>
-                <Box display='flex' alignItems='center' marginTop='2rem'><UserAvatar small={!expanded}/></Box>
+            <Box display='flex' alignItems='center' marginTop='2rem' onClick={startLogOut}>
+                <UserAvatar small={!expanded}/>
             </Box>
         </Box>
     )

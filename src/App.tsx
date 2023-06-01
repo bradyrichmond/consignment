@@ -222,7 +222,7 @@ const Login = () => {
   const location = useLocation();
   const { goto } = location.state
 
-  const userLoggedIn = (user: any) => {
+  const userLoggedIn = (user: any, signOut: any) => {
     cognito.setUserIsLoggedIn(true);
     cognito.setUserGroups(user.signInUserSession.accessToken.payload['cognito:groups']);
     navigate(goto);
@@ -233,7 +233,7 @@ const Login = () => {
     <Authenticator>
       {({ signOut, user }) => (
         <Box width='auto' height='100%'>
-          {user && userLoggedIn(user) && 
+          {user && userLoggedIn(user, signOut) && 
             <Box />
           }
         </Box>
