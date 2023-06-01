@@ -45,6 +45,10 @@ export const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: s
     element: isLoggedIn ? <Home /> : <Navigate to='/login' state={{goto: pathname}}/>,
     children: [
       {
+        path: '/',
+        element: checkProtectedRoute(userGroups, ['Salespeople', 'Processors', 'Managers', 'Admins']) ? <Clients /> : <Box>Access Denied</Box>
+      },
+      {
         path: 'add-items/:id',
         element: checkProtectedRoute(userGroups, ['Salespeople', 'Processors', 'Managers', 'Admins']) ? <AddItem /> : <Box>Access Denied</Box>
       },

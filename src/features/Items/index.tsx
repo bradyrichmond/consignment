@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
-import { Box, Checkbox, FormControlLabel } from '@mui/material';
+import { Box, Checkbox, FormControlLabel, LinearProgress } from '@mui/material';
 import { ProcessCsvButton } from '../Clients';
 import { DataGrid, GridColDef, GridEventListener } from '@mui/x-data-grid';
 import { DataStore, Predicates } from 'aws-amplify';
@@ -14,6 +14,7 @@ const Items = () => {
     const [items, setItems] = useState<Item[]>([]);
     const [dataLoaded, setDataLoaded] = useState(false);
     const [isFilteringMissingTags, setIsFilteringMissingTags] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const getData = async () => {
@@ -24,6 +25,7 @@ const Items = () => {
 
             setItems(fetchedItems);
             setDataLoaded(true);
+            setLoading(false);
         }
 
         getData();
@@ -195,7 +197,11 @@ const Items = () => {
                 <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 50 }}} onChange={filterMissingTagItems} checked={isFilteringMissingTags} value={isFilteringMissingTags}/>} label="Missing tags only" />
             </Box>
             <Box flex='1'>
-                <DataGrid columns={columns} rows={rows} sx={{fontSize: '2rem'}} getRowHeight={() => 'auto'} onRowClick={handleRowClick}/>
+                {loading ? 
+                    <LinearProgress color='primary' />
+                    :
+                    <DataGrid columns={columns} rows={rows} sx={{fontSize: '2rem'}} getRowHeight={() => 'auto'} onRowClick={handleRowClick}/>
+                }
             </Box>
         </Box>
     )

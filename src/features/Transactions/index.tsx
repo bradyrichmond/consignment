@@ -2,16 +2,16 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { Box } from "@mui/system";
 import { DataStore, Predicates } from "aws-amplify";
 import { Transaction } from "../../models";
-import { Button, InputAdornment, TextField } from "@mui/material";
+import { Button, InputAdornment, LinearProgress, TextField } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
-import { format } from 'date-fns';
 import { ProcessCsvButton } from "../Clients";
 
 const Transactions = () => {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -21,7 +21,8 @@ const Transactions = () => {
                 limit: 100
             });
 
-            setTransactions(fetchedTransactions)
+            setTransactions(fetchedTransactions);
+            setLoading(false);
         }
 
         getTransactions();
@@ -47,46 +48,7 @@ const Transactions = () => {
     const fileReader = new FileReader();
 
     const bulkAddTransactions = async (e: ChangeEvent<HTMLInputElement>) => {
-//         const files = e.target?.files;
-
-//         if (files) {
-//             const file = files[0];
-//             fileReader.onload = function (event) {
-//                 const csvOutput = event.target?.result;
-//                 const transactions = csvOutput?.toString().split('\n');
-
-//                 if (transactions) {
-//                     for(let i = 1; i < transactions?.length; i++) {
-//                         const transaction = transactions[i];
-//                         const add = async () => {
-//                             const transactionId = transaction[0];
-//                             const transactionDescription = transaction[1];
-//                             const lastUpdateTimestamp = format(Date.parse(transaction[2]), "yyyy-MM-dd");
-// //                             id: ID!
-// //   clientTransId: String!
-// //   client: Client
-// //   itemId: String!
-// //   payoutId: String
-// //   transCdId: String
-// //   userId: String!
-// //   actTransTimestamp: String
-// //   actTransDesc: String
-// //   actTransAmt: String
-// //   hold: Boolean
-// //   glExportInd: Boolean
-// //   syncInd: Boolean
-// //   saleDetailId: String
-// //   location: Location @hasOne
-//                             await DataStore.save(new Transaction({ attributeTypeId, attributeTypeDescription, lastUpdateTimestamp }));
-//                         }
-
-//                         add();
-//                     }
-//                 }
-//             }
-
-//             fileReader.readAsText(file);
-//         }
+        // TODO: Need to add bulk upload
     }
 
     const columns: GridColDef[] = [
@@ -118,7 +80,11 @@ const Transactions = () => {
             </Box>
             <ProcessCsvButton label='Bulk Upload Transactions' action={bulkAddTransactions} />
             <Box flex='1'>
-                <DataGrid columns={columns} rows={rows} style={{color: 'white'}} />
+                {loading ? 
+                    <LinearProgress color='primary' />
+                    :
+                    <DataGrid columns={columns} rows={rows} style={{color: 'white'}} />
+                }
             </Box>
         </Box>
     )

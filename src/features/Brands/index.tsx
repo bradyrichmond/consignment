@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Button, Checkbox, FormControlLabel, Modal } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, LinearProgress, Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { ProcessCsvButton } from '../Clients';
@@ -19,7 +19,8 @@ const Brands = () => {
     const [activeBrandId, setActiveBrandId] = useState('');
     const [activeBrand, setActiveBrand] = useState('');
     const [filterInactiveBrands, setFilterInactiveBrands] = useState(true);
-    const [inactiveBrands, setInactiveBrands] = useState<string[]>([])
+    const [inactiveBrands, setInactiveBrands] = useState<string[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const getData = async () => {
@@ -29,7 +30,8 @@ const Brands = () => {
             });
 
             setBrands(filterInactiveBrands ? fetchedBrands.filter((b) => !b.inactive) : fetchedBrands);
-            setInactiveBrands(fetchedBrands.filter((b) => b.inactive).map((b) => b.id))
+            setInactiveBrands(fetchedBrands.filter((b) => b.inactive).map((b) => b.id));
+            setLoading(false);
         }
 
         getData();
@@ -199,7 +201,11 @@ const Brands = () => {
                 <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 50}}} onChange={filterInactive} checked={filterInactiveBrands} value={filterInactiveBrands}/>} label="Active brands only" />
             </Box>
             <Box flex='1'>
-                <DataGrid columns={columns} rows={rows} getRowHeight={() => 'auto'} sx={{fontSize: '2rem'}} />
+                {loading ?
+                    <LinearProgress color='primary' />
+                    :
+                    <DataGrid columns={columns} rows={rows} getRowHeight={() => 'auto'} sx={{fontSize: '2rem'}} />
+                }
             </Box>
         </Box>
     )

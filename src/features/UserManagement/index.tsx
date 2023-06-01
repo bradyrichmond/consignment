@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Chip, Typography } from '@mui/material';
+import { Box, Chip, LinearProgress, Typography } from '@mui/material';
 import { API, Auth } from 'aws-amplify';
 import { useDrag } from 'react-dnd'
 import UserTypeReceiver from './UserTypeReceiver';
@@ -11,6 +11,7 @@ const UserManagement = () => {
     const [managers, setManagers] = useState<any[]>([]);
     const [processors, setProcessors] = useState<any[]>([]);
     const [salespeople, setSalespeople] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
 
     const getUsers = async () => {
         const fetchedUsers = await API.get('AdminQueries', '/listUsers', {
@@ -31,6 +32,7 @@ const UserManagement = () => {
 
         const fetchedSalespeople = await getUsersInGroup('Salespeople')
         setSalespeople(fetchedSalespeople.Users);
+        setLoading(false);
     }
 
     useEffect(() => {
@@ -99,20 +101,26 @@ const UserManagement = () => {
 
     return (
         <Box display='flex' flexDirection='row' height='100%'>
-            <Box flex='1' display='flex' flexDirection='column' height='100%'>
-                <Box padding='2rem'><Typography variant='h2'>User Management</Typography></Box>
-                <Box flex='1'>
-                    <UserTypeReceiver label='Admin' onDelete={handleRemoveAdmin} onDrop={handleDropAdmin} users={admins} />
-                    <UserTypeReceiver label='Manager' onDelete={handleRemoveManager} onDrop={handleDropManager} users={managers} />
-                    <UserTypeReceiver label='Processors' onDelete={handleRemoveProcessor} onDrop={handleDropProcessor} users={processors} />
-                    <UserTypeReceiver label='Salespeople' onDelete={handleRemoveSalesperson} onDrop={handleDropSalesperson} users={salespeople} />
-                </Box>
-            </Box>
-            <Box height='100%' width='20%' borderLeft='1px solid black' padding='2rem'>
-                {users &&
-                    users.map((u) => <MovableUser key={u.Attributes.filter((a: any) => a.Name === 'sub')[0].Value} user={u} />)
-                }
-            </Box>
+            {loading ? 
+                <LinearProgress color='primary' />
+                :
+                <>
+                    <Box flex='1' display='flex' flexDirection='column' height='100%'>
+                        <Box padding='2rem'><Typography variant='h2'>User Management</Typography></Box>
+                        <Box flex='1'>
+                            <UserTypeReceiver label='Admin' onDelete={handleRemoveAdmin} onDrop={handleDropAdmin} users={admins} />
+                            <UserTypeReceiver label='Manager' onDelete={handleRemoveManager} onDrop={handleDropManager} users={managers} />
+                            <UserTypeReceiver label='Processors' onDelete={handleRemoveProcessor} onDrop={handleDropProcessor} users={processors} />
+                            <UserTypeReceiver label='Salespeople' onDelete={handleRemoveSalesperson} onDrop={handleDropSalesperson} users={salespeople} />
+                        </Box>
+                    </Box>
+                    <Box height='100%' width='20%' borderLeft='1px solid black' padding='2rem'>
+                        {users &&
+                            users.map((u) => <MovableUser key={u.Attributes.filter((a: any) => a.Name === 'sub')[0].Value} user={u} />)
+                        }
+                    </Box>
+                </>
+            }
         </Box>
     )
 }

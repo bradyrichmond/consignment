@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Button, Checkbox, FormControlLabel, Modal } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, LinearProgress, Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { DataStore, Predicates } from 'aws-amplify';
@@ -24,6 +24,7 @@ const Categories = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [isViewingCategoryAttributes, setIsViewingCategoryAttributes] = useState(false);
     const [isAttachingCategoryAttributes, setIsAttachingCategoryAttributes] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const getData = async () => {
@@ -33,7 +34,8 @@ const Categories = () => {
             });
 
             setCategories(filterInactiveCategories ? fetchedCategories.filter((b) => !b.inactive) : fetchedCategories);
-            setInactiveCategories(fetchedCategories.filter((b) => b.inactive).map((b) => b.id))
+            setInactiveCategories(fetchedCategories.filter((b) => b.inactive).map((b) => b.id));
+            setLoading(false);
         }
 
         getData();
@@ -255,7 +257,11 @@ const Categories = () => {
                 <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 50 }}} onChange={filterInactive} checked={filterInactiveCategories} value={filterInactiveCategories}/>} label="Active categories only" />
             </Box>
             <Box flex='1'>
-                <DataGrid columns={columns} rows={rows} getRowHeight={() => 'auto'} sx={{fontSize: '2rem'}}/>
+                {loading ? 
+                    <LinearProgress color='primary' />
+                    : 
+                    <DataGrid columns={columns} rows={rows} getRowHeight={() => 'auto'} sx={{fontSize: '2rem'}}/>
+                }
             </Box>
         </Box>
     )

@@ -10,6 +10,7 @@ const Coupons = () => {
     const [coupons, setCoupons] = useState<Coupon[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [isAddingCoupon, setIsAddingCoupon] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const getCoupons = async () => {
         const fetchedCoupons = await DataStore.query(Coupon, Predicates.ALL, {
@@ -18,6 +19,7 @@ const Coupons = () => {
         });
 
         setCoupons(fetchedCoupons);
+        setLoading(false);
     }
 
     useEffect(() => {

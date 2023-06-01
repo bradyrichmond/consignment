@@ -14,6 +14,7 @@ const ViewValues = (props: ViewValuesProps) => {
     const { close, attributeTypeId } = props;
     const [attributeType, setAttributeType] = useState('this attribute');
     const [attributeTypeValues, setAttributeTypeValues] = useState<AttributeTypeValue[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const getData = async () => {
@@ -21,6 +22,7 @@ const ViewValues = (props: ViewValuesProps) => {
             const fetchedAttributeTypeValues = await DataStore.query(AttributeTypeValue, (atv) => atv.attributeTypeValueAttributeTypeId.eq(attributeTypeId));
             setAttributeType(fetchedAttributeType?.attributeTypeDescription ?? 'this attribute');
             setAttributeTypeValues(fetchedAttributeTypeValues);
+            setLoading(false);
         }
 
         getData();

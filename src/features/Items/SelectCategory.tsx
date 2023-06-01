@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/system';
 import { Category } from '../../models';
 import { DataStore } from 'aws-amplify';
-import { Button, Typography } from '@mui/material';
+import { Button, LinearProgress, Typography } from '@mui/material';
 
 interface SelectCategoryProps {
     onButtonClick: (category: string) => void,
@@ -11,12 +11,14 @@ interface SelectCategoryProps {
 
 const SelectCategory = (props: SelectCategoryProps) => {
     const { onButtonClick, categoryParent } = props;
-    const [categories, setCategories] = useState<Category[]>([])
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const getCategories = async () => {
             const fetchedCategories = categoryParent ? await DataStore.query(Category, (c) => c.parent.eq(categoryParent)) : await DataStore.query(Category);
             setCategories(fetchedCategories);
+            setLoading(false);
         }
 
         getCategories();
@@ -28,6 +30,7 @@ const SelectCategory = (props: SelectCategoryProps) => {
 
     return (
         <Box>
+            {loading && <LinearProgress color='primary' />}
             {categories && categories.length > 0 ?
                 categories.map((category) =>
                     <Box margin='1rem'>

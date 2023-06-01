@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/system';
 import ModalContainer from '../../utils/ModalContainer';
-import { Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
+import { Button, FormControl, InputLabel, LinearProgress, MenuItem, Select, TextField, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { DataStore } from 'aws-amplify';
 import { Category } from '../../models';
@@ -16,11 +16,13 @@ const AddCategory = (props: AddCategoryProps) => {
     const { handleSubmit, register } = useForm();
     const [parentCategories, setParentCategories] = useState<Category[]>([]);
     const [selectedValue, setSelectedValue] = useState('None');
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const getData = async () => {
             const fetchedCategories = await DataStore.query(Category);
             setParentCategories(fetchedCategories.filter(c => c.inactive === false));
+            setLoading(false);
         }
 
         getData();
@@ -43,28 +45,32 @@ const AddCategory = (props: AddCategoryProps) => {
         <ModalContainer onClose={close}>
             <Box display='flex' justifyContent='center' alignItems='center' height='100%' width='100%'>
                 <Box bgcolor='rgba(255, 255, 255, 255)' borderRadius='1rem' padding='2rem'>
-                    <form onSubmit={handleSubmit(handleAddCategory)}>
-                        <Box display='flex' flexDirection='column'>
-                            <TextField label='Category Name' variant='standard' inputProps={{ 'data-testid': 'addCategoryName' }} {...register('categoryName', { required: true, minLength: 2 })} />
-                            <Box marginTop='1rem'>
-                                <FormControl fullWidth>
-                                    <InputLabel>Parent Category</InputLabel>
-                                    <Select
-                                        label="Parent"
-                                        {...register('parent')}
-                                        value={selectedValue}
-                                        onChange={(e) => setSelectedValue(e.target.value)}
-                                    >
-                                        <MenuItem value='None'>None</MenuItem>
-                                        {parentCategories && 
-                                            parentCategories.map((cat) => <MenuItem value={cat.id} key={cat.id}>{cat.categoryName} - Level {cat.categoryLevel}</MenuItem>)
-                                        }
-                                    </Select>
-                                </FormControl>
+                    {loading ? 
+                        <LinearProgress color='primary' />
+                        :
+                        <form onSubmit={handleSubmit(handleAddCategory)}>
+                            <Box display='flex' flexDirection='column'>
+                                <TextField label='Category Name' variant='standard' inputProps={{ 'data-testid': 'addCategoryName' }} {...register('categoryName', { required: true, minLength: 2 })} />
+                                <Box marginTop='1rem'>
+                                    <FormControl fullWidth>
+                                        <InputLabel>Parent Category</InputLabel>
+                                        <Select
+                                            label="Parent"
+                                            {...register('parent')}
+                                            value={selectedValue}
+                                            onChange={(e) => setSelectedValue(e.target.value)}
+                                        >
+                                            <MenuItem value='None'>None</MenuItem>
+                                            {parentCategories && 
+                                                parentCategories.map((cat) => <MenuItem value={cat.id} key={cat.id}>{cat.categoryName} - Level {cat.categoryLevel}</MenuItem>)
+                                            }
+                                        </Select>
+                                    </FormControl>
+                                </Box>
+                                <Button type='submit' variant='contained'>Add Category</Button>
                             </Box>
-                            <Button type='submit' variant='contained'>Add Category</Button>
-                        </Box>
-                    </form>
+                        </form>
+                    }
                 </Box>
             </Box>
         </ModalContainer>

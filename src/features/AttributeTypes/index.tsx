@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Button, Checkbox, FormControlLabel, Modal } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, LinearProgress, Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { ProcessCsvButton } from '../Clients';
@@ -24,6 +24,7 @@ const AttributeTypes = () => {
     const [filterInactiveAttributeTypes, setFilterInactiveAttributeTypes] = useState(true);
     const [inactiveAttributeTypes, setInactiveAttributeTypes] = useState<string[]>([]);
     const [isViewingValues, setIsViewingValues] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const getData = async () => {
@@ -34,6 +35,7 @@ const AttributeTypes = () => {
 
             setAttributeTypes(filterInactiveAttributeTypes ? fetchedAttributeTypes.filter((b) => !b.inactive) : fetchedAttributeTypes);
             setInactiveAttributeTypes(fetchedAttributeTypes.filter((b) => b.inactive).map((b) => b.id));
+            setLoading(false);
         }
 
         getData();
@@ -239,7 +241,7 @@ const AttributeTypes = () => {
                 </Box>
                 <Box paddingLeft='2rem' display='flex' justifyContent='center' alignItems='center' width='30%'>
                     <Box flex='1' display='flex' justifyContent='center' alignItems='center'>
-                        <ProcessCsvButton label='Bulk Upload Attribute Types' action={bulkAddAttributeTypes} />
+                        <ProcessCsvButton label='Bulk Upload' action={bulkAddAttributeTypes} />
                     </Box>
                     <Box flex='1' display='flex' justifyContent='center' alignItems='center'>
                         <Button variant="contained" component="label" onClick={startAddingAttributeType} sx={{margin: 0}}>
@@ -252,7 +254,11 @@ const AttributeTypes = () => {
                 <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 50 }}} onChange={filterInactive} checked={filterInactiveAttributeTypes} value={filterInactiveAttributeTypes}/>} label="Active attribute types only" />
             </Box>
             <Box flex='1'>
-                <DataGrid columns={columns} rows={rows} getRowHeight={() => 'auto'} sx={{fontSize: '2rem'}} />
+                {loading ?
+                    <LinearProgress color='primary' />
+                    :
+                    <DataGrid columns={columns} rows={rows} getRowHeight={() => 'auto'} sx={{fontSize: '2rem'}} />
+                }
             </Box>
         </Box>
     )

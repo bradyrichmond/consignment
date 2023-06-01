@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Badge, Box, Modal, Tooltip, Typography } from '@mui/material';
+import { Badge, Box, LinearProgress, Modal, Tooltip, Typography } from '@mui/material';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import { format } from 'date-fns';
 import UserAvatar from "../../utils/UserAvatar";
@@ -253,6 +253,7 @@ const Status = (props: StatusProps) => {
                     <Box display='flex' justifyContent='center' alignItems='center' height='100%' width='100%'>
                         <Box bgcolor='rgba(255, 255, 255, 255)' borderRadius='1rem' padding='2rem'>
                             <Typography>Logging out...</Typography>
+                            <LinearProgress color='primary' />
                         </Box>
                     </Box>
                 </ModalContainer>

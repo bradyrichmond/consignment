@@ -2,7 +2,7 @@ import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
 import { DataStore, Predicates } from 'aws-amplify';
 import { Address, Client } from '../../models';
 import { DataGrid, GridColDef, GridEventListener, GridRenderCellParams, MuiEvent } from '@mui/x-data-grid';
-import { Box, Button, Checkbox, FormControlLabel, Modal} from '@mui/material';
+import { Box, Button, Checkbox, FormControlLabel, LinearProgress, Modal} from '@mui/material';
 import AddClient from './AddClient';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
@@ -40,6 +40,7 @@ const Clients = (props: ClientsProps) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filterInactiveClients, setFilterInactiveClients] = useState(true);
     const { setDrawerContent, setDrawerClientId } = useContext(DrawerContext);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -52,6 +53,7 @@ const Clients = (props: ClientsProps) => {
             const finalClients = filterInactiveClients ? fetchedClients.filter((c) => (c.inactiveTimestamp ?? format(Date.now(), "yyyy-MM-dd")) >= format(Date.now(), "yyyy-MM-dd")) : fetchedClients;
 
             setClients(finalClients);
+            setLoading(false);
         }
 
         getClients();
@@ -219,7 +221,6 @@ const Clients = (props: ClientsProps) => {
             >
                 <AddClient close={stopAddingClient}/>
             </Modal>
-
             <Box paddingTop='2rem' paddingBottom='2rem' display='flex' flexDirection='row' width='100%' alignItems='center'>
                 <Box flex='1'>
                     <SearchBar onSearchChange={onSearchChange} />
@@ -241,7 +242,11 @@ const Clients = (props: ClientsProps) => {
                 <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 50}}} onChange={filterInactive} checked={filterInactiveClients} value={filterInactiveClients}/>} label="Active clients only" />
             </Box>
             <Box flex='1'>
-                <DataGrid columns={columns} rows={rows} onRowClick={handleRowClick} getRowHeight={() => 'auto'} sx={{fontSize: '2rem'}} />
+                {loading ? 
+                    <LinearProgress color='primary' />
+                    :
+                    <DataGrid columns={columns} rows={rows} onRowClick={handleRowClick} getRowHeight={() => 'auto'} sx={{fontSize: '2rem'}} />
+                }
             </Box>
         </Box>
     )

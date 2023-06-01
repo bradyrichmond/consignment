@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/system';
 import { Brand } from '../../models';
 import { DataStore } from 'aws-amplify';
-import { Button, Typography } from '@mui/material';
+import { Button, LinearProgress, Typography } from '@mui/material';
 
 interface SelectBrandProps {
     onButtonClick: (brand: Brand) => void,
@@ -11,7 +11,8 @@ interface SelectBrandProps {
 
 const SelectBrand = (props: SelectBrandProps) => {
     const { onButtonClick, range } = props;
-    const [brands, setBrands] = useState<Brand[]>([])
+    const [brands, setBrands] = useState<Brand[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const upperRangeLimits = range.split(',');
@@ -21,6 +22,7 @@ const SelectBrand = (props: SelectBrandProps) => {
         const getBrands = async () => {
             const fetchedBrands = await DataStore.query(Brand, (b) => b.or(b => [...rangeLimits.map((l) => b.description.beginsWith(l))]));
             setBrands(fetchedBrands);
+            setLoading(false);
         }
 
         getBrands();
@@ -32,6 +34,7 @@ const SelectBrand = (props: SelectBrandProps) => {
 
     return (
         <Box height='100%'>
+            {loading && <LinearProgress color='primary' />}
             {brands && brands.length > 0 ?
                 brands.map((brand) =>
                     <Box margin='1rem'>

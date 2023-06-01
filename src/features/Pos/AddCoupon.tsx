@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import ModalContainer from '../../utils/ModalContainer';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, LinearProgress, Typography } from '@mui/material';
 import { Coupon, CouponType } from '../../models';
 import { DataStore, Predicates } from 'aws-amplify';
-import { useForm } from 'react-hook-form';
 import { AddCouponForm } from '../Coupons/AddCoupon';
 
 interface AddCouponProps {
@@ -13,7 +12,7 @@ interface AddCouponProps {
 const AddCoupon = (props: AddCouponProps) => {
     const { close } = props;
     const [coupons, setCoupons] = useState<Coupon[]>([]);
-    const { handleSubmit, register } = useForm();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {    
         const getCoupons = async () => {
@@ -23,6 +22,7 @@ const AddCoupon = (props: AddCouponProps) => {
             });
 
             setCoupons(fetchedCoupons);
+            setLoading(false);
         }
 
         getCoupons();
@@ -42,6 +42,7 @@ const AddCoupon = (props: AddCouponProps) => {
         <ModalContainer onClose={close}>
             <>
                 <Box display='flex' flexDirection='row' flexWrap='wrap'>
+                    {loading && <LinearProgress color='primary' />}
                     {coupons && 
                         coupons.map((c) => {
                             return (

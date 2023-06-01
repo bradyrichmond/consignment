@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, LinearProgress, Typography } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const DropOffComplete = () => {
@@ -24,6 +24,7 @@ const DropOffComplete = () => {
                 <Typography variant='h3'>
                     Thank you for consigning with us!
                 </Typography>
+                <LinearProgress color='primary' />
             </Box>
         </Box>
     )

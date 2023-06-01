@@ -19,6 +19,7 @@ const LocationSettings = (props: LocationSettingsProps) => {
     const [updatingTaxRate, setUpdatingTaxRate] = useState(false);
     const [activeLocationData, setActiveLocationData] = useState<Location>();
     const [activeLocationAddress, setActiveLocationAddress] = useState<Address>();
+    const [loading, setLoading] = useState(true);
     const { handleSubmit } = useForm();
 
     useEffect(() => {
@@ -27,6 +28,7 @@ const LocationSettings = (props: LocationSettingsProps) => {
             setActiveLocationData(fetchedLocationData);
             const fetchedAddress = await fetchedLocationData?.address;
             setActiveLocationAddress(fetchedAddress);
+            setLoading(false);
         }
 
         getLocationData();
