@@ -228,7 +228,7 @@ type ConsignmentDropoff @model {
   oversizedItems: Boolean
   newConsigner: Boolean
   timerCleared: Boolean
-  createdTime: AWSDateTime!
+  createdTime: AWSTimestamp!
   hasAppointment: Boolean
 }
 
@@ -237,4 +237,20 @@ type Cubby @model {
   cubbyNumber: String!
   locationId: String!
   inUse: Boolean!
+}
+
+type Appointment @model {
+  id: ID!
+  date: AWSTimestamp!
+  firstName: String!
+  lastName: String!
+  phone: String!
+}
+
+type Blackout @model {
+  id: ID!
+  dayOfWeek: Int!
+  recurring: Boolean!
+  startTime: String!
+  endTime: String!
 }

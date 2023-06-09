@@ -2666,6 +2666,120 @@ export const deleteCubby = /* GraphQL */ `
     }
   }
 `;
+export const createAppointment = /* GraphQL */ `
+  mutation CreateAppointment(
+    $input: CreateAppointmentInput!
+    $condition: ModelAppointmentConditionInput
+  ) {
+    createAppointment(input: $input, condition: $condition) {
+      id
+      date
+      firstName
+      lastName
+      phone
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateAppointment = /* GraphQL */ `
+  mutation UpdateAppointment(
+    $input: UpdateAppointmentInput!
+    $condition: ModelAppointmentConditionInput
+  ) {
+    updateAppointment(input: $input, condition: $condition) {
+      id
+      date
+      firstName
+      lastName
+      phone
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteAppointment = /* GraphQL */ `
+  mutation DeleteAppointment(
+    $input: DeleteAppointmentInput!
+    $condition: ModelAppointmentConditionInput
+  ) {
+    deleteAppointment(input: $input, condition: $condition) {
+      id
+      date
+      firstName
+      lastName
+      phone
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const createBlackout = /* GraphQL */ `
+  mutation CreateBlackout(
+    $input: CreateBlackoutInput!
+    $condition: ModelBlackoutConditionInput
+  ) {
+    createBlackout(input: $input, condition: $condition) {
+      id
+      dayOfWeek
+      recurring
+      startTime
+      endTime
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateBlackout = /* GraphQL */ `
+  mutation UpdateBlackout(
+    $input: UpdateBlackoutInput!
+    $condition: ModelBlackoutConditionInput
+  ) {
+    updateBlackout(input: $input, condition: $condition) {
+      id
+      dayOfWeek
+      recurring
+      startTime
+      endTime
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteBlackout = /* GraphQL */ `
+  mutation DeleteBlackout(
+    $input: DeleteBlackoutInput!
+    $condition: ModelBlackoutConditionInput
+  ) {
+    deleteBlackout(input: $input, condition: $condition) {
+      id
+      dayOfWeek
+      recurring
+      startTime
+      endTime
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
 export const createCategoryAttribute = /* GraphQL */ `
   mutation CreateCategoryAttribute(
     $input: CreateCategoryAttributeInput!

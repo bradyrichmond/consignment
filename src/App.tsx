@@ -33,6 +33,7 @@ import CreateDropOff from './features/Concierge/CreateDropOff';
 import DropOffComplete from './features/Concierge/DropOffComplete';
 import EmployeeDisplay from './features/Concierge/Employee';
 import Checkin from './features/Concierge/CheckIn';
+import Appointments from './features/Appointments';
 Amplify.configure(awsExports);
 
 const checkProtectedRoute = (userGroups: string[], allowedGroups: string[]) => {
@@ -51,6 +52,10 @@ export const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: s
       {
         path: 'add-items/:id',
         element: checkProtectedRoute(userGroups, ['Salespeople', 'Processors', 'Managers', 'Admins']) ? <AddItem /> : <Box>Access Denied</Box>
+      },
+      {
+        path: 'appointments',
+        element: checkProtectedRoute(userGroups, ['Salespeople', 'Processors', 'Managers', 'Admins']) ? <Appointments /> : <Box>Access Denied</Box>
       },
       {
         path: 'attribute-types',

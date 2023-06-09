@@ -766,7 +766,7 @@ type EagerConsignmentDropoff = {
   readonly oversizedItems?: boolean | null;
   readonly newConsigner?: boolean | null;
   readonly timerCleared?: boolean | null;
-  readonly createdTime: string;
+  readonly createdTime: number;
   readonly hasAppointment?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
@@ -790,7 +790,7 @@ type LazyConsignmentDropoff = {
   readonly oversizedItems?: boolean | null;
   readonly newConsigner?: boolean | null;
   readonly timerCleared?: boolean | null;
-  readonly createdTime: string;
+  readonly createdTime: number;
   readonly hasAppointment?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
@@ -833,6 +833,74 @@ export declare type Cubby = LazyLoading extends LazyLoadingDisabled ? EagerCubby
 
 export declare const Cubby: (new (init: ModelInit<Cubby>) => Cubby) & {
   copyOf(source: Cubby, mutator: (draft: MutableModel<Cubby>) => MutableModel<Cubby> | void): Cubby;
+}
+
+type EagerAppointment = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Appointment, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly date: number;
+  readonly firstName: string;
+  readonly lastName: string;
+  readonly phone: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyAppointment = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Appointment, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly date: number;
+  readonly firstName: string;
+  readonly lastName: string;
+  readonly phone: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Appointment = LazyLoading extends LazyLoadingDisabled ? EagerAppointment : LazyAppointment
+
+export declare const Appointment: (new (init: ModelInit<Appointment>) => Appointment) & {
+  copyOf(source: Appointment, mutator: (draft: MutableModel<Appointment>) => MutableModel<Appointment> | void): Appointment;
+}
+
+type EagerBlackout = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Blackout, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly dayOfWeek: number;
+  readonly recurring: boolean;
+  readonly startTime: string;
+  readonly endTime: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyBlackout = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Blackout, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly dayOfWeek: number;
+  readonly recurring: boolean;
+  readonly startTime: string;
+  readonly endTime: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Blackout = LazyLoading extends LazyLoadingDisabled ? EagerBlackout : LazyBlackout
+
+export declare const Blackout: (new (init: ModelInit<Blackout>) => Blackout) & {
+  copyOf(source: Blackout, mutator: (draft: MutableModel<Blackout>) => MutableModel<Blackout> | void): Blackout;
 }
 
 type EagerCategoryAttribute = {

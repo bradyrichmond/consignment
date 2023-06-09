@@ -2543,6 +2543,108 @@ export const onDeleteCubby = /* GraphQL */ `
     }
   }
 `;
+export const onCreateAppointment = /* GraphQL */ `
+  subscription OnCreateAppointment(
+    $filter: ModelSubscriptionAppointmentFilterInput
+  ) {
+    onCreateAppointment(filter: $filter) {
+      id
+      date
+      firstName
+      lastName
+      phone
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onUpdateAppointment = /* GraphQL */ `
+  subscription OnUpdateAppointment(
+    $filter: ModelSubscriptionAppointmentFilterInput
+  ) {
+    onUpdateAppointment(filter: $filter) {
+      id
+      date
+      firstName
+      lastName
+      phone
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onDeleteAppointment = /* GraphQL */ `
+  subscription OnDeleteAppointment(
+    $filter: ModelSubscriptionAppointmentFilterInput
+  ) {
+    onDeleteAppointment(filter: $filter) {
+      id
+      date
+      firstName
+      lastName
+      phone
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onCreateBlackout = /* GraphQL */ `
+  subscription OnCreateBlackout($filter: ModelSubscriptionBlackoutFilterInput) {
+    onCreateBlackout(filter: $filter) {
+      id
+      dayOfWeek
+      recurring
+      startTime
+      endTime
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onUpdateBlackout = /* GraphQL */ `
+  subscription OnUpdateBlackout($filter: ModelSubscriptionBlackoutFilterInput) {
+    onUpdateBlackout(filter: $filter) {
+      id
+      dayOfWeek
+      recurring
+      startTime
+      endTime
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onDeleteBlackout = /* GraphQL */ `
+  subscription OnDeleteBlackout($filter: ModelSubscriptionBlackoutFilterInput) {
+    onDeleteBlackout(filter: $filter) {
+      id
+      dayOfWeek
+      recurring
+      startTime
+      endTime
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
 export const onCreateCategoryAttribute = /* GraphQL */ `
   subscription OnCreateCategoryAttribute(
     $filter: ModelSubscriptionCategoryAttributeFilterInput

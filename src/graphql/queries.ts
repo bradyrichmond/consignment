@@ -2323,6 +2323,146 @@ export const syncCubbies = /* GraphQL */ `
     }
   }
 `;
+export const getAppointment = /* GraphQL */ `
+  query GetAppointment($id: ID!) {
+    getAppointment(id: $id) {
+      id
+      date
+      firstName
+      lastName
+      phone
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listAppointments = /* GraphQL */ `
+  query ListAppointments(
+    $filter: ModelAppointmentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listAppointments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        date
+        firstName
+        lastName
+        phone
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncAppointments = /* GraphQL */ `
+  query SyncAppointments(
+    $filter: ModelAppointmentFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncAppointments(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        date
+        firstName
+        lastName
+        phone
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getBlackout = /* GraphQL */ `
+  query GetBlackout($id: ID!) {
+    getBlackout(id: $id) {
+      id
+      dayOfWeek
+      recurring
+      startTime
+      endTime
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listBlackouts = /* GraphQL */ `
+  query ListBlackouts(
+    $filter: ModelBlackoutFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listBlackouts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        dayOfWeek
+        recurring
+        startTime
+        endTime
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncBlackouts = /* GraphQL */ `
+  query SyncBlackouts(
+    $filter: ModelBlackoutFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncBlackouts(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        dayOfWeek
+        recurring
+        startTime
+        endTime
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
 export const getCategoryAttribute = /* GraphQL */ `
   query GetCategoryAttribute($id: ID!) {
     getCategoryAttribute(id: $id) {

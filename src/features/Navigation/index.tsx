@@ -96,7 +96,7 @@ const navItems = [
 
 const Navigation = () => {
     const [activeTab, setActiveTab] = useState('');
-    const [expanded, setExpanded] = useState(true);
+    const [expanded, setExpanded] = useState(false);
     const { userGroups } = useContext(CognitoContext);
 
     const setActiveNav = (label: string) => {

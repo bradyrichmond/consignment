@@ -1232,7 +1232,7 @@ export type CreateConsignmentDropoffInput = {
   oversizedItems?: boolean | null,
   newConsigner?: boolean | null,
   timerCleared?: boolean | null,
-  createdTime: string,
+  createdTime: number,
   hasAppointment?: boolean | null,
   _version?: number | null,
   consignmentDropoffCubbyId?: string | null,
@@ -1249,7 +1249,7 @@ export type ModelConsignmentDropoffConditionInput = {
   oversizedItems?: ModelBooleanInput | null,
   newConsigner?: ModelBooleanInput | null,
   timerCleared?: ModelBooleanInput | null,
-  createdTime?: ModelStringInput | null,
+  createdTime?: ModelIntInput | null,
   hasAppointment?: ModelBooleanInput | null,
   and?: Array< ModelConsignmentDropoffConditionInput | null > | null,
   or?: Array< ModelConsignmentDropoffConditionInput | null > | null,
@@ -1271,7 +1271,7 @@ export type ConsignmentDropoff = {
   oversizedItems?: boolean | null,
   newConsigner?: boolean | null,
   timerCleared?: boolean | null,
-  createdTime: string,
+  createdTime: number,
   hasAppointment?: boolean | null,
   createdAt: string,
   updatedAt: string,
@@ -1306,7 +1306,7 @@ export type UpdateConsignmentDropoffInput = {
   oversizedItems?: boolean | null,
   newConsigner?: boolean | null,
   timerCleared?: boolean | null,
-  createdTime?: string | null,
+  createdTime?: number | null,
   hasAppointment?: boolean | null,
   _version?: number | null,
   consignmentDropoffCubbyId?: string | null,
@@ -1343,6 +1343,100 @@ export type UpdateCubbyInput = {
 };
 
 export type DeleteCubbyInput = {
+  id: string,
+  _version?: number | null,
+};
+
+export type CreateAppointmentInput = {
+  id?: string | null,
+  date: number,
+  firstName: string,
+  lastName: string,
+  phone: string,
+  _version?: number | null,
+};
+
+export type ModelAppointmentConditionInput = {
+  date?: ModelIntInput | null,
+  firstName?: ModelStringInput | null,
+  lastName?: ModelStringInput | null,
+  phone?: ModelStringInput | null,
+  and?: Array< ModelAppointmentConditionInput | null > | null,
+  or?: Array< ModelAppointmentConditionInput | null > | null,
+  not?: ModelAppointmentConditionInput | null,
+};
+
+export type Appointment = {
+  __typename: "Appointment",
+  id: string,
+  date: number,
+  firstName: string,
+  lastName: string,
+  phone: string,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+};
+
+export type UpdateAppointmentInput = {
+  id: string,
+  date?: number | null,
+  firstName?: string | null,
+  lastName?: string | null,
+  phone?: string | null,
+  _version?: number | null,
+};
+
+export type DeleteAppointmentInput = {
+  id: string,
+  _version?: number | null,
+};
+
+export type CreateBlackoutInput = {
+  id?: string | null,
+  dayOfWeek: number,
+  recurring: boolean,
+  startTime: string,
+  endTime: string,
+  _version?: number | null,
+};
+
+export type ModelBlackoutConditionInput = {
+  dayOfWeek?: ModelIntInput | null,
+  recurring?: ModelBooleanInput | null,
+  startTime?: ModelStringInput | null,
+  endTime?: ModelStringInput | null,
+  and?: Array< ModelBlackoutConditionInput | null > | null,
+  or?: Array< ModelBlackoutConditionInput | null > | null,
+  not?: ModelBlackoutConditionInput | null,
+};
+
+export type Blackout = {
+  __typename: "Blackout",
+  id: string,
+  dayOfWeek: number,
+  recurring: boolean,
+  startTime: string,
+  endTime: string,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+};
+
+export type UpdateBlackoutInput = {
+  id: string,
+  dayOfWeek?: number | null,
+  recurring?: boolean | null,
+  startTime?: string | null,
+  endTime?: string | null,
+  _version?: number | null,
+};
+
+export type DeleteBlackoutInput = {
   id: string,
   _version?: number | null,
 };
@@ -1707,7 +1801,7 @@ export type ModelConsignmentDropoffFilterInput = {
   oversizedItems?: ModelBooleanInput | null,
   newConsigner?: ModelBooleanInput | null,
   timerCleared?: ModelBooleanInput | null,
-  createdTime?: ModelStringInput | null,
+  createdTime?: ModelIntInput | null,
   hasAppointment?: ModelBooleanInput | null,
   and?: Array< ModelConsignmentDropoffFilterInput | null > | null,
   or?: Array< ModelConsignmentDropoffFilterInput | null > | null,
@@ -1735,6 +1829,42 @@ export type ModelCubbyFilterInput = {
 export type ModelCubbyConnection = {
   __typename: "ModelCubbyConnection",
   items:  Array<Cubby | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
+export type ModelAppointmentFilterInput = {
+  id?: ModelIDInput | null,
+  date?: ModelIntInput | null,
+  firstName?: ModelStringInput | null,
+  lastName?: ModelStringInput | null,
+  phone?: ModelStringInput | null,
+  and?: Array< ModelAppointmentFilterInput | null > | null,
+  or?: Array< ModelAppointmentFilterInput | null > | null,
+  not?: ModelAppointmentFilterInput | null,
+};
+
+export type ModelAppointmentConnection = {
+  __typename: "ModelAppointmentConnection",
+  items:  Array<Appointment | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
+export type ModelBlackoutFilterInput = {
+  id?: ModelIDInput | null,
+  dayOfWeek?: ModelIntInput | null,
+  recurring?: ModelBooleanInput | null,
+  startTime?: ModelStringInput | null,
+  endTime?: ModelStringInput | null,
+  and?: Array< ModelBlackoutFilterInput | null > | null,
+  or?: Array< ModelBlackoutFilterInput | null > | null,
+  not?: ModelBlackoutFilterInput | null,
+};
+
+export type ModelBlackoutConnection = {
+  __typename: "ModelBlackoutConnection",
+  items:  Array<Blackout | null >,
   nextToken?: string | null,
   startedAt?: number | null,
 };
@@ -2028,7 +2158,7 @@ export type ModelSubscriptionConsignmentDropoffFilterInput = {
   oversizedItems?: ModelSubscriptionBooleanInput | null,
   newConsigner?: ModelSubscriptionBooleanInput | null,
   timerCleared?: ModelSubscriptionBooleanInput | null,
-  createdTime?: ModelSubscriptionStringInput | null,
+  createdTime?: ModelSubscriptionIntInput | null,
   hasAppointment?: ModelSubscriptionBooleanInput | null,
   and?: Array< ModelSubscriptionConsignmentDropoffFilterInput | null > | null,
   or?: Array< ModelSubscriptionConsignmentDropoffFilterInput | null > | null,
@@ -2041,6 +2171,26 @@ export type ModelSubscriptionCubbyFilterInput = {
   inUse?: ModelSubscriptionBooleanInput | null,
   and?: Array< ModelSubscriptionCubbyFilterInput | null > | null,
   or?: Array< ModelSubscriptionCubbyFilterInput | null > | null,
+};
+
+export type ModelSubscriptionAppointmentFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  date?: ModelSubscriptionIntInput | null,
+  firstName?: ModelSubscriptionStringInput | null,
+  lastName?: ModelSubscriptionStringInput | null,
+  phone?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionAppointmentFilterInput | null > | null,
+  or?: Array< ModelSubscriptionAppointmentFilterInput | null > | null,
+};
+
+export type ModelSubscriptionBlackoutFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  dayOfWeek?: ModelSubscriptionIntInput | null,
+  recurring?: ModelSubscriptionBooleanInput | null,
+  startTime?: ModelSubscriptionStringInput | null,
+  endTime?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionBlackoutFilterInput | null > | null,
+  or?: Array< ModelSubscriptionBlackoutFilterInput | null > | null,
 };
 
 export type ModelSubscriptionCategoryAttributeFilterInput = {
@@ -4782,7 +4932,7 @@ export type CreateConsignmentDropoffMutation = {
     oversizedItems?: boolean | null,
     newConsigner?: boolean | null,
     timerCleared?: boolean | null,
-    createdTime: string,
+    createdTime: number,
     hasAppointment?: boolean | null,
     createdAt: string,
     updatedAt: string,
@@ -4824,7 +4974,7 @@ export type UpdateConsignmentDropoffMutation = {
     oversizedItems?: boolean | null,
     newConsigner?: boolean | null,
     timerCleared?: boolean | null,
-    createdTime: string,
+    createdTime: number,
     hasAppointment?: boolean | null,
     createdAt: string,
     updatedAt: string,
@@ -4866,7 +5016,7 @@ export type DeleteConsignmentDropoffMutation = {
     oversizedItems?: boolean | null,
     newConsigner?: boolean | null,
     timerCleared?: boolean | null,
-    createdTime: string,
+    createdTime: number,
     hasAppointment?: boolean | null,
     createdAt: string,
     updatedAt: string,
@@ -4929,6 +5079,132 @@ export type DeleteCubbyMutation = {
     cubbyNumber: string,
     locationId: string,
     inUse: boolean,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type CreateAppointmentMutationVariables = {
+  input: CreateAppointmentInput,
+  condition?: ModelAppointmentConditionInput | null,
+};
+
+export type CreateAppointmentMutation = {
+  createAppointment?:  {
+    __typename: "Appointment",
+    id: string,
+    date: number,
+    firstName: string,
+    lastName: string,
+    phone: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type UpdateAppointmentMutationVariables = {
+  input: UpdateAppointmentInput,
+  condition?: ModelAppointmentConditionInput | null,
+};
+
+export type UpdateAppointmentMutation = {
+  updateAppointment?:  {
+    __typename: "Appointment",
+    id: string,
+    date: number,
+    firstName: string,
+    lastName: string,
+    phone: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type DeleteAppointmentMutationVariables = {
+  input: DeleteAppointmentInput,
+  condition?: ModelAppointmentConditionInput | null,
+};
+
+export type DeleteAppointmentMutation = {
+  deleteAppointment?:  {
+    __typename: "Appointment",
+    id: string,
+    date: number,
+    firstName: string,
+    lastName: string,
+    phone: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type CreateBlackoutMutationVariables = {
+  input: CreateBlackoutInput,
+  condition?: ModelBlackoutConditionInput | null,
+};
+
+export type CreateBlackoutMutation = {
+  createBlackout?:  {
+    __typename: "Blackout",
+    id: string,
+    dayOfWeek: number,
+    recurring: boolean,
+    startTime: string,
+    endTime: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type UpdateBlackoutMutationVariables = {
+  input: UpdateBlackoutInput,
+  condition?: ModelBlackoutConditionInput | null,
+};
+
+export type UpdateBlackoutMutation = {
+  updateBlackout?:  {
+    __typename: "Blackout",
+    id: string,
+    dayOfWeek: number,
+    recurring: boolean,
+    startTime: string,
+    endTime: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type DeleteBlackoutMutationVariables = {
+  input: DeleteBlackoutInput,
+  condition?: ModelBlackoutConditionInput | null,
+};
+
+export type DeleteBlackoutMutation = {
+  deleteBlackout?:  {
+    __typename: "Blackout",
+    id: string,
+    dayOfWeek: number,
+    recurring: boolean,
+    startTime: string,
+    endTime: string,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -7408,7 +7684,7 @@ export type GetConsignmentDropoffQuery = {
     oversizedItems?: boolean | null,
     newConsigner?: boolean | null,
     timerCleared?: boolean | null,
-    createdTime: string,
+    createdTime: number,
     hasAppointment?: boolean | null,
     createdAt: string,
     updatedAt: string,
@@ -7453,7 +7729,7 @@ export type ListConsignmentDropoffsQuery = {
       oversizedItems?: boolean | null,
       newConsigner?: boolean | null,
       timerCleared?: boolean | null,
-      createdTime: string,
+      createdTime: number,
       hasAppointment?: boolean | null,
       createdAt: string,
       updatedAt: string,
@@ -7502,7 +7778,7 @@ export type SyncConsignmentDropoffsQuery = {
       oversizedItems?: boolean | null,
       newConsigner?: boolean | null,
       timerCleared?: boolean | null,
-      createdTime: string,
+      createdTime: number,
       hasAppointment?: boolean | null,
       createdAt: string,
       updatedAt: string,
@@ -7577,6 +7853,156 @@ export type SyncCubbiesQuery = {
       cubbyNumber: string,
       locationId: string,
       inUse: boolean,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type GetAppointmentQueryVariables = {
+  id: string,
+};
+
+export type GetAppointmentQuery = {
+  getAppointment?:  {
+    __typename: "Appointment",
+    id: string,
+    date: number,
+    firstName: string,
+    lastName: string,
+    phone: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type ListAppointmentsQueryVariables = {
+  filter?: ModelAppointmentFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListAppointmentsQuery = {
+  listAppointments?:  {
+    __typename: "ModelAppointmentConnection",
+    items:  Array< {
+      __typename: "Appointment",
+      id: string,
+      date: number,
+      firstName: string,
+      lastName: string,
+      phone: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncAppointmentsQueryVariables = {
+  filter?: ModelAppointmentFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncAppointmentsQuery = {
+  syncAppointments?:  {
+    __typename: "ModelAppointmentConnection",
+    items:  Array< {
+      __typename: "Appointment",
+      id: string,
+      date: number,
+      firstName: string,
+      lastName: string,
+      phone: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type GetBlackoutQueryVariables = {
+  id: string,
+};
+
+export type GetBlackoutQuery = {
+  getBlackout?:  {
+    __typename: "Blackout",
+    id: string,
+    dayOfWeek: number,
+    recurring: boolean,
+    startTime: string,
+    endTime: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type ListBlackoutsQueryVariables = {
+  filter?: ModelBlackoutFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListBlackoutsQuery = {
+  listBlackouts?:  {
+    __typename: "ModelBlackoutConnection",
+    items:  Array< {
+      __typename: "Blackout",
+      id: string,
+      dayOfWeek: number,
+      recurring: boolean,
+      startTime: string,
+      endTime: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncBlackoutsQueryVariables = {
+  filter?: ModelBlackoutFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncBlackoutsQuery = {
+  syncBlackouts?:  {
+    __typename: "ModelBlackoutConnection",
+    items:  Array< {
+      __typename: "Blackout",
+      id: string,
+      dayOfWeek: number,
+      recurring: boolean,
+      startTime: string,
+      endTime: string,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -10540,7 +10966,7 @@ export type OnCreateConsignmentDropoffSubscription = {
     oversizedItems?: boolean | null,
     newConsigner?: boolean | null,
     timerCleared?: boolean | null,
-    createdTime: string,
+    createdTime: number,
     hasAppointment?: boolean | null,
     createdAt: string,
     updatedAt: string,
@@ -10581,7 +11007,7 @@ export type OnUpdateConsignmentDropoffSubscription = {
     oversizedItems?: boolean | null,
     newConsigner?: boolean | null,
     timerCleared?: boolean | null,
-    createdTime: string,
+    createdTime: number,
     hasAppointment?: boolean | null,
     createdAt: string,
     updatedAt: string,
@@ -10622,7 +11048,7 @@ export type OnDeleteConsignmentDropoffSubscription = {
     oversizedItems?: boolean | null,
     newConsigner?: boolean | null,
     timerCleared?: boolean | null,
-    createdTime: string,
+    createdTime: number,
     hasAppointment?: boolean | null,
     createdAt: string,
     updatedAt: string,
@@ -10682,6 +11108,126 @@ export type OnDeleteCubbySubscription = {
     cubbyNumber: string,
     locationId: string,
     inUse: boolean,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnCreateAppointmentSubscriptionVariables = {
+  filter?: ModelSubscriptionAppointmentFilterInput | null,
+};
+
+export type OnCreateAppointmentSubscription = {
+  onCreateAppointment?:  {
+    __typename: "Appointment",
+    id: string,
+    date: number,
+    firstName: string,
+    lastName: string,
+    phone: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnUpdateAppointmentSubscriptionVariables = {
+  filter?: ModelSubscriptionAppointmentFilterInput | null,
+};
+
+export type OnUpdateAppointmentSubscription = {
+  onUpdateAppointment?:  {
+    __typename: "Appointment",
+    id: string,
+    date: number,
+    firstName: string,
+    lastName: string,
+    phone: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnDeleteAppointmentSubscriptionVariables = {
+  filter?: ModelSubscriptionAppointmentFilterInput | null,
+};
+
+export type OnDeleteAppointmentSubscription = {
+  onDeleteAppointment?:  {
+    __typename: "Appointment",
+    id: string,
+    date: number,
+    firstName: string,
+    lastName: string,
+    phone: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnCreateBlackoutSubscriptionVariables = {
+  filter?: ModelSubscriptionBlackoutFilterInput | null,
+};
+
+export type OnCreateBlackoutSubscription = {
+  onCreateBlackout?:  {
+    __typename: "Blackout",
+    id: string,
+    dayOfWeek: number,
+    recurring: boolean,
+    startTime: string,
+    endTime: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnUpdateBlackoutSubscriptionVariables = {
+  filter?: ModelSubscriptionBlackoutFilterInput | null,
+};
+
+export type OnUpdateBlackoutSubscription = {
+  onUpdateBlackout?:  {
+    __typename: "Blackout",
+    id: string,
+    dayOfWeek: number,
+    recurring: boolean,
+    startTime: string,
+    endTime: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnDeleteBlackoutSubscriptionVariables = {
+  filter?: ModelSubscriptionBlackoutFilterInput | null,
+};
+
+export type OnDeleteBlackoutSubscription = {
+  onDeleteBlackout?:  {
+    __typename: "Blackout",
+    id: string,
+    dayOfWeek: number,
+    recurring: boolean,
+    startTime: string,
+    endTime: string,
     createdAt: string,
     updatedAt: string,
     _version: number,
