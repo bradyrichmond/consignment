@@ -2331,11 +2331,43 @@ export const getAppointment = /* GraphQL */ `
       firstName
       lastName
       phone
+      location {
+        id
+        locationId
+        locationName
+        address {
+          id
+          addressId
+          addressLabel
+          label
+          address1
+          address2
+          address3
+          city
+          state
+          zip
+          primary
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientAddressesId
+        }
+        taxRate
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        locationAddressId
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      appointmentLocationId
     }
   }
 `;
@@ -2352,11 +2384,24 @@ export const listAppointments = /* GraphQL */ `
         firstName
         lastName
         phone
+        location {
+          id
+          locationId
+          locationName
+          taxRate
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          locationAddressId
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        appointmentLocationId
       }
       nextToken
       startedAt
@@ -2382,11 +2427,24 @@ export const syncAppointments = /* GraphQL */ `
         firstName
         lastName
         phone
+        location {
+          id
+          locationId
+          locationName
+          taxRate
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          locationAddressId
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        appointmentLocationId
       }
       nextToken
       startedAt
@@ -2398,14 +2456,44 @@ export const getBlackout = /* GraphQL */ `
     getBlackout(id: $id) {
       id
       dayOfWeek
-      recurring
-      startTime
-      endTime
+      time
+      location {
+        id
+        locationId
+        locationName
+        address {
+          id
+          addressId
+          addressLabel
+          label
+          address1
+          address2
+          address3
+          city
+          state
+          zip
+          primary
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientAddressesId
+        }
+        taxRate
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        locationAddressId
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      blackoutLocationId
     }
   }
 `;
@@ -2419,14 +2507,25 @@ export const listBlackouts = /* GraphQL */ `
       items {
         id
         dayOfWeek
-        recurring
-        startTime
-        endTime
+        time
+        location {
+          id
+          locationId
+          locationName
+          taxRate
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          locationAddressId
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        blackoutLocationId
       }
       nextToken
       startedAt
@@ -2449,14 +2548,25 @@ export const syncBlackouts = /* GraphQL */ `
       items {
         id
         dayOfWeek
-        recurring
-        startTime
-        endTime
+        time
+        location {
+          id
+          locationId
+          locationName
+          taxRate
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          locationAddressId
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        blackoutLocationId
       }
       nextToken
       startedAt

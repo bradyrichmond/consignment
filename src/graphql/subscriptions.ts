@@ -2553,11 +2553,43 @@ export const onCreateAppointment = /* GraphQL */ `
       firstName
       lastName
       phone
+      location {
+        id
+        locationId
+        locationName
+        address {
+          id
+          addressId
+          addressLabel
+          label
+          address1
+          address2
+          address3
+          city
+          state
+          zip
+          primary
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientAddressesId
+        }
+        taxRate
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        locationAddressId
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      appointmentLocationId
     }
   }
 `;
@@ -2571,11 +2603,43 @@ export const onUpdateAppointment = /* GraphQL */ `
       firstName
       lastName
       phone
+      location {
+        id
+        locationId
+        locationName
+        address {
+          id
+          addressId
+          addressLabel
+          label
+          address1
+          address2
+          address3
+          city
+          state
+          zip
+          primary
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientAddressesId
+        }
+        taxRate
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        locationAddressId
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      appointmentLocationId
     }
   }
 `;
@@ -2589,11 +2653,43 @@ export const onDeleteAppointment = /* GraphQL */ `
       firstName
       lastName
       phone
+      location {
+        id
+        locationId
+        locationName
+        address {
+          id
+          addressId
+          addressLabel
+          label
+          address1
+          address2
+          address3
+          city
+          state
+          zip
+          primary
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientAddressesId
+        }
+        taxRate
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        locationAddressId
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      appointmentLocationId
     }
   }
 `;
@@ -2602,14 +2698,44 @@ export const onCreateBlackout = /* GraphQL */ `
     onCreateBlackout(filter: $filter) {
       id
       dayOfWeek
-      recurring
-      startTime
-      endTime
+      time
+      location {
+        id
+        locationId
+        locationName
+        address {
+          id
+          addressId
+          addressLabel
+          label
+          address1
+          address2
+          address3
+          city
+          state
+          zip
+          primary
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientAddressesId
+        }
+        taxRate
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        locationAddressId
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      blackoutLocationId
     }
   }
 `;
@@ -2618,14 +2744,44 @@ export const onUpdateBlackout = /* GraphQL */ `
     onUpdateBlackout(filter: $filter) {
       id
       dayOfWeek
-      recurring
-      startTime
-      endTime
+      time
+      location {
+        id
+        locationId
+        locationName
+        address {
+          id
+          addressId
+          addressLabel
+          label
+          address1
+          address2
+          address3
+          city
+          state
+          zip
+          primary
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientAddressesId
+        }
+        taxRate
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        locationAddressId
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      blackoutLocationId
     }
   }
 `;
@@ -2634,14 +2790,44 @@ export const onDeleteBlackout = /* GraphQL */ `
     onDeleteBlackout(filter: $filter) {
       id
       dayOfWeek
-      recurring
-      startTime
-      endTime
+      time
+      location {
+        id
+        locationId
+        locationName
+        address {
+          id
+          addressId
+          addressLabel
+          label
+          address1
+          address2
+          address3
+          city
+          state
+          zip
+          primary
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientAddressesId
+        }
+        taxRate
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        locationAddressId
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      blackoutLocationId
     }
   }
 `;

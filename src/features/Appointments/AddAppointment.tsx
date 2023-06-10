@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/system';
 import ModalContainer from '../../utils/ModalContainer';
-import { Button, TextField, Typography } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { DataStore } from 'aws-amplify';
-import { Appointment } from '../../models';
-import { format } from 'date-fns';
+import { Appointment, Location } from '../../models';
 
 interface AddAppointmentProps {
     close: () => void
@@ -15,12 +14,21 @@ interface AddAppointmentProps {
 const AddAppointment = (props: AddAppointmentProps) => {
     const { close, date } = props;
     const { handleSubmit, register } = useForm();
+    const storeLocationId = localStorage.getItem('locationId');
+    const [storeData, setStoreData] = useState<Location>();
+
+    useEffect(() => {
+        const getData = async () => {
+            const fetchedStore = await DataStore.query(Location, storeLocationId ?? '');
+            setStoreData(fetchedStore);
+        }
+
+        getData();
+    }, [])
 
     const handleAddAppointment = async (data: any) => {
         const { firstName, lastName, phone } = data;
-        const appointmentData = { firstName, lastName, phone, date };
-        alert(JSON.stringify(appointmentData))
-        await DataStore.save(new Appointment(appointmentData));
+        await DataStore.save(new Appointment({ firstName, lastName, phone, date, location: storeData, appointmentLocationId: storeLocationId }));
         close();
     }
 

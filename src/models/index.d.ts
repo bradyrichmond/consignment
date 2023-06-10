@@ -845,8 +845,10 @@ type EagerAppointment = {
   readonly firstName: string;
   readonly lastName: string;
   readonly phone: string;
+  readonly location?: Location | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly appointmentLocationId?: string | null;
 }
 
 type LazyAppointment = {
@@ -859,8 +861,10 @@ type LazyAppointment = {
   readonly firstName: string;
   readonly lastName: string;
   readonly phone: string;
+  readonly location: AsyncItem<Location | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly appointmentLocationId?: string | null;
 }
 
 export declare type Appointment = LazyLoading extends LazyLoadingDisabled ? EagerAppointment : LazyAppointment
@@ -876,11 +880,11 @@ type EagerBlackout = {
   };
   readonly id: string;
   readonly dayOfWeek: number;
-  readonly recurring: boolean;
-  readonly startTime: string;
-  readonly endTime: string;
+  readonly time: string;
+  readonly location?: Location | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly blackoutLocationId?: string | null;
 }
 
 type LazyBlackout = {
@@ -890,11 +894,11 @@ type LazyBlackout = {
   };
   readonly id: string;
   readonly dayOfWeek: number;
-  readonly recurring: boolean;
-  readonly startTime: string;
-  readonly endTime: string;
+  readonly time: string;
+  readonly location: AsyncItem<Location | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly blackoutLocationId?: string | null;
 }
 
 export declare type Blackout = LazyLoading extends LazyLoadingDisabled ? EagerBlackout : LazyBlackout

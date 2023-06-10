@@ -2094,6 +2094,24 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "location": {
+                    "name": "location",
+                    "isArray": false,
+                    "type": {
+                        "model": "Location"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": [
+                            "id"
+                        ],
+                        "targetNames": [
+                            "appointmentLocationId"
+                        ]
+                    }
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -2109,6 +2127,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
+                },
+                "appointmentLocationId": {
+                    "name": "appointmentLocationId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -2137,26 +2162,30 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "recurring": {
-                    "name": "recurring",
-                    "isArray": false,
-                    "type": "Boolean",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "startTime": {
-                    "name": "startTime",
+                "time": {
+                    "name": "time",
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
                     "attributes": []
                 },
-                "endTime": {
-                    "name": "endTime",
+                "location": {
+                    "name": "location",
                     "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
+                    "type": {
+                        "model": "Location"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": [
+                            "id"
+                        ],
+                        "targetNames": [
+                            "blackoutLocationId"
+                        ]
+                    }
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -2173,6 +2202,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
+                },
+                "blackoutLocationId": {
+                    "name": "blackoutLocationId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -2320,5 +2356,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.2",
-    "version": "df824c177cd942c857f2de6f5904e656"
+    "version": "8c691387e795c2504763c7dc709910d4"
 };

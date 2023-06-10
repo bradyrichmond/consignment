@@ -34,6 +34,7 @@ import DropOffComplete from './features/Concierge/DropOffComplete';
 import EmployeeDisplay from './features/Concierge/Employee';
 import Checkin from './features/Concierge/CheckIn';
 import Appointments from './features/Appointments';
+import SetupBlackouts from './features/Appointments/SetupBlackouts';
 Amplify.configure(awsExports);
 
 const checkProtectedRoute = (userGroups: string[], allowedGroups: string[]) => {
@@ -56,6 +57,10 @@ export const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: s
       {
         path: 'appointments',
         element: checkProtectedRoute(userGroups, ['Salespeople', 'Processors', 'Managers', 'Admins']) ? <Appointments /> : <Box>Access Denied</Box>
+      },
+      {
+        path: 'appointments/blackouts',
+        element: checkProtectedRoute(userGroups, ['Managers', 'Admins']) ? <SetupBlackouts /> : <Box>Access Denied</Box>
       },
       {
         path: 'attribute-types',
@@ -200,18 +205,11 @@ const App = () => {
   const [drawerContent, setDrawerContent] = useState('');
   const [drawerClientId, setDrawerClientId] = useState('');
   const [drawerItemId, setDrawerItemId] = useState('');
-  const [theme, setTheme] = useState<Theme>(light);
-
-  useEffect(() => {
-    const themeSetting = localStorage.getItem('theme');
-    const themeName = parseInt(themeSetting ?? '0');
-    setTheme(themes[themeName]);
-  }, [])
 
   return (
     <CognitoContext.Provider value={{userIsLoggedIn, setUserIsLoggedIn, userGroups, setUserGroups}}>
       <DrawerContext.Provider value={{drawerContent, setDrawerContent, drawerClientId, setDrawerClientId, drawerItemId, setDrawerItemId}}>
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={light}>
           <DndProvider backend={HTML5Backend}>
             <CognitoContext.Consumer>
               { value => 

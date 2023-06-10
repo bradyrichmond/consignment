@@ -11,6 +11,7 @@ import { DataStore } from 'aws-amplify';
 import { add, format } from 'date-fns';
 import AddAppointment from './AddAppointment';
 import ConfirmModal from '../../utils/ConfirmModal';
+import { useNavigate } from 'react-router-dom';
 
 const ServerDay = (props: PickersDayProps<Date> & { highlightedDays?: number[] }) => {
     const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
@@ -27,6 +28,7 @@ const ServerDay = (props: PickersDayProps<Date> & { highlightedDays?: number[] }
 const Appointments = () => {
     const [highlightedDays, setHighlightedDays] = useState([]);
     const [selected, setSelected] = useState<Date>(new Date(format(Date.now() + (new Date(Date.now()).getTimezoneOffset() * 60 * 1000 ), 'yyyy-MM-dd')));
+    const navigate = useNavigate();
 
     const getHighlightedDays = (date: Date) => {
 
@@ -36,6 +38,10 @@ const Appointments = () => {
         setHighlightedDays([]);
         getHighlightedDays(date);
     };
+
+    const manageBlackouts = () => {
+        navigate('/appointments/blackouts');
+    }
 
     return (
         <Box padding='2rem' display='flex' justifyContent='center' alignItems='center' flexDirection='row' height='100%'>
@@ -58,7 +64,7 @@ const Appointments = () => {
                         />
                     </LocalizationProvider>
                 </Box>
-                <Button variant='contained' sx={{marginTop: '2rem'}}>
+                <Button variant='contained' sx={{marginTop: '2rem'}} onClick={manageBlackouts}>
                     Manage Blackouts
                 </Button>
             </Box>
@@ -84,13 +90,18 @@ const DayDisplay = (props: DayDisplayProps) => {
     const [activeTimeframe, setActiveTimeframe] = useState<number>();
     const endDateTime = add(selectedDay ?? 0, { hours: 24 });
 
-    const generateOptions = () => {
+    const generateOptions = (passedBlackouts: Blackout[]) => {
         let startingTime = new Date(selectedDay.valueOf() + (selectedDay.getTimezoneOffset() * 60 * 1000));
         const generatedOptions = [];
+        const dayNumber = selectedDay.getDay();
 
         if (startingTime && endDateTime) {
             while (startingTime < endDateTime) {
-                generatedOptions.push(startingTime);
+                console.log(!blackouts.find((b) => b.time === format(startingTime, 'hh:mm aa')), passedBlackouts, format(startingTime, 'hh:mm aa'), dayNumber);
+                if (!passedBlackouts.find((b) => b.time === format(startingTime, 'hh:mm aa'))) {
+                    generatedOptions.push(startingTime);
+                }
+
                 startingTime = add(startingTime, { minutes: 30 });
             }
         }
@@ -100,14 +111,15 @@ const DayDisplay = (props: DayDisplayProps) => {
     
     useEffect(() => {
         if (selectedDay && endDateTime) {
+            const dayNumber = selectedDay.getDay();
             const blackoutSub = DataStore.observeQuery(
                 Blackout,
                 (b) => b.and((b) => [
-                    b.startTime.ge(format(selectedDay, 'yyyy-MM-dd hh:mm')),
-                    b.startTime.le(format(endDateTime, 'yyyy-MM-dd hh:mm'))
+                    b.dayOfWeek.eq(dayNumber)
                 ])
             ).subscribe(snapshot => {
                 const { items, isSynced } = snapshot;
+                generateOptions(items);
                 setBlackouts(items);
             });
 
@@ -121,8 +133,6 @@ const DayDisplay = (props: DayDisplayProps) => {
                 const { items, isSynced } = snapshot;
                 setAppointments(items);
             });
-
-            generateOptions();
 
             return () => {
                 blackoutSub.unsubscribe();
@@ -145,6 +155,7 @@ const DayDisplay = (props: DayDisplayProps) => {
         if (activeAppointment) {
             await DataStore.delete(Appointment, activeAppointment.id)
         }
+        closeModals();
     }
 
     const closeModals = () => {
@@ -202,9 +213,9 @@ const DayDisplayItem = (props: DayDisplayItemProps) => {
     return (
         <Box padding='1rem' display='flex' flexDirection='row' border='3px solid #434ce6' borderRadius='.5rem' marginBottom='1rem' width='100%'>
             <Box>
-                <Typography variant='h4'>{format(time, 'hh:mm')}</Typography>
+                <Typography variant='h4'>{format(time, 'hh:mm aa')}</Typography>
             </Box>
-            <Box flex='1' justifyContent='center' alignItems='center' flexDirection='column'>
+            <Box flex='1' justifyContent='center' alignItems='center' flexDirection='column' display='flex'>
                 {appointmentMatch && 
                     <>
                         <Typography variant='h4'>{appointmentMatch.firstName} {appointmentMatch.lastName}</Typography>

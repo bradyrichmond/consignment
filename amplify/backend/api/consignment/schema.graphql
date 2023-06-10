@@ -245,12 +245,12 @@ type Appointment @model {
   firstName: String!
   lastName: String!
   phone: String!
+  location: Location @hasOne
 }
 
 type Blackout @model {
   id: ID!
   dayOfWeek: Int!
-  recurring: Boolean!
-  startTime: String!
-  endTime: String!
+  time: String!
+  location: Location @hasOne
 }
