@@ -21,6 +21,7 @@ import GroupIcon from '@mui/icons-material/Group';
 import CreateIcon from '@mui/icons-material/Create';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ConfirmModal from '../../utils/ConfirmModal';
 import ModalContainer from '../../utils/ModalContainer';
 
@@ -31,6 +32,12 @@ const navItems = [
         navUrl: 'attribute-types',
         userGroups: ['Manager', 'Admins'],
         icon: <CreateIcon fontSize='large' />
+    },
+    {
+        label: 'Appointments',
+        navUrl: 'appointments',
+        userGroups: ['Salespeople', 'Processors', 'Managers', 'Admins'],
+        icon: <CalendarMonthIcon fontSize='large' />
     },
     {
         label: 'Brands',
