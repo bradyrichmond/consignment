@@ -2831,6 +2831,141 @@ export const onDeleteBlackout = /* GraphQL */ `
     }
   }
 `;
+export const onCreateChatMessage = /* GraphQL */ `
+  subscription OnCreateChatMessage(
+    $filter: ModelSubscriptionChatMessageFilterInput
+  ) {
+    onCreateChatMessage(filter: $filter) {
+      id
+      message
+      images
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      chatRoomMessagesId
+    }
+  }
+`;
+export const onUpdateChatMessage = /* GraphQL */ `
+  subscription OnUpdateChatMessage(
+    $filter: ModelSubscriptionChatMessageFilterInput
+  ) {
+    onUpdateChatMessage(filter: $filter) {
+      id
+      message
+      images
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      chatRoomMessagesId
+    }
+  }
+`;
+export const onDeleteChatMessage = /* GraphQL */ `
+  subscription OnDeleteChatMessage(
+    $filter: ModelSubscriptionChatMessageFilterInput
+  ) {
+    onDeleteChatMessage(filter: $filter) {
+      id
+      message
+      images
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      chatRoomMessagesId
+    }
+  }
+`;
+export const onCreateChatRoom = /* GraphQL */ `
+  subscription OnCreateChatRoom($filter: ModelSubscriptionChatRoomFilterInput) {
+    onCreateChatRoom(filter: $filter) {
+      id
+      name
+      messages {
+        items {
+          id
+          message
+          images
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          chatRoomMessagesId
+        }
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onUpdateChatRoom = /* GraphQL */ `
+  subscription OnUpdateChatRoom($filter: ModelSubscriptionChatRoomFilterInput) {
+    onUpdateChatRoom(filter: $filter) {
+      id
+      name
+      messages {
+        items {
+          id
+          message
+          images
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          chatRoomMessagesId
+        }
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onDeleteChatRoom = /* GraphQL */ `
+  subscription OnDeleteChatRoom($filter: ModelSubscriptionChatRoomFilterInput) {
+    onDeleteChatRoom(filter: $filter) {
+      id
+      name
+      messages {
+        items {
+          id
+          message
+          images
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          chatRoomMessagesId
+        }
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
 export const onCreateCategoryAttribute = /* GraphQL */ `
   subscription OnCreateCategoryAttribute(
     $filter: ModelSubscriptionCategoryAttributeFilterInput

@@ -254,3 +254,19 @@ type Blackout @model {
   time: String!
   location: Location @hasOne
 }
+
+type ChatMessage @model {
+  id: ID!
+  message: String
+  images: [AWSURL]
+  author: String!
+  authorId: String!
+}
+
+type ChatRoom @model {
+  id: ID!
+  name: String!
+  messages: [ChatMessage] @hasMany
+  accessList: [String]
+  location: [String]
+}

@@ -2966,6 +2966,153 @@ export const deleteBlackout = /* GraphQL */ `
     }
   }
 `;
+export const createChatMessage = /* GraphQL */ `
+  mutation CreateChatMessage(
+    $input: CreateChatMessageInput!
+    $condition: ModelChatMessageConditionInput
+  ) {
+    createChatMessage(input: $input, condition: $condition) {
+      id
+      message
+      images
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      chatRoomMessagesId
+    }
+  }
+`;
+export const updateChatMessage = /* GraphQL */ `
+  mutation UpdateChatMessage(
+    $input: UpdateChatMessageInput!
+    $condition: ModelChatMessageConditionInput
+  ) {
+    updateChatMessage(input: $input, condition: $condition) {
+      id
+      message
+      images
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      chatRoomMessagesId
+    }
+  }
+`;
+export const deleteChatMessage = /* GraphQL */ `
+  mutation DeleteChatMessage(
+    $input: DeleteChatMessageInput!
+    $condition: ModelChatMessageConditionInput
+  ) {
+    deleteChatMessage(input: $input, condition: $condition) {
+      id
+      message
+      images
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      chatRoomMessagesId
+    }
+  }
+`;
+export const createChatRoom = /* GraphQL */ `
+  mutation CreateChatRoom(
+    $input: CreateChatRoomInput!
+    $condition: ModelChatRoomConditionInput
+  ) {
+    createChatRoom(input: $input, condition: $condition) {
+      id
+      name
+      messages {
+        items {
+          id
+          message
+          images
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          chatRoomMessagesId
+        }
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateChatRoom = /* GraphQL */ `
+  mutation UpdateChatRoom(
+    $input: UpdateChatRoomInput!
+    $condition: ModelChatRoomConditionInput
+  ) {
+    updateChatRoom(input: $input, condition: $condition) {
+      id
+      name
+      messages {
+        items {
+          id
+          message
+          images
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          chatRoomMessagesId
+        }
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteChatRoom = /* GraphQL */ `
+  mutation DeleteChatRoom(
+    $input: DeleteChatRoomInput!
+    $condition: ModelChatRoomConditionInput
+  ) {
+    deleteChatRoom(input: $input, condition: $condition) {
+      id
+      name
+      messages {
+        items {
+          id
+          message
+          images
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          chatRoomMessagesId
+        }
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
 export const createCategoryAttribute = /* GraphQL */ `
   mutation CreateCategoryAttribute(
     $input: CreateCategoryAttributeInput!

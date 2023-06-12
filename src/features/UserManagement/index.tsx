@@ -95,7 +95,7 @@ const UserManagement = () => {
     const handleDropSalesperson = async (user: any) => {
         const username = user.Username;
         setSalespeople((cur: any[]) => cur.length > 0 ? [...cur, user] : [user]);
-        await addUserToGroup(username, 'Managers');
+        await addUserToGroup(username, 'Salespeople');
         getUsers();
     }
 

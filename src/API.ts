@@ -1354,7 +1354,7 @@ export type CreateAppointmentInput = {
   lastName: string,
   phone: string,
   _version?: number | null,
-  appointmentLocationId: string,
+  appointmentLocationId?: string | null,
 };
 
 export type ModelAppointmentConditionInput = {
@@ -1375,13 +1375,13 @@ export type Appointment = {
   firstName: string,
   lastName: string,
   phone: string,
-  location: Location,
+  location?: Location | null,
   createdAt: string,
   updatedAt: string,
   _version: number,
   _deleted?: boolean | null,
   _lastChangedAt: number,
-  appointmentLocationId: string,
+  appointmentLocationId?: string | null,
 };
 
 export type UpdateAppointmentInput = {
@@ -1404,7 +1404,7 @@ export type CreateBlackoutInput = {
   dayOfWeek: number,
   time: string,
   _version?: number | null,
-  blackoutLocationId: string,
+  blackoutLocationId?: string | null,
 };
 
 export type ModelBlackoutConditionInput = {
@@ -1421,13 +1421,13 @@ export type Blackout = {
   id: string,
   dayOfWeek: number,
   time: string,
-  location: Location,
+  location?: Location | null,
   createdAt: string,
   updatedAt: string,
   _version: number,
   _deleted?: boolean | null,
   _lastChangedAt: number,
-  blackoutLocationId: string,
+  blackoutLocationId?: string | null,
 };
 
 export type UpdateBlackoutInput = {
@@ -1439,6 +1439,92 @@ export type UpdateBlackoutInput = {
 };
 
 export type DeleteBlackoutInput = {
+  id: string,
+  _version?: number | null,
+};
+
+export type CreateChatMessageInput = {
+  id?: string | null,
+  message?: string | null,
+  images?: Array< string | null > | null,
+  _version?: number | null,
+  chatRoomMessagesId?: string | null,
+};
+
+export type ModelChatMessageConditionInput = {
+  message?: ModelStringInput | null,
+  images?: ModelStringInput | null,
+  and?: Array< ModelChatMessageConditionInput | null > | null,
+  or?: Array< ModelChatMessageConditionInput | null > | null,
+  not?: ModelChatMessageConditionInput | null,
+  chatRoomMessagesId?: ModelIDInput | null,
+};
+
+export type ChatMessage = {
+  __typename: "ChatMessage",
+  id: string,
+  message?: string | null,
+  images?: Array< string | null > | null,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+  chatRoomMessagesId?: string | null,
+};
+
+export type UpdateChatMessageInput = {
+  id: string,
+  message?: string | null,
+  images?: Array< string | null > | null,
+  _version?: number | null,
+  chatRoomMessagesId?: string | null,
+};
+
+export type DeleteChatMessageInput = {
+  id: string,
+  _version?: number | null,
+};
+
+export type CreateChatRoomInput = {
+  id?: string | null,
+  name: string,
+  _version?: number | null,
+};
+
+export type ModelChatRoomConditionInput = {
+  name?: ModelStringInput | null,
+  and?: Array< ModelChatRoomConditionInput | null > | null,
+  or?: Array< ModelChatRoomConditionInput | null > | null,
+  not?: ModelChatRoomConditionInput | null,
+};
+
+export type ChatRoom = {
+  __typename: "ChatRoom",
+  id: string,
+  name: string,
+  messages?: ModelChatMessageConnection | null,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+};
+
+export type ModelChatMessageConnection = {
+  __typename: "ModelChatMessageConnection",
+  items:  Array<ChatMessage | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
+export type UpdateChatRoomInput = {
+  id: string,
+  name?: string | null,
+  _version?: number | null,
+};
+
+export type DeleteChatRoomInput = {
   id: string,
   _version?: number | null,
 };
@@ -1871,6 +1957,31 @@ export type ModelBlackoutConnection = {
   startedAt?: number | null,
 };
 
+export type ModelChatMessageFilterInput = {
+  id?: ModelIDInput | null,
+  message?: ModelStringInput | null,
+  images?: ModelStringInput | null,
+  and?: Array< ModelChatMessageFilterInput | null > | null,
+  or?: Array< ModelChatMessageFilterInput | null > | null,
+  not?: ModelChatMessageFilterInput | null,
+  chatRoomMessagesId?: ModelIDInput | null,
+};
+
+export type ModelChatRoomFilterInput = {
+  id?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  and?: Array< ModelChatRoomFilterInput | null > | null,
+  or?: Array< ModelChatRoomFilterInput | null > | null,
+  not?: ModelChatRoomFilterInput | null,
+};
+
+export type ModelChatRoomConnection = {
+  __typename: "ModelChatRoomConnection",
+  items:  Array<ChatRoom | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
 export type ModelCategoryAttributeFilterInput = {
   id?: ModelIDInput | null,
   categoryId?: ModelIDInput | null,
@@ -2191,6 +2302,21 @@ export type ModelSubscriptionBlackoutFilterInput = {
   time?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionBlackoutFilterInput | null > | null,
   or?: Array< ModelSubscriptionBlackoutFilterInput | null > | null,
+};
+
+export type ModelSubscriptionChatMessageFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  message?: ModelSubscriptionStringInput | null,
+  images?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionChatMessageFilterInput | null > | null,
+  or?: Array< ModelSubscriptionChatMessageFilterInput | null > | null,
+};
+
+export type ModelSubscriptionChatRoomFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  name?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionChatRoomFilterInput | null > | null,
+  or?: Array< ModelSubscriptionChatRoomFilterInput | null > | null,
 };
 
 export type ModelSubscriptionCategoryAttributeFilterInput = {
@@ -5100,7 +5226,7 @@ export type CreateAppointmentMutation = {
     firstName: string,
     lastName: string,
     phone: string,
-    location:  {
+    location?:  {
       __typename: "Location",
       id: string,
       locationId?: string | null,
@@ -5132,13 +5258,13 @@ export type CreateAppointmentMutation = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
       locationAddressId?: string | null,
-    },
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    appointmentLocationId: string,
+    appointmentLocationId?: string | null,
   } | null,
 };
 
@@ -5155,7 +5281,7 @@ export type UpdateAppointmentMutation = {
     firstName: string,
     lastName: string,
     phone: string,
-    location:  {
+    location?:  {
       __typename: "Location",
       id: string,
       locationId?: string | null,
@@ -5187,13 +5313,13 @@ export type UpdateAppointmentMutation = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
       locationAddressId?: string | null,
-    },
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    appointmentLocationId: string,
+    appointmentLocationId?: string | null,
   } | null,
 };
 
@@ -5210,7 +5336,7 @@ export type DeleteAppointmentMutation = {
     firstName: string,
     lastName: string,
     phone: string,
-    location:  {
+    location?:  {
       __typename: "Location",
       id: string,
       locationId?: string | null,
@@ -5242,13 +5368,13 @@ export type DeleteAppointmentMutation = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
       locationAddressId?: string | null,
-    },
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    appointmentLocationId: string,
+    appointmentLocationId?: string | null,
   } | null,
 };
 
@@ -5263,7 +5389,7 @@ export type CreateBlackoutMutation = {
     id: string,
     dayOfWeek: number,
     time: string,
-    location:  {
+    location?:  {
       __typename: "Location",
       id: string,
       locationId?: string | null,
@@ -5295,13 +5421,13 @@ export type CreateBlackoutMutation = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
       locationAddressId?: string | null,
-    },
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    blackoutLocationId: string,
+    blackoutLocationId?: string | null,
   } | null,
 };
 
@@ -5316,7 +5442,7 @@ export type UpdateBlackoutMutation = {
     id: string,
     dayOfWeek: number,
     time: string,
-    location:  {
+    location?:  {
       __typename: "Location",
       id: string,
       locationId?: string | null,
@@ -5348,13 +5474,13 @@ export type UpdateBlackoutMutation = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
       locationAddressId?: string | null,
-    },
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    blackoutLocationId: string,
+    blackoutLocationId?: string | null,
   } | null,
 };
 
@@ -5369,7 +5495,7 @@ export type DeleteBlackoutMutation = {
     id: string,
     dayOfWeek: number,
     time: string,
-    location:  {
+    location?:  {
       __typename: "Location",
       id: string,
       locationId?: string | null,
@@ -5401,13 +5527,178 @@ export type DeleteBlackoutMutation = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
       locationAddressId?: string | null,
-    },
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    blackoutLocationId: string,
+    blackoutLocationId?: string | null,
+  } | null,
+};
+
+export type CreateChatMessageMutationVariables = {
+  input: CreateChatMessageInput,
+  condition?: ModelChatMessageConditionInput | null,
+};
+
+export type CreateChatMessageMutation = {
+  createChatMessage?:  {
+    __typename: "ChatMessage",
+    id: string,
+    message?: string | null,
+    images?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    chatRoomMessagesId?: string | null,
+  } | null,
+};
+
+export type UpdateChatMessageMutationVariables = {
+  input: UpdateChatMessageInput,
+  condition?: ModelChatMessageConditionInput | null,
+};
+
+export type UpdateChatMessageMutation = {
+  updateChatMessage?:  {
+    __typename: "ChatMessage",
+    id: string,
+    message?: string | null,
+    images?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    chatRoomMessagesId?: string | null,
+  } | null,
+};
+
+export type DeleteChatMessageMutationVariables = {
+  input: DeleteChatMessageInput,
+  condition?: ModelChatMessageConditionInput | null,
+};
+
+export type DeleteChatMessageMutation = {
+  deleteChatMessage?:  {
+    __typename: "ChatMessage",
+    id: string,
+    message?: string | null,
+    images?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    chatRoomMessagesId?: string | null,
+  } | null,
+};
+
+export type CreateChatRoomMutationVariables = {
+  input: CreateChatRoomInput,
+  condition?: ModelChatRoomConditionInput | null,
+};
+
+export type CreateChatRoomMutation = {
+  createChatRoom?:  {
+    __typename: "ChatRoom",
+    id: string,
+    name: string,
+    messages?:  {
+      __typename: "ModelChatMessageConnection",
+      items:  Array< {
+        __typename: "ChatMessage",
+        id: string,
+        message?: string | null,
+        images?: Array< string | null > | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        chatRoomMessagesId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type UpdateChatRoomMutationVariables = {
+  input: UpdateChatRoomInput,
+  condition?: ModelChatRoomConditionInput | null,
+};
+
+export type UpdateChatRoomMutation = {
+  updateChatRoom?:  {
+    __typename: "ChatRoom",
+    id: string,
+    name: string,
+    messages?:  {
+      __typename: "ModelChatMessageConnection",
+      items:  Array< {
+        __typename: "ChatMessage",
+        id: string,
+        message?: string | null,
+        images?: Array< string | null > | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        chatRoomMessagesId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type DeleteChatRoomMutationVariables = {
+  input: DeleteChatRoomInput,
+  condition?: ModelChatRoomConditionInput | null,
+};
+
+export type DeleteChatRoomMutation = {
+  deleteChatRoom?:  {
+    __typename: "ChatRoom",
+    id: string,
+    name: string,
+    messages?:  {
+      __typename: "ModelChatMessageConnection",
+      items:  Array< {
+        __typename: "ChatMessage",
+        id: string,
+        message?: string | null,
+        images?: Array< string | null > | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        chatRoomMessagesId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
@@ -8074,7 +8365,7 @@ export type GetAppointmentQuery = {
     firstName: string,
     lastName: string,
     phone: string,
-    location:  {
+    location?:  {
       __typename: "Location",
       id: string,
       locationId?: string | null,
@@ -8106,13 +8397,13 @@ export type GetAppointmentQuery = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
       locationAddressId?: string | null,
-    },
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    appointmentLocationId: string,
+    appointmentLocationId?: string | null,
   } | null,
 };
 
@@ -8132,7 +8423,7 @@ export type ListAppointmentsQuery = {
       firstName: string,
       lastName: string,
       phone: string,
-      location:  {
+      location?:  {
         __typename: "Location",
         id: string,
         locationId?: string | null,
@@ -8144,13 +8435,13 @@ export type ListAppointmentsQuery = {
         _deleted?: boolean | null,
         _lastChangedAt: number,
         locationAddressId?: string | null,
-      },
+      } | null,
       createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      appointmentLocationId: string,
+      appointmentLocationId?: string | null,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
@@ -8174,7 +8465,7 @@ export type SyncAppointmentsQuery = {
       firstName: string,
       lastName: string,
       phone: string,
-      location:  {
+      location?:  {
         __typename: "Location",
         id: string,
         locationId?: string | null,
@@ -8186,13 +8477,13 @@ export type SyncAppointmentsQuery = {
         _deleted?: boolean | null,
         _lastChangedAt: number,
         locationAddressId?: string | null,
-      },
+      } | null,
       createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      appointmentLocationId: string,
+      appointmentLocationId?: string | null,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
@@ -8209,7 +8500,7 @@ export type GetBlackoutQuery = {
     id: string,
     dayOfWeek: number,
     time: string,
-    location:  {
+    location?:  {
       __typename: "Location",
       id: string,
       locationId?: string | null,
@@ -8241,13 +8532,13 @@ export type GetBlackoutQuery = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
       locationAddressId?: string | null,
-    },
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    blackoutLocationId: string,
+    blackoutLocationId?: string | null,
   } | null,
 };
 
@@ -8265,7 +8556,7 @@ export type ListBlackoutsQuery = {
       id: string,
       dayOfWeek: number,
       time: string,
-      location:  {
+      location?:  {
         __typename: "Location",
         id: string,
         locationId?: string | null,
@@ -8277,13 +8568,13 @@ export type ListBlackoutsQuery = {
         _deleted?: boolean | null,
         _lastChangedAt: number,
         locationAddressId?: string | null,
-      },
+      } | null,
       createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      blackoutLocationId: string,
+      blackoutLocationId?: string | null,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
@@ -8305,7 +8596,7 @@ export type SyncBlackoutsQuery = {
       id: string,
       dayOfWeek: number,
       time: string,
-      location:  {
+      location?:  {
         __typename: "Location",
         id: string,
         locationId?: string | null,
@@ -8317,13 +8608,178 @@ export type SyncBlackoutsQuery = {
         _deleted?: boolean | null,
         _lastChangedAt: number,
         locationAddressId?: string | null,
-      },
+      } | null,
       createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      blackoutLocationId: string,
+      blackoutLocationId?: string | null,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type GetChatMessageQueryVariables = {
+  id: string,
+};
+
+export type GetChatMessageQuery = {
+  getChatMessage?:  {
+    __typename: "ChatMessage",
+    id: string,
+    message?: string | null,
+    images?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    chatRoomMessagesId?: string | null,
+  } | null,
+};
+
+export type ListChatMessagesQueryVariables = {
+  filter?: ModelChatMessageFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListChatMessagesQuery = {
+  listChatMessages?:  {
+    __typename: "ModelChatMessageConnection",
+    items:  Array< {
+      __typename: "ChatMessage",
+      id: string,
+      message?: string | null,
+      images?: Array< string | null > | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      chatRoomMessagesId?: string | null,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncChatMessagesQueryVariables = {
+  filter?: ModelChatMessageFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncChatMessagesQuery = {
+  syncChatMessages?:  {
+    __typename: "ModelChatMessageConnection",
+    items:  Array< {
+      __typename: "ChatMessage",
+      id: string,
+      message?: string | null,
+      images?: Array< string | null > | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      chatRoomMessagesId?: string | null,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type GetChatRoomQueryVariables = {
+  id: string,
+};
+
+export type GetChatRoomQuery = {
+  getChatRoom?:  {
+    __typename: "ChatRoom",
+    id: string,
+    name: string,
+    messages?:  {
+      __typename: "ModelChatMessageConnection",
+      items:  Array< {
+        __typename: "ChatMessage",
+        id: string,
+        message?: string | null,
+        images?: Array< string | null > | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        chatRoomMessagesId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type ListChatRoomsQueryVariables = {
+  filter?: ModelChatRoomFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListChatRoomsQuery = {
+  listChatRooms?:  {
+    __typename: "ModelChatRoomConnection",
+    items:  Array< {
+      __typename: "ChatRoom",
+      id: string,
+      name: string,
+      messages?:  {
+        __typename: "ModelChatMessageConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncChatRoomsQueryVariables = {
+  filter?: ModelChatRoomFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncChatRoomsQuery = {
+  syncChatRooms?:  {
+    __typename: "ModelChatRoomConnection",
+    items:  Array< {
+      __typename: "ChatRoom",
+      id: string,
+      name: string,
+      messages?:  {
+        __typename: "ModelChatMessageConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
@@ -11444,7 +11900,7 @@ export type OnCreateAppointmentSubscription = {
     firstName: string,
     lastName: string,
     phone: string,
-    location:  {
+    location?:  {
       __typename: "Location",
       id: string,
       locationId?: string | null,
@@ -11476,13 +11932,13 @@ export type OnCreateAppointmentSubscription = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
       locationAddressId?: string | null,
-    },
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    appointmentLocationId: string,
+    appointmentLocationId?: string | null,
   } | null,
 };
 
@@ -11498,7 +11954,7 @@ export type OnUpdateAppointmentSubscription = {
     firstName: string,
     lastName: string,
     phone: string,
-    location:  {
+    location?:  {
       __typename: "Location",
       id: string,
       locationId?: string | null,
@@ -11530,13 +11986,13 @@ export type OnUpdateAppointmentSubscription = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
       locationAddressId?: string | null,
-    },
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    appointmentLocationId: string,
+    appointmentLocationId?: string | null,
   } | null,
 };
 
@@ -11552,7 +12008,7 @@ export type OnDeleteAppointmentSubscription = {
     firstName: string,
     lastName: string,
     phone: string,
-    location:  {
+    location?:  {
       __typename: "Location",
       id: string,
       locationId?: string | null,
@@ -11584,13 +12040,13 @@ export type OnDeleteAppointmentSubscription = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
       locationAddressId?: string | null,
-    },
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    appointmentLocationId: string,
+    appointmentLocationId?: string | null,
   } | null,
 };
 
@@ -11604,7 +12060,7 @@ export type OnCreateBlackoutSubscription = {
     id: string,
     dayOfWeek: number,
     time: string,
-    location:  {
+    location?:  {
       __typename: "Location",
       id: string,
       locationId?: string | null,
@@ -11636,13 +12092,13 @@ export type OnCreateBlackoutSubscription = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
       locationAddressId?: string | null,
-    },
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    blackoutLocationId: string,
+    blackoutLocationId?: string | null,
   } | null,
 };
 
@@ -11656,7 +12112,7 @@ export type OnUpdateBlackoutSubscription = {
     id: string,
     dayOfWeek: number,
     time: string,
-    location:  {
+    location?:  {
       __typename: "Location",
       id: string,
       locationId?: string | null,
@@ -11688,13 +12144,13 @@ export type OnUpdateBlackoutSubscription = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
       locationAddressId?: string | null,
-    },
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    blackoutLocationId: string,
+    blackoutLocationId?: string | null,
   } | null,
 };
 
@@ -11708,7 +12164,7 @@ export type OnDeleteBlackoutSubscription = {
     id: string,
     dayOfWeek: number,
     time: string,
-    location:  {
+    location?:  {
       __typename: "Location",
       id: string,
       locationId?: string | null,
@@ -11740,13 +12196,172 @@ export type OnDeleteBlackoutSubscription = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
       locationAddressId?: string | null,
-    },
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    blackoutLocationId: string,
+    blackoutLocationId?: string | null,
+  } | null,
+};
+
+export type OnCreateChatMessageSubscriptionVariables = {
+  filter?: ModelSubscriptionChatMessageFilterInput | null,
+};
+
+export type OnCreateChatMessageSubscription = {
+  onCreateChatMessage?:  {
+    __typename: "ChatMessage",
+    id: string,
+    message?: string | null,
+    images?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    chatRoomMessagesId?: string | null,
+  } | null,
+};
+
+export type OnUpdateChatMessageSubscriptionVariables = {
+  filter?: ModelSubscriptionChatMessageFilterInput | null,
+};
+
+export type OnUpdateChatMessageSubscription = {
+  onUpdateChatMessage?:  {
+    __typename: "ChatMessage",
+    id: string,
+    message?: string | null,
+    images?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    chatRoomMessagesId?: string | null,
+  } | null,
+};
+
+export type OnDeleteChatMessageSubscriptionVariables = {
+  filter?: ModelSubscriptionChatMessageFilterInput | null,
+};
+
+export type OnDeleteChatMessageSubscription = {
+  onDeleteChatMessage?:  {
+    __typename: "ChatMessage",
+    id: string,
+    message?: string | null,
+    images?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    chatRoomMessagesId?: string | null,
+  } | null,
+};
+
+export type OnCreateChatRoomSubscriptionVariables = {
+  filter?: ModelSubscriptionChatRoomFilterInput | null,
+};
+
+export type OnCreateChatRoomSubscription = {
+  onCreateChatRoom?:  {
+    __typename: "ChatRoom",
+    id: string,
+    name: string,
+    messages?:  {
+      __typename: "ModelChatMessageConnection",
+      items:  Array< {
+        __typename: "ChatMessage",
+        id: string,
+        message?: string | null,
+        images?: Array< string | null > | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        chatRoomMessagesId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnUpdateChatRoomSubscriptionVariables = {
+  filter?: ModelSubscriptionChatRoomFilterInput | null,
+};
+
+export type OnUpdateChatRoomSubscription = {
+  onUpdateChatRoom?:  {
+    __typename: "ChatRoom",
+    id: string,
+    name: string,
+    messages?:  {
+      __typename: "ModelChatMessageConnection",
+      items:  Array< {
+        __typename: "ChatMessage",
+        id: string,
+        message?: string | null,
+        images?: Array< string | null > | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        chatRoomMessagesId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnDeleteChatRoomSubscriptionVariables = {
+  filter?: ModelSubscriptionChatRoomFilterInput | null,
+};
+
+export type OnDeleteChatRoomSubscription = {
+  onDeleteChatRoom?:  {
+    __typename: "ChatRoom",
+    id: string,
+    name: string,
+    messages?:  {
+      __typename: "ModelChatMessageConnection",
+      items:  Array< {
+        __typename: "ChatMessage",
+        id: string,
+        message?: string | null,
+        images?: Array< string | null > | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        chatRoomMessagesId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 

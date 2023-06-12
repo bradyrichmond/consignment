@@ -22,6 +22,7 @@ import CreateIcon from '@mui/icons-material/Create';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import ForumIcon from '@mui/icons-material/Forum';
 import ConfirmModal from '../../utils/ConfirmModal';
 import ModalContainer from '../../utils/ModalContainer';
 
@@ -50,6 +51,12 @@ const navItems = [
         navUrl: 'categories',
         userGroups: ['Manager', 'Admins'],
         icon: <CategoryIcon fontSize='large' />
+    },
+    {
+        label: 'Chat',
+        navUrl: 'chat',
+        userGroups: ['Manager', 'Admins'],
+        icon: <ForumIcon fontSize='large' />
     },
     {
         label: 'Consigners',

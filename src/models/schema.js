@@ -2220,6 +2220,162 @@ export const schema = {
                 }
             ]
         },
+        "ChatMessage": {
+            "name": "ChatMessage",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "message": {
+                    "name": "message",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "images": {
+                    "name": "images",
+                    "isArray": true,
+                    "type": "AWSURL",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true
+                },
+                "author": {
+                    "name": "author",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "authorId": {
+                    "name": "authorId",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "chatRoomMessagesId": {
+                    "name": "chatRoomMessagesId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                }
+            },
+            "syncable": true,
+            "pluralName": "ChatMessages",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "gsi-ChatRoom.messages",
+                        "fields": [
+                            "chatRoomMessagesId"
+                        ]
+                    }
+                }
+            ]
+        },
+        "ChatRoom": {
+            "name": "ChatRoom",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "name": {
+                    "name": "name",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "messages": {
+                    "name": "messages",
+                    "isArray": true,
+                    "type": {
+                        "model": "ChatMessage"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "chatRoomMessagesId"
+                        ]
+                    }
+                },
+                "accessList": {
+                    "name": "accessList",
+                    "isArray": true,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true
+                },
+                "location": {
+                    "name": "location",
+                    "isArray": true,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "ChatRooms",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                }
+            ]
+        },
         "CategoryAttribute": {
             "name": "CategoryAttribute",
             "fields": {
@@ -2356,5 +2512,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.2",
-    "version": "8c691387e795c2504763c7dc709910d4"
+    "version": "440851fb6b06f5d3d7e10413eee4679d"
 };
