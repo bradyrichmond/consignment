@@ -2975,6 +2975,8 @@ export const createChatMessage = /* GraphQL */ `
       id
       message
       images
+      author
+      authorId
       createdAt
       updatedAt
       _version
@@ -2993,6 +2995,8 @@ export const updateChatMessage = /* GraphQL */ `
       id
       message
       images
+      author
+      authorId
       createdAt
       updatedAt
       _version
@@ -3011,6 +3015,8 @@ export const deleteChatMessage = /* GraphQL */ `
       id
       message
       images
+      author
+      authorId
       createdAt
       updatedAt
       _version
@@ -3033,6 +3039,8 @@ export const createChatRoom = /* GraphQL */ `
           id
           message
           images
+          author
+          authorId
           createdAt
           updatedAt
           _version
@@ -3043,6 +3051,8 @@ export const createChatRoom = /* GraphQL */ `
         nextToken
         startedAt
       }
+      accessList
+      location
       createdAt
       updatedAt
       _version
@@ -3064,6 +3074,8 @@ export const updateChatRoom = /* GraphQL */ `
           id
           message
           images
+          author
+          authorId
           createdAt
           updatedAt
           _version
@@ -3074,6 +3086,8 @@ export const updateChatRoom = /* GraphQL */ `
         nextToken
         startedAt
       }
+      accessList
+      location
       createdAt
       updatedAt
       _version
@@ -3095,6 +3109,8 @@ export const deleteChatRoom = /* GraphQL */ `
           id
           message
           images
+          author
+          authorId
           createdAt
           updatedAt
           _version
@@ -3105,6 +3121,8 @@ export const deleteChatRoom = /* GraphQL */ `
         nextToken
         startedAt
       }
+      accessList
+      location
       createdAt
       updatedAt
       _version

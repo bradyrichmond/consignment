@@ -2579,6 +2579,8 @@ export const getChatMessage = /* GraphQL */ `
       id
       message
       images
+      author
+      authorId
       createdAt
       updatedAt
       _version
@@ -2599,6 +2601,8 @@ export const listChatMessages = /* GraphQL */ `
         id
         message
         images
+        author
+        authorId
         createdAt
         updatedAt
         _version
@@ -2628,6 +2632,8 @@ export const syncChatMessages = /* GraphQL */ `
         id
         message
         images
+        author
+        authorId
         createdAt
         updatedAt
         _version
@@ -2650,6 +2656,8 @@ export const getChatRoom = /* GraphQL */ `
           id
           message
           images
+          author
+          authorId
           createdAt
           updatedAt
           _version
@@ -2660,6 +2668,8 @@ export const getChatRoom = /* GraphQL */ `
         nextToken
         startedAt
       }
+      accessList
+      location
       createdAt
       updatedAt
       _version
@@ -2682,6 +2692,8 @@ export const listChatRooms = /* GraphQL */ `
           nextToken
           startedAt
         }
+        accessList
+        location
         createdAt
         updatedAt
         _version
@@ -2713,6 +2725,8 @@ export const syncChatRooms = /* GraphQL */ `
           nextToken
           startedAt
         }
+        accessList
+        location
         createdAt
         updatedAt
         _version

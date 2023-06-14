@@ -41,7 +41,8 @@
         "AdminQueriesd927d65d": {
           "deploymentBucketName": "amplify-consignment-dev-183237-deployment",
           "s3Key": "amplify-builds/AdminQueriesd927d65d-4c684e784647382f6e39-build.zip"
-        }
+        },
+        "S3Trigger53598267": {}
       }
     }
   }
