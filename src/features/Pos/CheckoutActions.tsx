@@ -4,7 +4,7 @@ import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 import { currencyFormatter, generateReceipt } from "../../utils/PrintReceipt";
 import ProcessCash from "./ProcessCash";
 import { API, DataStore } from "aws-amplify";
-import { Client, ConsignerSplit, Coupon, CouponType, GiftCard, GiftCardLog, Item, StoreCredit, Tender, Transaction } from "../../models";
+import { Client, ConsignerSplit, Coupon, CouponType, GiftCard, GiftCardLog, Item, Rewards, StoreCredit, Tender, Transaction } from "../../models";
 import ProcessingCard, { STEPS } from "./ProcessingCard";
 import { useForm } from "react-hook-form";
 import ModalContainer from "../../utils/ModalContainer";
@@ -209,6 +209,7 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
         }
 
         await updateSoldItems();
+        await updateRewards();
 
         // this will just create the zprint directions at this point, it won't print a receipt
         const address = await storeData?.address;
@@ -227,6 +228,23 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
 
                 await DataStore.save(new GiftCardLog({ amount: -gc.receivedAmount, giftCard: updatedGiftCard, type: GiftCardLogType.PURCHASE, giftCardLogGiftCardId: updatedGiftCard.id }))
             }
+        }
+    }
+
+    const updateRewards = async () => {
+        const rewards = await selectedConsigner?.rewards;
+
+        if (rewards) {
+            const current = rewards?.points;
+            let updatedPoints = totalTenderedAmount / 100;
+            
+            if (current) {
+                updatedPoints += current;
+            }
+    
+            await DataStore.save(Rewards.copyOf(rewards, (updated) => {
+                updated.points = updatedPoints;
+            }))
         }
     }
 

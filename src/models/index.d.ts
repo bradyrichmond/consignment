@@ -53,9 +53,11 @@ type EagerClient = {
   readonly addresses?: (Address | null)[] | null;
   readonly credit?: StoreCredit | null;
   readonly transactions?: (Transaction | null)[] | null;
+  readonly rewards?: Rewards | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly clientCreditId?: string | null;
+  readonly clientRewardsId?: string | null;
 }
 
 type LazyClient = {
@@ -82,9 +84,11 @@ type LazyClient = {
   readonly addresses: AsyncCollection<Address>;
   readonly credit: AsyncItem<StoreCredit | undefined>;
   readonly transactions: AsyncCollection<Transaction>;
+  readonly rewards: AsyncItem<Rewards | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly clientCreditId?: string | null;
+  readonly clientRewardsId?: string | null;
 }
 
 export declare type Client = LazyLoading extends LazyLoadingDisabled ? EagerClient : LazyClient
@@ -246,6 +250,7 @@ type EagerTransaction = {
   readonly updatedAt?: string | null;
   readonly clientTransactionsId?: string | null;
   readonly transactionLocationId?: string | null;
+  readonly rewardsTransactionsId?: string | null;
 }
 
 type LazyTransaction = {
@@ -273,6 +278,7 @@ type LazyTransaction = {
   readonly updatedAt?: string | null;
   readonly clientTransactionsId?: string | null;
   readonly transactionLocationId?: string | null;
+  readonly rewardsTransactionsId?: string | null;
 }
 
 export declare type Transaction = LazyLoading extends LazyLoadingDisabled ? EagerTransaction : LazyTransaction
@@ -975,6 +981,36 @@ export declare type ChatRoom = LazyLoading extends LazyLoadingDisabled ? EagerCh
 
 export declare const ChatRoom: (new (init: ModelInit<ChatRoom>) => ChatRoom) & {
   copyOf(source: ChatRoom, mutator: (draft: MutableModel<ChatRoom>) => MutableModel<ChatRoom> | void): ChatRoom;
+}
+
+type EagerRewards = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Rewards, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly points: number;
+  readonly transactions: (Transaction | null)[];
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyRewards = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Rewards, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly points: number;
+  readonly transactions: AsyncCollection<Transaction>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Rewards = LazyLoading extends LazyLoadingDisabled ? EagerRewards : LazyRewards
+
+export declare const Rewards: (new (init: ModelInit<Rewards>) => Rewards) & {
+  copyOf(source: Rewards, mutator: (draft: MutableModel<Rewards>) => MutableModel<Rewards> | void): Rewards;
 }
 
 type EagerCategoryAttribute = {

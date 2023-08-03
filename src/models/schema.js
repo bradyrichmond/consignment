@@ -176,6 +176,24 @@ export const schema = {
                         ]
                     }
                 },
+                "rewards": {
+                    "name": "rewards",
+                    "isArray": false,
+                    "type": {
+                        "model": "Rewards"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": [
+                            "id"
+                        ],
+                        "targetNames": [
+                            "clientRewardsId"
+                        ]
+                    }
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -194,6 +212,13 @@ export const schema = {
                 },
                 "clientCreditId": {
                     "name": "clientCreditId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "clientRewardsId": {
+                    "name": "clientRewardsId",
                     "isArray": false,
                     "type": "ID",
                     "isRequired": false,
@@ -816,6 +841,13 @@ export const schema = {
                     "type": "ID",
                     "isRequired": false,
                     "attributes": []
+                },
+                "rewardsTransactionsId": {
+                    "name": "rewardsTransactionsId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -831,6 +863,15 @@ export const schema = {
                         "name": "gsi-Client.transactions",
                         "fields": [
                             "clientTransactionsId"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "gsi-Rewards.transactions",
+                        "fields": [
+                            "rewardsTransactionsId"
                         ]
                     }
                 }
@@ -2376,6 +2417,65 @@ export const schema = {
                 }
             ]
         },
+        "Rewards": {
+            "name": "Rewards",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "points": {
+                    "name": "points",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "transactions": {
+                    "name": "transactions",
+                    "isArray": true,
+                    "type": {
+                        "model": "Transaction"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": false,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "rewardsTransactionsId"
+                        ]
+                    }
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "Rewards",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                }
+            ]
+        },
         "CategoryAttribute": {
             "name": "CategoryAttribute",
             "fields": {
@@ -2512,5 +2612,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.2",
-    "version": "440851fb6b06f5d3d7e10413eee4679d"
+    "version": "286775678f6f909b48723f512cc7e01e"
 };

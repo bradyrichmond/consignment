@@ -47,6 +47,7 @@ type Client @model {
   addresses: [Address] @hasMany
   credit: StoreCredit @hasOne
   transactions: [Transaction] @hasMany
+  rewards: Rewards @hasOne
 }
 
 type StoreCredit @model {
@@ -269,4 +270,10 @@ type ChatRoom @model {
   messages: [ChatMessage] @hasMany
   accessList: [String]
   location: [String]
+}
+
+type Rewards @model {
+  id: ID!
+  points: Int!
+  transactions: [Transaction]! @hasMany
 }
