@@ -120,10 +120,24 @@ export const onCreateClient = /* GraphQL */ `
           _deleted
           _lastChangedAt
           clientTransactionsId
+          rewardsTransactionsId
           transactionLocationId
         }
         nextToken
         startedAt
+      }
+      rewards {
+        id
+        points
+        transactions {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       createdAt
       updatedAt
@@ -131,6 +145,7 @@ export const onCreateClient = /* GraphQL */ `
       _deleted
       _lastChangedAt
       clientCreditId
+      clientRewardsId
     }
   }
 `;
@@ -252,10 +267,24 @@ export const onUpdateClient = /* GraphQL */ `
           _deleted
           _lastChangedAt
           clientTransactionsId
+          rewardsTransactionsId
           transactionLocationId
         }
         nextToken
         startedAt
+      }
+      rewards {
+        id
+        points
+        transactions {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       createdAt
       updatedAt
@@ -263,6 +292,7 @@ export const onUpdateClient = /* GraphQL */ `
       _deleted
       _lastChangedAt
       clientCreditId
+      clientRewardsId
     }
   }
 `;
@@ -384,10 +414,24 @@ export const onDeleteClient = /* GraphQL */ `
           _deleted
           _lastChangedAt
           clientTransactionsId
+          rewardsTransactionsId
           transactionLocationId
         }
         nextToken
         startedAt
+      }
+      rewards {
+        id
+        points
+        transactions {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       createdAt
       updatedAt
@@ -395,6 +439,7 @@ export const onDeleteClient = /* GraphQL */ `
       _deleted
       _lastChangedAt
       clientCreditId
+      clientRewardsId
     }
   }
 `;
@@ -1071,6 +1116,7 @@ export const onCreateTransaction = /* GraphQL */ `
       _deleted
       _lastChangedAt
       clientTransactionsId
+      rewardsTransactionsId
       transactionLocationId
     }
   }
@@ -1250,6 +1296,7 @@ export const onUpdateTransaction = /* GraphQL */ `
       _deleted
       _lastChangedAt
       clientTransactionsId
+      rewardsTransactionsId
       transactionLocationId
     }
   }
@@ -1429,6 +1476,7 @@ export const onDeleteTransaction = /* GraphQL */ `
       _deleted
       _lastChangedAt
       clientTransactionsId
+      rewardsTransactionsId
       transactionLocationId
     }
   }
@@ -2976,6 +3024,120 @@ export const onDeleteChatRoom = /* GraphQL */ `
       }
       accessList
       location
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onCreateRewards = /* GraphQL */ `
+  subscription OnCreateRewards($filter: ModelSubscriptionRewardsFilterInput) {
+    onCreateRewards(filter: $filter) {
+      id
+      points
+      transactions {
+        items {
+          id
+          payoutId
+          transCdId
+          userId
+          actTransTimestamp
+          actTransDesc
+          actTransAmt
+          hold
+          glExportInd
+          syncInd
+          saleDetailId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientTransactionsId
+          rewardsTransactionsId
+          transactionLocationId
+        }
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onUpdateRewards = /* GraphQL */ `
+  subscription OnUpdateRewards($filter: ModelSubscriptionRewardsFilterInput) {
+    onUpdateRewards(filter: $filter) {
+      id
+      points
+      transactions {
+        items {
+          id
+          payoutId
+          transCdId
+          userId
+          actTransTimestamp
+          actTransDesc
+          actTransAmt
+          hold
+          glExportInd
+          syncInd
+          saleDetailId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientTransactionsId
+          rewardsTransactionsId
+          transactionLocationId
+        }
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onDeleteRewards = /* GraphQL */ `
+  subscription OnDeleteRewards($filter: ModelSubscriptionRewardsFilterInput) {
+    onDeleteRewards(filter: $filter) {
+      id
+      points
+      transactions {
+        items {
+          id
+          payoutId
+          transCdId
+          userId
+          actTransTimestamp
+          actTransDesc
+          actTransAmt
+          hold
+          glExportInd
+          syncInd
+          saleDetailId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientTransactionsId
+          rewardsTransactionsId
+          transactionLocationId
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version

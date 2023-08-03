@@ -500,6 +500,7 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
                 </Box>
                 <Box display='flex' flexDirection='row' padding='2rem'>
                     <Typography flex='1'>Tax:</Typography>
+                    {/* TODO: Get tax rate from settings */}
                     <Typography>{currencyFormatter.format(amount * .1)}</Typography>
                 </Box>
                 <Box display='flex' flexDirection='row' padding='2rem' borderBottom='1px solid white'>

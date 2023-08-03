@@ -120,10 +120,24 @@ export const getClient = /* GraphQL */ `
           _deleted
           _lastChangedAt
           clientTransactionsId
+          rewardsTransactionsId
           transactionLocationId
         }
         nextToken
         startedAt
+      }
+      rewards {
+        id
+        points
+        transactions {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       createdAt
       updatedAt
@@ -131,6 +145,7 @@ export const getClient = /* GraphQL */ `
       _deleted
       _lastChangedAt
       clientCreditId
+      clientRewardsId
     }
   }
 `;
@@ -178,12 +193,22 @@ export const listClients = /* GraphQL */ `
           nextToken
           startedAt
         }
+        rewards {
+          id
+          points
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
         clientCreditId
+        clientRewardsId
       }
       nextToken
       startedAt
@@ -240,12 +265,22 @@ export const syncClients = /* GraphQL */ `
           nextToken
           startedAt
         }
+        rewards {
+          id
+          points
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
         clientCreditId
+        clientRewardsId
       }
       nextToken
       startedAt
@@ -833,6 +868,7 @@ export const getTransaction = /* GraphQL */ `
       _deleted
       _lastChangedAt
       clientTransactionsId
+      rewardsTransactionsId
       transactionLocationId
     }
   }
@@ -890,6 +926,7 @@ export const listTransactions = /* GraphQL */ `
         _deleted
         _lastChangedAt
         clientTransactionsId
+        rewardsTransactionsId
         transactionLocationId
       }
       nextToken
@@ -956,6 +993,7 @@ export const syncTransactions = /* GraphQL */ `
         _deleted
         _lastChangedAt
         clientTransactionsId
+        rewardsTransactionsId
         transactionLocationId
       }
       nextToken
@@ -2727,6 +2765,100 @@ export const syncChatRooms = /* GraphQL */ `
         }
         accessList
         location
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getRewards = /* GraphQL */ `
+  query GetRewards($id: ID!) {
+    getRewards(id: $id) {
+      id
+      points
+      transactions {
+        items {
+          id
+          payoutId
+          transCdId
+          userId
+          actTransTimestamp
+          actTransDesc
+          actTransAmt
+          hold
+          glExportInd
+          syncInd
+          saleDetailId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientTransactionsId
+          rewardsTransactionsId
+          transactionLocationId
+        }
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listRewards = /* GraphQL */ `
+  query ListRewards(
+    $filter: ModelRewardsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listRewards(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        points
+        transactions {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncRewards = /* GraphQL */ `
+  query SyncRewards(
+    $filter: ModelRewardsFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncRewards(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        points
+        transactions {
+          nextToken
+          startedAt
+        }
         createdAt
         updatedAt
         _version

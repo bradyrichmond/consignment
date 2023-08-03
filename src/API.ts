@@ -20,6 +20,7 @@ export type CreateClientInput = {
   modifiedBy: string,
   _version?: number | null,
   clientCreditId?: string | null,
+  clientRewardsId?: string | null,
 };
 
 export enum ClientType {
@@ -48,6 +49,7 @@ export type ModelClientConditionInput = {
   or?: Array< ModelClientConditionInput | null > | null,
   not?: ModelClientConditionInput | null,
   clientCreditId?: ModelIDInput | null,
+  clientRewardsId?: ModelIDInput | null,
 };
 
 export type ModelStringInput = {
@@ -139,12 +141,14 @@ export type Client = {
   addresses?: ModelAddressConnection | null,
   credit?: StoreCredit | null,
   transactions?: ModelTransactionConnection | null,
+  rewards?: Rewards | null,
   createdAt: string,
   updatedAt: string,
   _version: number,
   _deleted?: boolean | null,
   _lastChangedAt: number,
   clientCreditId?: string | null,
+  clientRewardsId?: string | null,
 };
 
 export type ModelItemConnection = {
@@ -353,6 +357,7 @@ export type Transaction = {
   _deleted?: boolean | null,
   _lastChangedAt: number,
   clientTransactionsId?: string | null,
+  rewardsTransactionsId: string,
   transactionLocationId?: string | null,
 };
 
@@ -414,6 +419,18 @@ export enum CouponType {
 }
 
 
+export type Rewards = {
+  __typename: "Rewards",
+  id: string,
+  points: number,
+  transactions?: ModelTransactionConnection | null,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+};
+
 export type UpdateClientInput = {
   id: string,
   clientId?: string | null,
@@ -432,6 +449,7 @@ export type UpdateClientInput = {
   modifiedBy?: string | null,
   _version?: number | null,
   clientCreditId?: string | null,
+  clientRewardsId?: string | null,
 };
 
 export type DeleteClientInput = {
@@ -621,6 +639,7 @@ export type CreateTransactionInput = {
   saleDetailId?: string | null,
   _version?: number | null,
   clientTransactionsId?: string | null,
+  rewardsTransactionsId: string,
   transactionLocationId?: string | null,
 };
 
@@ -639,6 +658,7 @@ export type ModelTransactionConditionInput = {
   or?: Array< ModelTransactionConditionInput | null > | null,
   not?: ModelTransactionConditionInput | null,
   clientTransactionsId?: ModelIDInput | null,
+  rewardsTransactionsId?: ModelIDInput | null,
   transactionLocationId?: ModelIDInput | null,
 };
 
@@ -656,6 +676,7 @@ export type UpdateTransactionInput = {
   saleDetailId?: string | null,
   _version?: number | null,
   clientTransactionsId?: string | null,
+  rewardsTransactionsId?: string | null,
   transactionLocationId?: string | null,
 };
 
@@ -1545,6 +1566,30 @@ export type DeleteChatRoomInput = {
   _version?: number | null,
 };
 
+export type CreateRewardsInput = {
+  id?: string | null,
+  points: number,
+  _version?: number | null,
+};
+
+export type ModelRewardsConditionInput = {
+  points?: ModelIntInput | null,
+  and?: Array< ModelRewardsConditionInput | null > | null,
+  or?: Array< ModelRewardsConditionInput | null > | null,
+  not?: ModelRewardsConditionInput | null,
+};
+
+export type UpdateRewardsInput = {
+  id: string,
+  points?: number | null,
+  _version?: number | null,
+};
+
+export type DeleteRewardsInput = {
+  id: string,
+  _version?: number | null,
+};
+
 export type CreateCategoryAttributeInput = {
   id?: string | null,
   categoryId: string,
@@ -1592,6 +1637,7 @@ export type ModelClientFilterInput = {
   or?: Array< ModelClientFilterInput | null > | null,
   not?: ModelClientFilterInput | null,
   clientCreditId?: ModelIDInput | null,
+  clientRewardsId?: ModelIDInput | null,
 };
 
 export type ModelClientConnection = {
@@ -1672,6 +1718,7 @@ export type ModelTransactionFilterInput = {
   or?: Array< ModelTransactionFilterInput | null > | null,
   not?: ModelTransactionFilterInput | null,
   clientTransactionsId?: ModelIDInput | null,
+  rewardsTransactionsId?: ModelIDInput | null,
   transactionLocationId?: ModelIDInput | null,
 };
 
@@ -1998,6 +2045,21 @@ export type ModelChatRoomFilterInput = {
 export type ModelChatRoomConnection = {
   __typename: "ModelChatRoomConnection",
   items:  Array<ChatRoom | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
+export type ModelRewardsFilterInput = {
+  id?: ModelIDInput | null,
+  points?: ModelIntInput | null,
+  and?: Array< ModelRewardsFilterInput | null > | null,
+  or?: Array< ModelRewardsFilterInput | null > | null,
+  not?: ModelRewardsFilterInput | null,
+};
+
+export type ModelRewardsConnection = {
+  __typename: "ModelRewardsConnection",
+  items:  Array<Rewards | null >,
   nextToken?: string | null,
   startedAt?: number | null,
 };
@@ -2343,6 +2405,13 @@ export type ModelSubscriptionChatRoomFilterInput = {
   or?: Array< ModelSubscriptionChatRoomFilterInput | null > | null,
 };
 
+export type ModelSubscriptionRewardsFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  points?: ModelSubscriptionIntInput | null,
+  and?: Array< ModelSubscriptionRewardsFilterInput | null > | null,
+  or?: Array< ModelSubscriptionRewardsFilterInput | null > | null,
+};
+
 export type ModelSubscriptionCategoryAttributeFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   categoryId?: ModelSubscriptionIDInput | null,
@@ -2482,10 +2551,26 @@ export type CreateClientMutation = {
         _deleted?: boolean | null,
         _lastChangedAt: number,
         clientTransactionsId?: string | null,
+        rewardsTransactionsId: string,
         transactionLocationId?: string | null,
       } | null >,
       nextToken?: string | null,
       startedAt?: number | null,
+    } | null,
+    rewards?:  {
+      __typename: "Rewards",
+      id: string,
+      points: number,
+      transactions?:  {
+        __typename: "ModelTransactionConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -2493,6 +2578,7 @@ export type CreateClientMutation = {
     _deleted?: boolean | null,
     _lastChangedAt: number,
     clientCreditId?: string | null,
+    clientRewardsId?: string | null,
   } | null,
 };
 
@@ -2627,10 +2713,26 @@ export type UpdateClientMutation = {
         _deleted?: boolean | null,
         _lastChangedAt: number,
         clientTransactionsId?: string | null,
+        rewardsTransactionsId: string,
         transactionLocationId?: string | null,
       } | null >,
       nextToken?: string | null,
       startedAt?: number | null,
+    } | null,
+    rewards?:  {
+      __typename: "Rewards",
+      id: string,
+      points: number,
+      transactions?:  {
+        __typename: "ModelTransactionConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -2638,6 +2740,7 @@ export type UpdateClientMutation = {
     _deleted?: boolean | null,
     _lastChangedAt: number,
     clientCreditId?: string | null,
+    clientRewardsId?: string | null,
   } | null,
 };
 
@@ -2772,10 +2875,26 @@ export type DeleteClientMutation = {
         _deleted?: boolean | null,
         _lastChangedAt: number,
         clientTransactionsId?: string | null,
+        rewardsTransactionsId: string,
         transactionLocationId?: string | null,
       } | null >,
       nextToken?: string | null,
       startedAt?: number | null,
+    } | null,
+    rewards?:  {
+      __typename: "Rewards",
+      id: string,
+      points: number,
+      transactions?:  {
+        __typename: "ModelTransactionConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -2783,6 +2902,7 @@ export type DeleteClientMutation = {
     _deleted?: boolean | null,
     _lastChangedAt: number,
     clientCreditId?: string | null,
+    clientRewardsId?: string | null,
   } | null,
 };
 
@@ -3517,6 +3637,7 @@ export type CreateTransactionMutation = {
     _deleted?: boolean | null,
     _lastChangedAt: number,
     clientTransactionsId?: string | null,
+    rewardsTransactionsId: string,
     transactionLocationId?: string | null,
   } | null,
 };
@@ -3709,6 +3830,7 @@ export type UpdateTransactionMutation = {
     _deleted?: boolean | null,
     _lastChangedAt: number,
     clientTransactionsId?: string | null,
+    rewardsTransactionsId: string,
     transactionLocationId?: string | null,
   } | null,
 };
@@ -3901,6 +4023,7 @@ export type DeleteTransactionMutation = {
     _deleted?: boolean | null,
     _lastChangedAt: number,
     clientTransactionsId?: string | null,
+    rewardsTransactionsId: string,
     transactionLocationId?: string | null,
   } | null,
 };
@@ -5744,6 +5867,141 @@ export type DeleteChatRoomMutation = {
   } | null,
 };
 
+export type CreateRewardsMutationVariables = {
+  input: CreateRewardsInput,
+  condition?: ModelRewardsConditionInput | null,
+};
+
+export type CreateRewardsMutation = {
+  createRewards?:  {
+    __typename: "Rewards",
+    id: string,
+    points: number,
+    transactions?:  {
+      __typename: "ModelTransactionConnection",
+      items:  Array< {
+        __typename: "Transaction",
+        id: string,
+        payoutId?: string | null,
+        transCdId?: string | null,
+        userId: string,
+        actTransTimestamp?: string | null,
+        actTransDesc?: string | null,
+        actTransAmt?: string | null,
+        hold?: boolean | null,
+        glExportInd?: boolean | null,
+        syncInd?: boolean | null,
+        saleDetailId?: string | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        clientTransactionsId?: string | null,
+        rewardsTransactionsId: string,
+        transactionLocationId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type UpdateRewardsMutationVariables = {
+  input: UpdateRewardsInput,
+  condition?: ModelRewardsConditionInput | null,
+};
+
+export type UpdateRewardsMutation = {
+  updateRewards?:  {
+    __typename: "Rewards",
+    id: string,
+    points: number,
+    transactions?:  {
+      __typename: "ModelTransactionConnection",
+      items:  Array< {
+        __typename: "Transaction",
+        id: string,
+        payoutId?: string | null,
+        transCdId?: string | null,
+        userId: string,
+        actTransTimestamp?: string | null,
+        actTransDesc?: string | null,
+        actTransAmt?: string | null,
+        hold?: boolean | null,
+        glExportInd?: boolean | null,
+        syncInd?: boolean | null,
+        saleDetailId?: string | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        clientTransactionsId?: string | null,
+        rewardsTransactionsId: string,
+        transactionLocationId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type DeleteRewardsMutationVariables = {
+  input: DeleteRewardsInput,
+  condition?: ModelRewardsConditionInput | null,
+};
+
+export type DeleteRewardsMutation = {
+  deleteRewards?:  {
+    __typename: "Rewards",
+    id: string,
+    points: number,
+    transactions?:  {
+      __typename: "ModelTransactionConnection",
+      items:  Array< {
+        __typename: "Transaction",
+        id: string,
+        payoutId?: string | null,
+        transCdId?: string | null,
+        userId: string,
+        actTransTimestamp?: string | null,
+        actTransDesc?: string | null,
+        actTransAmt?: string | null,
+        hold?: boolean | null,
+        glExportInd?: boolean | null,
+        syncInd?: boolean | null,
+        saleDetailId?: string | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        clientTransactionsId?: string | null,
+        rewardsTransactionsId: string,
+        transactionLocationId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
 export type CreateCategoryAttributeMutationVariables = {
   input: CreateCategoryAttributeInput,
   condition?: ModelCategoryAttributeConditionInput | null,
@@ -6045,10 +6303,26 @@ export type GetClientQuery = {
         _deleted?: boolean | null,
         _lastChangedAt: number,
         clientTransactionsId?: string | null,
+        rewardsTransactionsId: string,
         transactionLocationId?: string | null,
       } | null >,
       nextToken?: string | null,
       startedAt?: number | null,
+    } | null,
+    rewards?:  {
+      __typename: "Rewards",
+      id: string,
+      points: number,
+      transactions?:  {
+        __typename: "ModelTransactionConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -6056,6 +6330,7 @@ export type GetClientQuery = {
     _deleted?: boolean | null,
     _lastChangedAt: number,
     clientCreditId?: string | null,
+    clientRewardsId?: string | null,
   } | null,
 };
 
@@ -6110,12 +6385,23 @@ export type ListClientsQuery = {
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
+      rewards?:  {
+        __typename: "Rewards",
+        id: string,
+        points: number,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null,
       createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
       clientCreditId?: string | null,
+      clientRewardsId?: string | null,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
@@ -6174,12 +6460,23 @@ export type SyncClientsQuery = {
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
+      rewards?:  {
+        __typename: "Rewards",
+        id: string,
+        points: number,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null,
       createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
       clientCreditId?: string | null,
+      clientRewardsId?: string | null,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
@@ -6806,6 +7103,7 @@ export type GetTransactionQuery = {
     _deleted?: boolean | null,
     _lastChangedAt: number,
     clientTransactionsId?: string | null,
+    rewardsTransactionsId: string,
     transactionLocationId?: string | null,
   } | null,
 };
@@ -6871,6 +7169,7 @@ export type ListTransactionsQuery = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
       clientTransactionsId?: string | null,
+      rewardsTransactionsId: string,
       transactionLocationId?: string | null,
     } | null >,
     nextToken?: string | null,
@@ -6940,6 +7239,7 @@ export type SyncTransactionsQuery = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
       clientTransactionsId?: string | null,
+      rewardsTransactionsId: string,
       transactionLocationId?: string | null,
     } | null >,
     nextToken?: string | null,
@@ -8842,6 +9142,109 @@ export type SyncChatRoomsQuery = {
   } | null,
 };
 
+export type GetRewardsQueryVariables = {
+  id: string,
+};
+
+export type GetRewardsQuery = {
+  getRewards?:  {
+    __typename: "Rewards",
+    id: string,
+    points: number,
+    transactions?:  {
+      __typename: "ModelTransactionConnection",
+      items:  Array< {
+        __typename: "Transaction",
+        id: string,
+        payoutId?: string | null,
+        transCdId?: string | null,
+        userId: string,
+        actTransTimestamp?: string | null,
+        actTransDesc?: string | null,
+        actTransAmt?: string | null,
+        hold?: boolean | null,
+        glExportInd?: boolean | null,
+        syncInd?: boolean | null,
+        saleDetailId?: string | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        clientTransactionsId?: string | null,
+        rewardsTransactionsId: string,
+        transactionLocationId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type ListRewardsQueryVariables = {
+  filter?: ModelRewardsFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListRewardsQuery = {
+  listRewards?:  {
+    __typename: "ModelRewardsConnection",
+    items:  Array< {
+      __typename: "Rewards",
+      id: string,
+      points: number,
+      transactions?:  {
+        __typename: "ModelTransactionConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncRewardsQueryVariables = {
+  filter?: ModelRewardsFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncRewardsQuery = {
+  syncRewards?:  {
+    __typename: "ModelRewardsConnection",
+    items:  Array< {
+      __typename: "Rewards",
+      id: string,
+      points: number,
+      transactions?:  {
+        __typename: "ModelTransactionConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
 export type GetCategoryAttributeQueryVariables = {
   id: string,
 };
@@ -9245,10 +9648,26 @@ export type OnCreateClientSubscription = {
         _deleted?: boolean | null,
         _lastChangedAt: number,
         clientTransactionsId?: string | null,
+        rewardsTransactionsId: string,
         transactionLocationId?: string | null,
       } | null >,
       nextToken?: string | null,
       startedAt?: number | null,
+    } | null,
+    rewards?:  {
+      __typename: "Rewards",
+      id: string,
+      points: number,
+      transactions?:  {
+        __typename: "ModelTransactionConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -9256,6 +9675,7 @@ export type OnCreateClientSubscription = {
     _deleted?: boolean | null,
     _lastChangedAt: number,
     clientCreditId?: string | null,
+    clientRewardsId?: string | null,
   } | null,
 };
 
@@ -9389,10 +9809,26 @@ export type OnUpdateClientSubscription = {
         _deleted?: boolean | null,
         _lastChangedAt: number,
         clientTransactionsId?: string | null,
+        rewardsTransactionsId: string,
         transactionLocationId?: string | null,
       } | null >,
       nextToken?: string | null,
       startedAt?: number | null,
+    } | null,
+    rewards?:  {
+      __typename: "Rewards",
+      id: string,
+      points: number,
+      transactions?:  {
+        __typename: "ModelTransactionConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -9400,6 +9836,7 @@ export type OnUpdateClientSubscription = {
     _deleted?: boolean | null,
     _lastChangedAt: number,
     clientCreditId?: string | null,
+    clientRewardsId?: string | null,
   } | null,
 };
 
@@ -9533,10 +9970,26 @@ export type OnDeleteClientSubscription = {
         _deleted?: boolean | null,
         _lastChangedAt: number,
         clientTransactionsId?: string | null,
+        rewardsTransactionsId: string,
         transactionLocationId?: string | null,
       } | null >,
       nextToken?: string | null,
       startedAt?: number | null,
+    } | null,
+    rewards?:  {
+      __typename: "Rewards",
+      id: string,
+      points: number,
+      transactions?:  {
+        __typename: "ModelTransactionConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -9544,6 +9997,7 @@ export type OnDeleteClientSubscription = {
     _deleted?: boolean | null,
     _lastChangedAt: number,
     clientCreditId?: string | null,
+    clientRewardsId?: string | null,
   } | null,
 };
 
@@ -10271,6 +10725,7 @@ export type OnCreateTransactionSubscription = {
     _deleted?: boolean | null,
     _lastChangedAt: number,
     clientTransactionsId?: string | null,
+    rewardsTransactionsId: string,
     transactionLocationId?: string | null,
   } | null,
 };
@@ -10462,6 +10917,7 @@ export type OnUpdateTransactionSubscription = {
     _deleted?: boolean | null,
     _lastChangedAt: number,
     clientTransactionsId?: string | null,
+    rewardsTransactionsId: string,
     transactionLocationId?: string | null,
   } | null,
 };
@@ -10653,6 +11109,7 @@ export type OnDeleteTransactionSubscription = {
     _deleted?: boolean | null,
     _lastChangedAt: number,
     clientTransactionsId?: string | null,
+    rewardsTransactionsId: string,
     transactionLocationId?: string | null,
   } | null,
 };
@@ -12431,6 +12888,138 @@ export type OnDeleteChatRoomSubscription = {
     } | null,
     accessList?: Array< string | null > | null,
     location?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnCreateRewardsSubscriptionVariables = {
+  filter?: ModelSubscriptionRewardsFilterInput | null,
+};
+
+export type OnCreateRewardsSubscription = {
+  onCreateRewards?:  {
+    __typename: "Rewards",
+    id: string,
+    points: number,
+    transactions?:  {
+      __typename: "ModelTransactionConnection",
+      items:  Array< {
+        __typename: "Transaction",
+        id: string,
+        payoutId?: string | null,
+        transCdId?: string | null,
+        userId: string,
+        actTransTimestamp?: string | null,
+        actTransDesc?: string | null,
+        actTransAmt?: string | null,
+        hold?: boolean | null,
+        glExportInd?: boolean | null,
+        syncInd?: boolean | null,
+        saleDetailId?: string | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        clientTransactionsId?: string | null,
+        rewardsTransactionsId: string,
+        transactionLocationId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnUpdateRewardsSubscriptionVariables = {
+  filter?: ModelSubscriptionRewardsFilterInput | null,
+};
+
+export type OnUpdateRewardsSubscription = {
+  onUpdateRewards?:  {
+    __typename: "Rewards",
+    id: string,
+    points: number,
+    transactions?:  {
+      __typename: "ModelTransactionConnection",
+      items:  Array< {
+        __typename: "Transaction",
+        id: string,
+        payoutId?: string | null,
+        transCdId?: string | null,
+        userId: string,
+        actTransTimestamp?: string | null,
+        actTransDesc?: string | null,
+        actTransAmt?: string | null,
+        hold?: boolean | null,
+        glExportInd?: boolean | null,
+        syncInd?: boolean | null,
+        saleDetailId?: string | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        clientTransactionsId?: string | null,
+        rewardsTransactionsId: string,
+        transactionLocationId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnDeleteRewardsSubscriptionVariables = {
+  filter?: ModelSubscriptionRewardsFilterInput | null,
+};
+
+export type OnDeleteRewardsSubscription = {
+  onDeleteRewards?:  {
+    __typename: "Rewards",
+    id: string,
+    points: number,
+    transactions?:  {
+      __typename: "ModelTransactionConnection",
+      items:  Array< {
+        __typename: "Transaction",
+        id: string,
+        payoutId?: string | null,
+        transCdId?: string | null,
+        userId: string,
+        actTransTimestamp?: string | null,
+        actTransDesc?: string | null,
+        actTransAmt?: string | null,
+        hold?: boolean | null,
+        glExportInd?: boolean | null,
+        syncInd?: boolean | null,
+        saleDetailId?: string | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        clientTransactionsId?: string | null,
+        rewardsTransactionsId: string,
+        transactionLocationId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
