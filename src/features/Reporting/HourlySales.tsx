@@ -39,28 +39,32 @@ export const options = {
 };
 
 const sortDataToHours = (chartData: any) => {
-  const firstTransaction = chartData[0];
-  let startTime = new Date(firstTransaction.SALE_TS);
-  startTime.setHours(9);
-  startTime.setMinutes(0);
-  const endTime = add(startTime, { hours: 11 });
-  let output: {label: string, amount: number, transactions: number}[] = [];
+  if (chartData.length > 0) {
+    const firstTransaction = chartData[0];
+    let startTime = new Date(firstTransaction.SALE_TS);
+    startTime.setHours(9);
+    startTime.setMinutes(0);
+    const endTime = add(startTime, { hours: 11 });
+    let output: {label: string, amount: number, transactions: number}[] = [];
 
-  while (startTime < endTime) {
-    const filteredTransactions = chartData.filter((cd:any) => {
-      return isSameHour(new Date(cd.SALE_TS), startTime);
-    });
+    for (let i = startTime; i < endTime;) {
+      const filteredTransactions = chartData.filter((cd:any) => {
+        return isSameHour(new Date(cd.SALE_TS), i);
+      });
 
-    const total = filteredTransactions.reduce((a: any[], b: any) => a + b.SALE_COST, 0);
-    const key = `${format(startTime, 'hh:mm')}`;
-    output.push({label: key, amount: total, transactions: filteredTransactions.length});
-    startTime = add(startTime, { hours: 1 });
+      const total = filteredTransactions.reduce((a: any[], b: any) => a + b.SALE_COST, 0);
+      const key = `${format(i, 'hh:mm')}`;
+      output.push({label: key, amount: total, transactions: filteredTransactions.length});
+      i = add(i, { hours: 1 });
+    }
+
+    return output;
   }
 
-  return output;
+  return [];
 }
 
-const filteredData = sortDataToHours(chartData);
+const filteredData = chartData.length > 0 ? sortDataToHours(chartData) : [];
 
 const labels = filteredData.map((fd) => fd.label);
 
@@ -71,7 +75,7 @@ const HourlySales = () => {
     })
 
     //@ts-ignore
-    return [... new Set(storeIds)];
+    return [...new Set(storeIds)];
   }
 
   const generateStoreData = (storeIds: number[]) => {
@@ -90,20 +94,22 @@ const HourlySales = () => {
   }
 
   const buildData = () => {
-    const storeIds = getStoreIds();
-    const storeDataSets = generateStoreData(storeIds);
+    if (chartData.length > 0) {
+      const storeIds = getStoreIds();
+      const storeDataSets = generateStoreData(storeIds);
 
-    const baseDataSet = {
-      label: 'Total Hourly Sales',
-      data: sortDataToHours(chartData).map((fd) => fd.amount),
-      borderColor: '#434ce6'
-    };
+      const baseDataSet = {
+        label: 'Total Hourly Sales',
+        data: sortDataToHours(chartData).map((fd) => fd.amount),
+        borderColor: '#434ce6'
+      };
 
-    const datasets = storeDataSets.length > 0 ? [baseDataSet, ...storeDataSets] : [baseDataSet];
+      const datasets = storeDataSets.length > 0 ? [baseDataSet, ...storeDataSets] : [baseDataSet];
 
-    return {
-      labels,
-      datasets
+      return {
+        labels,
+        datasets
+      }
     }
   }
 
@@ -111,7 +117,7 @@ const HourlySales = () => {
 
   return (
     <Paper>
-      <Line options={options} data={data} height='25%'/>
+      {data && <Line options={options} data={data} height='25%'/>}
     </Paper>
   )
 }

@@ -171,6 +171,7 @@ type EagerItem = {
   readonly itemBrandId?: string | null;
   readonly transactionItemsId?: string | null;
   readonly transactionMissingItemsId?: string | null;
+  readonly pickUpItemsId?: string | null;
 }
 
 type LazyItem = {
@@ -217,6 +218,7 @@ type LazyItem = {
   readonly itemBrandId?: string | null;
   readonly transactionItemsId?: string | null;
   readonly transactionMissingItemsId?: string | null;
+  readonly pickUpItemsId?: string | null;
 }
 
 export declare type Item = LazyLoading extends LazyLoadingDisabled ? EagerItem : LazyItem
@@ -1011,6 +1013,34 @@ export declare type Rewards = LazyLoading extends LazyLoadingDisabled ? EagerRew
 
 export declare const Rewards: (new (init: ModelInit<Rewards>) => Rewards) & {
   copyOf(source: Rewards, mutator: (draft: MutableModel<Rewards>) => MutableModel<Rewards> | void): Rewards;
+}
+
+type EagerPickUp = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<PickUp, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly items: Item[];
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyPickUp = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<PickUp, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly items: AsyncCollection<Item>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type PickUp = LazyLoading extends LazyLoadingDisabled ? EagerPickUp : LazyPickUp
+
+export declare const PickUp: (new (init: ModelInit<PickUp>) => PickUp) & {
+  copyOf(source: PickUp, mutator: (draft: MutableModel<PickUp>) => MutableModel<PickUp> | void): PickUp;
 }
 
 type EagerCategoryAttribute = {

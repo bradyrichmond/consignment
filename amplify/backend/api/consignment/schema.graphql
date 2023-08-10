@@ -277,3 +277,8 @@ type Rewards @model {
   points: Int!
   transactions: [Transaction]! @hasMany
 }
+
+type PickUp @model {
+  id: ID!
+  items: [Item!]! @hasMany
+}

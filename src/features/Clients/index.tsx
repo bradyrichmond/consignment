@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
 import { DataStore, Predicates } from 'aws-amplify';
-import { Address, Client } from '../../models';
+import { Address, Client, Item, PickUp } from '../../models';
 import { DataGrid, GridColDef, GridEventListener, GridRenderCellParams, MuiEvent } from '@mui/x-data-grid';
 import { Box, Button, Checkbox, FormControlLabel, LinearProgress, Modal} from '@mui/material';
 import AddClient from './AddClient';
@@ -8,6 +8,7 @@ import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import SearchBar from '../../components/SearchBar';
 import { DrawerContext } from '../../context';
+import StorePickUp from './StorePickUp';
 
 export const toTitleCase = (str: string) => {
     if (str.length > 0){
@@ -38,7 +39,9 @@ const Clients = (props: ClientsProps) => {
     const [clients, setClients] = useState<Client[]>([]);
     const [isAddingClient, setIsAddingClient] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const [selectedClient, setSelectedClient] = useState<Client>()
     const [filterInactiveClients, setFilterInactiveClients] = useState(true);
+    const [isValidatingPickup, setIsValidatingPickup] = useState(false);
     const { setDrawerContent, setDrawerClientId } = useContext(DrawerContext);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
@@ -96,6 +99,14 @@ const Clients = (props: ClientsProps) => {
         navigate(`/add-items/${params.id}`);
     }
 
+    const selectClientForPickup = async (params: GridRenderCellParams<String>, event: MuiEvent<React.MouseEvent>) => {
+        event.stopPropagation();
+        const clientId = params.id;
+        const client = await DataStore.query(Client, clientId.toString());
+        setSelectedClient(client);
+        startValidatingPickup();
+    }
+
     const columns: GridColDef[] = [
         {field: 'firstName', headerName: 'First Name', flex: 1},
         {field: 'lastName', headerName: 'Last Name', flex: 1},
@@ -105,9 +116,14 @@ const Clients = (props: ClientsProps) => {
         {field: 'createTimestamp', headerName: 'Created TS', flex: 1},
         {field: 'activeTimestamp', headerName: 'Active TS', flex: 1},
         {field: 'inactiveTimestamp', headerName: 'InactiveTS', flex: 1},
-        {field: '', headerName: 'Add Items', flex: 1, editable: true, renderCell: (params: GridRenderCellParams<String>) => {
+        {field: 'addItemColumn', headerName: 'Add Items', flex: 1, renderCell: (params: GridRenderCellParams<String>) => {
             return (
                 <Button variant='contained' onClick={(event: MuiEvent<React.MouseEvent>) => addItemsNavigation(params, event)} sx={{marginTop: '2rem', marginBottom: '2rem'}}>Add Items</Button>
+            )
+        }},
+        {field: 'startPickupColumn', headerName: 'Start Pick Up?', flex: 1, editable: true, renderCell: (params: GridRenderCellParams<String>) => {
+            return (
+                <Button variant='contained' onClick={(event: MuiEvent<React.MouseEvent>) => selectClientForPickup(params, event)} sx={{marginTop: '2rem', marginBottom: '2rem'}}>Start Pick Up</Button>
             )
         }},
     ];
@@ -213,6 +229,19 @@ const Clients = (props: ClientsProps) => {
         setFilterInactiveClients((cur) => !cur);
     }
 
+    const startValidatingPickup = () => {
+        setIsValidatingPickup(true);
+    }
+
+    const stopValidatingPickup = () => {
+        setIsValidatingPickup(false);
+    }
+
+    const activatePickup = async (items: Item[]) => {
+        await DataStore.save(new PickUp({ items }));
+        stopValidatingPickup();
+    }
+
     return (
         <Box height='100%' display='flex' flexDirection='column' padding='2rem'>
             <Modal
@@ -220,6 +249,12 @@ const Clients = (props: ClientsProps) => {
                 onClose={stopAddingClient}
             >
                 <AddClient close={stopAddingClient}/>
+            </Modal>
+            <Modal
+                open={isValidatingPickup}
+                onClose={stopValidatingPickup}
+            >
+                <StorePickUp client={selectedClient} close={stopValidatingPickup} approve={activatePickup} />
             </Modal>
             <Box paddingTop='2rem' paddingBottom='2rem' display='flex' flexDirection='row' width='100%' alignItems='center'>
                 <Box flex='1'>

@@ -603,6 +603,13 @@ export const schema = {
                     "type": "ID",
                     "isRequired": false,
                     "attributes": []
+                },
+                "pickUpItemsId": {
+                    "name": "pickUpItemsId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -645,6 +652,15 @@ export const schema = {
                         "name": "gsi-Transaction.missingItems",
                         "fields": [
                             "transactionMissingItemsId"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "gsi-PickUp.items",
+                        "fields": [
+                            "pickUpItemsId"
                         ]
                     }
                 }
@@ -2476,6 +2492,58 @@ export const schema = {
                 }
             ]
         },
+        "PickUp": {
+            "name": "PickUp",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "items": {
+                    "name": "items",
+                    "isArray": true,
+                    "type": {
+                        "model": "Item"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "isArrayNullable": false,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "pickUpItemsId"
+                        ]
+                    }
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "PickUps",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                }
+            ]
+        },
         "CategoryAttribute": {
             "name": "CategoryAttribute",
             "fields": {
@@ -2612,5 +2680,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.2",
-    "version": "286775678f6f909b48723f512cc7e01e"
+    "version": "8da0b5a19b596bd68d620e34c666934b"
 };

@@ -36,6 +36,7 @@ import Checkin from './features/Concierge/CheckIn';
 import Appointments from './features/Appointments';
 import SetupBlackouts from './features/Appointments/SetupBlackouts';
 import Chat from './features/Chat';
+import ClientPickup from './features/Clients/ClientPickup';
 Amplify.configure(awsExports);
 
 const checkProtectedRoute = (userGroups: string[], allowedGroups: string[]) => {
@@ -132,6 +133,10 @@ export const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: s
   {
     path: '/login',
     element: <Login />
+  },
+  {
+    path: 'client-pickup/:id',
+    element: <ClientPickup />
   }
 ]);
 

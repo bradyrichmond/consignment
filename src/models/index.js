@@ -27,7 +27,7 @@ const CouponType = {
   "FLAT": "FLAT"
 };
 
-const { Client, StoreCredit, Item, Transaction, Tender, Location, ConsignerSplit, Address, City, Brand, Category, AttributeType, AttributeTypeValue, CategoryPriceGuide, GiftCard, GiftCardLog, Coupon, ConsignmentDropoff, Cubby, Appointment, Blackout, ChatMessage, ChatRoom, Rewards, CategoryAttribute } = initSchema(schema);
+const { Client, StoreCredit, Item, Transaction, Tender, Location, ConsignerSplit, Address, City, Brand, Category, AttributeType, AttributeTypeValue, CategoryPriceGuide, GiftCard, GiftCardLog, Coupon, ConsignmentDropoff, Cubby, Appointment, Blackout, ChatMessage, ChatRoom, Rewards, PickUp, CategoryAttribute } = initSchema(schema);
 
 export {
   Client,
@@ -54,6 +54,7 @@ export {
   ChatMessage,
   ChatRoom,
   Rewards,
+  PickUp,
   CategoryAttribute,
   ClientType,
   GiftCardLogType,
