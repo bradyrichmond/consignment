@@ -10,6 +10,8 @@ import LocationSettings from './LocationSettings';
 import ConsignerSettings from './ConsignerSettings';
 import { TenderType } from '../../models';
 import ConciergeSettings from './ConciergeSettings';
+import { SizeType } from '../../models';
+import { GenderType } from '../../models';
 
 const Settings = () => {
     const [printers, setPrinters] = useState<any>([]);
@@ -65,7 +67,7 @@ const Settings = () => {
     }
 
     const testPrint = async () => {
-        const listOfItems: Item[] = [new Item({ userId: '1', statusId: '1', itemName: 'Test Item', price: '3.99' })];
+        const listOfItems: Item[] = [new Item({ userId: '1', statusId: '1', itemName: 'Test Item', price: '3.99', size: SizeType.NEWBORN, gender: GenderType.BOYS })];
         console.log('receipt:');
         console.log(generateReceipt(listOfItems, [new Tender({ label: TenderType.CREDIT_CARD, receivedAmount: 5.99 })], 'testTransactionId', '1480 NW Gilman Blvd #3', "Issaquah, WA 98027"))
     }

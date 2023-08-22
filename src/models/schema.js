@@ -539,6 +539,24 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "gender": {
+                    "name": "gender",
+                    "isArray": false,
+                    "type": {
+                        "enum": "GenderType"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "size": {
+                    "name": "size",
+                    "isArray": false,
+                    "type": {
+                        "enum": "SizeType"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -2676,9 +2694,68 @@ export const schema = {
                 "PERCENT",
                 "FLAT"
             ]
+        },
+        "GenderType": {
+            "name": "GenderType",
+            "values": [
+                "BOYS",
+                "GIRLS",
+                "UNISEX"
+            ]
+        },
+        "SizeType": {
+            "name": "SizeType",
+            "values": [
+                "PREEMIE",
+                "NEWBORN",
+                "ZERO_TO_THREE_MONTHS",
+                "THREE_MONTHS",
+                "THREE_TO_SIX_MONTHS",
+                "SIX_MONTHS",
+                "SIX_TO_NINE_MONTHS",
+                "NINE_MONTHS",
+                "NINE_TO_TWELVE_MONTHS",
+                "TWELVE_MONTHS",
+                "TWELVE_TO_EIGHTEEN_MONTHS",
+                "EIGHTEEN_TWENTY_FOUR_MONTHS",
+                "TWO",
+                "TWO_THREE",
+                "THREE",
+                "THREE_FOUR",
+                "FOUR",
+                "FOUR_FIVE",
+                "FIVE",
+                "FIVE_SIX",
+                "SIX",
+                "SIX_SEVEN",
+                "SEVEN",
+                "SEVEN_EIGHT",
+                "EIGHT",
+                "EIGHT_NINE",
+                "EIGHT_TEN",
+                "NINE",
+                "NINE_TEN",
+                "TEN",
+                "TEN_ELEVEN",
+                "TEN_TWELVE",
+                "ELEVEN",
+                "ELEVEN_TWELVE",
+                "TWELVE",
+                "TWELVE_THIRTEEN",
+                "TWELVE_FOURTEEN",
+                "THIRTEEN",
+                "THIRTEEN_FOURTEEN",
+                "FOURTEEN",
+                "FOURTEEN_FIFTEEN",
+                "FOURTEEN_SIXTEEN",
+                "FIFTEEN",
+                "FIFTEEN_SIXTEEN",
+                "SIXTEEN",
+                "SIXTEEN_EIGHTEEN"
+            ]
         }
     },
     "nonModels": {},
     "codegenVersion": "3.4.2",
-    "version": "8da0b5a19b596bd68d620e34c666934b"
+    "version": "47c9945300febc9ab8d64270b7fec11d"
 };

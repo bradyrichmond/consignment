@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/system';
 import { Category } from '../../models';
 import { DataStore } from 'aws-amplify';
-import { Button, LinearProgress, Typography } from '@mui/material';
+import { Button, CircularProgress, Typography } from '@mui/material';
 
 interface SelectCategoryProps {
     onButtonClick: (category: string) => void,
@@ -30,7 +30,7 @@ const SelectCategory = (props: SelectCategoryProps) => {
 
     return (
         <Box>
-            {loading && <LinearProgress color='primary' />}
+            {loading && <CircularProgress color='primary' />}
             {categories && categories.length > 0 ?
                 categories.map((category) =>
                     <Box margin='1rem'>

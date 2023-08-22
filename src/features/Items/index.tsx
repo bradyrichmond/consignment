@@ -97,7 +97,6 @@ const Items = () => {
                             const brandId = item[21];
                             const saleDetailId = item[22];
                             const titleChanged = !!item[23];
-                            const modifiedTimestamp = item[24];
                             const modifiedBy = item[25];
                             const upcCode = item[26];
                             const createTimestamp = item[27];
@@ -146,7 +145,7 @@ const Items = () => {
                                     modifiedBy, 
                                     upcCode, 
                                     createTimestamp, 
-                                    entryTimestamp 
+                                    entryTimestamp
                                 }));
                             }
                         }

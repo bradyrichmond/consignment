@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { Stepper, Step, StepLabel, Typography } from '@mui/material';
 import NarrowBrand from './NarrowBrand';
 import SelectBrand from './SelectBrand';
-import { AttributeType, AttributeTypeValue, Brand, Category, CategoryAttribute, Client, Item } from '../../models';
+import { AttributeType, AttributeTypeValue, Brand, Category, CategoryAttribute, Client, GenderType, Item, SizeType } from '../../models';
 import SelectCategory from './SelectCategory';
 import { DataStore } from 'aws-amplify';
 import SelectAttributes from './SelectAttributes';
@@ -16,6 +16,8 @@ const AddItem = () => {
     const [activeStep, setActiveStep] = useState<number>(0);
     const [narrowBrand, setNarrowBrand] = useState<string>('');
     const [brand, setBrand] = useState<Brand>();
+    const [gender, setGender] = useState<GenderType>(GenderType.UNISEX);
+    const [size, setSize] = useState<SizeType>(SizeType.EIGHT)
     const [category, setCategory] = useState<string>('');
     const [categoryAttributes, setCategoryAttributes] = useState<AttributeType[]>([]);
     const [categoryAttributeValues, setCategoryAttributeValues] = useState<AttributeTypeValue[]>([]);
@@ -84,8 +86,8 @@ const AddItem = () => {
         const client = await DataStore.query(Client, id ?? '');
         
         if (client) {
-            // need real userId
-            await DataStore.save(new Item({ itemCategoryId: category, itemId: `${client?.account}-${client?.nextItemNumber}`, clientItemsId: id, itemBrandId: brand?.id, price: itemPrice, statusId: '1', userId: '1', itemName: `${brand?.description} ${fetchedCategory?.categoryName}` }));
+            // TODO: need real userId
+            await DataStore.save(new Item({ itemCategoryId: category, itemId: `${client?.account}-${client?.nextItemNumber}`, clientItemsId: id, itemBrandId: brand?.id, price: itemPrice, statusId: '1', userId: '1', itemName: `${brand?.description} ${fetchedCategory?.categoryName}`, size, gender }));
             await DataStore.save(Client.copyOf(client, (updated) => {
                 updated.nextItemNumber = (parseInt(client.nextItemNumber) + 1).toString();
             }))
