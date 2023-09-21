@@ -14,9 +14,8 @@ const Checkin = () => {
             Cubby,
             (c) => c.locationId.eq(locationId ?? '')
           ).subscribe(snapshot => {
-            const { items, isSynced } = snapshot;
+            const { items } = snapshot;
             setCubbyData(items);
-            console.log('received updated cubbies')
         });
 
         return () => {

@@ -36,8 +36,9 @@ import Checkin from './features/Concierge/CheckIn';
 import Appointments from './features/Appointments';
 import SetupBlackouts from './features/Appointments/SetupBlackouts';
 import Chat from './features/Chat';
-import ClientPickup from './features/Clients/ClientPickup';
 import ClientPickupComplete from './features/Clients/ClientPickupComplete';
+import ClientPickup from './features/Clients/ClientPickup';
+import ConciergeHistory from './features/Concierge/History';
 Amplify.configure(awsExports);
 
 const checkProtectedRoute = (userGroups: string[], allowedGroups: string[]) => {
@@ -84,6 +85,10 @@ export const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: s
       {
         path: 'concierge/employee',
         element: checkProtectedRoute(userGroups, ['Salespeople', 'Processors', 'Managers', 'Admins']) ? <EmployeeDisplay /> : <Box>Access Denied</Box>
+      },
+      {
+        path: 'concierge/history',
+        element: checkProtectedRoute(userGroups, ['Salespeople', 'Processors', 'Managers', 'Admins']) ? <ConciergeHistory /> : <Box>Access Denied</Box>
       },
       {
         path: 'consigners',

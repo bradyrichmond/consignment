@@ -31,37 +31,37 @@ const navItems = [
     {
         label: 'Attribute Types',
         navUrl: 'attribute-types',
-        userGroups: ['Manager', 'Admins'],
+        userGroups: [],
         icon: <CreateIcon fontSize='large' />
     },
     {
         label: 'Appointments',
         navUrl: 'appointments',
-        userGroups: ['Salespeople', 'Processors', 'Managers', 'Admins'],
+        userGroups: [],
         icon: <CalendarMonthIcon fontSize='large' />
     },
     {
         label: 'Brands',
         navUrl: 'brands',
-        userGroups: ['Manager', 'Admins'],
+        userGroups: [],
         icon: <StyleIcon fontSize='large' />
     },
     {
         label: 'Categories',
         navUrl: 'categories',
-        userGroups: ['Manager', 'Admins'],
+        userGroups: [],
         icon: <CategoryIcon fontSize='large' />
     },
     {
         label: 'Chat',
         navUrl: 'chat',
-        userGroups: ['Manager', 'Admins'],
+        userGroups: [],
         icon: <ForumIcon fontSize='large' />
     },
     {
         label: 'Consigners',
         navUrl: 'consigners',
-        userGroups: ['Salespeople', 'Processors', 'Managers', 'Admins'],
+        userGroups: [],
         icon: <ContactEmergencyIcon fontSize='large' />
     },
     {
@@ -73,25 +73,25 @@ const navItems = [
     {
         label: 'Coupons',
         navUrl: 'coupons',
-        userGroups: ['Admins'],
+        userGroups: [],
         icon: <PriceChangeIcon fontSize='large' />   
     },
     {
         label: 'Items',
         navUrl: 'items',
-        userGroups: ['Salespeople', 'Processors', 'Managers', 'Admins'],
+        userGroups: [],
         icon: <ExtensionIcon fontSize='large' />
     },
     {
         label: 'Point of Sale',
         navUrl: 'pos',
-        userGroups: ['Salespeople', 'Processors', 'Managers', 'Admins'],
+        userGroups: [],
         icon: <PointOfSaleIcon fontSize='large' />
     },
     {
         label: 'Reports',
         navUrl: 'reports',
-        userGroups: ['Manager', 'Admins'],
+        userGroups: [],
         icon: <SsidChartIcon fontSize='large' />
     },
     {
@@ -103,7 +103,7 @@ const navItems = [
     {
         label: 'User Management',
         navUrl: 'user-management',
-        userGroups: ['Admins'],
+        userGroups: [],
         icon: <GroupIcon fontSize='large' />
     },
 ];

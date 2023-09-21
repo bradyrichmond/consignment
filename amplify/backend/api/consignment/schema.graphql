@@ -288,6 +288,7 @@ type ConsignmentDropoff @model {
   timerCleared: Boolean
   createdTime: AWSTimestamp!
   hasAppointment: Boolean
+  locationId: String!
 }
 
 type Cubby @model {

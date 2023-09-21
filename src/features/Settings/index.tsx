@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import * as JSPM from "jsprintmanager";
 import { generateReceipt } from '../../utils/PrintReceipt';
-import { API, DataStore } from 'aws-amplify';
+import { API, DataStore, SortDirection } from 'aws-amplify';
 import { Item, Location, Tender } from '../../models';
 import PrinterSelector from './PrinterSelector';
 import CardReaderSelector from './CardReaderSelector';
@@ -47,37 +47,42 @@ const Settings = () => {
             setCardReaderOptions(fetchedCardReaderIds);
         }
 
-        const getStoreLocations = async () => {
-            const fetchedStoreLocations = await DataStore.query(Location);
-            setStoreLocations(fetchedStoreLocations);
-        }
-
         setTimeout(() => { setsocketStatus(JSPM.JSPrintManager.websocket_status); }, 3000);
         setStoredCardReaderId(localStorage.getItem('cardReaderId') ?? '');
-
-        getCardReaderIds();
-        getStoreLocations();
-        setUpJspm();
 
         setStoredStoreId(localStorage.getItem('locationId') ?? '');
     }, [])
 
-    const setPrinter = (printerName: string, lsKey: string) => {
-        localStorage.setItem(lsKey, printerName);
-    }
+    useEffect(() => {
+        const locationSub = DataStore.observeQuery(
+            Location
+        ).subscribe(snapshot => {
+            const { items } = snapshot;
+            setStoreLocations(items);
+        });
 
-    const testPrint = async () => {
-        const listOfItems: Item[] = [new Item({ userId: '1', statusId: '1', itemName: 'Test Item', price: '3.99', size: SizeType.NEWBORN, gender: GenderType.BOYS })];
-        console.log('receipt:');
-        console.log(generateReceipt(listOfItems, [new Tender({ label: TenderType.CREDIT_CARD, receivedAmount: 5.99 })], 'testTransactionId', '1480 NW Gilman Blvd #3', "Issaquah, WA 98027"))
-    }
+        return () => {
+            locationSub.unsubscribe();
+        }
+    }, [])
 
-    const handleSetCardReaderId = (data: any) => {
-        localStorage.setItem('cardReaderId', data.cardReaderId);
-    }
+    // const setPrinter = (printerName: string, lsKey: string) => {
+    //     localStorage.setItem(lsKey, printerName);
+    // }
+
+    // const testPrint = async () => {
+    //     const listOfItems: Item[] = [new Item({ userId: '1', statusId: '1', itemName: 'Test Item', price: '3.99', size: SizeType.NEWBORN, gender: GenderType.BOYS })];
+    //     console.log('receipt:');
+    //     console.log(generateReceipt(listOfItems, [new Tender({ label: TenderType.CREDIT_CARD, receivedAmount: 5.99 })], 'testTransactionId', '1480 NW Gilman Blvd #3', "Issaquah, WA 98027"))
+    // }
+
+    // const handleSetCardReaderId = (data: any) => {
+    //     localStorage.setItem('cardReaderId', data.cardReaderId);
+    // }
 
     const handleLocationChange = (locationId: string) => {
         localStorage.setItem('locationId', locationId);
+        setStoredStoreId(locationId);
     }
 
     const handleAddLocation = async () => {
@@ -87,7 +92,7 @@ const Settings = () => {
 
     return (
         <Box padding='2rem'>
-            <Box>
+            {/* <Box>
                 <Typography variant='h2'>Printers</Typography>
                 <PrinterSelector label='Report Printer' lsKey='reportPrinter' printerNames={printers} onPrinterChange={setPrinter} testPrint={testPrint} />
                 <PrinterSelector label='Receipt Printer' lsKey='receiptPrinter' printerNames={printers} onPrinterChange={setPrinter} testPrint={testPrint} />
@@ -96,20 +101,20 @@ const Settings = () => {
             <Box marginTop='2rem'>
                 <Typography variant='h2'>Card Reader</Typography>
                 <CardReaderSelector cardReaderIds={cardReaderOptions} onCardReaderChange={handleSetCardReaderId} />
-            </Box>
+            </Box> */}
             <Box marginTop='2rem'>
                 <Typography variant='h2'>Location</Typography>
-                <LocationSettings onLocationChange={handleLocationChange} locations={storeLocations} handleAddLocation={handleAddLocation} />
+                <LocationSettings onLocationChange={handleLocationChange} locations={storeLocations} handleAddLocation={handleAddLocation} storedLocationId={storedStoreId} />
             </Box>
             {storedStoreId && 
                 <>
-                    <Box marginTop='2rem'>
+                    {/* <Box marginTop='2rem'>
                         <Typography variant='h2'>Consigner Percentage</Typography>
                         <ConsignerSettings />
-                    </Box>
+                    </Box> */}
                     <Box marginTop='2rem'>
                         <Typography variant='h2'>Concierge Settings</Typography>
-                        <ConciergeSettings />
+                        <ConciergeSettings locationId={storedStoreId} />
                     </Box>
                 </>
             }

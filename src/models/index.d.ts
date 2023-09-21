@@ -835,6 +835,7 @@ type EagerConsignmentDropoff = {
   readonly timerCleared?: boolean | null;
   readonly createdTime: number;
   readonly hasAppointment?: boolean | null;
+  readonly locationId: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly consignmentDropoffCubbyId?: string | null;
@@ -859,6 +860,7 @@ type LazyConsignmentDropoff = {
   readonly timerCleared?: boolean | null;
   readonly createdTime: number;
   readonly hasAppointment?: boolean | null;
+  readonly locationId: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly consignmentDropoffCubbyId?: string | null;

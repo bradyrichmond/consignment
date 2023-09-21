@@ -59,7 +59,7 @@ const CreateDropOff = () => {
                     updated.inUse = true;
                 }));
 
-                await DataStore.save(new ConsignmentDropoff({ firstName, lastName, phone, oversizedItems, complete: false, createdTime: Date.now(), newConsigner, hasAppointment, oversizedDescription, cubby: assignedCubby }));
+                await DataStore.save(new ConsignmentDropoff({ firstName, lastName, phone, oversizedItems, complete: false, createdTime: Date.now(), newConsigner, hasAppointment, oversizedDescription, cubby: assignedCubby, locationId }));
                 reset();
                 navigate('/concierge/client/complete', { state: { cubbyNumber: assignedCubby.cubbyNumber } });
             }

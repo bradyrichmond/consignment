@@ -3,13 +3,16 @@ import { Box, Button, LinearProgress, Typography } from '@mui/material';
 import { Cubby, Location } from '../../models';
 import { DataStore, SortDirection } from 'aws-amplify';
 
-const ConciergeSettings = () => {
+interface ConciergeSettingsProps {
+    locationId: string
+}
+
+const ConciergeSettings = (props: ConciergeSettingsProps) => {
+    const { locationId } = props;
     const [cubbies, setCubbies] = useState<Cubby[]>([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const locationId = localStorage.getItem('locationId');
-
         const cubbySub = DataStore.observeQuery(
             Cubby,
             c => c.locationId.eq(locationId ?? ''), {
@@ -23,7 +26,7 @@ const ConciergeSettings = () => {
         return (() => {
             cubbySub.unsubscribe();
         })
-    }, [])
+    }, [locationId])
 
     const addACubby = async () => {
         const nextCubbyNumber = (cubbies.length + 1).toString();
