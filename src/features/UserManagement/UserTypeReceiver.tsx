@@ -73,20 +73,23 @@ const UserTypeReceiver = (props: UserTypeReceiverProps) => {
             <Modal
                 open={isAlreadyRoleModal}
                 onClose={toggleAlreadyRoleModal}
+                style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
             >
-                <ConfirmModal close={toggleAlreadyRoleModal} validationText='Ok' confirmText='User is already a member of this role.' confirm={toggleAlreadyRoleModal}/>
+                <ConfirmModal validationText='Ok' confirmText='User is already a member of this role.' confirm={toggleAlreadyRoleModal}/>
             </Modal>
             <Modal
                 open={cantRemoveSelfModal}
                 onClose={toggleCantRemoveSelfModal}
+                style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
             >
-                <ConfirmModal close={toggleCantRemoveSelfModal} validationText='Ok' confirmText='You cannot make change to your own account.' confirm={toggleCantRemoveSelfModal}/>
+                <ConfirmModal validationText='Ok' confirmText='You cannot make change to your own account.' confirm={toggleCantRemoveSelfModal}/>
             </Modal>
             <Modal
                 open={minimumAdminsModal}
                 onClose={toggleMinimumAdminsModal}
+                style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
             >
-                <ConfirmModal close={toggleMinimumAdminsModal} validationText='Ok' confirmText='You must have at least one admin.' confirm={toggleMinimumAdminsModal}/>
+                <ConfirmModal validationText='Ok' confirmText='You must have at least one admin.' confirm={toggleMinimumAdminsModal}/>
             </Modal>
             <Typography variant='h2'>{label}</Typography>
             <Box minHeight='100px' width='100%' ref={drop} bgcolor='rgba(0,0,0, 0.1)' padding='1rem' borderRadius='0.25rem'>

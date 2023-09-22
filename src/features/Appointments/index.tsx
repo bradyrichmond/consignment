@@ -174,8 +174,9 @@ const DayDisplay = (props: DayDisplayProps) => {
             <Modal
                 open={isDeletingAppointment}
                 onClose={closeModals}
+                style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
             >
-                <ConfirmModal close={closeModals} validationText={`Delete the appointment for ${activeAppointment?.firstName}`} confirmText='Yes' confirm={deleteAppointment} cancelText='No' cancel={closeModals} />
+                <ConfirmModal validationText={`Delete the appointment for ${activeAppointment?.firstName}`} confirmText='Yes' confirm={deleteAppointment} cancelText='No' cancel={closeModals} />
             </Modal>
             <Box display='flex' flexDirection='column' height='75%' width='75%'>
                 {options && options.map((o) => <DayDisplayItem 

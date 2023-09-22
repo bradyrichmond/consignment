@@ -123,20 +123,23 @@ const EmployeeDisplay = () => {
                     <Modal
                         open={validatingDelete}
                         onClose={closeModals}
+                        style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
                     >
-                        <ConfirmModal validationText='Are you sure you want to mark customer as completed?' confirmText='Yes' cancelText='No' confirm={deleteCustomer} cancel={closeModals} close={closeModals} />
+                        <ConfirmModal validationText='Are you sure you want to mark customer as completed?' confirmText='Yes' cancelText='No' confirm={deleteCustomer} cancel={closeModals} />
                     </Modal>
                     <Modal
                         open={validatingRevive}
                         onClose={closeModals}
+                        style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
                     >
-                        <ConfirmModal validationText='Are you sure you want to mark customer as active?' confirmText='Yes' cancelText='No' confirm={reviveCustomer} cancel={closeModals} close={closeModals} />
+                        <ConfirmModal validationText='Are you sure you want to mark customer as active?' confirmText='Yes' cancelText='No' confirm={reviveCustomer} cancel={closeModals} />
                     </Modal>
                     <Modal
                         open={showingOversizedDescription}
                         onClose={closeModals}
+                        style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
                     >
-                        <ConfirmModal validationText={`Oversized items: ${oversizedDescription}`} confirmText='OK' confirm={hideOversizedDescription} close={closeModals} />
+                        <ConfirmModal validationText={`Oversized items: ${oversizedDescription}`} confirmText='OK' confirm={hideOversizedDescription} />
                     </Modal>
                     <Box display='flex' flexDirection='column' flex='1' marginRight='2rem'>
                         <Typography variant='h2' sx={{ marginBottom: '2rem' }}>Customers waiting:</Typography>
@@ -267,8 +270,9 @@ const WaitingCustomer = (props: WaitingCustomerProps) => {
             <Modal
                 open={validatingTimer}
                 onClose={clearValidatingTimer}
+                style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
             >
-                <ConfirmModal validationText='Are you sure you want to clear the timer?' confirmText='Yes' cancelText='No' confirm={clearDotUpdater} cancel={clearValidatingTimer} close={clearValidatingTimer} />
+                <ConfirmModal validationText='Are you sure you want to clear the timer?' confirmText='Yes' cancelText='No' confirm={clearDotUpdater} cancel={clearValidatingTimer} />
             </Modal>
             <Box display='flex' justifyContent='center' alignItems='center' width='2rem'>
                 {!customer.timerCleared && <Box sx={{ width: '2rem', height: '2rem', borderRadius: '2rem', background: dotColor, animation: dotFlashing ? `${pulse} 1s infinite ease` : 'none' }} onClick={confirmModalTimer}/>}

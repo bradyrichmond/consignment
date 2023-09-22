@@ -90,6 +90,13 @@ const Settings = () => {
         setStoreLocations(fetchedStoreLocations);
     }
 
+    const handleDeleteLocation = async (id: string) => {
+        if (id === storedStoreId) {
+            localStorage.setItem('locationId', '');
+            setStoredStoreId('');
+        }
+    }
+
     return (
         <Box padding='2rem'>
             {/* <Box>
@@ -104,7 +111,7 @@ const Settings = () => {
             </Box> */}
             <Box marginTop='2rem'>
                 <Typography variant='h2'>Location</Typography>
-                <LocationSettings onLocationChange={handleLocationChange} locations={storeLocations} handleAddLocation={handleAddLocation} storedLocationId={storedStoreId} />
+                <LocationSettings onLocationChange={handleLocationChange} locations={storeLocations} handleAddLocation={handleAddLocation} handleDeleteLocation={handleDeleteLocation} storedLocationId={storedStoreId} />
             </Box>
             {storedStoreId && 
                 <>

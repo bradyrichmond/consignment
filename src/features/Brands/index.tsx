@@ -173,14 +173,16 @@ const Brands = () => {
             <Modal
                 open={isDeletingBrand}
                 onClose={stopDeletingBrand}
+                style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
             >
-                <ConfirmModal close={stopDeletingBrand} validationText={`Are you sure you want to mark ${activeBrand} inactive?`} cancelText='Cancel' confirmText='Confirm' confirm={deleteBrand} cancel={stopDeletingBrand}/>
+                <ConfirmModal validationText={`Are you sure you want to mark ${activeBrand} inactive?`} cancelText='Cancel' confirmText='Confirm' confirm={deleteBrand} cancel={stopDeletingBrand}/>
             </Modal>
             <Modal
                 open={isRevivingBrand}
                 onClose={stopRevivingBrand}
+                style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
             >
-                <ConfirmModal close={stopRevivingBrand} validationText={`Are you sure you want to mark ${activeBrand} active?`} cancelText='Cancel' confirmText='Confirm' confirm={reviveBrand} cancel={stopRevivingBrand}/>
+                <ConfirmModal validationText={`Are you sure you want to mark ${activeBrand} active?`} cancelText='Cancel' confirmText='Confirm' confirm={reviveBrand} cancel={stopRevivingBrand}/>
             </Modal>
             <Box paddingTop='2rem' paddingBottom='2rem' display='flex' flexDirection='row' width='100%' alignItems='center'>
                 <Box flex='1'>

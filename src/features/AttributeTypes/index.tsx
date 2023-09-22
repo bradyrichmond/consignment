@@ -220,14 +220,16 @@ const AttributeTypes = () => {
             <Modal
                 open={isDeletingAttributeType}
                 onClose={stopDeletingAttributeType}
+                style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
             >
-                <ConfirmModal close={stopDeletingAttributeType} validationText={`Are you sure you want to mark ${activeAttributeType} inactive?`} cancelText='Cancel' confirmText='Confirm' confirm={deleteAttributeType} cancel={stopDeletingAttributeType}/>
+                <ConfirmModal validationText={`Are you sure you want to mark ${activeAttributeType} inactive?`} cancelText='Cancel' confirmText='Confirm' confirm={deleteAttributeType} cancel={stopDeletingAttributeType}/>
             </Modal>
             <Modal
                 open={isRevivingAttributeType}
                 onClose={stopRevivingAttributeType}
+                style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
             >
-                <ConfirmModal close={stopRevivingAttributeType} validationText={`Are you sure you want to mark ${activeAttributeType} active?`} cancelText='Cancel' confirmText='Confirm' confirm={reviveAttributeType} cancel={stopRevivingAttributeType}/>
+                <ConfirmModal validationText={`Are you sure you want to mark ${activeAttributeType} active?`} cancelText='Cancel' confirmText='Confirm' confirm={reviveAttributeType} cancel={stopRevivingAttributeType}/>
             </Modal>
             <Modal
                 open={isViewingValues}

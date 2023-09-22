@@ -76,14 +76,16 @@ const CreateDropOff = () => {
             <Modal
                 open={validatingNewPolicy}
                 onClose={closeModals}
+                style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
             >
-                <ConfirmModal validationText={error} confirmText='OK' confirm={closeModals} close={closeModals}/>
+                <ConfirmModal validationText={error} confirmText='OK' confirm={closeModals} />
             </Modal>
             <Modal
                 open={validatingNewPolicy}
                 onClose={closeModals}
+                style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
             >
-                <ConfirmModal validationText='Effective January 1, 2023, all items consigned are eligible for store credit only.' confirmText='I agree' confirm={validateBeforeSubmitCustomer} close={closeModals} />
+                <ConfirmModal validationText='Effective January 1, 2023, all items consigned are eligible for store credit only.' confirmText='I agree' confirm={validateBeforeSubmitCustomer} />
             </Modal>
             <Typography>We're so glad you're here! Please sign in!</Typography>
             <form onSubmit={handleSubmit(confirmNewPolicy)}>

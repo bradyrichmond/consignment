@@ -256,8 +256,9 @@ const Status = (props: StatusProps) => {
             <Modal
                 open={isLoggingOut}
                 onClose={cancelLogOut}
+                style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
             >
-                <ConfirmModal close={cancelLogOut} validationText={`Are you sure you want to log out?`} cancelText='Cancel' confirmText='Log Out' confirm={finishLogOut} cancel={cancelLogOut}/>
+                <ConfirmModal validationText={`Are you sure you want to log out?`} cancelText='Cancel' confirmText='Log Out' confirm={finishLogOut} cancel={cancelLogOut}/>
             </Modal>
             <Modal
                 open={waitingForLogout}

@@ -229,14 +229,16 @@ const Categories = () => {
             <Modal
                 open={isDeletingCategory}
                 onClose={stopDeletingCategory}
+                style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
             >
-                <ConfirmModal close={stopDeletingCategory} validationText={`Are you sure you want to mark ${activeCategory} inactive?`} cancelText='Cancel' confirmText='Confirm' confirm={deleteCategory} cancel={stopDeletingCategory} />
+                <ConfirmModal validationText={`Are you sure you want to mark ${activeCategory} inactive?`} cancelText='Cancel' confirmText='Confirm' confirm={deleteCategory} cancel={stopDeletingCategory} />
             </Modal>
             <Modal
                 open={isRevivingCategory}
                 onClose={stopRevivingCategory}
+                style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
             >
-                <ConfirmModal close={stopRevivingCategory} validationText={`Are you sure you want to mark ${activeCategory} active?`} cancelText='Cancel' confirmText='Confirm' confirm={reviveCategory} cancel={stopRevivingCategory} />
+                <ConfirmModal validationText={`Are you sure you want to mark ${activeCategory} active?`} cancelText='Cancel' confirmText='Confirm' confirm={reviveCategory} cancel={stopRevivingCategory} />
             </Modal>
             <Box paddingTop='2rem' paddingBottom='2rem' display='flex' flexDirection='row' width='100%' alignItems='center'>
                 <Box flex='1'>
