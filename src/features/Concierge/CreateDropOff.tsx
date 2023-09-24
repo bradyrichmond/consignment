@@ -72,7 +72,7 @@ const CreateDropOff = () => {
     }
 
     return (
-        <Box height='100%' width='100%' display='flex' justifyContent='center' alignItems='center' bgcolor='background.default'>
+        <Box height='100%' width='100%' display='flex' flexDirection='column' justifyContent='center' alignItems='center' bgcolor='background.default'>
             <Modal
                 open={validatingNewPolicy}
                 onClose={closeModals}
@@ -87,17 +87,23 @@ const CreateDropOff = () => {
             >
                 <ConfirmModal validationText='Effective January 1, 2023, all items consigned are eligible for store credit only.' confirmText='I agree' confirm={validateBeforeSubmitCustomer} />
             </Modal>
-            <Typography>We're so glad you're here! Please sign in!</Typography>
+            <Typography variant='h2'>We're so glad you're here! Please sign in!</Typography>
             <form onSubmit={handleSubmit(confirmNewPolicy)}>
-                <TextField label='First Name' {...register('firstName', { required: true, minLength: 2 })} autoComplete="off" autoCorrect="off" spellCheck="false" />
-                <TextField label='Last Name' {...register('lastName', { required: true, minLength: 2 })} autoComplete="off" autoCorrect="off" spellCheck="false" />
-                <TextField label='Phone' {...register('phone', { required: true, minLength: 10 })} autoComplete="off" autoCorrect="off" spellCheck="false" />
-                <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }} />} label="New Consigner?" onChange={() => {setNewConsigner((cur) => !cur)}} />
-                <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }} />} label="Oversized Items?" onChange={() => {setOversizedItem((cur) => !cur)}} />
-                {oversizedItems && 
-                    <TextField label='List Oversized Items' {...register('oversizedDescription', { required: true, minLength: 2 })} autoComplete="off" autoCorrect="off" spellCheck="false" />
-                }
-                <Button variant='contained' type='submit' onClick={confirmNewPolicy}>Next</Button>
+                <Box display='flex' flexDirection='column' marginTop='2rem'>
+                    <Box display='flex' flexDirection='row'>
+                        <TextField style={{margin: '1rem'}} sx={{'.MuiInputBase-input': { fontSize: '2rem' } }} label='First Name' {...register('firstName', { required: true, minLength: 2 })} autoComplete="off" autoCorrect="off" spellCheck="false" />
+                        <TextField style={{margin: '1rem'}} sx={{'.MuiInputBase-input': { fontSize: '2rem' } }} label='Last Name' {...register('lastName', { required: true, minLength: 2 })} autoComplete="off" autoCorrect="off" spellCheck="false" />
+                    </Box>
+                    <TextField style={{margin: '1rem'}}  label='Phone' {...register('phone', { required: true, minLength: 10 })} autoComplete="off" autoCorrect="off" spellCheck="false" />
+                    <Box display='flex' flexDirection='row'>
+                        <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 48 } }} />} label={<Typography variant='h3'>New Consigner?</Typography>} onChange={() => {setNewConsigner((cur) => !cur)}} />
+                        <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 48 } }} />} label={<Typography variant='h3'>Oversized Items?</Typography>} onChange={() => {setOversizedItem((cur) => !cur)}} />
+                    </Box>
+                    {oversizedItems && 
+                        <TextField style={{margin: '1rem'}}  label='List Oversized Items' {...register('oversizedDescription', { required: true, minLength: 2 })} autoComplete="off" autoCorrect="off" spellCheck="false" />
+                    }
+                    <Button variant='contained' type='submit' style={{marginTop: '2rem'}} onClick={confirmNewPolicy}>Next</Button>
+                </Box>
             </form>
         </Box>
     )

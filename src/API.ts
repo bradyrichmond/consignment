@@ -190,6 +190,8 @@ export type Item = {
   returned?: boolean | null,
   createTimestamp?: string | null,
   entryTimestamp?: string | null,
+  gender?: GenderType | null,
+  size?: SizeType | null,
   createdAt: string,
   updatedAt: string,
   _version: number,
@@ -199,6 +201,7 @@ export type Item = {
   storeCreditItemsId: string,
   transactionItemsId: string,
   transactionMissingItemsId?: string | null,
+  pickUpItemsId: string,
   itemCategoryId?: string | null,
   itemLocationId?: string | null,
   itemBrandId?: string | null,
@@ -306,6 +309,63 @@ export type Brand = {
   _deleted?: boolean | null,
   _lastChangedAt: number,
 };
+
+export enum GenderType {
+  BOYS = "BOYS",
+  GIRLS = "GIRLS",
+  UNISEX = "UNISEX",
+}
+
+
+export enum SizeType {
+  PREEMIE = "PREEMIE",
+  NEWBORN = "NEWBORN",
+  ZERO_TO_THREE_MONTHS = "ZERO_TO_THREE_MONTHS",
+  THREE_MONTHS = "THREE_MONTHS",
+  THREE_TO_SIX_MONTHS = "THREE_TO_SIX_MONTHS",
+  SIX_MONTHS = "SIX_MONTHS",
+  SIX_TO_NINE_MONTHS = "SIX_TO_NINE_MONTHS",
+  NINE_MONTHS = "NINE_MONTHS",
+  NINE_TO_TWELVE_MONTHS = "NINE_TO_TWELVE_MONTHS",
+  TWELVE_MONTHS = "TWELVE_MONTHS",
+  TWELVE_TO_EIGHTEEN_MONTHS = "TWELVE_TO_EIGHTEEN_MONTHS",
+  EIGHTEEN_TWENTY_FOUR_MONTHS = "EIGHTEEN_TWENTY_FOUR_MONTHS",
+  TWO = "TWO",
+  TWO_THREE = "TWO_THREE",
+  THREE = "THREE",
+  THREE_FOUR = "THREE_FOUR",
+  FOUR = "FOUR",
+  FOUR_FIVE = "FOUR_FIVE",
+  FIVE = "FIVE",
+  FIVE_SIX = "FIVE_SIX",
+  SIX = "SIX",
+  SIX_SEVEN = "SIX_SEVEN",
+  SEVEN = "SEVEN",
+  SEVEN_EIGHT = "SEVEN_EIGHT",
+  EIGHT = "EIGHT",
+  EIGHT_NINE = "EIGHT_NINE",
+  EIGHT_TEN = "EIGHT_TEN",
+  NINE = "NINE",
+  NINE_TEN = "NINE_TEN",
+  TEN = "TEN",
+  TEN_ELEVEN = "TEN_ELEVEN",
+  TEN_TWELVE = "TEN_TWELVE",
+  ELEVEN = "ELEVEN",
+  ELEVEN_TWELVE = "ELEVEN_TWELVE",
+  TWELVE = "TWELVE",
+  TWELVE_THIRTEEN = "TWELVE_THIRTEEN",
+  TWELVE_FOURTEEN = "TWELVE_FOURTEEN",
+  THIRTEEN = "THIRTEEN",
+  THIRTEEN_FOURTEEN = "THIRTEEN_FOURTEEN",
+  FOURTEEN = "FOURTEEN",
+  FOURTEEN_FIFTEEN = "FOURTEEN_FIFTEEN",
+  FOURTEEN_SIXTEEN = "FOURTEEN_SIXTEEN",
+  FIFTEEN = "FIFTEEN",
+  FIFTEEN_SIXTEEN = "FIFTEEN_SIXTEEN",
+  SIXTEEN = "SIXTEEN",
+  SIXTEEN_EIGHTEEN = "SIXTEEN_EIGHTEEN",
+}
+
 
 export type ModelAddressConnection = {
   __typename: "ModelAddressConnection",
@@ -521,11 +581,14 @@ export type CreateItemInput = {
   returned?: boolean | null,
   createTimestamp?: string | null,
   entryTimestamp?: string | null,
+  gender?: GenderType | null,
+  size?: SizeType | null,
   _version?: number | null,
   clientItemsId?: string | null,
   storeCreditItemsId: string,
   transactionItemsId: string,
   transactionMissingItemsId?: string | null,
+  pickUpItemsId: string,
   itemCategoryId?: string | null,
   itemLocationId?: string | null,
   itemBrandId?: string | null,
@@ -558,6 +621,8 @@ export type ModelItemConditionInput = {
   returned?: ModelBooleanInput | null,
   createTimestamp?: ModelStringInput | null,
   entryTimestamp?: ModelStringInput | null,
+  gender?: ModelGenderTypeInput | null,
+  size?: ModelSizeTypeInput | null,
   and?: Array< ModelItemConditionInput | null > | null,
   or?: Array< ModelItemConditionInput | null > | null,
   not?: ModelItemConditionInput | null,
@@ -565,6 +630,7 @@ export type ModelItemConditionInput = {
   storeCreditItemsId?: ModelIDInput | null,
   transactionItemsId?: ModelIDInput | null,
   transactionMissingItemsId?: ModelIDInput | null,
+  pickUpItemsId?: ModelIDInput | null,
   itemCategoryId?: ModelIDInput | null,
   itemLocationId?: ModelIDInput | null,
   itemBrandId?: ModelIDInput | null,
@@ -580,6 +646,16 @@ export type ModelIntInput = {
   between?: Array< number | null > | null,
   attributeExists?: boolean | null,
   attributeType?: ModelAttributeTypes | null,
+};
+
+export type ModelGenderTypeInput = {
+  eq?: GenderType | null,
+  ne?: GenderType | null,
+};
+
+export type ModelSizeTypeInput = {
+  eq?: SizeType | null,
+  ne?: SizeType | null,
 };
 
 export type UpdateItemInput = {
@@ -610,11 +686,14 @@ export type UpdateItemInput = {
   returned?: boolean | null,
   createTimestamp?: string | null,
   entryTimestamp?: string | null,
+  gender?: GenderType | null,
+  size?: SizeType | null,
   _version?: number | null,
   clientItemsId?: string | null,
   storeCreditItemsId?: string | null,
   transactionItemsId?: string | null,
   transactionMissingItemsId?: string | null,
+  pickUpItemsId?: string | null,
   itemCategoryId?: string | null,
   itemLocationId?: string | null,
   itemBrandId?: string | null,
@@ -1241,133 +1320,6 @@ export type DeleteCouponInput = {
   _version?: number | null,
 };
 
-export type CreateConsignmentDropoffInput = {
-  id?: string | null,
-  firstName: string,
-  lastName: string,
-  phone: string,
-  complete: boolean,
-  showError?: boolean | null,
-  errorPrompt?: string | null,
-  oversizedDescription?: string | null,
-  oversizedItems?: boolean | null,
-  newConsigner?: boolean | null,
-  timerCleared?: boolean | null,
-  createdTime: number,
-  hasAppointment?: boolean | null,
-  _version?: number | null,
-  consignmentDropoffCubbyId?: string | null,
-};
-
-export type ModelConsignmentDropoffConditionInput = {
-  firstName?: ModelStringInput | null,
-  lastName?: ModelStringInput | null,
-  phone?: ModelStringInput | null,
-  complete?: ModelBooleanInput | null,
-  showError?: ModelBooleanInput | null,
-  errorPrompt?: ModelStringInput | null,
-  oversizedDescription?: ModelStringInput | null,
-  oversizedItems?: ModelBooleanInput | null,
-  newConsigner?: ModelBooleanInput | null,
-  timerCleared?: ModelBooleanInput | null,
-  createdTime?: ModelIntInput | null,
-  hasAppointment?: ModelBooleanInput | null,
-  and?: Array< ModelConsignmentDropoffConditionInput | null > | null,
-  or?: Array< ModelConsignmentDropoffConditionInput | null > | null,
-  not?: ModelConsignmentDropoffConditionInput | null,
-  consignmentDropoffCubbyId?: ModelIDInput | null,
-};
-
-export type ConsignmentDropoff = {
-  __typename: "ConsignmentDropoff",
-  id: string,
-  firstName: string,
-  lastName: string,
-  phone: string,
-  complete: boolean,
-  showError?: boolean | null,
-  errorPrompt?: string | null,
-  cubby?: Cubby | null,
-  oversizedDescription?: string | null,
-  oversizedItems?: boolean | null,
-  newConsigner?: boolean | null,
-  timerCleared?: boolean | null,
-  createdTime: number,
-  hasAppointment?: boolean | null,
-  createdAt: string,
-  updatedAt: string,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
-  consignmentDropoffCubbyId?: string | null,
-};
-
-export type Cubby = {
-  __typename: "Cubby",
-  id: string,
-  cubbyNumber: string,
-  locationId: string,
-  inUse: boolean,
-  createdAt: string,
-  updatedAt: string,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
-};
-
-export type UpdateConsignmentDropoffInput = {
-  id: string,
-  firstName?: string | null,
-  lastName?: string | null,
-  phone?: string | null,
-  complete?: boolean | null,
-  showError?: boolean | null,
-  errorPrompt?: string | null,
-  oversizedDescription?: string | null,
-  oversizedItems?: boolean | null,
-  newConsigner?: boolean | null,
-  timerCleared?: boolean | null,
-  createdTime?: number | null,
-  hasAppointment?: boolean | null,
-  _version?: number | null,
-  consignmentDropoffCubbyId?: string | null,
-};
-
-export type DeleteConsignmentDropoffInput = {
-  id: string,
-  _version?: number | null,
-};
-
-export type CreateCubbyInput = {
-  id?: string | null,
-  cubbyNumber: string,
-  locationId: string,
-  inUse: boolean,
-  _version?: number | null,
-};
-
-export type ModelCubbyConditionInput = {
-  cubbyNumber?: ModelStringInput | null,
-  locationId?: ModelStringInput | null,
-  inUse?: ModelBooleanInput | null,
-  and?: Array< ModelCubbyConditionInput | null > | null,
-  or?: Array< ModelCubbyConditionInput | null > | null,
-  not?: ModelCubbyConditionInput | null,
-};
-
-export type UpdateCubbyInput = {
-  id: string,
-  cubbyNumber?: string | null,
-  locationId?: string | null,
-  inUse?: boolean | null,
-  _version?: number | null,
-};
-
-export type DeleteCubbyInput = {
-  id: string,
-  _version?: number | null,
-};
-
 export type CreateAppointmentInput = {
   id?: string | null,
   date: number,
@@ -1590,6 +1542,38 @@ export type DeleteRewardsInput = {
   _version?: number | null,
 };
 
+export type CreatePickUpInput = {
+  id?: string | null,
+  _version?: number | null,
+};
+
+export type ModelPickUpConditionInput = {
+  and?: Array< ModelPickUpConditionInput | null > | null,
+  or?: Array< ModelPickUpConditionInput | null > | null,
+  not?: ModelPickUpConditionInput | null,
+};
+
+export type PickUp = {
+  __typename: "PickUp",
+  id: string,
+  items?: ModelItemConnection | null,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+};
+
+export type UpdatePickUpInput = {
+  id: string,
+  _version?: number | null,
+};
+
+export type DeletePickUpInput = {
+  id: string,
+  _version?: number | null,
+};
+
 export type CreateCategoryAttributeInput = {
   id?: string | null,
   categoryId: string,
@@ -1613,6 +1597,137 @@ export type UpdateCategoryAttributeInput = {
 };
 
 export type DeleteCategoryAttributeInput = {
+  id: string,
+  _version?: number | null,
+};
+
+export type CreateConsignmentDropoffInput = {
+  id?: string | null,
+  firstName: string,
+  lastName: string,
+  phone: string,
+  complete: boolean,
+  showError?: boolean | null,
+  errorPrompt?: string | null,
+  oversizedDescription?: string | null,
+  oversizedItems?: boolean | null,
+  newConsigner?: boolean | null,
+  timerCleared?: boolean | null,
+  createdTime: number,
+  hasAppointment?: boolean | null,
+  locationId: string,
+  _version?: number | null,
+  consignmentDropoffCubbyId?: string | null,
+};
+
+export type ModelConsignmentDropoffConditionInput = {
+  firstName?: ModelStringInput | null,
+  lastName?: ModelStringInput | null,
+  phone?: ModelStringInput | null,
+  complete?: ModelBooleanInput | null,
+  showError?: ModelBooleanInput | null,
+  errorPrompt?: ModelStringInput | null,
+  oversizedDescription?: ModelStringInput | null,
+  oversizedItems?: ModelBooleanInput | null,
+  newConsigner?: ModelBooleanInput | null,
+  timerCleared?: ModelBooleanInput | null,
+  createdTime?: ModelIntInput | null,
+  hasAppointment?: ModelBooleanInput | null,
+  locationId?: ModelStringInput | null,
+  and?: Array< ModelConsignmentDropoffConditionInput | null > | null,
+  or?: Array< ModelConsignmentDropoffConditionInput | null > | null,
+  not?: ModelConsignmentDropoffConditionInput | null,
+  consignmentDropoffCubbyId?: ModelIDInput | null,
+};
+
+export type ConsignmentDropoff = {
+  __typename: "ConsignmentDropoff",
+  id: string,
+  firstName: string,
+  lastName: string,
+  phone: string,
+  complete: boolean,
+  showError?: boolean | null,
+  errorPrompt?: string | null,
+  cubby?: Cubby | null,
+  oversizedDescription?: string | null,
+  oversizedItems?: boolean | null,
+  newConsigner?: boolean | null,
+  timerCleared?: boolean | null,
+  createdTime: number,
+  hasAppointment?: boolean | null,
+  locationId: string,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+  consignmentDropoffCubbyId?: string | null,
+};
+
+export type Cubby = {
+  __typename: "Cubby",
+  id: string,
+  cubbyNumber: string,
+  locationId: string,
+  inUse: boolean,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+};
+
+export type UpdateConsignmentDropoffInput = {
+  id: string,
+  firstName?: string | null,
+  lastName?: string | null,
+  phone?: string | null,
+  complete?: boolean | null,
+  showError?: boolean | null,
+  errorPrompt?: string | null,
+  oversizedDescription?: string | null,
+  oversizedItems?: boolean | null,
+  newConsigner?: boolean | null,
+  timerCleared?: boolean | null,
+  createdTime?: number | null,
+  hasAppointment?: boolean | null,
+  locationId?: string | null,
+  _version?: number | null,
+  consignmentDropoffCubbyId?: string | null,
+};
+
+export type DeleteConsignmentDropoffInput = {
+  id: string,
+  _version?: number | null,
+};
+
+export type CreateCubbyInput = {
+  id?: string | null,
+  cubbyNumber: string,
+  locationId: string,
+  inUse: boolean,
+  _version?: number | null,
+};
+
+export type ModelCubbyConditionInput = {
+  cubbyNumber?: ModelStringInput | null,
+  locationId?: ModelStringInput | null,
+  inUse?: ModelBooleanInput | null,
+  and?: Array< ModelCubbyConditionInput | null > | null,
+  or?: Array< ModelCubbyConditionInput | null > | null,
+  not?: ModelCubbyConditionInput | null,
+};
+
+export type UpdateCubbyInput = {
+  id: string,
+  cubbyNumber?: string | null,
+  locationId?: string | null,
+  inUse?: boolean | null,
+  _version?: number | null,
+};
+
+export type DeleteCubbyInput = {
   id: string,
   _version?: number | null,
 };
@@ -1690,6 +1805,8 @@ export type ModelItemFilterInput = {
   returned?: ModelBooleanInput | null,
   createTimestamp?: ModelStringInput | null,
   entryTimestamp?: ModelStringInput | null,
+  gender?: ModelGenderTypeInput | null,
+  size?: ModelSizeTypeInput | null,
   and?: Array< ModelItemFilterInput | null > | null,
   or?: Array< ModelItemFilterInput | null > | null,
   not?: ModelItemFilterInput | null,
@@ -1697,6 +1814,7 @@ export type ModelItemFilterInput = {
   storeCreditItemsId?: ModelIDInput | null,
   transactionItemsId?: ModelIDInput | null,
   transactionMissingItemsId?: ModelIDInput | null,
+  pickUpItemsId?: ModelIDInput | null,
   itemCategoryId?: ModelIDInput | null,
   itemLocationId?: ModelIDInput | null,
   itemBrandId?: ModelIDInput | null,
@@ -1940,50 +2058,6 @@ export type ModelCouponFilterInput = {
   transactionCouponsId?: ModelIDInput | null,
 };
 
-export type ModelConsignmentDropoffFilterInput = {
-  id?: ModelIDInput | null,
-  firstName?: ModelStringInput | null,
-  lastName?: ModelStringInput | null,
-  phone?: ModelStringInput | null,
-  complete?: ModelBooleanInput | null,
-  showError?: ModelBooleanInput | null,
-  errorPrompt?: ModelStringInput | null,
-  oversizedDescription?: ModelStringInput | null,
-  oversizedItems?: ModelBooleanInput | null,
-  newConsigner?: ModelBooleanInput | null,
-  timerCleared?: ModelBooleanInput | null,
-  createdTime?: ModelIntInput | null,
-  hasAppointment?: ModelBooleanInput | null,
-  and?: Array< ModelConsignmentDropoffFilterInput | null > | null,
-  or?: Array< ModelConsignmentDropoffFilterInput | null > | null,
-  not?: ModelConsignmentDropoffFilterInput | null,
-  consignmentDropoffCubbyId?: ModelIDInput | null,
-};
-
-export type ModelConsignmentDropoffConnection = {
-  __typename: "ModelConsignmentDropoffConnection",
-  items:  Array<ConsignmentDropoff | null >,
-  nextToken?: string | null,
-  startedAt?: number | null,
-};
-
-export type ModelCubbyFilterInput = {
-  id?: ModelIDInput | null,
-  cubbyNumber?: ModelStringInput | null,
-  locationId?: ModelStringInput | null,
-  inUse?: ModelBooleanInput | null,
-  and?: Array< ModelCubbyFilterInput | null > | null,
-  or?: Array< ModelCubbyFilterInput | null > | null,
-  not?: ModelCubbyFilterInput | null,
-};
-
-export type ModelCubbyConnection = {
-  __typename: "ModelCubbyConnection",
-  items:  Array<Cubby | null >,
-  nextToken?: string | null,
-  startedAt?: number | null,
-};
-
 export type ModelAppointmentFilterInput = {
   id?: ModelIDInput | null,
   date?: ModelIntInput | null,
@@ -2064,6 +2138,20 @@ export type ModelRewardsConnection = {
   startedAt?: number | null,
 };
 
+export type ModelPickUpFilterInput = {
+  id?: ModelIDInput | null,
+  and?: Array< ModelPickUpFilterInput | null > | null,
+  or?: Array< ModelPickUpFilterInput | null > | null,
+  not?: ModelPickUpFilterInput | null,
+};
+
+export type ModelPickUpConnection = {
+  __typename: "ModelPickUpConnection",
+  items:  Array<PickUp | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
 export type ModelCategoryAttributeFilterInput = {
   id?: ModelIDInput | null,
   categoryId?: ModelIDInput | null,
@@ -2078,6 +2166,51 @@ export enum ModelSortDirection {
   DESC = "DESC",
 }
 
+
+export type ModelConsignmentDropoffFilterInput = {
+  id?: ModelIDInput | null,
+  firstName?: ModelStringInput | null,
+  lastName?: ModelStringInput | null,
+  phone?: ModelStringInput | null,
+  complete?: ModelBooleanInput | null,
+  showError?: ModelBooleanInput | null,
+  errorPrompt?: ModelStringInput | null,
+  oversizedDescription?: ModelStringInput | null,
+  oversizedItems?: ModelBooleanInput | null,
+  newConsigner?: ModelBooleanInput | null,
+  timerCleared?: ModelBooleanInput | null,
+  createdTime?: ModelIntInput | null,
+  hasAppointment?: ModelBooleanInput | null,
+  locationId?: ModelStringInput | null,
+  and?: Array< ModelConsignmentDropoffFilterInput | null > | null,
+  or?: Array< ModelConsignmentDropoffFilterInput | null > | null,
+  not?: ModelConsignmentDropoffFilterInput | null,
+  consignmentDropoffCubbyId?: ModelIDInput | null,
+};
+
+export type ModelConsignmentDropoffConnection = {
+  __typename: "ModelConsignmentDropoffConnection",
+  items:  Array<ConsignmentDropoff | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
+export type ModelCubbyFilterInput = {
+  id?: ModelIDInput | null,
+  cubbyNumber?: ModelStringInput | null,
+  locationId?: ModelStringInput | null,
+  inUse?: ModelBooleanInput | null,
+  and?: Array< ModelCubbyFilterInput | null > | null,
+  or?: Array< ModelCubbyFilterInput | null > | null,
+  not?: ModelCubbyFilterInput | null,
+};
+
+export type ModelCubbyConnection = {
+  __typename: "ModelCubbyConnection",
+  items:  Array<Cubby | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
 
 export type ModelSubscriptionClientFilterInput = {
   id?: ModelSubscriptionIDInput | null,
@@ -2181,6 +2314,8 @@ export type ModelSubscriptionItemFilterInput = {
   returned?: ModelSubscriptionBooleanInput | null,
   createTimestamp?: ModelSubscriptionStringInput | null,
   entryTimestamp?: ModelSubscriptionStringInput | null,
+  gender?: ModelSubscriptionStringInput | null,
+  size?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionItemFilterInput | null > | null,
   or?: Array< ModelSubscriptionItemFilterInput | null > | null,
 };
@@ -2341,33 +2476,6 @@ export type ModelSubscriptionCouponFilterInput = {
   or?: Array< ModelSubscriptionCouponFilterInput | null > | null,
 };
 
-export type ModelSubscriptionConsignmentDropoffFilterInput = {
-  id?: ModelSubscriptionIDInput | null,
-  firstName?: ModelSubscriptionStringInput | null,
-  lastName?: ModelSubscriptionStringInput | null,
-  phone?: ModelSubscriptionStringInput | null,
-  complete?: ModelSubscriptionBooleanInput | null,
-  showError?: ModelSubscriptionBooleanInput | null,
-  errorPrompt?: ModelSubscriptionStringInput | null,
-  oversizedDescription?: ModelSubscriptionStringInput | null,
-  oversizedItems?: ModelSubscriptionBooleanInput | null,
-  newConsigner?: ModelSubscriptionBooleanInput | null,
-  timerCleared?: ModelSubscriptionBooleanInput | null,
-  createdTime?: ModelSubscriptionIntInput | null,
-  hasAppointment?: ModelSubscriptionBooleanInput | null,
-  and?: Array< ModelSubscriptionConsignmentDropoffFilterInput | null > | null,
-  or?: Array< ModelSubscriptionConsignmentDropoffFilterInput | null > | null,
-};
-
-export type ModelSubscriptionCubbyFilterInput = {
-  id?: ModelSubscriptionIDInput | null,
-  cubbyNumber?: ModelSubscriptionStringInput | null,
-  locationId?: ModelSubscriptionStringInput | null,
-  inUse?: ModelSubscriptionBooleanInput | null,
-  and?: Array< ModelSubscriptionCubbyFilterInput | null > | null,
-  or?: Array< ModelSubscriptionCubbyFilterInput | null > | null,
-};
-
 export type ModelSubscriptionAppointmentFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   date?: ModelSubscriptionIntInput | null,
@@ -2412,12 +2520,46 @@ export type ModelSubscriptionRewardsFilterInput = {
   or?: Array< ModelSubscriptionRewardsFilterInput | null > | null,
 };
 
+export type ModelSubscriptionPickUpFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  and?: Array< ModelSubscriptionPickUpFilterInput | null > | null,
+  or?: Array< ModelSubscriptionPickUpFilterInput | null > | null,
+};
+
 export type ModelSubscriptionCategoryAttributeFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   categoryId?: ModelSubscriptionIDInput | null,
   attributeTypeId?: ModelSubscriptionIDInput | null,
   and?: Array< ModelSubscriptionCategoryAttributeFilterInput | null > | null,
   or?: Array< ModelSubscriptionCategoryAttributeFilterInput | null > | null,
+};
+
+export type ModelSubscriptionConsignmentDropoffFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  firstName?: ModelSubscriptionStringInput | null,
+  lastName?: ModelSubscriptionStringInput | null,
+  phone?: ModelSubscriptionStringInput | null,
+  complete?: ModelSubscriptionBooleanInput | null,
+  showError?: ModelSubscriptionBooleanInput | null,
+  errorPrompt?: ModelSubscriptionStringInput | null,
+  oversizedDescription?: ModelSubscriptionStringInput | null,
+  oversizedItems?: ModelSubscriptionBooleanInput | null,
+  newConsigner?: ModelSubscriptionBooleanInput | null,
+  timerCleared?: ModelSubscriptionBooleanInput | null,
+  createdTime?: ModelSubscriptionIntInput | null,
+  hasAppointment?: ModelSubscriptionBooleanInput | null,
+  locationId?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionConsignmentDropoffFilterInput | null > | null,
+  or?: Array< ModelSubscriptionConsignmentDropoffFilterInput | null > | null,
+};
+
+export type ModelSubscriptionCubbyFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  cubbyNumber?: ModelSubscriptionStringInput | null,
+  locationId?: ModelSubscriptionStringInput | null,
+  inUse?: ModelSubscriptionBooleanInput | null,
+  and?: Array< ModelSubscriptionCubbyFilterInput | null > | null,
+  or?: Array< ModelSubscriptionCubbyFilterInput | null > | null,
 };
 
 export type CreateClientMutationVariables = {
@@ -2474,6 +2616,8 @@ export type CreateClientMutation = {
         returned?: boolean | null,
         createTimestamp?: string | null,
         entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -2483,6 +2627,7 @@ export type CreateClientMutation = {
         storeCreditItemsId: string,
         transactionItemsId: string,
         transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
         itemCategoryId?: string | null,
         itemLocationId?: string | null,
         itemBrandId?: string | null,
@@ -2636,6 +2781,8 @@ export type UpdateClientMutation = {
         returned?: boolean | null,
         createTimestamp?: string | null,
         entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -2645,6 +2792,7 @@ export type UpdateClientMutation = {
         storeCreditItemsId: string,
         transactionItemsId: string,
         transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
         itemCategoryId?: string | null,
         itemLocationId?: string | null,
         itemBrandId?: string | null,
@@ -2798,6 +2946,8 @@ export type DeleteClientMutation = {
         returned?: boolean | null,
         createTimestamp?: string | null,
         entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -2807,6 +2957,7 @@ export type DeleteClientMutation = {
         storeCreditItemsId: string,
         transactionItemsId: string,
         transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
         itemCategoryId?: string | null,
         itemLocationId?: string | null,
         itemBrandId?: string | null,
@@ -2947,6 +3098,8 @@ export type CreateStoreCreditMutation = {
         returned?: boolean | null,
         createTimestamp?: string | null,
         entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -2956,6 +3109,7 @@ export type CreateStoreCreditMutation = {
         storeCreditItemsId: string,
         transactionItemsId: string,
         transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
         itemCategoryId?: string | null,
         itemLocationId?: string | null,
         itemBrandId?: string | null,
@@ -3012,6 +3166,8 @@ export type UpdateStoreCreditMutation = {
         returned?: boolean | null,
         createTimestamp?: string | null,
         entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -3021,6 +3177,7 @@ export type UpdateStoreCreditMutation = {
         storeCreditItemsId: string,
         transactionItemsId: string,
         transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
         itemCategoryId?: string | null,
         itemLocationId?: string | null,
         itemBrandId?: string | null,
@@ -3077,6 +3234,8 @@ export type DeleteStoreCreditMutation = {
         returned?: boolean | null,
         createTimestamp?: string | null,
         entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -3086,6 +3245,7 @@ export type DeleteStoreCreditMutation = {
         storeCreditItemsId: string,
         transactionItemsId: string,
         transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
         itemCategoryId?: string | null,
         itemLocationId?: string | null,
         itemBrandId?: string | null,
@@ -3202,6 +3362,8 @@ export type CreateItemMutation = {
     returned?: boolean | null,
     createTimestamp?: string | null,
     entryTimestamp?: string | null,
+    gender?: GenderType | null,
+    size?: SizeType | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -3211,6 +3373,7 @@ export type CreateItemMutation = {
     storeCreditItemsId: string,
     transactionItemsId: string,
     transactionMissingItemsId?: string | null,
+    pickUpItemsId: string,
     itemCategoryId?: string | null,
     itemLocationId?: string | null,
     itemBrandId?: string | null,
@@ -3318,6 +3481,8 @@ export type UpdateItemMutation = {
     returned?: boolean | null,
     createTimestamp?: string | null,
     entryTimestamp?: string | null,
+    gender?: GenderType | null,
+    size?: SizeType | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -3327,6 +3492,7 @@ export type UpdateItemMutation = {
     storeCreditItemsId: string,
     transactionItemsId: string,
     transactionMissingItemsId?: string | null,
+    pickUpItemsId: string,
     itemCategoryId?: string | null,
     itemLocationId?: string | null,
     itemBrandId?: string | null,
@@ -3434,6 +3600,8 @@ export type DeleteItemMutation = {
     returned?: boolean | null,
     createTimestamp?: string | null,
     entryTimestamp?: string | null,
+    gender?: GenderType | null,
+    size?: SizeType | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -3443,6 +3611,7 @@ export type DeleteItemMutation = {
     storeCreditItemsId: string,
     transactionItemsId: string,
     transactionMissingItemsId?: string | null,
+    pickUpItemsId: string,
     itemCategoryId?: string | null,
     itemLocationId?: string | null,
     itemBrandId?: string | null,
@@ -3489,6 +3658,8 @@ export type CreateTransactionMutation = {
         returned?: boolean | null,
         createTimestamp?: string | null,
         entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -3498,6 +3669,7 @@ export type CreateTransactionMutation = {
         storeCreditItemsId: string,
         transactionItemsId: string,
         transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
         itemCategoryId?: string | null,
         itemLocationId?: string | null,
         itemBrandId?: string | null,
@@ -3615,6 +3787,8 @@ export type CreateTransactionMutation = {
         returned?: boolean | null,
         createTimestamp?: string | null,
         entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -3624,6 +3798,7 @@ export type CreateTransactionMutation = {
         storeCreditItemsId: string,
         transactionItemsId: string,
         transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
         itemCategoryId?: string | null,
         itemLocationId?: string | null,
         itemBrandId?: string | null,
@@ -3682,6 +3857,8 @@ export type UpdateTransactionMutation = {
         returned?: boolean | null,
         createTimestamp?: string | null,
         entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -3691,6 +3868,7 @@ export type UpdateTransactionMutation = {
         storeCreditItemsId: string,
         transactionItemsId: string,
         transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
         itemCategoryId?: string | null,
         itemLocationId?: string | null,
         itemBrandId?: string | null,
@@ -3808,6 +3986,8 @@ export type UpdateTransactionMutation = {
         returned?: boolean | null,
         createTimestamp?: string | null,
         entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -3817,6 +3997,7 @@ export type UpdateTransactionMutation = {
         storeCreditItemsId: string,
         transactionItemsId: string,
         transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
         itemCategoryId?: string | null,
         itemLocationId?: string | null,
         itemBrandId?: string | null,
@@ -3875,6 +4056,8 @@ export type DeleteTransactionMutation = {
         returned?: boolean | null,
         createTimestamp?: string | null,
         entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -3884,6 +4067,7 @@ export type DeleteTransactionMutation = {
         storeCreditItemsId: string,
         transactionItemsId: string,
         transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
         itemCategoryId?: string | null,
         itemLocationId?: string | null,
         itemBrandId?: string | null,
@@ -4001,6 +4185,8 @@ export type DeleteTransactionMutation = {
         returned?: boolean | null,
         createTimestamp?: string | null,
         entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -4010,6 +4196,7 @@ export type DeleteTransactionMutation = {
         storeCreditItemsId: string,
         transactionItemsId: string,
         transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
         itemCategoryId?: string | null,
         itemLocationId?: string | null,
         itemBrandId?: string | null,
@@ -5174,192 +5361,6 @@ export type DeleteCouponMutation = {
   } | null,
 };
 
-export type CreateConsignmentDropoffMutationVariables = {
-  input: CreateConsignmentDropoffInput,
-  condition?: ModelConsignmentDropoffConditionInput | null,
-};
-
-export type CreateConsignmentDropoffMutation = {
-  createConsignmentDropoff?:  {
-    __typename: "ConsignmentDropoff",
-    id: string,
-    firstName: string,
-    lastName: string,
-    phone: string,
-    complete: boolean,
-    showError?: boolean | null,
-    errorPrompt?: string | null,
-    cubby?:  {
-      __typename: "Cubby",
-      id: string,
-      cubbyNumber: string,
-      locationId: string,
-      inUse: boolean,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null,
-    oversizedDescription?: string | null,
-    oversizedItems?: boolean | null,
-    newConsigner?: boolean | null,
-    timerCleared?: boolean | null,
-    createdTime: number,
-    hasAppointment?: boolean | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    consignmentDropoffCubbyId?: string | null,
-  } | null,
-};
-
-export type UpdateConsignmentDropoffMutationVariables = {
-  input: UpdateConsignmentDropoffInput,
-  condition?: ModelConsignmentDropoffConditionInput | null,
-};
-
-export type UpdateConsignmentDropoffMutation = {
-  updateConsignmentDropoff?:  {
-    __typename: "ConsignmentDropoff",
-    id: string,
-    firstName: string,
-    lastName: string,
-    phone: string,
-    complete: boolean,
-    showError?: boolean | null,
-    errorPrompt?: string | null,
-    cubby?:  {
-      __typename: "Cubby",
-      id: string,
-      cubbyNumber: string,
-      locationId: string,
-      inUse: boolean,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null,
-    oversizedDescription?: string | null,
-    oversizedItems?: boolean | null,
-    newConsigner?: boolean | null,
-    timerCleared?: boolean | null,
-    createdTime: number,
-    hasAppointment?: boolean | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    consignmentDropoffCubbyId?: string | null,
-  } | null,
-};
-
-export type DeleteConsignmentDropoffMutationVariables = {
-  input: DeleteConsignmentDropoffInput,
-  condition?: ModelConsignmentDropoffConditionInput | null,
-};
-
-export type DeleteConsignmentDropoffMutation = {
-  deleteConsignmentDropoff?:  {
-    __typename: "ConsignmentDropoff",
-    id: string,
-    firstName: string,
-    lastName: string,
-    phone: string,
-    complete: boolean,
-    showError?: boolean | null,
-    errorPrompt?: string | null,
-    cubby?:  {
-      __typename: "Cubby",
-      id: string,
-      cubbyNumber: string,
-      locationId: string,
-      inUse: boolean,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null,
-    oversizedDescription?: string | null,
-    oversizedItems?: boolean | null,
-    newConsigner?: boolean | null,
-    timerCleared?: boolean | null,
-    createdTime: number,
-    hasAppointment?: boolean | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    consignmentDropoffCubbyId?: string | null,
-  } | null,
-};
-
-export type CreateCubbyMutationVariables = {
-  input: CreateCubbyInput,
-  condition?: ModelCubbyConditionInput | null,
-};
-
-export type CreateCubbyMutation = {
-  createCubby?:  {
-    __typename: "Cubby",
-    id: string,
-    cubbyNumber: string,
-    locationId: string,
-    inUse: boolean,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type UpdateCubbyMutationVariables = {
-  input: UpdateCubbyInput,
-  condition?: ModelCubbyConditionInput | null,
-};
-
-export type UpdateCubbyMutation = {
-  updateCubby?:  {
-    __typename: "Cubby",
-    id: string,
-    cubbyNumber: string,
-    locationId: string,
-    inUse: boolean,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type DeleteCubbyMutationVariables = {
-  input: DeleteCubbyInput,
-  condition?: ModelCubbyConditionInput | null,
-};
-
-export type DeleteCubbyMutation = {
-  deleteCubby?:  {
-    __typename: "Cubby",
-    id: string,
-    cubbyNumber: string,
-    locationId: string,
-    inUse: boolean,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
 export type CreateAppointmentMutationVariables = {
   input: CreateAppointmentInput,
   condition?: ModelAppointmentConditionInput | null,
@@ -6002,6 +6003,207 @@ export type DeleteRewardsMutation = {
   } | null,
 };
 
+export type CreatePickUpMutationVariables = {
+  input: CreatePickUpInput,
+  condition?: ModelPickUpConditionInput | null,
+};
+
+export type CreatePickUpMutation = {
+  createPickUp?:  {
+    __typename: "PickUp",
+    id: string,
+    items?:  {
+      __typename: "ModelItemConnection",
+      items:  Array< {
+        __typename: "Item",
+        id: string,
+        itemId?: string | null,
+        userId: string,
+        userName?: string | null,
+        itemAcquireTypeId?: string | null,
+        sectionId?: string | null,
+        statusId: string,
+        taxTypeId?: string | null,
+        number?: string | null,
+        itemName: string,
+        description?: string | null,
+        receiveTimestamp?: string | null,
+        donateIndicator?: boolean | null,
+        price: string,
+        cost?: string | null,
+        qty?: number | null,
+        qtyTagPrint?: number | null,
+        tagPrintedTimestamp?: string | null,
+        commission?: string | null,
+        itemAcquisitionTypeId?: string | null,
+        saleDetailId?: string | null,
+        titleChanged?: boolean | null,
+        modifiedBy?: string | null,
+        upcCode?: string | null,
+        returned?: boolean | null,
+        createTimestamp?: string | null,
+        entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        clientItemsId?: string | null,
+        storeCreditItemsId: string,
+        transactionItemsId: string,
+        transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
+        itemCategoryId?: string | null,
+        itemLocationId?: string | null,
+        itemBrandId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type UpdatePickUpMutationVariables = {
+  input: UpdatePickUpInput,
+  condition?: ModelPickUpConditionInput | null,
+};
+
+export type UpdatePickUpMutation = {
+  updatePickUp?:  {
+    __typename: "PickUp",
+    id: string,
+    items?:  {
+      __typename: "ModelItemConnection",
+      items:  Array< {
+        __typename: "Item",
+        id: string,
+        itemId?: string | null,
+        userId: string,
+        userName?: string | null,
+        itemAcquireTypeId?: string | null,
+        sectionId?: string | null,
+        statusId: string,
+        taxTypeId?: string | null,
+        number?: string | null,
+        itemName: string,
+        description?: string | null,
+        receiveTimestamp?: string | null,
+        donateIndicator?: boolean | null,
+        price: string,
+        cost?: string | null,
+        qty?: number | null,
+        qtyTagPrint?: number | null,
+        tagPrintedTimestamp?: string | null,
+        commission?: string | null,
+        itemAcquisitionTypeId?: string | null,
+        saleDetailId?: string | null,
+        titleChanged?: boolean | null,
+        modifiedBy?: string | null,
+        upcCode?: string | null,
+        returned?: boolean | null,
+        createTimestamp?: string | null,
+        entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        clientItemsId?: string | null,
+        storeCreditItemsId: string,
+        transactionItemsId: string,
+        transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
+        itemCategoryId?: string | null,
+        itemLocationId?: string | null,
+        itemBrandId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type DeletePickUpMutationVariables = {
+  input: DeletePickUpInput,
+  condition?: ModelPickUpConditionInput | null,
+};
+
+export type DeletePickUpMutation = {
+  deletePickUp?:  {
+    __typename: "PickUp",
+    id: string,
+    items?:  {
+      __typename: "ModelItemConnection",
+      items:  Array< {
+        __typename: "Item",
+        id: string,
+        itemId?: string | null,
+        userId: string,
+        userName?: string | null,
+        itemAcquireTypeId?: string | null,
+        sectionId?: string | null,
+        statusId: string,
+        taxTypeId?: string | null,
+        number?: string | null,
+        itemName: string,
+        description?: string | null,
+        receiveTimestamp?: string | null,
+        donateIndicator?: boolean | null,
+        price: string,
+        cost?: string | null,
+        qty?: number | null,
+        qtyTagPrint?: number | null,
+        tagPrintedTimestamp?: string | null,
+        commission?: string | null,
+        itemAcquisitionTypeId?: string | null,
+        saleDetailId?: string | null,
+        titleChanged?: boolean | null,
+        modifiedBy?: string | null,
+        upcCode?: string | null,
+        returned?: boolean | null,
+        createTimestamp?: string | null,
+        entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        clientItemsId?: string | null,
+        storeCreditItemsId: string,
+        transactionItemsId: string,
+        transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
+        itemCategoryId?: string | null,
+        itemLocationId?: string | null,
+        itemBrandId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
 export type CreateCategoryAttributeMutationVariables = {
   input: CreateCategoryAttributeInput,
   condition?: ModelCategoryAttributeConditionInput | null,
@@ -6173,6 +6375,195 @@ export type DeleteCategoryAttributeMutation = {
   } | null,
 };
 
+export type CreateConsignmentDropoffMutationVariables = {
+  input: CreateConsignmentDropoffInput,
+  condition?: ModelConsignmentDropoffConditionInput | null,
+};
+
+export type CreateConsignmentDropoffMutation = {
+  createConsignmentDropoff?:  {
+    __typename: "ConsignmentDropoff",
+    id: string,
+    firstName: string,
+    lastName: string,
+    phone: string,
+    complete: boolean,
+    showError?: boolean | null,
+    errorPrompt?: string | null,
+    cubby?:  {
+      __typename: "Cubby",
+      id: string,
+      cubbyNumber: string,
+      locationId: string,
+      inUse: boolean,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    oversizedDescription?: string | null,
+    oversizedItems?: boolean | null,
+    newConsigner?: boolean | null,
+    timerCleared?: boolean | null,
+    createdTime: number,
+    hasAppointment?: boolean | null,
+    locationId: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    consignmentDropoffCubbyId?: string | null,
+  } | null,
+};
+
+export type UpdateConsignmentDropoffMutationVariables = {
+  input: UpdateConsignmentDropoffInput,
+  condition?: ModelConsignmentDropoffConditionInput | null,
+};
+
+export type UpdateConsignmentDropoffMutation = {
+  updateConsignmentDropoff?:  {
+    __typename: "ConsignmentDropoff",
+    id: string,
+    firstName: string,
+    lastName: string,
+    phone: string,
+    complete: boolean,
+    showError?: boolean | null,
+    errorPrompt?: string | null,
+    cubby?:  {
+      __typename: "Cubby",
+      id: string,
+      cubbyNumber: string,
+      locationId: string,
+      inUse: boolean,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    oversizedDescription?: string | null,
+    oversizedItems?: boolean | null,
+    newConsigner?: boolean | null,
+    timerCleared?: boolean | null,
+    createdTime: number,
+    hasAppointment?: boolean | null,
+    locationId: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    consignmentDropoffCubbyId?: string | null,
+  } | null,
+};
+
+export type DeleteConsignmentDropoffMutationVariables = {
+  input: DeleteConsignmentDropoffInput,
+  condition?: ModelConsignmentDropoffConditionInput | null,
+};
+
+export type DeleteConsignmentDropoffMutation = {
+  deleteConsignmentDropoff?:  {
+    __typename: "ConsignmentDropoff",
+    id: string,
+    firstName: string,
+    lastName: string,
+    phone: string,
+    complete: boolean,
+    showError?: boolean | null,
+    errorPrompt?: string | null,
+    cubby?:  {
+      __typename: "Cubby",
+      id: string,
+      cubbyNumber: string,
+      locationId: string,
+      inUse: boolean,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    oversizedDescription?: string | null,
+    oversizedItems?: boolean | null,
+    newConsigner?: boolean | null,
+    timerCleared?: boolean | null,
+    createdTime: number,
+    hasAppointment?: boolean | null,
+    locationId: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    consignmentDropoffCubbyId?: string | null,
+  } | null,
+};
+
+export type CreateCubbyMutationVariables = {
+  input: CreateCubbyInput,
+  condition?: ModelCubbyConditionInput | null,
+};
+
+export type CreateCubbyMutation = {
+  createCubby?:  {
+    __typename: "Cubby",
+    id: string,
+    cubbyNumber: string,
+    locationId: string,
+    inUse: boolean,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type UpdateCubbyMutationVariables = {
+  input: UpdateCubbyInput,
+  condition?: ModelCubbyConditionInput | null,
+};
+
+export type UpdateCubbyMutation = {
+  updateCubby?:  {
+    __typename: "Cubby",
+    id: string,
+    cubbyNumber: string,
+    locationId: string,
+    inUse: boolean,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type DeleteCubbyMutationVariables = {
+  input: DeleteCubbyInput,
+  condition?: ModelCubbyConditionInput | null,
+};
+
+export type DeleteCubbyMutation = {
+  deleteCubby?:  {
+    __typename: "Cubby",
+    id: string,
+    cubbyNumber: string,
+    locationId: string,
+    inUse: boolean,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
 export type GetClientQueryVariables = {
   id: string,
 };
@@ -6226,6 +6617,8 @@ export type GetClientQuery = {
         returned?: boolean | null,
         createTimestamp?: string | null,
         entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -6235,6 +6628,7 @@ export type GetClientQuery = {
         storeCreditItemsId: string,
         transactionItemsId: string,
         transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
         itemCategoryId?: string | null,
         itemLocationId?: string | null,
         itemBrandId?: string | null,
@@ -6523,6 +6917,8 @@ export type GetStoreCreditQuery = {
         returned?: boolean | null,
         createTimestamp?: string | null,
         entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -6532,6 +6928,7 @@ export type GetStoreCreditQuery = {
         storeCreditItemsId: string,
         transactionItemsId: string,
         transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
         itemCategoryId?: string | null,
         itemLocationId?: string | null,
         itemBrandId?: string | null,
@@ -6706,6 +7103,8 @@ export type GetItemQuery = {
     returned?: boolean | null,
     createTimestamp?: string | null,
     entryTimestamp?: string | null,
+    gender?: GenderType | null,
+    size?: SizeType | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -6715,6 +7114,7 @@ export type GetItemQuery = {
     storeCreditItemsId: string,
     transactionItemsId: string,
     transactionMissingItemsId?: string | null,
+    pickUpItemsId: string,
     itemCategoryId?: string | null,
     itemLocationId?: string | null,
     itemBrandId?: string | null,
@@ -6800,6 +7200,8 @@ export type ListItemsQuery = {
       returned?: boolean | null,
       createTimestamp?: string | null,
       entryTimestamp?: string | null,
+      gender?: GenderType | null,
+      size?: SizeType | null,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -6809,6 +7211,7 @@ export type ListItemsQuery = {
       storeCreditItemsId: string,
       transactionItemsId: string,
       transactionMissingItemsId?: string | null,
+      pickUpItemsId: string,
       itemCategoryId?: string | null,
       itemLocationId?: string | null,
       itemBrandId?: string | null,
@@ -6898,6 +7301,8 @@ export type SyncItemsQuery = {
       returned?: boolean | null,
       createTimestamp?: string | null,
       entryTimestamp?: string | null,
+      gender?: GenderType | null,
+      size?: SizeType | null,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -6907,6 +7312,7 @@ export type SyncItemsQuery = {
       storeCreditItemsId: string,
       transactionItemsId: string,
       transactionMissingItemsId?: string | null,
+      pickUpItemsId: string,
       itemCategoryId?: string | null,
       itemLocationId?: string | null,
       itemBrandId?: string | null,
@@ -6955,6 +7361,8 @@ export type GetTransactionQuery = {
         returned?: boolean | null,
         createTimestamp?: string | null,
         entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -6964,6 +7372,7 @@ export type GetTransactionQuery = {
         storeCreditItemsId: string,
         transactionItemsId: string,
         transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
         itemCategoryId?: string | null,
         itemLocationId?: string | null,
         itemBrandId?: string | null,
@@ -7081,6 +7490,8 @@ export type GetTransactionQuery = {
         returned?: boolean | null,
         createTimestamp?: string | null,
         entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -7090,6 +7501,7 @@ export type GetTransactionQuery = {
         storeCreditItemsId: string,
         transactionItemsId: string,
         transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
         itemCategoryId?: string | null,
         itemLocationId?: string | null,
         itemBrandId?: string | null,
@@ -8485,216 +8897,6 @@ export type SyncCouponsQuery = {
   } | null,
 };
 
-export type GetConsignmentDropoffQueryVariables = {
-  id: string,
-};
-
-export type GetConsignmentDropoffQuery = {
-  getConsignmentDropoff?:  {
-    __typename: "ConsignmentDropoff",
-    id: string,
-    firstName: string,
-    lastName: string,
-    phone: string,
-    complete: boolean,
-    showError?: boolean | null,
-    errorPrompt?: string | null,
-    cubby?:  {
-      __typename: "Cubby",
-      id: string,
-      cubbyNumber: string,
-      locationId: string,
-      inUse: boolean,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null,
-    oversizedDescription?: string | null,
-    oversizedItems?: boolean | null,
-    newConsigner?: boolean | null,
-    timerCleared?: boolean | null,
-    createdTime: number,
-    hasAppointment?: boolean | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    consignmentDropoffCubbyId?: string | null,
-  } | null,
-};
-
-export type ListConsignmentDropoffsQueryVariables = {
-  filter?: ModelConsignmentDropoffFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListConsignmentDropoffsQuery = {
-  listConsignmentDropoffs?:  {
-    __typename: "ModelConsignmentDropoffConnection",
-    items:  Array< {
-      __typename: "ConsignmentDropoff",
-      id: string,
-      firstName: string,
-      lastName: string,
-      phone: string,
-      complete: boolean,
-      showError?: boolean | null,
-      errorPrompt?: string | null,
-      cubby?:  {
-        __typename: "Cubby",
-        id: string,
-        cubbyNumber: string,
-        locationId: string,
-        inUse: boolean,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      } | null,
-      oversizedDescription?: string | null,
-      oversizedItems?: boolean | null,
-      newConsigner?: boolean | null,
-      timerCleared?: boolean | null,
-      createdTime: number,
-      hasAppointment?: boolean | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      consignmentDropoffCubbyId?: string | null,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncConsignmentDropoffsQueryVariables = {
-  filter?: ModelConsignmentDropoffFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncConsignmentDropoffsQuery = {
-  syncConsignmentDropoffs?:  {
-    __typename: "ModelConsignmentDropoffConnection",
-    items:  Array< {
-      __typename: "ConsignmentDropoff",
-      id: string,
-      firstName: string,
-      lastName: string,
-      phone: string,
-      complete: boolean,
-      showError?: boolean | null,
-      errorPrompt?: string | null,
-      cubby?:  {
-        __typename: "Cubby",
-        id: string,
-        cubbyNumber: string,
-        locationId: string,
-        inUse: boolean,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      } | null,
-      oversizedDescription?: string | null,
-      oversizedItems?: boolean | null,
-      newConsigner?: boolean | null,
-      timerCleared?: boolean | null,
-      createdTime: number,
-      hasAppointment?: boolean | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      consignmentDropoffCubbyId?: string | null,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type GetCubbyQueryVariables = {
-  id: string,
-};
-
-export type GetCubbyQuery = {
-  getCubby?:  {
-    __typename: "Cubby",
-    id: string,
-    cubbyNumber: string,
-    locationId: string,
-    inUse: boolean,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type ListCubbiesQueryVariables = {
-  filter?: ModelCubbyFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListCubbiesQuery = {
-  listCubbies?:  {
-    __typename: "ModelCubbyConnection",
-    items:  Array< {
-      __typename: "Cubby",
-      id: string,
-      cubbyNumber: string,
-      locationId: string,
-      inUse: boolean,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncCubbiesQueryVariables = {
-  filter?: ModelCubbyFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncCubbiesQuery = {
-  syncCubbies?:  {
-    __typename: "ModelCubbyConnection",
-    items:  Array< {
-      __typename: "Cubby",
-      id: string,
-      cubbyNumber: string,
-      locationId: string,
-      inUse: boolean,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
 export type GetAppointmentQueryVariables = {
   id: string,
 };
@@ -9245,6 +9447,129 @@ export type SyncRewardsQuery = {
   } | null,
 };
 
+export type GetPickUpQueryVariables = {
+  id: string,
+};
+
+export type GetPickUpQuery = {
+  getPickUp?:  {
+    __typename: "PickUp",
+    id: string,
+    items?:  {
+      __typename: "ModelItemConnection",
+      items:  Array< {
+        __typename: "Item",
+        id: string,
+        itemId?: string | null,
+        userId: string,
+        userName?: string | null,
+        itemAcquireTypeId?: string | null,
+        sectionId?: string | null,
+        statusId: string,
+        taxTypeId?: string | null,
+        number?: string | null,
+        itemName: string,
+        description?: string | null,
+        receiveTimestamp?: string | null,
+        donateIndicator?: boolean | null,
+        price: string,
+        cost?: string | null,
+        qty?: number | null,
+        qtyTagPrint?: number | null,
+        tagPrintedTimestamp?: string | null,
+        commission?: string | null,
+        itemAcquisitionTypeId?: string | null,
+        saleDetailId?: string | null,
+        titleChanged?: boolean | null,
+        modifiedBy?: string | null,
+        upcCode?: string | null,
+        returned?: boolean | null,
+        createTimestamp?: string | null,
+        entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        clientItemsId?: string | null,
+        storeCreditItemsId: string,
+        transactionItemsId: string,
+        transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
+        itemCategoryId?: string | null,
+        itemLocationId?: string | null,
+        itemBrandId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type ListPickUpsQueryVariables = {
+  filter?: ModelPickUpFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListPickUpsQuery = {
+  listPickUps?:  {
+    __typename: "ModelPickUpConnection",
+    items:  Array< {
+      __typename: "PickUp",
+      id: string,
+      items?:  {
+        __typename: "ModelItemConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncPickUpsQueryVariables = {
+  filter?: ModelPickUpFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncPickUpsQuery = {
+  syncPickUps?:  {
+    __typename: "ModelPickUpConnection",
+    items:  Array< {
+      __typename: "PickUp",
+      id: string,
+      items?:  {
+        __typename: "ModelItemConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
 export type GetCategoryAttributeQueryVariables = {
   id: string,
 };
@@ -9518,6 +9843,219 @@ export type CategoryAttributesByAttributeTypeIdQuery = {
   } | null,
 };
 
+export type GetConsignmentDropoffQueryVariables = {
+  id: string,
+};
+
+export type GetConsignmentDropoffQuery = {
+  getConsignmentDropoff?:  {
+    __typename: "ConsignmentDropoff",
+    id: string,
+    firstName: string,
+    lastName: string,
+    phone: string,
+    complete: boolean,
+    showError?: boolean | null,
+    errorPrompt?: string | null,
+    cubby?:  {
+      __typename: "Cubby",
+      id: string,
+      cubbyNumber: string,
+      locationId: string,
+      inUse: boolean,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    oversizedDescription?: string | null,
+    oversizedItems?: boolean | null,
+    newConsigner?: boolean | null,
+    timerCleared?: boolean | null,
+    createdTime: number,
+    hasAppointment?: boolean | null,
+    locationId: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    consignmentDropoffCubbyId?: string | null,
+  } | null,
+};
+
+export type ListConsignmentDropoffsQueryVariables = {
+  filter?: ModelConsignmentDropoffFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListConsignmentDropoffsQuery = {
+  listConsignmentDropoffs?:  {
+    __typename: "ModelConsignmentDropoffConnection",
+    items:  Array< {
+      __typename: "ConsignmentDropoff",
+      id: string,
+      firstName: string,
+      lastName: string,
+      phone: string,
+      complete: boolean,
+      showError?: boolean | null,
+      errorPrompt?: string | null,
+      cubby?:  {
+        __typename: "Cubby",
+        id: string,
+        cubbyNumber: string,
+        locationId: string,
+        inUse: boolean,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null,
+      oversizedDescription?: string | null,
+      oversizedItems?: boolean | null,
+      newConsigner?: boolean | null,
+      timerCleared?: boolean | null,
+      createdTime: number,
+      hasAppointment?: boolean | null,
+      locationId: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      consignmentDropoffCubbyId?: string | null,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncConsignmentDropoffsQueryVariables = {
+  filter?: ModelConsignmentDropoffFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncConsignmentDropoffsQuery = {
+  syncConsignmentDropoffs?:  {
+    __typename: "ModelConsignmentDropoffConnection",
+    items:  Array< {
+      __typename: "ConsignmentDropoff",
+      id: string,
+      firstName: string,
+      lastName: string,
+      phone: string,
+      complete: boolean,
+      showError?: boolean | null,
+      errorPrompt?: string | null,
+      cubby?:  {
+        __typename: "Cubby",
+        id: string,
+        cubbyNumber: string,
+        locationId: string,
+        inUse: boolean,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null,
+      oversizedDescription?: string | null,
+      oversizedItems?: boolean | null,
+      newConsigner?: boolean | null,
+      timerCleared?: boolean | null,
+      createdTime: number,
+      hasAppointment?: boolean | null,
+      locationId: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      consignmentDropoffCubbyId?: string | null,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type GetCubbyQueryVariables = {
+  id: string,
+};
+
+export type GetCubbyQuery = {
+  getCubby?:  {
+    __typename: "Cubby",
+    id: string,
+    cubbyNumber: string,
+    locationId: string,
+    inUse: boolean,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type ListCubbiesQueryVariables = {
+  filter?: ModelCubbyFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListCubbiesQuery = {
+  listCubbies?:  {
+    __typename: "ModelCubbyConnection",
+    items:  Array< {
+      __typename: "Cubby",
+      id: string,
+      cubbyNumber: string,
+      locationId: string,
+      inUse: boolean,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncCubbiesQueryVariables = {
+  filter?: ModelCubbyFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncCubbiesQuery = {
+  syncCubbies?:  {
+    __typename: "ModelCubbyConnection",
+    items:  Array< {
+      __typename: "Cubby",
+      id: string,
+      cubbyNumber: string,
+      locationId: string,
+      inUse: boolean,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
 export type OnCreateClientSubscriptionVariables = {
   filter?: ModelSubscriptionClientFilterInput | null,
 };
@@ -9571,6 +10109,8 @@ export type OnCreateClientSubscription = {
         returned?: boolean | null,
         createTimestamp?: string | null,
         entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -9580,6 +10120,7 @@ export type OnCreateClientSubscription = {
         storeCreditItemsId: string,
         transactionItemsId: string,
         transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
         itemCategoryId?: string | null,
         itemLocationId?: string | null,
         itemBrandId?: string | null,
@@ -9732,6 +10273,8 @@ export type OnUpdateClientSubscription = {
         returned?: boolean | null,
         createTimestamp?: string | null,
         entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -9741,6 +10284,7 @@ export type OnUpdateClientSubscription = {
         storeCreditItemsId: string,
         transactionItemsId: string,
         transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
         itemCategoryId?: string | null,
         itemLocationId?: string | null,
         itemBrandId?: string | null,
@@ -9893,6 +10437,8 @@ export type OnDeleteClientSubscription = {
         returned?: boolean | null,
         createTimestamp?: string | null,
         entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -9902,6 +10448,7 @@ export type OnDeleteClientSubscription = {
         storeCreditItemsId: string,
         transactionItemsId: string,
         transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
         itemCategoryId?: string | null,
         itemLocationId?: string | null,
         itemBrandId?: string | null,
@@ -10041,6 +10588,8 @@ export type OnCreateStoreCreditSubscription = {
         returned?: boolean | null,
         createTimestamp?: string | null,
         entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -10050,6 +10599,7 @@ export type OnCreateStoreCreditSubscription = {
         storeCreditItemsId: string,
         transactionItemsId: string,
         transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
         itemCategoryId?: string | null,
         itemLocationId?: string | null,
         itemBrandId?: string | null,
@@ -10105,6 +10655,8 @@ export type OnUpdateStoreCreditSubscription = {
         returned?: boolean | null,
         createTimestamp?: string | null,
         entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -10114,6 +10666,7 @@ export type OnUpdateStoreCreditSubscription = {
         storeCreditItemsId: string,
         transactionItemsId: string,
         transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
         itemCategoryId?: string | null,
         itemLocationId?: string | null,
         itemBrandId?: string | null,
@@ -10169,6 +10722,8 @@ export type OnDeleteStoreCreditSubscription = {
         returned?: boolean | null,
         createTimestamp?: string | null,
         entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -10178,6 +10733,7 @@ export type OnDeleteStoreCreditSubscription = {
         storeCreditItemsId: string,
         transactionItemsId: string,
         transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
         itemCategoryId?: string | null,
         itemLocationId?: string | null,
         itemBrandId?: string | null,
@@ -10293,6 +10849,8 @@ export type OnCreateItemSubscription = {
     returned?: boolean | null,
     createTimestamp?: string | null,
     entryTimestamp?: string | null,
+    gender?: GenderType | null,
+    size?: SizeType | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -10302,6 +10860,7 @@ export type OnCreateItemSubscription = {
     storeCreditItemsId: string,
     transactionItemsId: string,
     transactionMissingItemsId?: string | null,
+    pickUpItemsId: string,
     itemCategoryId?: string | null,
     itemLocationId?: string | null,
     itemBrandId?: string | null,
@@ -10408,6 +10967,8 @@ export type OnUpdateItemSubscription = {
     returned?: boolean | null,
     createTimestamp?: string | null,
     entryTimestamp?: string | null,
+    gender?: GenderType | null,
+    size?: SizeType | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -10417,6 +10978,7 @@ export type OnUpdateItemSubscription = {
     storeCreditItemsId: string,
     transactionItemsId: string,
     transactionMissingItemsId?: string | null,
+    pickUpItemsId: string,
     itemCategoryId?: string | null,
     itemLocationId?: string | null,
     itemBrandId?: string | null,
@@ -10523,6 +11085,8 @@ export type OnDeleteItemSubscription = {
     returned?: boolean | null,
     createTimestamp?: string | null,
     entryTimestamp?: string | null,
+    gender?: GenderType | null,
+    size?: SizeType | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -10532,6 +11096,7 @@ export type OnDeleteItemSubscription = {
     storeCreditItemsId: string,
     transactionItemsId: string,
     transactionMissingItemsId?: string | null,
+    pickUpItemsId: string,
     itemCategoryId?: string | null,
     itemLocationId?: string | null,
     itemBrandId?: string | null,
@@ -10577,6 +11142,8 @@ export type OnCreateTransactionSubscription = {
         returned?: boolean | null,
         createTimestamp?: string | null,
         entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -10586,6 +11153,7 @@ export type OnCreateTransactionSubscription = {
         storeCreditItemsId: string,
         transactionItemsId: string,
         transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
         itemCategoryId?: string | null,
         itemLocationId?: string | null,
         itemBrandId?: string | null,
@@ -10703,6 +11271,8 @@ export type OnCreateTransactionSubscription = {
         returned?: boolean | null,
         createTimestamp?: string | null,
         entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -10712,6 +11282,7 @@ export type OnCreateTransactionSubscription = {
         storeCreditItemsId: string,
         transactionItemsId: string,
         transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
         itemCategoryId?: string | null,
         itemLocationId?: string | null,
         itemBrandId?: string | null,
@@ -10769,6 +11340,8 @@ export type OnUpdateTransactionSubscription = {
         returned?: boolean | null,
         createTimestamp?: string | null,
         entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -10778,6 +11351,7 @@ export type OnUpdateTransactionSubscription = {
         storeCreditItemsId: string,
         transactionItemsId: string,
         transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
         itemCategoryId?: string | null,
         itemLocationId?: string | null,
         itemBrandId?: string | null,
@@ -10895,6 +11469,8 @@ export type OnUpdateTransactionSubscription = {
         returned?: boolean | null,
         createTimestamp?: string | null,
         entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -10904,6 +11480,7 @@ export type OnUpdateTransactionSubscription = {
         storeCreditItemsId: string,
         transactionItemsId: string,
         transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
         itemCategoryId?: string | null,
         itemLocationId?: string | null,
         itemBrandId?: string | null,
@@ -10961,6 +11538,8 @@ export type OnDeleteTransactionSubscription = {
         returned?: boolean | null,
         createTimestamp?: string | null,
         entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -10970,6 +11549,7 @@ export type OnDeleteTransactionSubscription = {
         storeCreditItemsId: string,
         transactionItemsId: string,
         transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
         itemCategoryId?: string | null,
         itemLocationId?: string | null,
         itemBrandId?: string | null,
@@ -11087,6 +11667,8 @@ export type OnDeleteTransactionSubscription = {
         returned?: boolean | null,
         createTimestamp?: string | null,
         entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -11096,6 +11678,7 @@ export type OnDeleteTransactionSubscription = {
         storeCreditItemsId: string,
         transactionItemsId: string,
         transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
         itemCategoryId?: string | null,
         itemLocationId?: string | null,
         itemBrandId?: string | null,
@@ -12221,186 +12804,6 @@ export type OnDeleteCouponSubscription = {
   } | null,
 };
 
-export type OnCreateConsignmentDropoffSubscriptionVariables = {
-  filter?: ModelSubscriptionConsignmentDropoffFilterInput | null,
-};
-
-export type OnCreateConsignmentDropoffSubscription = {
-  onCreateConsignmentDropoff?:  {
-    __typename: "ConsignmentDropoff",
-    id: string,
-    firstName: string,
-    lastName: string,
-    phone: string,
-    complete: boolean,
-    showError?: boolean | null,
-    errorPrompt?: string | null,
-    cubby?:  {
-      __typename: "Cubby",
-      id: string,
-      cubbyNumber: string,
-      locationId: string,
-      inUse: boolean,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null,
-    oversizedDescription?: string | null,
-    oversizedItems?: boolean | null,
-    newConsigner?: boolean | null,
-    timerCleared?: boolean | null,
-    createdTime: number,
-    hasAppointment?: boolean | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    consignmentDropoffCubbyId?: string | null,
-  } | null,
-};
-
-export type OnUpdateConsignmentDropoffSubscriptionVariables = {
-  filter?: ModelSubscriptionConsignmentDropoffFilterInput | null,
-};
-
-export type OnUpdateConsignmentDropoffSubscription = {
-  onUpdateConsignmentDropoff?:  {
-    __typename: "ConsignmentDropoff",
-    id: string,
-    firstName: string,
-    lastName: string,
-    phone: string,
-    complete: boolean,
-    showError?: boolean | null,
-    errorPrompt?: string | null,
-    cubby?:  {
-      __typename: "Cubby",
-      id: string,
-      cubbyNumber: string,
-      locationId: string,
-      inUse: boolean,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null,
-    oversizedDescription?: string | null,
-    oversizedItems?: boolean | null,
-    newConsigner?: boolean | null,
-    timerCleared?: boolean | null,
-    createdTime: number,
-    hasAppointment?: boolean | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    consignmentDropoffCubbyId?: string | null,
-  } | null,
-};
-
-export type OnDeleteConsignmentDropoffSubscriptionVariables = {
-  filter?: ModelSubscriptionConsignmentDropoffFilterInput | null,
-};
-
-export type OnDeleteConsignmentDropoffSubscription = {
-  onDeleteConsignmentDropoff?:  {
-    __typename: "ConsignmentDropoff",
-    id: string,
-    firstName: string,
-    lastName: string,
-    phone: string,
-    complete: boolean,
-    showError?: boolean | null,
-    errorPrompt?: string | null,
-    cubby?:  {
-      __typename: "Cubby",
-      id: string,
-      cubbyNumber: string,
-      locationId: string,
-      inUse: boolean,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null,
-    oversizedDescription?: string | null,
-    oversizedItems?: boolean | null,
-    newConsigner?: boolean | null,
-    timerCleared?: boolean | null,
-    createdTime: number,
-    hasAppointment?: boolean | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    consignmentDropoffCubbyId?: string | null,
-  } | null,
-};
-
-export type OnCreateCubbySubscriptionVariables = {
-  filter?: ModelSubscriptionCubbyFilterInput | null,
-};
-
-export type OnCreateCubbySubscription = {
-  onCreateCubby?:  {
-    __typename: "Cubby",
-    id: string,
-    cubbyNumber: string,
-    locationId: string,
-    inUse: boolean,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type OnUpdateCubbySubscriptionVariables = {
-  filter?: ModelSubscriptionCubbyFilterInput | null,
-};
-
-export type OnUpdateCubbySubscription = {
-  onUpdateCubby?:  {
-    __typename: "Cubby",
-    id: string,
-    cubbyNumber: string,
-    locationId: string,
-    inUse: boolean,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type OnDeleteCubbySubscriptionVariables = {
-  filter?: ModelSubscriptionCubbyFilterInput | null,
-};
-
-export type OnDeleteCubbySubscription = {
-  onDeleteCubby?:  {
-    __typename: "Cubby",
-    id: string,
-    cubbyNumber: string,
-    locationId: string,
-    inUse: boolean,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
 export type OnCreateAppointmentSubscriptionVariables = {
   filter?: ModelSubscriptionAppointmentFilterInput | null,
 };
@@ -13028,6 +13431,204 @@ export type OnDeleteRewardsSubscription = {
   } | null,
 };
 
+export type OnCreatePickUpSubscriptionVariables = {
+  filter?: ModelSubscriptionPickUpFilterInput | null,
+};
+
+export type OnCreatePickUpSubscription = {
+  onCreatePickUp?:  {
+    __typename: "PickUp",
+    id: string,
+    items?:  {
+      __typename: "ModelItemConnection",
+      items:  Array< {
+        __typename: "Item",
+        id: string,
+        itemId?: string | null,
+        userId: string,
+        userName?: string | null,
+        itemAcquireTypeId?: string | null,
+        sectionId?: string | null,
+        statusId: string,
+        taxTypeId?: string | null,
+        number?: string | null,
+        itemName: string,
+        description?: string | null,
+        receiveTimestamp?: string | null,
+        donateIndicator?: boolean | null,
+        price: string,
+        cost?: string | null,
+        qty?: number | null,
+        qtyTagPrint?: number | null,
+        tagPrintedTimestamp?: string | null,
+        commission?: string | null,
+        itemAcquisitionTypeId?: string | null,
+        saleDetailId?: string | null,
+        titleChanged?: boolean | null,
+        modifiedBy?: string | null,
+        upcCode?: string | null,
+        returned?: boolean | null,
+        createTimestamp?: string | null,
+        entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        clientItemsId?: string | null,
+        storeCreditItemsId: string,
+        transactionItemsId: string,
+        transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
+        itemCategoryId?: string | null,
+        itemLocationId?: string | null,
+        itemBrandId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnUpdatePickUpSubscriptionVariables = {
+  filter?: ModelSubscriptionPickUpFilterInput | null,
+};
+
+export type OnUpdatePickUpSubscription = {
+  onUpdatePickUp?:  {
+    __typename: "PickUp",
+    id: string,
+    items?:  {
+      __typename: "ModelItemConnection",
+      items:  Array< {
+        __typename: "Item",
+        id: string,
+        itemId?: string | null,
+        userId: string,
+        userName?: string | null,
+        itemAcquireTypeId?: string | null,
+        sectionId?: string | null,
+        statusId: string,
+        taxTypeId?: string | null,
+        number?: string | null,
+        itemName: string,
+        description?: string | null,
+        receiveTimestamp?: string | null,
+        donateIndicator?: boolean | null,
+        price: string,
+        cost?: string | null,
+        qty?: number | null,
+        qtyTagPrint?: number | null,
+        tagPrintedTimestamp?: string | null,
+        commission?: string | null,
+        itemAcquisitionTypeId?: string | null,
+        saleDetailId?: string | null,
+        titleChanged?: boolean | null,
+        modifiedBy?: string | null,
+        upcCode?: string | null,
+        returned?: boolean | null,
+        createTimestamp?: string | null,
+        entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        clientItemsId?: string | null,
+        storeCreditItemsId: string,
+        transactionItemsId: string,
+        transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
+        itemCategoryId?: string | null,
+        itemLocationId?: string | null,
+        itemBrandId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnDeletePickUpSubscriptionVariables = {
+  filter?: ModelSubscriptionPickUpFilterInput | null,
+};
+
+export type OnDeletePickUpSubscription = {
+  onDeletePickUp?:  {
+    __typename: "PickUp",
+    id: string,
+    items?:  {
+      __typename: "ModelItemConnection",
+      items:  Array< {
+        __typename: "Item",
+        id: string,
+        itemId?: string | null,
+        userId: string,
+        userName?: string | null,
+        itemAcquireTypeId?: string | null,
+        sectionId?: string | null,
+        statusId: string,
+        taxTypeId?: string | null,
+        number?: string | null,
+        itemName: string,
+        description?: string | null,
+        receiveTimestamp?: string | null,
+        donateIndicator?: boolean | null,
+        price: string,
+        cost?: string | null,
+        qty?: number | null,
+        qtyTagPrint?: number | null,
+        tagPrintedTimestamp?: string | null,
+        commission?: string | null,
+        itemAcquisitionTypeId?: string | null,
+        saleDetailId?: string | null,
+        titleChanged?: boolean | null,
+        modifiedBy?: string | null,
+        upcCode?: string | null,
+        returned?: boolean | null,
+        createTimestamp?: string | null,
+        entryTimestamp?: string | null,
+        gender?: GenderType | null,
+        size?: SizeType | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        clientItemsId?: string | null,
+        storeCreditItemsId: string,
+        transactionItemsId: string,
+        transactionMissingItemsId?: string | null,
+        pickUpItemsId: string,
+        itemCategoryId?: string | null,
+        itemLocationId?: string | null,
+        itemBrandId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
 export type OnCreateCategoryAttributeSubscriptionVariables = {
   filter?: ModelSubscriptionCategoryAttributeFilterInput | null,
 };
@@ -13188,6 +13789,189 @@ export type OnDeleteCategoryAttributeSubscription = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
     },
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnCreateConsignmentDropoffSubscriptionVariables = {
+  filter?: ModelSubscriptionConsignmentDropoffFilterInput | null,
+};
+
+export type OnCreateConsignmentDropoffSubscription = {
+  onCreateConsignmentDropoff?:  {
+    __typename: "ConsignmentDropoff",
+    id: string,
+    firstName: string,
+    lastName: string,
+    phone: string,
+    complete: boolean,
+    showError?: boolean | null,
+    errorPrompt?: string | null,
+    cubby?:  {
+      __typename: "Cubby",
+      id: string,
+      cubbyNumber: string,
+      locationId: string,
+      inUse: boolean,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    oversizedDescription?: string | null,
+    oversizedItems?: boolean | null,
+    newConsigner?: boolean | null,
+    timerCleared?: boolean | null,
+    createdTime: number,
+    hasAppointment?: boolean | null,
+    locationId: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    consignmentDropoffCubbyId?: string | null,
+  } | null,
+};
+
+export type OnUpdateConsignmentDropoffSubscriptionVariables = {
+  filter?: ModelSubscriptionConsignmentDropoffFilterInput | null,
+};
+
+export type OnUpdateConsignmentDropoffSubscription = {
+  onUpdateConsignmentDropoff?:  {
+    __typename: "ConsignmentDropoff",
+    id: string,
+    firstName: string,
+    lastName: string,
+    phone: string,
+    complete: boolean,
+    showError?: boolean | null,
+    errorPrompt?: string | null,
+    cubby?:  {
+      __typename: "Cubby",
+      id: string,
+      cubbyNumber: string,
+      locationId: string,
+      inUse: boolean,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    oversizedDescription?: string | null,
+    oversizedItems?: boolean | null,
+    newConsigner?: boolean | null,
+    timerCleared?: boolean | null,
+    createdTime: number,
+    hasAppointment?: boolean | null,
+    locationId: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    consignmentDropoffCubbyId?: string | null,
+  } | null,
+};
+
+export type OnDeleteConsignmentDropoffSubscriptionVariables = {
+  filter?: ModelSubscriptionConsignmentDropoffFilterInput | null,
+};
+
+export type OnDeleteConsignmentDropoffSubscription = {
+  onDeleteConsignmentDropoff?:  {
+    __typename: "ConsignmentDropoff",
+    id: string,
+    firstName: string,
+    lastName: string,
+    phone: string,
+    complete: boolean,
+    showError?: boolean | null,
+    errorPrompt?: string | null,
+    cubby?:  {
+      __typename: "Cubby",
+      id: string,
+      cubbyNumber: string,
+      locationId: string,
+      inUse: boolean,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    oversizedDescription?: string | null,
+    oversizedItems?: boolean | null,
+    newConsigner?: boolean | null,
+    timerCleared?: boolean | null,
+    createdTime: number,
+    hasAppointment?: boolean | null,
+    locationId: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    consignmentDropoffCubbyId?: string | null,
+  } | null,
+};
+
+export type OnCreateCubbySubscriptionVariables = {
+  filter?: ModelSubscriptionCubbyFilterInput | null,
+};
+
+export type OnCreateCubbySubscription = {
+  onCreateCubby?:  {
+    __typename: "Cubby",
+    id: string,
+    cubbyNumber: string,
+    locationId: string,
+    inUse: boolean,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnUpdateCubbySubscriptionVariables = {
+  filter?: ModelSubscriptionCubbyFilterInput | null,
+};
+
+export type OnUpdateCubbySubscription = {
+  onUpdateCubby?:  {
+    __typename: "Cubby",
+    id: string,
+    cubbyNumber: string,
+    locationId: string,
+    inUse: boolean,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnDeleteCubbySubscriptionVariables = {
+  filter?: ModelSubscriptionCubbyFilterInput | null,
+};
+
+export type OnDeleteCubbySubscription = {
+  onDeleteCubby?:  {
+    __typename: "Cubby",
+    id: string,
+    cubbyNumber: string,
+    locationId: string,
+    inUse: boolean,
     createdAt: string,
     updatedAt: string,
     _version: number,

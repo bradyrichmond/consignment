@@ -273,7 +273,7 @@ type Coupon @model {
   amount: Int!
 }
 
-type ConsignmentDropoff @model {
+type ConsignmentDropoff @model @auth(rules: [{ allow: public }, { allow: private }]) {
   id: ID!
   firstName: String!
   lastName: String!
@@ -291,7 +291,7 @@ type ConsignmentDropoff @model {
   locationId: String!
 }
 
-type Cubby @model {
+type Cubby @model @auth(rules: [{ allow: public }, { allow: private }]) {
   id: ID!
   cubbyNumber: String!
   locationId: String!

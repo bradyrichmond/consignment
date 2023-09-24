@@ -52,6 +52,8 @@ export const createClient = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
+          gender
+          size
           createdAt
           updatedAt
           _version
@@ -61,6 +63,7 @@ export const createClient = /* GraphQL */ `
           storeCreditItemsId
           transactionItemsId
           transactionMissingItemsId
+          pickUpItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -202,6 +205,8 @@ export const updateClient = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
+          gender
+          size
           createdAt
           updatedAt
           _version
@@ -211,6 +216,7 @@ export const updateClient = /* GraphQL */ `
           storeCreditItemsId
           transactionItemsId
           transactionMissingItemsId
+          pickUpItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -352,6 +358,8 @@ export const deleteClient = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
+          gender
+          size
           createdAt
           updatedAt
           _version
@@ -361,6 +369,7 @@ export const deleteClient = /* GraphQL */ `
           storeCreditItemsId
           transactionItemsId
           transactionMissingItemsId
+          pickUpItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -489,6 +498,8 @@ export const createStoreCredit = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
+          gender
+          size
           createdAt
           updatedAt
           _version
@@ -498,6 +509,7 @@ export const createStoreCredit = /* GraphQL */ `
           storeCreditItemsId
           transactionItemsId
           transactionMissingItemsId
+          pickUpItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -550,6 +562,8 @@ export const updateStoreCredit = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
+          gender
+          size
           createdAt
           updatedAt
           _version
@@ -559,6 +573,7 @@ export const updateStoreCredit = /* GraphQL */ `
           storeCreditItemsId
           transactionItemsId
           transactionMissingItemsId
+          pickUpItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -611,6 +626,8 @@ export const deleteStoreCredit = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
+          gender
+          size
           createdAt
           updatedAt
           _version
@@ -620,6 +637,7 @@ export const deleteStoreCredit = /* GraphQL */ `
           storeCreditItemsId
           transactionItemsId
           transactionMissingItemsId
+          pickUpItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -729,6 +747,8 @@ export const createItem = /* GraphQL */ `
       returned
       createTimestamp
       entryTimestamp
+      gender
+      size
       createdAt
       updatedAt
       _version
@@ -738,6 +758,7 @@ export const createItem = /* GraphQL */ `
       storeCreditItemsId
       transactionItemsId
       transactionMissingItemsId
+      pickUpItemsId
       itemCategoryId
       itemLocationId
       itemBrandId
@@ -838,6 +859,8 @@ export const updateItem = /* GraphQL */ `
       returned
       createTimestamp
       entryTimestamp
+      gender
+      size
       createdAt
       updatedAt
       _version
@@ -847,6 +870,7 @@ export const updateItem = /* GraphQL */ `
       storeCreditItemsId
       transactionItemsId
       transactionMissingItemsId
+      pickUpItemsId
       itemCategoryId
       itemLocationId
       itemBrandId
@@ -947,6 +971,8 @@ export const deleteItem = /* GraphQL */ `
       returned
       createTimestamp
       entryTimestamp
+      gender
+      size
       createdAt
       updatedAt
       _version
@@ -956,6 +982,7 @@ export const deleteItem = /* GraphQL */ `
       storeCreditItemsId
       transactionItemsId
       transactionMissingItemsId
+      pickUpItemsId
       itemCategoryId
       itemLocationId
       itemBrandId
@@ -998,6 +1025,8 @@ export const createTransaction = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
+          gender
+          size
           createdAt
           updatedAt
           _version
@@ -1007,6 +1036,7 @@ export const createTransaction = /* GraphQL */ `
           storeCreditItemsId
           transactionItemsId
           transactionMissingItemsId
+          pickUpItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -1116,6 +1146,8 @@ export const createTransaction = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
+          gender
+          size
           createdAt
           updatedAt
           _version
@@ -1125,6 +1157,7 @@ export const createTransaction = /* GraphQL */ `
           storeCreditItemsId
           transactionItemsId
           transactionMissingItemsId
+          pickUpItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -1179,6 +1212,8 @@ export const updateTransaction = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
+          gender
+          size
           createdAt
           updatedAt
           _version
@@ -1188,6 +1223,7 @@ export const updateTransaction = /* GraphQL */ `
           storeCreditItemsId
           transactionItemsId
           transactionMissingItemsId
+          pickUpItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -1297,6 +1333,8 @@ export const updateTransaction = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
+          gender
+          size
           createdAt
           updatedAt
           _version
@@ -1306,6 +1344,7 @@ export const updateTransaction = /* GraphQL */ `
           storeCreditItemsId
           transactionItemsId
           transactionMissingItemsId
+          pickUpItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -1360,6 +1399,8 @@ export const deleteTransaction = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
+          gender
+          size
           createdAt
           updatedAt
           _version
@@ -1369,6 +1410,7 @@ export const deleteTransaction = /* GraphQL */ `
           storeCreditItemsId
           transactionItemsId
           transactionMissingItemsId
+          pickUpItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -1478,6 +1520,8 @@ export const deleteTransaction = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
+          gender
+          size
           createdAt
           updatedAt
           _version
@@ -1487,6 +1531,7 @@ export const deleteTransaction = /* GraphQL */ `
           storeCreditItemsId
           transactionItemsId
           transactionMissingItemsId
+          pickUpItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -2543,177 +2588,6 @@ export const deleteCoupon = /* GraphQL */ `
     }
   }
 `;
-export const createConsignmentDropoff = /* GraphQL */ `
-  mutation CreateConsignmentDropoff(
-    $input: CreateConsignmentDropoffInput!
-    $condition: ModelConsignmentDropoffConditionInput
-  ) {
-    createConsignmentDropoff(input: $input, condition: $condition) {
-      id
-      firstName
-      lastName
-      phone
-      complete
-      showError
-      errorPrompt
-      cubby {
-        id
-        cubbyNumber
-        locationId
-        inUse
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      oversizedDescription
-      oversizedItems
-      newConsigner
-      timerCleared
-      createdTime
-      hasAppointment
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      consignmentDropoffCubbyId
-    }
-  }
-`;
-export const updateConsignmentDropoff = /* GraphQL */ `
-  mutation UpdateConsignmentDropoff(
-    $input: UpdateConsignmentDropoffInput!
-    $condition: ModelConsignmentDropoffConditionInput
-  ) {
-    updateConsignmentDropoff(input: $input, condition: $condition) {
-      id
-      firstName
-      lastName
-      phone
-      complete
-      showError
-      errorPrompt
-      cubby {
-        id
-        cubbyNumber
-        locationId
-        inUse
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      oversizedDescription
-      oversizedItems
-      newConsigner
-      timerCleared
-      createdTime
-      hasAppointment
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      consignmentDropoffCubbyId
-    }
-  }
-`;
-export const deleteConsignmentDropoff = /* GraphQL */ `
-  mutation DeleteConsignmentDropoff(
-    $input: DeleteConsignmentDropoffInput!
-    $condition: ModelConsignmentDropoffConditionInput
-  ) {
-    deleteConsignmentDropoff(input: $input, condition: $condition) {
-      id
-      firstName
-      lastName
-      phone
-      complete
-      showError
-      errorPrompt
-      cubby {
-        id
-        cubbyNumber
-        locationId
-        inUse
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      oversizedDescription
-      oversizedItems
-      newConsigner
-      timerCleared
-      createdTime
-      hasAppointment
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      consignmentDropoffCubbyId
-    }
-  }
-`;
-export const createCubby = /* GraphQL */ `
-  mutation CreateCubby(
-    $input: CreateCubbyInput!
-    $condition: ModelCubbyConditionInput
-  ) {
-    createCubby(input: $input, condition: $condition) {
-      id
-      cubbyNumber
-      locationId
-      inUse
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const updateCubby = /* GraphQL */ `
-  mutation UpdateCubby(
-    $input: UpdateCubbyInput!
-    $condition: ModelCubbyConditionInput
-  ) {
-    updateCubby(input: $input, condition: $condition) {
-      id
-      cubbyNumber
-      locationId
-      inUse
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const deleteCubby = /* GraphQL */ `
-  mutation DeleteCubby(
-    $input: DeleteCubbyInput!
-    $condition: ModelCubbyConditionInput
-  ) {
-    deleteCubby(input: $input, condition: $condition) {
-      id
-      cubbyNumber
-      locationId
-      inUse
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
 export const createAppointment = /* GraphQL */ `
   mutation CreateAppointment(
     $input: CreateAppointmentInput!
@@ -3302,6 +3176,195 @@ export const deleteRewards = /* GraphQL */ `
     }
   }
 `;
+export const createPickUp = /* GraphQL */ `
+  mutation CreatePickUp(
+    $input: CreatePickUpInput!
+    $condition: ModelPickUpConditionInput
+  ) {
+    createPickUp(input: $input, condition: $condition) {
+      id
+      items {
+        items {
+          id
+          itemId
+          userId
+          userName
+          itemAcquireTypeId
+          sectionId
+          statusId
+          taxTypeId
+          number
+          itemName
+          description
+          receiveTimestamp
+          donateIndicator
+          price
+          cost
+          qty
+          qtyTagPrint
+          tagPrintedTimestamp
+          commission
+          itemAcquisitionTypeId
+          saleDetailId
+          titleChanged
+          modifiedBy
+          upcCode
+          returned
+          createTimestamp
+          entryTimestamp
+          gender
+          size
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientItemsId
+          storeCreditItemsId
+          transactionItemsId
+          transactionMissingItemsId
+          pickUpItemsId
+          itemCategoryId
+          itemLocationId
+          itemBrandId
+        }
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updatePickUp = /* GraphQL */ `
+  mutation UpdatePickUp(
+    $input: UpdatePickUpInput!
+    $condition: ModelPickUpConditionInput
+  ) {
+    updatePickUp(input: $input, condition: $condition) {
+      id
+      items {
+        items {
+          id
+          itemId
+          userId
+          userName
+          itemAcquireTypeId
+          sectionId
+          statusId
+          taxTypeId
+          number
+          itemName
+          description
+          receiveTimestamp
+          donateIndicator
+          price
+          cost
+          qty
+          qtyTagPrint
+          tagPrintedTimestamp
+          commission
+          itemAcquisitionTypeId
+          saleDetailId
+          titleChanged
+          modifiedBy
+          upcCode
+          returned
+          createTimestamp
+          entryTimestamp
+          gender
+          size
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientItemsId
+          storeCreditItemsId
+          transactionItemsId
+          transactionMissingItemsId
+          pickUpItemsId
+          itemCategoryId
+          itemLocationId
+          itemBrandId
+        }
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deletePickUp = /* GraphQL */ `
+  mutation DeletePickUp(
+    $input: DeletePickUpInput!
+    $condition: ModelPickUpConditionInput
+  ) {
+    deletePickUp(input: $input, condition: $condition) {
+      id
+      items {
+        items {
+          id
+          itemId
+          userId
+          userName
+          itemAcquireTypeId
+          sectionId
+          statusId
+          taxTypeId
+          number
+          itemName
+          description
+          receiveTimestamp
+          donateIndicator
+          price
+          cost
+          qty
+          qtyTagPrint
+          tagPrintedTimestamp
+          commission
+          itemAcquisitionTypeId
+          saleDetailId
+          titleChanged
+          modifiedBy
+          upcCode
+          returned
+          createTimestamp
+          entryTimestamp
+          gender
+          size
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientItemsId
+          storeCreditItemsId
+          transactionItemsId
+          transactionMissingItemsId
+          pickUpItemsId
+          itemCategoryId
+          itemLocationId
+          itemBrandId
+        }
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
 export const createCategoryAttribute = /* GraphQL */ `
   mutation CreateCategoryAttribute(
     $input: CreateCategoryAttributeInput!
@@ -3447,6 +3510,180 @@ export const deleteCategoryAttribute = /* GraphQL */ `
         _deleted
         _lastChangedAt
       }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const createConsignmentDropoff = /* GraphQL */ `
+  mutation CreateConsignmentDropoff(
+    $input: CreateConsignmentDropoffInput!
+    $condition: ModelConsignmentDropoffConditionInput
+  ) {
+    createConsignmentDropoff(input: $input, condition: $condition) {
+      id
+      firstName
+      lastName
+      phone
+      complete
+      showError
+      errorPrompt
+      cubby {
+        id
+        cubbyNumber
+        locationId
+        inUse
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      oversizedDescription
+      oversizedItems
+      newConsigner
+      timerCleared
+      createdTime
+      hasAppointment
+      locationId
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      consignmentDropoffCubbyId
+    }
+  }
+`;
+export const updateConsignmentDropoff = /* GraphQL */ `
+  mutation UpdateConsignmentDropoff(
+    $input: UpdateConsignmentDropoffInput!
+    $condition: ModelConsignmentDropoffConditionInput
+  ) {
+    updateConsignmentDropoff(input: $input, condition: $condition) {
+      id
+      firstName
+      lastName
+      phone
+      complete
+      showError
+      errorPrompt
+      cubby {
+        id
+        cubbyNumber
+        locationId
+        inUse
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      oversizedDescription
+      oversizedItems
+      newConsigner
+      timerCleared
+      createdTime
+      hasAppointment
+      locationId
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      consignmentDropoffCubbyId
+    }
+  }
+`;
+export const deleteConsignmentDropoff = /* GraphQL */ `
+  mutation DeleteConsignmentDropoff(
+    $input: DeleteConsignmentDropoffInput!
+    $condition: ModelConsignmentDropoffConditionInput
+  ) {
+    deleteConsignmentDropoff(input: $input, condition: $condition) {
+      id
+      firstName
+      lastName
+      phone
+      complete
+      showError
+      errorPrompt
+      cubby {
+        id
+        cubbyNumber
+        locationId
+        inUse
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      oversizedDescription
+      oversizedItems
+      newConsigner
+      timerCleared
+      createdTime
+      hasAppointment
+      locationId
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      consignmentDropoffCubbyId
+    }
+  }
+`;
+export const createCubby = /* GraphQL */ `
+  mutation CreateCubby(
+    $input: CreateCubbyInput!
+    $condition: ModelCubbyConditionInput
+  ) {
+    createCubby(input: $input, condition: $condition) {
+      id
+      cubbyNumber
+      locationId
+      inUse
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateCubby = /* GraphQL */ `
+  mutation UpdateCubby(
+    $input: UpdateCubbyInput!
+    $condition: ModelCubbyConditionInput
+  ) {
+    updateCubby(input: $input, condition: $condition) {
+      id
+      cubbyNumber
+      locationId
+      inUse
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteCubby = /* GraphQL */ `
+  mutation DeleteCubby(
+    $input: DeleteCubbyInput!
+    $condition: ModelCubbyConditionInput
+  ) {
+    deleteCubby(input: $input, condition: $condition) {
+      id
+      cubbyNumber
+      locationId
+      inUse
       createdAt
       updatedAt
       _version

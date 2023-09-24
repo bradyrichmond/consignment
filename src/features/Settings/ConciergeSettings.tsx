@@ -43,8 +43,8 @@ const ConciergeSettings = (props: ConciergeSettingsProps) => {
     }
 
     return (
-        <Box sx={{ backgroundColor: 'white' }} borderRadius='1rem' padding='2rem'>
-            <Typography variant='h3'>{cubbies.length} cubbies assigned to this location</Typography>
+        <Box sx={{ backgroundColor: 'white' }} borderRadius='1rem' padding='2rem' marginTop='2rem'>
+            <Typography variant='h3' marginBottom='2rem'>{cubbies.length} cubbies assigned to this location</Typography>
             <Button variant='contained' sx={{marginRight: '2rem'}} onClick={addACubby}>{loading ? <LinearProgress color='primary' /> : 'Add a Cubby'}</Button>
             <Button variant='contained' onClick={removeACubby}>{loading ? <LinearProgress color='primary' /> : 'Remove a Cubby'}</Button>
         </Box>

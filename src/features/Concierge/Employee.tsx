@@ -7,6 +7,7 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { Box, Modal, Typography, keyframes } from '@mui/material';
 import { ConsignmentDropoff, Cubby } from '../../models';
+import { useNavigate } from 'react-router-dom';
 
 const pulse = keyframes`
     from {
@@ -26,6 +27,7 @@ const EmployeeDisplay = () => {
     const [showingOversizedDescription, setShowingOversizedDescription] = useState(false);
     const [activeId, setActiveId] = useState('');
     const [cubbyData, setCubbyData] = useState<Cubby[]>([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const waitingSub = DataStore.observeQuery(
@@ -114,6 +116,10 @@ const EmployeeDisplay = () => {
         setOversizedDescription('');
     }
 
+    const navigateToHistory = () => {
+        navigate('/concierge/history')
+    }
+
     return (
         <Box display='flex' flexDirection='row' bgcolor='background.default' padding='2rem' height='100%' width='100%'>
             {cubbyData.length < 1 ?
@@ -156,18 +162,25 @@ const EmployeeDisplay = () => {
                             </Box>
                         }
                     </Box>
-                    <Box display='flex' flexDirection='column' flex='1' paddingRight='2rem'>
-                        <Typography variant='h2'>Recently completed:</Typography>
-                        <Box marginTop='2rem'>
-                            {deletedCustomers.map((deletedCustomer: ConsignmentDropoff) => 
-                                {
-                                    return (
-                                        <Box key={deletedCustomer.id} width='100%' display='flex' flexDirection='row' justifyContent='center' alignItems='center' border='.25rem solid black' borderRadius='.25rem' bgcolor='GrayText' padding='2rem' marginBottom='2rem'>
-                                            <Typography variant='h3' onClick={() => { setValidatingRevive(true); setActiveId(deletedCustomer.id) }} color='whitesmoke'>{deletedCustomer.firstName} {deletedCustomer.lastName}</Typography>
-                                        </Box>
-                                    )
-                                })
-                            }
+                    <Box display='flex' flexDirection='column' flex='1' paddingRight='2rem' height='100%'>
+                        <Box>
+                            <Typography variant='h2'>Recently completed:</Typography>
+                        </Box>
+                        <Box marginTop='2rem' display='flex' flexDirection='column' flex='1'>
+                            <Box flex='1'>
+                                {deletedCustomers.map((deletedCustomer: ConsignmentDropoff) => 
+                                    {
+                                        return (
+                                            <Box key={deletedCustomer.id} width='100%' display='flex' flexDirection='row' justifyContent='center' alignItems='center' border='.25rem solid black' borderRadius='.25rem' bgcolor='GrayText' padding='2rem' marginBottom='2rem'>
+                                                <Typography variant='h3' onClick={() => { setValidatingRevive(true); setActiveId(deletedCustomer.id) }} color='whitesmoke'>{deletedCustomer.firstName} {deletedCustomer.lastName}</Typography>
+                                            </Box>
+                                        )
+                                    })
+                                }
+                            </Box>
+                            <Box display='flex' justifyContent='center' alignItems='center' padding='2rem' onClick={navigateToHistory}>
+                                <Typography variant='h2'>See more</Typography>
+                            </Box>
                         </Box>
                     </Box>
                 </>

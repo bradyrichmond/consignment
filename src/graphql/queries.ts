@@ -49,6 +49,8 @@ export const getClient = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
+          gender
+          size
           createdAt
           updatedAt
           _version
@@ -58,6 +60,7 @@ export const getClient = /* GraphQL */ `
           storeCreditItemsId
           transactionItemsId
           transactionMissingItemsId
+          pickUpItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -321,6 +324,8 @@ export const getStoreCredit = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
+          gender
+          size
           createdAt
           updatedAt
           _version
@@ -330,6 +335,7 @@ export const getStoreCredit = /* GraphQL */ `
           storeCreditItemsId
           transactionItemsId
           transactionMissingItemsId
+          pickUpItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -492,6 +498,8 @@ export const getItem = /* GraphQL */ `
       returned
       createTimestamp
       entryTimestamp
+      gender
+      size
       createdAt
       updatedAt
       _version
@@ -501,6 +509,7 @@ export const getItem = /* GraphQL */ `
       storeCreditItemsId
       transactionItemsId
       transactionMissingItemsId
+      pickUpItemsId
       itemCategoryId
       itemLocationId
       itemBrandId
@@ -580,6 +589,8 @@ export const listItems = /* GraphQL */ `
         returned
         createTimestamp
         entryTimestamp
+        gender
+        size
         createdAt
         updatedAt
         _version
@@ -589,6 +600,7 @@ export const listItems = /* GraphQL */ `
         storeCreditItemsId
         transactionItemsId
         transactionMissingItemsId
+        pickUpItemsId
         itemCategoryId
         itemLocationId
         itemBrandId
@@ -677,6 +689,8 @@ export const syncItems = /* GraphQL */ `
         returned
         createTimestamp
         entryTimestamp
+        gender
+        size
         createdAt
         updatedAt
         _version
@@ -686,6 +700,7 @@ export const syncItems = /* GraphQL */ `
         storeCreditItemsId
         transactionItemsId
         transactionMissingItemsId
+        pickUpItemsId
         itemCategoryId
         itemLocationId
         itemBrandId
@@ -728,6 +743,8 @@ export const getTransaction = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
+          gender
+          size
           createdAt
           updatedAt
           _version
@@ -737,6 +754,7 @@ export const getTransaction = /* GraphQL */ `
           storeCreditItemsId
           transactionItemsId
           transactionMissingItemsId
+          pickUpItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -846,6 +864,8 @@ export const getTransaction = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
+          gender
+          size
           createdAt
           updatedAt
           _version
@@ -855,6 +875,7 @@ export const getTransaction = /* GraphQL */ `
           storeCreditItemsId
           transactionItemsId
           transactionMissingItemsId
+          pickUpItemsId
           itemCategoryId
           itemLocationId
           itemBrandId
@@ -2160,207 +2181,6 @@ export const syncCoupons = /* GraphQL */ `
     }
   }
 `;
-export const getConsignmentDropoff = /* GraphQL */ `
-  query GetConsignmentDropoff($id: ID!) {
-    getConsignmentDropoff(id: $id) {
-      id
-      firstName
-      lastName
-      phone
-      complete
-      showError
-      errorPrompt
-      cubby {
-        id
-        cubbyNumber
-        locationId
-        inUse
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      oversizedDescription
-      oversizedItems
-      newConsigner
-      timerCleared
-      createdTime
-      hasAppointment
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      consignmentDropoffCubbyId
-    }
-  }
-`;
-export const listConsignmentDropoffs = /* GraphQL */ `
-  query ListConsignmentDropoffs(
-    $filter: ModelConsignmentDropoffFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listConsignmentDropoffs(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        firstName
-        lastName
-        phone
-        complete
-        showError
-        errorPrompt
-        cubby {
-          id
-          cubbyNumber
-          locationId
-          inUse
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        oversizedDescription
-        oversizedItems
-        newConsigner
-        timerCleared
-        createdTime
-        hasAppointment
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        consignmentDropoffCubbyId
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const syncConsignmentDropoffs = /* GraphQL */ `
-  query SyncConsignmentDropoffs(
-    $filter: ModelConsignmentDropoffFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncConsignmentDropoffs(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        firstName
-        lastName
-        phone
-        complete
-        showError
-        errorPrompt
-        cubby {
-          id
-          cubbyNumber
-          locationId
-          inUse
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        oversizedDescription
-        oversizedItems
-        newConsigner
-        timerCleared
-        createdTime
-        hasAppointment
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        consignmentDropoffCubbyId
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const getCubby = /* GraphQL */ `
-  query GetCubby($id: ID!) {
-    getCubby(id: $id) {
-      id
-      cubbyNumber
-      locationId
-      inUse
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const listCubbies = /* GraphQL */ `
-  query ListCubbies(
-    $filter: ModelCubbyFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listCubbies(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        cubbyNumber
-        locationId
-        inUse
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const syncCubbies = /* GraphQL */ `
-  query SyncCubbies(
-    $filter: ModelCubbyFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncCubbies(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        cubbyNumber
-        locationId
-        inUse
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
 export const getAppointment = /* GraphQL */ `
   query GetAppointment($id: ID!) {
     getAppointment(id: $id) {
@@ -2870,6 +2690,120 @@ export const syncRewards = /* GraphQL */ `
     }
   }
 `;
+export const getPickUp = /* GraphQL */ `
+  query GetPickUp($id: ID!) {
+    getPickUp(id: $id) {
+      id
+      items {
+        items {
+          id
+          itemId
+          userId
+          userName
+          itemAcquireTypeId
+          sectionId
+          statusId
+          taxTypeId
+          number
+          itemName
+          description
+          receiveTimestamp
+          donateIndicator
+          price
+          cost
+          qty
+          qtyTagPrint
+          tagPrintedTimestamp
+          commission
+          itemAcquisitionTypeId
+          saleDetailId
+          titleChanged
+          modifiedBy
+          upcCode
+          returned
+          createTimestamp
+          entryTimestamp
+          gender
+          size
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientItemsId
+          storeCreditItemsId
+          transactionItemsId
+          transactionMissingItemsId
+          pickUpItemsId
+          itemCategoryId
+          itemLocationId
+          itemBrandId
+        }
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listPickUps = /* GraphQL */ `
+  query ListPickUps(
+    $filter: ModelPickUpFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPickUps(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        items {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncPickUps = /* GraphQL */ `
+  query SyncPickUps(
+    $filter: ModelPickUpFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncPickUps(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        items {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
 export const getCategoryAttribute = /* GraphQL */ `
   query GetCategoryAttribute($id: ID!) {
     getCategoryAttribute(id: $id) {
@@ -3125,6 +3059,210 @@ export const categoryAttributesByAttributeTypeId = /* GraphQL */ `
           _deleted
           _lastChangedAt
         }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getConsignmentDropoff = /* GraphQL */ `
+  query GetConsignmentDropoff($id: ID!) {
+    getConsignmentDropoff(id: $id) {
+      id
+      firstName
+      lastName
+      phone
+      complete
+      showError
+      errorPrompt
+      cubby {
+        id
+        cubbyNumber
+        locationId
+        inUse
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      oversizedDescription
+      oversizedItems
+      newConsigner
+      timerCleared
+      createdTime
+      hasAppointment
+      locationId
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      consignmentDropoffCubbyId
+    }
+  }
+`;
+export const listConsignmentDropoffs = /* GraphQL */ `
+  query ListConsignmentDropoffs(
+    $filter: ModelConsignmentDropoffFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listConsignmentDropoffs(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        firstName
+        lastName
+        phone
+        complete
+        showError
+        errorPrompt
+        cubby {
+          id
+          cubbyNumber
+          locationId
+          inUse
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        oversizedDescription
+        oversizedItems
+        newConsigner
+        timerCleared
+        createdTime
+        hasAppointment
+        locationId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        consignmentDropoffCubbyId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncConsignmentDropoffs = /* GraphQL */ `
+  query SyncConsignmentDropoffs(
+    $filter: ModelConsignmentDropoffFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncConsignmentDropoffs(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        firstName
+        lastName
+        phone
+        complete
+        showError
+        errorPrompt
+        cubby {
+          id
+          cubbyNumber
+          locationId
+          inUse
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        oversizedDescription
+        oversizedItems
+        newConsigner
+        timerCleared
+        createdTime
+        hasAppointment
+        locationId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        consignmentDropoffCubbyId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getCubby = /* GraphQL */ `
+  query GetCubby($id: ID!) {
+    getCubby(id: $id) {
+      id
+      cubbyNumber
+      locationId
+      inUse
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listCubbies = /* GraphQL */ `
+  query ListCubbies(
+    $filter: ModelCubbyFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listCubbies(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        cubbyNumber
+        locationId
+        inUse
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncCubbies = /* GraphQL */ `
+  query SyncCubbies(
+    $filter: ModelCubbyFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncCubbies(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        cubbyNumber
+        locationId
+        inUse
         createdAt
         updatedAt
         _version
