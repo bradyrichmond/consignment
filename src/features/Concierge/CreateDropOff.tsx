@@ -5,12 +5,13 @@ import { useForm } from 'react-hook-form';
 import { ConsignmentDropoff, Cubby } from '../../models';
 import { DataStore, SortDirection } from 'aws-amplify';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { format } from 'date-fns';
+import { format, set, sub } from 'date-fns';
 
 const CreateDropOff = () => {
     const [validatingNewPolicy, setValidatingNewPolicy] = useState(false);
     const [formData, setFormData] = useState<any>();
     const [error, setError] = useState('');
+    const [showError, setShowError] = useState(false);
     const [oversizedItems, setOversizedItem] = useState(false);
     const [newConsigner, setNewConsigner] = useState(false);
     const { handleSubmit, register, reset } = useForm();
@@ -26,20 +27,66 @@ const CreateDropOff = () => {
     const validateBeforeSubmitCustomer = async () => {
          setValidatingNewPolicy(false);
 
-        if (formData.firstName.length > 0 && formData.lastName.length > 0) {
+        if (formData.firstName.length > 0 && formData.lastName.length > 0 && formData.phone.length > 0) {
             submitCustomer();
-        } else if(formData.firstName.length < 1 && formData.lastName.length < 1) {
+        }
+
+        if(formData.firstName.length < 1 && formData.lastName.length < 1) {
             setError('First name and last name are required.');
-        } else if (formData.firstName.length < 1) {
+        }
+        
+        if (formData.firstName.length < 1) {
             setError('First name is required.');
-        } else if (formData.lastName.length < 1) {
+        }
+        
+        if (formData.lastName.length < 1) {
             setError('Last name is required.');
+        }
+
+        if (formData.phone.length < 1) {
+            setError('Phone number is required.');
+        }
+
+        setShowError(true);
+    }
+
+    const checkForDuplicates = async (phone: string):Promise<boolean> => {
+        const oneDayAgo =  sub(Date.now(), { hours: 23 }).getTime();
+
+        const results = await DataStore.query(ConsignmentDropoff, (c) => c.and((c) => [
+            c.phone.eq(phone),
+            c.createdTime.gt(oneDayAgo)
+        ]));
+
+        return results.length > 0;
+    }
+
+    const formatPhone = (phone: string):(string | void) => {
+        var cleaned = ('' + phone).replace(/\D/g, '');
+        var match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+        if (match) {
+            return '(' + match[1] + ') ' + match[2] + '-' + match[3];
         }
     }
 
     const submitCustomer = async () => {
         const { firstName, lastName, phone, oversizedDescription } = formData;
         const locationId = localStorage.getItem('locationId');
+        const formattedPhone = formatPhone(phone);
+
+        if (!formattedPhone) {
+            setError('Phone number is not  valid.');
+            setShowError(true);
+            return;
+        }
+
+        const hasDuplicate = await checkForDuplicates(formattedPhone);
+
+        if (hasDuplicate) {
+            setError('It looks like you have already dropped off today. Please ask an employee for details.');
+            setShowError(true);
+            return;
+        }
         
         if (locationId) {
             const availableCubbies = await DataStore.query(Cubby, (c) => c.and((c) => 
@@ -59,7 +106,7 @@ const CreateDropOff = () => {
                     updated.inUse = true;
                 }));
 
-                await DataStore.save(new ConsignmentDropoff({ firstName, lastName, phone, oversizedItems, complete: false, createdTime: Date.now(), newConsigner, hasAppointment, oversizedDescription, cubby: assignedCubby, locationId }));
+                await DataStore.save(new ConsignmentDropoff({ firstName, lastName, phone: formattedPhone, oversizedItems, complete: false, createdTime: Date.now(), newConsigner, hasAppointment, oversizedDescription, cubby: assignedCubby, locationId }));
                 reset();
                 navigate('/concierge/client/complete', { state: { cubbyNumber: assignedCubby.cubbyNumber } });
             }
@@ -68,13 +115,14 @@ const CreateDropOff = () => {
 
     const closeModals = () => {
         setValidatingNewPolicy(false);
+        setShowError(false);
         setError('');
     }
 
     return (
         <Box height='100%' width='100%' display='flex' flexDirection='column' justifyContent='center' alignItems='center' bgcolor='background.default'>
             <Modal
-                open={validatingNewPolicy}
+                open={showError}
                 onClose={closeModals}
                 style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
             >

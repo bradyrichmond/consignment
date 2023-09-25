@@ -28,11 +28,15 @@ const EmployeeDisplay = () => {
     const [activeId, setActiveId] = useState('');
     const [cubbyData, setCubbyData] = useState<Cubby[]>([]);
     const navigate = useNavigate();
+    const locationId = localStorage.getItem('locationId');
 
     useEffect(() => {
         const waitingSub = DataStore.observeQuery(
             ConsignmentDropoff,
-            c => c.complete.eq(false), {
+            (c) => c.and((c) => [
+                c.complete.eq(false),
+                c.locationId.eq(locationId ?? '')
+            ]), {
               sort: s => s.createdAt(SortDirection.ASCENDING)
             }
           ).subscribe(snapshot => {
@@ -42,7 +46,10 @@ const EmployeeDisplay = () => {
 
         const deletedSub = DataStore.observeQuery(
             ConsignmentDropoff,
-            c => c.complete.eq(true), {
+            c => c.and((c) => [
+                c.complete.eq(true),
+                c.locationId.eq(locationId ?? '')
+            ]), {
               sort: s => s.createdAt(SortDirection.DESCENDING),
             }
           ).subscribe(snapshot => {
@@ -52,7 +59,6 @@ const EmployeeDisplay = () => {
             setDeletedCustomers(subset);
         });
 
-        const locationId = localStorage.getItem('locationId');
         const cubbySub = DataStore.observeQuery(
             Cubby,
             (c) => c.locationId.eq(locationId ?? '')
