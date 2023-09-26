@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Box } from '@mui/system';
 import ModalContainer from '../../utils/ModalContainer';
 import { Button, FormControl, InputLabel, LinearProgress, MenuItem, Select, TextField, Typography } from '@mui/material';
@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { DataStore } from 'aws-amplify';
 import { Category } from '../../models';
 import { format } from 'date-fns';
+import { CognitoContext } from '../../context';
 
 interface AddCategoryProps {
     close: () => void
@@ -17,6 +18,7 @@ const AddCategory = (props: AddCategoryProps) => {
     const [parentCategories, setParentCategories] = useState<Category[]>([]);
     const [selectedValue, setSelectedValue] = useState('None');
     const [loading, setLoading] = useState(true);
+    const { organization, organizationId } = useContext(CognitoContext);
 
     useEffect(() => {
         const getData = async () => {
@@ -37,7 +39,7 @@ const AddCategory = (props: AddCategoryProps) => {
             categoryLevel = parentCategory?.categoryLevel ?? 1;
         }
 
-        await DataStore.save(new Category({ categoryName, categoryLevel, parent, inactive: false, lastUpdateTimestamp: format(Date.now(), 'yyyy-MM-dd') }));
+        await DataStore.save(new Category({ categoryName, categoryLevel, parent, inactive: false, lastUpdateTimestamp: format(Date.now(), 'yyyy-MM-dd'), organization, categoryOrganizationId: organizationId }));
         close();
     }
 

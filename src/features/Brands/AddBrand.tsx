@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Box } from '@mui/system';
 import ModalContainer from '../../utils/ModalContainer';
 import { Button, TextField, Typography } from '@mui/material';
@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { DataStore } from 'aws-amplify';
 import { Brand } from '../../models';
 import { format } from 'date-fns';
+import { CognitoContext } from '../../context';
 
 interface AddBrandProps {
     close: () => void
@@ -14,11 +15,12 @@ interface AddBrandProps {
 const AddBrand = (props: AddBrandProps) => {
     const { close } = props;
     const { handleSubmit, register } = useForm();
+    const { organization, organizationId } = useContext(CognitoContext);
 
     const handleAddBrand = async (data: any) => {
         const { description } = data;
 
-        await DataStore.save(new Brand({ description, lastUpdateTimestamp: format(Date.now(), 'yyyy-MM-dd') }));
+        await DataStore.save(new Brand({ description, lastUpdateTimestamp: format(Date.now(), 'yyyy-MM-dd'), organization, brandOrganizationId: organizationId }));
         close();
     }
 

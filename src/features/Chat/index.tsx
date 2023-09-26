@@ -1,5 +1,5 @@
 import React, { ReactElement, useContext, useEffect, useState } from 'react';
-import { ChatMessage, ChatRoom } from '../../models';
+import { ChatMessage, ChatRoom, User } from '../../models';
 import { Box, Modal, TextField, Typography } from '@mui/material';
 import { Auth, DataStore, Predicates, SortDirection } from 'aws-amplify';
 import AddIcon from '@mui/icons-material/Add';
@@ -13,8 +13,8 @@ const Chat = () => {
     const [activeRoom, setActiveRoom] = useState('');
     const [isAddingRoom, setIsAddingRoom] = useState(false);
     const { handleSubmit, register, reset } = useForm();
-    const [currentUser, setCurrentUser] = useState<any>();
-    const { userGroups } = useContext(CognitoContext);
+    const [currentUser, setCurrentUser] = useState<User>();
+    const { userGroups, organization, organizationId } = useContext(CognitoContext);
 
     useEffect(() => {
         const chatRoomSub = DataStore.observeQuery(
@@ -34,7 +34,8 @@ const Chat = () => {
 
         const getUserInfo = async () => {
             const userInfo = await Auth.currentUserInfo();
-            setCurrentUser(userInfo);
+            const users = await DataStore.query(User, (u) => u.cognitoId.eq(userInfo.id))
+            setCurrentUser(users[0]);
         }
 
         getUserInfo();
@@ -72,8 +73,10 @@ const Chat = () => {
     }, [activeRoom])
 
     const sendMessage = async (data: any) => {
-        await DataStore.save(new ChatMessage({ author: currentUser.username, authorId: currentUser.id, chatRoomMessagesId: activeRoom, message: data.message }));
-        reset();
+        if (currentUser) {
+            await DataStore.save(new ChatMessage({ author: currentUser, authorId: currentUser.id, chatMessageAuthorId: currentUser.id, chatRoomMessagesId: activeRoom, message: data.message, organization, chatMessageOrganizationId: organizationId }));
+            reset();
+        }
     }
 
     const selectChatRoom = (id?: string) => {
@@ -105,7 +108,7 @@ const Chat = () => {
             <Box flex='1' display='flex' flexDirection='column' height='100%' bgcolor='white'>
                 <Box flex='1' display='flex' flexDirection='column' sx={{overflowY: 'auto'}}>
                     {messages && currentUser &&
-                        messages.map((m) => <ChatMessageContainer message={m.message ?? ''} author={m.author} images={m.images} messageIsFromLoggedInUser={m.authorId === currentUser.id}/>)
+                        messages.map((m) => <ChatMessageContainer message={m.message ?? ''} messageData={m} images={m.images} messageIsFromLoggedInUser={m.authorId === currentUser.id}/>)
                     }
                 </Box>
                 {activeRoom && 
@@ -143,18 +146,28 @@ const ChatRoomItem = (props: ChatRoomItemProps) => {
 
 interface ChatMessageProps {
     message?: string
-    author: string
+    messageData: ChatMessage
     images?: (string | null)[] | null
     messageIsFromLoggedInUser: boolean
 }
 
 const ChatMessageContainer = (props: ChatMessageProps) => {
-    const { message, author, messageIsFromLoggedInUser, images } = props;
+    const { message, messageData, messageIsFromLoggedInUser, images } = props;
+    const [author, setAuthor] = useState<User>();
+
+    useEffect(() => {
+        const getAuthor = async () => {
+            const authorData = await messageData.author;
+            setAuthor(authorData);
+        }
+
+        getAuthor();
+    }, [])
 
     return (
         <Box display='flex' flexDirection='column' bgcolor='white' paddingLeft='2rem' paddingRight='2rem'>
             <Box display='flex' flexDirection='row' alignItems='flex-start' justifyContent='center' padding='1rem'>
-                <Typography variant='h6' color='grey'>{messageIsFromLoggedInUser ? 'You' : author}</Typography>
+                <Typography variant='h6' color='grey'>{messageIsFromLoggedInUser ? 'You' : author?.firstName}</Typography>
             </Box>
             <Box display='flex' padding='1rem' borderRadius='.5rem' bgcolor={messageIsFromLoggedInUser ? '#434ce6' : 'grey'}>
                 {message && <Typography variant='h5' color={messageIsFromLoggedInUser ? 'white' : 'black'}>{message}</Typography>}

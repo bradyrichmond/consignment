@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 
 import { currencyFormatter, generateReceipt } from "../../utils/PrintReceipt";
@@ -15,6 +15,7 @@ import { TenderType } from "../../models";
 import SelectConsigner from "./SelectConsigner";
 import AddCoupon from "./AddCoupon";
 import AddMissingTagItem from "./AddMissingTagItem";
+import { CognitoContext } from "../../context";
 
 interface CheckoutActionsProps {
     items: Item[]
@@ -44,6 +45,7 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
     const [coupons, setCoupons] = useState<Coupon[]>([]);
     const [isAddingMissingTagItem, setIsAddingMissingTagItem] = useState(false);
     const storeData = useStoreLocation();
+    const { organization, organizationId } = useContext(CognitoContext);
 
     // TODO: This file is really big, you should split it up more. Seriously, this file is way too big
     
@@ -173,7 +175,7 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
         } else if (result.paymentIntent) {
             const intentAmount = (result.paymentIntent.amount) / 100;
             // Placeholder for notifying your backend to capture result.paymentIntent.id
-            const newTender = await DataStore.save(new Tender({ label: TenderType.CREDIT_CARD, receivedAmount: intentAmount }));
+            const newTender = await DataStore.save(new Tender({ label: TenderType.CREDIT_CARD, receivedAmount: intentAmount, organization, tenderOrganizationId: organizationId }));
             setTenders(tenders.length > 0 ? [...tenders, newTender] : [newTender]);
             setTotalTenderedAmount((cur) => cur + intentAmount);
             setCardProcessingStep(STEPS.DONE);
@@ -183,7 +185,7 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
 
     const addCashTender = async (receivedAmount?: number) => {
         if (receivedAmount) {
-            const newTender = await DataStore.save(new Tender({ label: TenderType.CASH, receivedAmount }));
+            const newTender = await DataStore.save(new Tender({ label: TenderType.CASH, receivedAmount, organization, tenderOrganizationId: organizationId }));
             setTenders(tenders.length > 0 ? [...tenders, newTender] : [newTender]);
             setTotalTenderedAmount((cur) => cur + receivedAmount);
             setCashTender(receivedAmount);
@@ -200,7 +202,7 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
 
     const completeTransaction = async () => {
         // needs correct userId
-        const transaction = await DataStore.save(new Transaction({ items, userId: '1', actTransAmt: amountWithTax.toString(), actTransTimestamp: Date.now().toString(), location: storeData, tenders, coupons }));
+        const transaction = await DataStore.save(new Transaction({ items, userId: '1', actTransAmt: amountWithTax.toString(), actTransTimestamp: Date.now().toString(), location: storeData, tenders, coupons, organization, transactionOrganizationId: organizationId }));
 
         const giftCardTenders = tenders.filter((t) => t.label === TenderType.GIFT_CARD);
 
@@ -264,7 +266,7 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
                         updated.items = fetchedItems.length > 0 ? [...fetchedItems, item] : [item]
                     }));
                 } else {
-                    await DataStore.save(new StoreCredit({ amount: parseFloat(item.price) * parseFloat(consignmentPercentage), items: [item] }));
+                    await DataStore.save(new StoreCredit({ amount: parseFloat(item.price) * parseFloat(consignmentPercentage), items: [item], organization, storeCreditOrganizationId: organizationId }));
                 }
             }
 
@@ -358,7 +360,7 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
     const intakeGiftCardData = async (giftCard?: GiftCard) => {
         if (giftCard) {
             const receivedAmount = amount >= giftCard.value ? giftCard.value : amount;
-            const currentTenderedAmount =  await DataStore.save(new Tender({ label: TenderType.GIFT_CARD, receivedAmount, giftCardId: giftCard.id }));
+            const currentTenderedAmount =  await DataStore.save(new Tender({ label: TenderType.GIFT_CARD, receivedAmount, giftCardId: giftCard.id, organization, tenderOrganizationId: organizationId }));
             setTenders((cur) => {
                 if (cur.length > 0) {
                     return [...cur, currentTenderedAmount]
@@ -375,7 +377,7 @@ const CheckoutActions = (props: CheckoutActionsProps) => {
         const storeCredit = await DataStore.query(StoreCredit, selectedConsigner?.clientCreditId ?? '');
         if (storeCredit) {
             const receivedAmount = amount >= storeCredit.amount ? storeCredit?.amount : amount;
-            const newTender = await DataStore.save(new Tender({ label: TenderType.STORE_CREDIT, receivedAmount }))
+            const newTender = await DataStore.save(new Tender({ label: TenderType.STORE_CREDIT, receivedAmount, organization, tenderOrganizationId: organizationId }))
         }
     }
 

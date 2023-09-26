@@ -4,7 +4,7 @@ import { ProcessCsvButton } from '../Clients';
 import { DataGrid, GridColDef, GridEventListener } from '@mui/x-data-grid';
 import { DataStore, Predicates } from 'aws-amplify';
 import { Brand, Category, Client, Item, Location } from '../../models';
-import { DrawerContext } from '../../context';
+import { CognitoContext, DrawerContext } from '../../context';
 import SearchBar from '../../components/SearchBar';
 
 
@@ -15,6 +15,7 @@ const Items = () => {
     const [dataLoaded, setDataLoaded] = useState(false);
     const [isFilteringMissingTags, setIsFilteringMissingTags] = useState(false);
     const [loading, setLoading] = useState(true);
+    const { organization, organizationId } = useContext(CognitoContext);
 
     useEffect(() => {
         const getData = async () => {
@@ -115,8 +116,7 @@ const Items = () => {
                             const location = fetchedLocations[0];
 
 
-                            if (clientItemsId) {
-                            
+                            if (clientItemsId) { 
                                 await DataStore.save(new Item({ 
                                     itemId,
                                     clientItemsId,
@@ -145,7 +145,9 @@ const Items = () => {
                                     modifiedBy, 
                                     upcCode, 
                                     createTimestamp, 
-                                    entryTimestamp
+                                    entryTimestamp,
+                                    organization,
+                                    itemOrganizationId: organizationId
                                 }));
                             }
                         }

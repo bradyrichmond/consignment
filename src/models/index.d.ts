@@ -84,6 +84,74 @@ export enum SizeType {
 
 
 
+type EagerOrganization = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Organization, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly name: string;
+  readonly users: User[];
+  readonly logoId?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyOrganization = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Organization, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly name: string;
+  readonly users: AsyncCollection<User>;
+  readonly logoId?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Organization = LazyLoading extends LazyLoadingDisabled ? EagerOrganization : LazyOrganization
+
+export declare const Organization: (new (init: ModelInit<Organization>) => Organization) & {
+  copyOf(source: Organization, mutator: (draft: MutableModel<Organization>) => MutableModel<Organization> | void): Organization;
+}
+
+type EagerUser = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<User, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly cognitoId: string;
+  readonly disabled?: boolean | null;
+  readonly firstName: string;
+  readonly lastName: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly organizationUsersId?: string | null;
+}
+
+type LazyUser = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<User, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly cognitoId: string;
+  readonly disabled?: boolean | null;
+  readonly firstName: string;
+  readonly lastName: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly organizationUsersId?: string | null;
+}
+
+export declare type User = LazyLoading extends LazyLoadingDisabled ? EagerUser : LazyUser
+
+export declare const User: (new (init: ModelInit<User>) => User) & {
+  copyOf(source: User, mutator: (draft: MutableModel<User>) => MutableModel<User> | void): User;
+}
+
 type EagerClient = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Client, 'id'>;
@@ -109,10 +177,12 @@ type EagerClient = {
   readonly credit?: StoreCredit | null;
   readonly transactions?: (Transaction | null)[] | null;
   readonly rewards?: Rewards | null;
+  readonly organization: Organization;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly clientCreditId?: string | null;
   readonly clientRewardsId?: string | null;
+  readonly clientOrganizationId: string;
 }
 
 type LazyClient = {
@@ -140,10 +210,12 @@ type LazyClient = {
   readonly credit: AsyncItem<StoreCredit | undefined>;
   readonly transactions: AsyncCollection<Transaction>;
   readonly rewards: AsyncItem<Rewards | undefined>;
+  readonly organization: AsyncItem<Organization>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly clientCreditId?: string | null;
   readonly clientRewardsId?: string | null;
+  readonly clientOrganizationId: string;
 }
 
 export declare type Client = LazyLoading extends LazyLoadingDisabled ? EagerClient : LazyClient
@@ -160,8 +232,10 @@ type EagerStoreCredit = {
   readonly id: string;
   readonly amount: number;
   readonly items: Item[];
+  readonly organization: Organization;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly storeCreditOrganizationId: string;
 }
 
 type LazyStoreCredit = {
@@ -172,8 +246,10 @@ type LazyStoreCredit = {
   readonly id: string;
   readonly amount: number;
   readonly items: AsyncCollection<Item>;
+  readonly organization: AsyncItem<Organization>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly storeCreditOrganizationId: string;
 }
 
 export declare type StoreCredit = LazyLoading extends LazyLoadingDisabled ? EagerStoreCredit : LazyStoreCredit
@@ -219,6 +295,7 @@ type EagerItem = {
   readonly entryTimestamp?: string | null;
   readonly gender?: GenderType | keyof typeof GenderType | null;
   readonly size?: SizeType | keyof typeof SizeType | null;
+  readonly organization: Organization;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly clientItemsId?: string | null;
@@ -226,6 +303,7 @@ type EagerItem = {
   readonly itemCategoryId?: string | null;
   readonly itemLocationId?: string | null;
   readonly itemBrandId?: string | null;
+  readonly itemOrganizationId: string;
   readonly transactionItemsId?: string | null;
   readonly transactionMissingItemsId?: string | null;
   readonly pickUpItemsId?: string | null;
@@ -268,6 +346,7 @@ type LazyItem = {
   readonly entryTimestamp?: string | null;
   readonly gender?: GenderType | keyof typeof GenderType | null;
   readonly size?: SizeType | keyof typeof SizeType | null;
+  readonly organization: AsyncItem<Organization>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly clientItemsId?: string | null;
@@ -275,6 +354,7 @@ type LazyItem = {
   readonly itemCategoryId?: string | null;
   readonly itemLocationId?: string | null;
   readonly itemBrandId?: string | null;
+  readonly itemOrganizationId: string;
   readonly transactionItemsId?: string | null;
   readonly transactionMissingItemsId?: string | null;
   readonly pickUpItemsId?: string | null;
@@ -307,10 +387,12 @@ type EagerTransaction = {
   readonly tenders: Tender[];
   readonly coupons?: (Coupon | null)[] | null;
   readonly missingItems?: (Item | null)[] | null;
+  readonly organization: Organization;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly clientTransactionsId?: string | null;
   readonly transactionLocationId?: string | null;
+  readonly transactionOrganizationId: string;
   readonly rewardsTransactionsId?: string | null;
 }
 
@@ -335,10 +417,12 @@ type LazyTransaction = {
   readonly tenders: AsyncCollection<Tender>;
   readonly coupons: AsyncCollection<Coupon>;
   readonly missingItems: AsyncCollection<Item>;
+  readonly organization: AsyncItem<Organization>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly clientTransactionsId?: string | null;
   readonly transactionLocationId?: string | null;
+  readonly transactionOrganizationId: string;
   readonly rewardsTransactionsId?: string | null;
 }
 
@@ -357,9 +441,11 @@ type EagerTender = {
   readonly label: TenderType | keyof typeof TenderType;
   readonly receivedAmount: number;
   readonly giftCardId?: string | null;
+  readonly organization: Organization;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly transactionTendersId?: string | null;
+  readonly tenderOrganizationId: string;
 }
 
 type LazyTender = {
@@ -371,9 +457,11 @@ type LazyTender = {
   readonly label: TenderType | keyof typeof TenderType;
   readonly receivedAmount: number;
   readonly giftCardId?: string | null;
+  readonly organization: AsyncItem<Organization>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly transactionTendersId?: string | null;
+  readonly tenderOrganizationId: string;
 }
 
 export declare type Tender = LazyLoading extends LazyLoadingDisabled ? EagerTender : LazyTender
@@ -392,9 +480,11 @@ type EagerLocation = {
   readonly locationName: string;
   readonly address?: Address | null;
   readonly taxRate: number;
+  readonly organization: Organization;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly locationAddressId?: string | null;
+  readonly locationOrganizationId: string;
 }
 
 type LazyLocation = {
@@ -407,9 +497,11 @@ type LazyLocation = {
   readonly locationName: string;
   readonly address: AsyncItem<Address | undefined>;
   readonly taxRate: number;
+  readonly organization: AsyncItem<Organization>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly locationAddressId?: string | null;
+  readonly locationOrganizationId: string;
 }
 
 export declare type Location = LazyLoading extends LazyLoadingDisabled ? EagerLocation : LazyLocation
@@ -425,8 +517,10 @@ type EagerConsignerSplit = {
   };
   readonly id: string;
   readonly consignerPercentage: number;
+  readonly organization: Organization;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly consignerSplitOrganizationId: string;
 }
 
 type LazyConsignerSplit = {
@@ -436,8 +530,10 @@ type LazyConsignerSplit = {
   };
   readonly id: string;
   readonly consignerPercentage: number;
+  readonly organization: AsyncItem<Organization>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly consignerSplitOrganizationId: string;
 }
 
 export declare type ConsignerSplit = LazyLoading extends LazyLoadingDisabled ? EagerConsignerSplit : LazyConsignerSplit
@@ -538,8 +634,10 @@ type EagerBrand = {
   readonly description: string;
   readonly lastUpdateTimestamp: string;
   readonly inactive?: boolean | null;
+  readonly organization: Organization;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly brandOrganizationId: string;
 }
 
 type LazyBrand = {
@@ -552,8 +650,10 @@ type LazyBrand = {
   readonly description: string;
   readonly lastUpdateTimestamp: string;
   readonly inactive?: boolean | null;
+  readonly organization: AsyncItem<Organization>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly brandOrganizationId: string;
 }
 
 export declare type Brand = LazyLoading extends LazyLoadingDisabled ? EagerBrand : LazyBrand
@@ -575,8 +675,10 @@ type EagerCategory = {
   readonly inactive?: boolean | null;
   readonly lastUpdateTimestamp: string;
   readonly attributeTypes?: (CategoryAttribute | null)[] | null;
+  readonly organization: Organization;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly categoryOrganizationId: string;
 }
 
 type LazyCategory = {
@@ -592,8 +694,10 @@ type LazyCategory = {
   readonly inactive?: boolean | null;
   readonly lastUpdateTimestamp: string;
   readonly attributeTypes: AsyncCollection<CategoryAttribute>;
+  readonly organization: AsyncItem<Organization>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly categoryOrganizationId: string;
 }
 
 export declare type Category = LazyLoading extends LazyLoadingDisabled ? EagerCategory : LazyCategory
@@ -613,8 +717,10 @@ type EagerAttributeType = {
   readonly lastUpdateTimestamp: string;
   readonly inactive?: boolean | null;
   readonly categories?: (CategoryAttribute | null)[] | null;
+  readonly organization: Organization;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly attributeTypeOrganizationId: string;
 }
 
 type LazyAttributeType = {
@@ -628,8 +734,10 @@ type LazyAttributeType = {
   readonly lastUpdateTimestamp: string;
   readonly inactive?: boolean | null;
   readonly categories: AsyncCollection<CategoryAttribute>;
+  readonly organization: AsyncItem<Organization>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly attributeTypeOrganizationId: string;
 }
 
 export declare type AttributeType = LazyLoading extends LazyLoadingDisabled ? EagerAttributeType : LazyAttributeType
@@ -649,9 +757,11 @@ type EagerAttributeTypeValue = {
   readonly attributeTypeValue: string;
   readonly lastUpdateTimestamp: string;
   readonly inactive?: boolean | null;
+  readonly organization: Organization;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly attributeTypeValueAttributeTypeId?: string | null;
+  readonly attributeTypeValueOrganizationId: string;
 }
 
 type LazyAttributeTypeValue = {
@@ -665,9 +775,11 @@ type LazyAttributeTypeValue = {
   readonly attributeTypeValue: string;
   readonly lastUpdateTimestamp: string;
   readonly inactive?: boolean | null;
+  readonly organization: AsyncItem<Organization>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly attributeTypeValueAttributeTypeId?: string | null;
+  readonly attributeTypeValueOrganizationId: string;
 }
 
 export declare type AttributeTypeValue = LazyLoading extends LazyLoadingDisabled ? EagerAttributeTypeValue : LazyAttributeTypeValue
@@ -688,9 +800,11 @@ type EagerCategoryPriceGuide = {
   readonly priceLevel?: number | null;
   readonly sortOrder?: number | null;
   readonly inactive?: boolean | null;
+  readonly organization: Organization;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly categoryPriceGuideCategoryId?: string | null;
+  readonly categoryPriceGuideOrganizationId: string;
 }
 
 type LazyCategoryPriceGuide = {
@@ -705,9 +819,11 @@ type LazyCategoryPriceGuide = {
   readonly priceLevel?: number | null;
   readonly sortOrder?: number | null;
   readonly inactive?: boolean | null;
+  readonly organization: AsyncItem<Organization>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly categoryPriceGuideCategoryId?: string | null;
+  readonly categoryPriceGuideOrganizationId: string;
 }
 
 export declare type CategoryPriceGuide = LazyLoading extends LazyLoadingDisabled ? EagerCategoryPriceGuide : LazyCategoryPriceGuide
@@ -725,8 +841,10 @@ type EagerGiftCard = {
   readonly qrCode?: string | null;
   readonly barcode?: string | null;
   readonly value: number;
+  readonly organization: Organization;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly giftCardOrganizationId: string;
 }
 
 type LazyGiftCard = {
@@ -738,8 +856,10 @@ type LazyGiftCard = {
   readonly qrCode?: string | null;
   readonly barcode?: string | null;
   readonly value: number;
+  readonly organization: AsyncItem<Organization>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly giftCardOrganizationId: string;
 }
 
 export declare type GiftCard = LazyLoading extends LazyLoadingDisabled ? EagerGiftCard : LazyGiftCard
@@ -791,9 +911,11 @@ type EagerCoupon = {
   readonly name: string;
   readonly type: CouponType | keyof typeof CouponType;
   readonly amount: number;
+  readonly organization: Organization;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly transactionCouponsId?: string | null;
+  readonly couponOrganizationId: string;
 }
 
 type LazyCoupon = {
@@ -805,9 +927,11 @@ type LazyCoupon = {
   readonly name: string;
   readonly type: CouponType | keyof typeof CouponType;
   readonly amount: number;
+  readonly organization: AsyncItem<Organization>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly transactionCouponsId?: string | null;
+  readonly couponOrganizationId: string;
 }
 
 export declare type Coupon = LazyLoading extends LazyLoadingDisabled ? EagerCoupon : LazyCoupon
@@ -984,10 +1108,13 @@ type EagerChatMessage = {
   readonly id: string;
   readonly message?: string | null;
   readonly images?: (string | null)[] | null;
-  readonly author: string;
+  readonly author: User;
   readonly authorId: string;
+  readonly organization: Organization;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly chatMessageAuthorId: string;
+  readonly chatMessageOrganizationId: string;
   readonly chatRoomMessagesId?: string | null;
 }
 
@@ -999,10 +1126,13 @@ type LazyChatMessage = {
   readonly id: string;
   readonly message?: string | null;
   readonly images?: (string | null)[] | null;
-  readonly author: string;
+  readonly author: AsyncItem<User>;
   readonly authorId: string;
+  readonly organization: AsyncItem<Organization>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly chatMessageAuthorId: string;
+  readonly chatMessageOrganizationId: string;
   readonly chatRoomMessagesId?: string | null;
 }
 
@@ -1054,8 +1184,10 @@ type EagerRewards = {
   readonly id: string;
   readonly points: number;
   readonly transactions: (Transaction | null)[];
+  readonly organization: Organization;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly rewardsOrganizationId: string;
 }
 
 type LazyRewards = {
@@ -1066,8 +1198,10 @@ type LazyRewards = {
   readonly id: string;
   readonly points: number;
   readonly transactions: AsyncCollection<Transaction>;
+  readonly organization: AsyncItem<Organization>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly rewardsOrganizationId: string;
 }
 
 export declare type Rewards = LazyLoading extends LazyLoadingDisabled ? EagerRewards : LazyRewards
@@ -1083,8 +1217,10 @@ type EagerPickUp = {
   };
   readonly id: string;
   readonly items: Item[];
+  readonly location: Location;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly pickUpLocationId: string;
 }
 
 type LazyPickUp = {
@@ -1094,8 +1230,10 @@ type LazyPickUp = {
   };
   readonly id: string;
   readonly items: AsyncCollection<Item>;
+  readonly location: AsyncItem<Location>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly pickUpLocationId: string;
 }
 
 export declare type PickUp = LazyLoading extends LazyLoadingDisabled ? EagerPickUp : LazyPickUp

@@ -82,6 +82,21 @@ enum SizeType {
   SIXTEEN_EIGHTEEN
 }
 
+type Organization @model @auth(rules: [{ allow: owner}]){
+  id: ID!
+  name: String!
+  users: [User!]! @hasMany
+  logoId: String
+}
+
+type User @model @auth(rules: [{allow: owner}, {allow: groups, groups: ["Admins"] }]) {
+  id: ID!
+  cognitoId: String!
+  disabled: Boolean
+  firstName: String!
+  lastName: String!
+}
+
 type Client @model {
   id: ID!
   clientId: String
@@ -103,12 +118,14 @@ type Client @model {
   credit: StoreCredit @hasOne
   transactions: [Transaction] @hasMany
   rewards: Rewards @hasOne
+  organization: Organization! @hasOne
 }
 
 type StoreCredit @model {
   id: ID!
   amount: Float!
   items: [Item!]! @hasMany
+  organization: Organization! @hasOne
 }
 
 type Item @model {
@@ -144,6 +161,7 @@ type Item @model {
   entryTimestamp: String
   gender: GenderType
   size: SizeType
+  organization: Organization! @hasOne
 }
 
 type Transaction @model {
@@ -163,12 +181,14 @@ type Transaction @model {
   tenders: [Tender!]! @hasMany
   coupons: [Coupon] @hasMany
   missingItems: [Item] @hasMany
+  organization: Organization! @hasOne
 }
 
 type Tender @model {
   label: TenderType!
   receivedAmount: Float!
   giftCardId: String
+  organization: Organization! @hasOne
 }
 
 type Location @model {
@@ -177,11 +197,13 @@ type Location @model {
   locationName: String!
   address: Address @hasOne
   taxRate: Float!
+  organization: Organization! @hasOne
 }
 
 type ConsignerSplit @model {
   id: ID!
   consignerPercentage: Float!
+  organization: Organization! @hasOne
 }
 
 type Address @model {
@@ -211,6 +233,7 @@ type Brand @model {
   description: String!
   lastUpdateTimestamp: AWSDate!
   inactive: Boolean
+  organization: Organization! @hasOne
 }
 
 type Category @model {
@@ -222,6 +245,7 @@ type Category @model {
   inactive: Boolean
   lastUpdateTimestamp: AWSDate!
   attributeTypes: [AttributeType] @manyToMany(relationName: "CategoryAttribute")
+  organization: Organization! @hasOne
 }
 
 type AttributeType @model {
@@ -231,6 +255,7 @@ type AttributeType @model {
   lastUpdateTimestamp: AWSDate!
   inactive: Boolean
   categories: [Category] @manyToMany(relationName: "CategoryAttribute")
+  organization: Organization! @hasOne
 }
 
 type AttributeTypeValue @model {
@@ -240,6 +265,7 @@ type AttributeTypeValue @model {
   attributeTypeValue: String!
   lastUpdateTimestamp: AWSDate!
   inactive: Boolean
+  organization: Organization! @hasOne
 }
 
 type CategoryPriceGuide @model {
@@ -250,6 +276,7 @@ type CategoryPriceGuide @model {
   priceLevel: Int
   sortOrder: Int
   inactive: Boolean
+  organization: Organization! @hasOne
 }
 
 type GiftCard @model {
@@ -257,6 +284,7 @@ type GiftCard @model {
   qrCode: String
   barcode: String
   value: Float!
+  organization: Organization! @hasOne
 }
 
 type GiftCardLog @model {
@@ -271,6 +299,7 @@ type Coupon @model {
   name: String!
   type: CouponType!
   amount: Int!
+  organization: Organization! @hasOne
 }
 
 type ConsignmentDropoff @model @auth(rules: [{ allow: public }, { allow: private }]) {
@@ -318,8 +347,9 @@ type ChatMessage @model {
   id: ID!
   message: String
   images: [AWSURL]
-  author: String!
+  author: User! @hasOne
   authorId: String!
+  organization: Organization! @hasOne
 }
 
 type ChatRoom @model {
@@ -334,9 +364,11 @@ type Rewards @model {
   id: ID!
   points: Int!
   transactions: [Transaction]! @hasMany
+  organization: Organization! @hasOne
 }
 
 type PickUp @model {
   id: ID!
   items: [Item!]! @hasMany
+  location: Location! @hasOne
 }

@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Box } from '@mui/system';
 import ModalContainer from '../../utils/ModalContainer';
 import { Button, TextField, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { DataStore } from 'aws-amplify';
-import { AttributeType } from '../../models';
+import { AttributeType, Organization } from '../../models';
 import { format } from 'date-fns';
+import { CognitoContext } from '../../context';
 
 interface AddAttributeTypeProps {
     close: () => void
@@ -15,13 +16,14 @@ const AddAttributeType = (props: AddAttributeTypeProps) => {
     const { close } = props;
     const { handleSubmit, register } = useForm();
     const [error, setError] = useState('');
+    const { organizationId, organization } = useContext(CognitoContext);
 
     const handleAddAttributeType = async (data: any) => {
         const { attributeTypeDescription } = data;
         setError('');
 
         try {
-            await DataStore.save(new AttributeType({ attributeTypeDescription, lastUpdateTimestamp: format(Date.now(), 'yyyy-MM-dd') }));
+            await DataStore.save(new AttributeType({ attributeTypeDescription, lastUpdateTimestamp: format(Date.now(), 'yyyy-MM-dd'), organization, attributeTypeOrganizationId: organizationId }));
             close();
         } catch (e: any) {
             setError('Error creating attribute type');

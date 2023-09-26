@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Box, Button, Checkbox, FormControlLabel, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { Auth, DataStore, Predicates, SortDirection } from 'aws-amplify';
 import ModalContainer from '../../utils/ModalContainer';
 import { Address, Client } from '../../models';
 import { add, format } from 'date-fns';
+import { CognitoContext } from '../../context';
 
 interface AddClientProps {
     close: () => void
@@ -12,6 +13,7 @@ interface AddClientProps {
 
 const AddClient = ({ close }: AddClientProps) => {
     const { register, handleSubmit } = useForm();
+    const { organization, organizationId } = useContext(CognitoContext);
 
     const handleAddClient = async (data: any) => {
         const { firstName, lastName, companyName, phoneNumber, email, addressLabel, address1, address2, address3, city, state, zipCode } = data;
@@ -26,7 +28,7 @@ const AddClient = ({ close }: AddClientProps) => {
         const fetchedModifiedBy = await Auth.currentUserInfo();
         const modifiedBy = fetchedModifiedBy.username;
         
-        const newClient = await DataStore.save(new Client({ firstName, lastName, companyName, phone: phoneNumber, email, account, nextItemNumber: '1', receiveMailInd: false, modifiedBy, createTimestamp: format(Date.now(), "yyyy-MM-dd"), activeTimestamp: format(Date.now(), "yyyy-MM-dd"), inactiveTimestamp: format(add(new Date(), {years: 1}), "yyyy-MM-dd") }));
+        const newClient = await DataStore.save(new Client({ firstName, lastName, companyName, phone: phoneNumber, email, account, nextItemNumber: '1', receiveMailInd: false, modifiedBy, createTimestamp: format(Date.now(), "yyyy-MM-dd"), activeTimestamp: format(Date.now(), "yyyy-MM-dd"), inactiveTimestamp: format(add(new Date(), {years: 1}), "yyyy-MM-dd"), organization, clientOrganizationId: organizationId }));
         await DataStore.save(new Address({ addressLabel, address1, address2, address3, city, state, zip: zipCode, clientAddressesId: newClient.id }));
         close();
     }

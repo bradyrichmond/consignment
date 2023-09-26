@@ -2,6 +2,167 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getOrganization = /* GraphQL */ `
+  query GetOrganization($id: ID!) {
+    getOrganization(id: $id) {
+      id
+      name
+      users {
+        items {
+          id
+          cognitoId
+          disabled
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          organizationUsersId
+          owner
+        }
+        nextToken
+        startedAt
+      }
+      logoId
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const listOrganizations = /* GraphQL */ `
+  query ListOrganizations(
+    $filter: ModelOrganizationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listOrganizations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        users {
+          nextToken
+          startedAt
+        }
+        logoId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncOrganizations = /* GraphQL */ `
+  query SyncOrganizations(
+    $filter: ModelOrganizationFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncOrganizations(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        name
+        users {
+          nextToken
+          startedAt
+        }
+        logoId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getUser = /* GraphQL */ `
+  query GetUser($id: ID!) {
+    getUser(id: $id) {
+      id
+      cognitoId
+      disabled
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      organizationUsersId
+      owner
+    }
+  }
+`;
+export const listUsers = /* GraphQL */ `
+  query ListUsers(
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        cognitoId
+        disabled
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        organizationUsersId
+        owner
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncUsers = /* GraphQL */ `
+  query SyncUsers(
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncUsers(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        cognitoId
+        disabled
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        organizationUsersId
+        owner
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
 export const getClient = /* GraphQL */ `
   query GetClient($id: ID!) {
     getClient(id: $id) {
@@ -64,6 +225,7 @@ export const getClient = /* GraphQL */ `
           itemCategoryId
           itemLocationId
           itemBrandId
+          itemOrganizationId
         }
         nextToken
         startedAt
@@ -98,11 +260,23 @@ export const getClient = /* GraphQL */ `
           nextToken
           startedAt
         }
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        storeCreditOrganizationId
       }
       transactions {
         items {
@@ -125,6 +299,7 @@ export const getClient = /* GraphQL */ `
           clientTransactionsId
           rewardsTransactionsId
           transactionLocationId
+          transactionOrganizationId
         }
         nextToken
         startedAt
@@ -136,11 +311,38 @@ export const getClient = /* GraphQL */ `
           nextToken
           startedAt
         }
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        rewardsOrganizationId
+      }
+      organization {
+        id
+        name
+        users {
+          nextToken
+          startedAt
+        }
+        logoId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
       }
       createdAt
       updatedAt
@@ -149,6 +351,7 @@ export const getClient = /* GraphQL */ `
       _lastChangedAt
       clientCreditId
       clientRewardsId
+      clientOrganizationId
     }
   }
 `;
@@ -191,6 +394,7 @@ export const listClients = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          storeCreditOrganizationId
         }
         transactions {
           nextToken
@@ -204,6 +408,18 @@ export const listClients = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          rewardsOrganizationId
+        }
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
         }
         createdAt
         updatedAt
@@ -212,6 +428,7 @@ export const listClients = /* GraphQL */ `
         _lastChangedAt
         clientCreditId
         clientRewardsId
+        clientOrganizationId
       }
       nextToken
       startedAt
@@ -263,6 +480,7 @@ export const syncClients = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          storeCreditOrganizationId
         }
         transactions {
           nextToken
@@ -276,6 +494,18 @@ export const syncClients = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          rewardsOrganizationId
+        }
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
         }
         createdAt
         updatedAt
@@ -284,6 +514,7 @@ export const syncClients = /* GraphQL */ `
         _lastChangedAt
         clientCreditId
         clientRewardsId
+        clientOrganizationId
       }
       nextToken
       startedAt
@@ -339,15 +570,32 @@ export const getStoreCredit = /* GraphQL */ `
           itemCategoryId
           itemLocationId
           itemBrandId
+          itemOrganizationId
         }
         nextToken
         startedAt
+      }
+      organization {
+        id
+        name
+        users {
+          nextToken
+          startedAt
+        }
+        logoId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      storeCreditOrganizationId
     }
   }
 `;
@@ -365,11 +613,23 @@ export const listStoreCredits = /* GraphQL */ `
           nextToken
           startedAt
         }
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        storeCreditOrganizationId
       }
       nextToken
       startedAt
@@ -396,11 +656,23 @@ export const syncStoreCredits = /* GraphQL */ `
           nextToken
           startedAt
         }
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        storeCreditOrganizationId
       }
       nextToken
       startedAt
@@ -427,11 +699,23 @@ export const getItem = /* GraphQL */ `
           nextToken
           startedAt
         }
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        categoryOrganizationId
       }
       location {
         id
@@ -457,12 +741,24 @@ export const getItem = /* GraphQL */ `
           clientAddressesId
         }
         taxRate
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
         locationAddressId
+        locationOrganizationId
       }
       sectionId
       statusId
@@ -485,11 +781,23 @@ export const getItem = /* GraphQL */ `
         description
         lastUpdateTimestamp
         inactive
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        brandOrganizationId
       }
       saleDetailId
       titleChanged
@@ -500,6 +808,21 @@ export const getItem = /* GraphQL */ `
       entryTimestamp
       gender
       size
+      organization {
+        id
+        name
+        users {
+          nextToken
+          startedAt
+        }
+        logoId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
       createdAt
       updatedAt
       _version
@@ -513,6 +836,7 @@ export const getItem = /* GraphQL */ `
       itemCategoryId
       itemLocationId
       itemBrandId
+      itemOrganizationId
     }
   }
 `;
@@ -542,6 +866,7 @@ export const listItems = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          categoryOrganizationId
         }
         location {
           id
@@ -554,6 +879,7 @@ export const listItems = /* GraphQL */ `
           _deleted
           _lastChangedAt
           locationAddressId
+          locationOrganizationId
         }
         sectionId
         statusId
@@ -581,6 +907,7 @@ export const listItems = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          brandOrganizationId
         }
         saleDetailId
         titleChanged
@@ -591,6 +918,17 @@ export const listItems = /* GraphQL */ `
         entryTimestamp
         gender
         size
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
@@ -604,6 +942,7 @@ export const listItems = /* GraphQL */ `
         itemCategoryId
         itemLocationId
         itemBrandId
+        itemOrganizationId
       }
       nextToken
       startedAt
@@ -642,6 +981,7 @@ export const syncItems = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          categoryOrganizationId
         }
         location {
           id
@@ -654,6 +994,7 @@ export const syncItems = /* GraphQL */ `
           _deleted
           _lastChangedAt
           locationAddressId
+          locationOrganizationId
         }
         sectionId
         statusId
@@ -681,6 +1022,7 @@ export const syncItems = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          brandOrganizationId
         }
         saleDetailId
         titleChanged
@@ -691,6 +1033,17 @@ export const syncItems = /* GraphQL */ `
         entryTimestamp
         gender
         size
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
@@ -704,6 +1057,7 @@ export const syncItems = /* GraphQL */ `
         itemCategoryId
         itemLocationId
         itemBrandId
+        itemOrganizationId
       }
       nextToken
       startedAt
@@ -758,6 +1112,7 @@ export const getTransaction = /* GraphQL */ `
           itemCategoryId
           itemLocationId
           itemBrandId
+          itemOrganizationId
         }
         nextToken
         startedAt
@@ -796,12 +1151,24 @@ export const getTransaction = /* GraphQL */ `
           clientAddressesId
         }
         taxRate
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
         locationAddressId
+        locationOrganizationId
       }
       tenders {
         items {
@@ -815,6 +1182,7 @@ export const getTransaction = /* GraphQL */ `
           _deleted
           _lastChangedAt
           transactionTendersId
+          tenderOrganizationId
         }
         nextToken
         startedAt
@@ -831,6 +1199,7 @@ export const getTransaction = /* GraphQL */ `
           _deleted
           _lastChangedAt
           transactionCouponsId
+          couponOrganizationId
         }
         nextToken
         startedAt
@@ -879,9 +1248,25 @@ export const getTransaction = /* GraphQL */ `
           itemCategoryId
           itemLocationId
           itemBrandId
+          itemOrganizationId
         }
         nextToken
         startedAt
+      }
+      organization {
+        id
+        name
+        users {
+          nextToken
+          startedAt
+        }
+        logoId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
       }
       createdAt
       updatedAt
@@ -891,6 +1276,7 @@ export const getTransaction = /* GraphQL */ `
       clientTransactionsId
       rewardsTransactionsId
       transactionLocationId
+      transactionOrganizationId
     }
   }
 `;
@@ -928,6 +1314,7 @@ export const listTransactions = /* GraphQL */ `
           _deleted
           _lastChangedAt
           locationAddressId
+          locationOrganizationId
         }
         tenders {
           nextToken
@@ -941,6 +1328,17 @@ export const listTransactions = /* GraphQL */ `
           nextToken
           startedAt
         }
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
@@ -949,6 +1347,7 @@ export const listTransactions = /* GraphQL */ `
         clientTransactionsId
         rewardsTransactionsId
         transactionLocationId
+        transactionOrganizationId
       }
       nextToken
       startedAt
@@ -995,6 +1394,7 @@ export const syncTransactions = /* GraphQL */ `
           _deleted
           _lastChangedAt
           locationAddressId
+          locationOrganizationId
         }
         tenders {
           nextToken
@@ -1008,6 +1408,17 @@ export const syncTransactions = /* GraphQL */ `
           nextToken
           startedAt
         }
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
@@ -1016,6 +1427,7 @@ export const syncTransactions = /* GraphQL */ `
         clientTransactionsId
         rewardsTransactionsId
         transactionLocationId
+        transactionOrganizationId
       }
       nextToken
       startedAt
@@ -1028,6 +1440,21 @@ export const getTender = /* GraphQL */ `
       label
       receivedAmount
       giftCardId
+      organization {
+        id
+        name
+        users {
+          nextToken
+          startedAt
+        }
+        logoId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
       id
       createdAt
       updatedAt
@@ -1035,6 +1462,7 @@ export const getTender = /* GraphQL */ `
       _deleted
       _lastChangedAt
       transactionTendersId
+      tenderOrganizationId
     }
   }
 `;
@@ -1049,6 +1477,17 @@ export const listTenders = /* GraphQL */ `
         label
         receivedAmount
         giftCardId
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         id
         createdAt
         updatedAt
@@ -1056,6 +1495,7 @@ export const listTenders = /* GraphQL */ `
         _deleted
         _lastChangedAt
         transactionTendersId
+        tenderOrganizationId
       }
       nextToken
       startedAt
@@ -1079,6 +1519,17 @@ export const syncTenders = /* GraphQL */ `
         label
         receivedAmount
         giftCardId
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         id
         createdAt
         updatedAt
@@ -1086,6 +1537,7 @@ export const syncTenders = /* GraphQL */ `
         _deleted
         _lastChangedAt
         transactionTendersId
+        tenderOrganizationId
       }
       nextToken
       startedAt
@@ -1118,12 +1570,28 @@ export const getLocation = /* GraphQL */ `
         clientAddressesId
       }
       taxRate
+      organization {
+        id
+        name
+        users {
+          nextToken
+          startedAt
+        }
+        logoId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
       locationAddressId
+      locationOrganizationId
     }
   }
 `;
@@ -1158,12 +1626,24 @@ export const listLocations = /* GraphQL */ `
           clientAddressesId
         }
         taxRate
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
         locationAddressId
+        locationOrganizationId
       }
       nextToken
       startedAt
@@ -1207,12 +1687,24 @@ export const syncLocations = /* GraphQL */ `
           clientAddressesId
         }
         taxRate
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
         locationAddressId
+        locationOrganizationId
       }
       nextToken
       startedAt
@@ -1224,11 +1716,27 @@ export const getConsignerSplit = /* GraphQL */ `
     getConsignerSplit(id: $id) {
       id
       consignerPercentage
+      organization {
+        id
+        name
+        users {
+          nextToken
+          startedAt
+        }
+        logoId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      consignerSplitOrganizationId
     }
   }
 `;
@@ -1242,11 +1750,23 @@ export const listConsignerSplits = /* GraphQL */ `
       items {
         id
         consignerPercentage
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        consignerSplitOrganizationId
       }
       nextToken
       startedAt
@@ -1269,11 +1789,23 @@ export const syncConsignerSplits = /* GraphQL */ `
       items {
         id
         consignerPercentage
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        consignerSplitOrganizationId
       }
       nextToken
       startedAt
@@ -1449,11 +1981,27 @@ export const getBrand = /* GraphQL */ `
       description
       lastUpdateTimestamp
       inactive
+      organization {
+        id
+        name
+        users {
+          nextToken
+          startedAt
+        }
+        logoId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      brandOrganizationId
     }
   }
 `;
@@ -1470,11 +2018,23 @@ export const listBrands = /* GraphQL */ `
         description
         lastUpdateTimestamp
         inactive
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        brandOrganizationId
       }
       nextToken
       startedAt
@@ -1500,11 +2060,23 @@ export const syncBrands = /* GraphQL */ `
         description
         lastUpdateTimestamp
         inactive
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        brandOrganizationId
       }
       nextToken
       startedAt
@@ -1535,11 +2107,27 @@ export const getCategory = /* GraphQL */ `
         nextToken
         startedAt
       }
+      organization {
+        id
+        name
+        users {
+          nextToken
+          startedAt
+        }
+        logoId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      categoryOrganizationId
     }
   }
 `;
@@ -1562,11 +2150,23 @@ export const listCategories = /* GraphQL */ `
           nextToken
           startedAt
         }
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        categoryOrganizationId
       }
       nextToken
       startedAt
@@ -1598,11 +2198,23 @@ export const syncCategories = /* GraphQL */ `
           nextToken
           startedAt
         }
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        categoryOrganizationId
       }
       nextToken
       startedAt
@@ -1631,11 +2243,27 @@ export const getAttributeType = /* GraphQL */ `
         nextToken
         startedAt
       }
+      organization {
+        id
+        name
+        users {
+          nextToken
+          startedAt
+        }
+        logoId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      attributeTypeOrganizationId
     }
   }
 `;
@@ -1656,11 +2284,23 @@ export const listAttributeTypes = /* GraphQL */ `
           nextToken
           startedAt
         }
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        attributeTypeOrganizationId
       }
       nextToken
       startedAt
@@ -1690,11 +2330,23 @@ export const syncAttributeTypes = /* GraphQL */ `
           nextToken
           startedAt
         }
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        attributeTypeOrganizationId
       }
       nextToken
       startedAt
@@ -1715,22 +2367,50 @@ export const getAttributeTypeValue = /* GraphQL */ `
           nextToken
           startedAt
         }
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        attributeTypeOrganizationId
       }
       attributeTypeValueId
       attributeTypeValue
       lastUpdateTimestamp
       inactive
+      organization {
+        id
+        name
+        users {
+          nextToken
+          startedAt
+        }
+        logoId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
       attributeTypeValueAttributeTypeId
+      attributeTypeValueOrganizationId
     }
   }
 `;
@@ -1758,17 +2438,30 @@ export const listAttributeTypeValues = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          attributeTypeOrganizationId
         }
         attributeTypeValueId
         attributeTypeValue
         lastUpdateTimestamp
         inactive
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
         attributeTypeValueAttributeTypeId
+        attributeTypeValueOrganizationId
       }
       nextToken
       startedAt
@@ -1801,17 +2494,30 @@ export const syncAttributeTypeValues = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          attributeTypeOrganizationId
         }
         attributeTypeValueId
         attributeTypeValue
         lastUpdateTimestamp
         inactive
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
         attributeTypeValueAttributeTypeId
+        attributeTypeValueOrganizationId
       }
       nextToken
       startedAt
@@ -1834,23 +2540,51 @@ export const getCategoryPriceGuide = /* GraphQL */ `
           nextToken
           startedAt
         }
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        categoryOrganizationId
       }
       description
       price
       priceLevel
       sortOrder
       inactive
+      organization {
+        id
+        name
+        users {
+          nextToken
+          startedAt
+        }
+        logoId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
       categoryPriceGuideCategoryId
+      categoryPriceGuideOrganizationId
     }
   }
 `;
@@ -1880,18 +2614,31 @@ export const listCategoryPriceGuides = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          categoryOrganizationId
         }
         description
         price
         priceLevel
         sortOrder
         inactive
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
         categoryPriceGuideCategoryId
+        categoryPriceGuideOrganizationId
       }
       nextToken
       startedAt
@@ -1926,18 +2673,31 @@ export const syncCategoryPriceGuides = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          categoryOrganizationId
         }
         description
         price
         priceLevel
         sortOrder
         inactive
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
         categoryPriceGuideCategoryId
+        categoryPriceGuideOrganizationId
       }
       nextToken
       startedAt
@@ -1951,11 +2711,27 @@ export const getGiftCard = /* GraphQL */ `
       qrCode
       barcode
       value
+      organization {
+        id
+        name
+        users {
+          nextToken
+          startedAt
+        }
+        logoId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      giftCardOrganizationId
     }
   }
 `;
@@ -1971,11 +2747,23 @@ export const listGiftCards = /* GraphQL */ `
         qrCode
         barcode
         value
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        giftCardOrganizationId
       }
       nextToken
       startedAt
@@ -2000,11 +2788,23 @@ export const syncGiftCards = /* GraphQL */ `
         qrCode
         barcode
         value
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        giftCardOrganizationId
       }
       nextToken
       startedAt
@@ -2020,11 +2820,23 @@ export const getGiftCardLog = /* GraphQL */ `
         qrCode
         barcode
         value
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        giftCardOrganizationId
       }
       amount
       type
@@ -2056,6 +2868,7 @@ export const listGiftCardLogs = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          giftCardOrganizationId
         }
         amount
         type
@@ -2096,6 +2909,7 @@ export const syncGiftCardLogs = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          giftCardOrganizationId
         }
         amount
         type
@@ -2118,12 +2932,28 @@ export const getCoupon = /* GraphQL */ `
       name
       type
       amount
+      organization {
+        id
+        name
+        users {
+          nextToken
+          startedAt
+        }
+        logoId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
       transactionCouponsId
+      couponOrganizationId
     }
   }
 `;
@@ -2139,12 +2969,24 @@ export const listCoupons = /* GraphQL */ `
         name
         type
         amount
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
         transactionCouponsId
+        couponOrganizationId
       }
       nextToken
       startedAt
@@ -2169,12 +3011,24 @@ export const syncCoupons = /* GraphQL */ `
         name
         type
         amount
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
         transactionCouponsId
+        couponOrganizationId
       }
       nextToken
       startedAt
@@ -2213,12 +3067,24 @@ export const getAppointment = /* GraphQL */ `
           clientAddressesId
         }
         taxRate
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
         locationAddressId
+        locationOrganizationId
       }
       createdAt
       updatedAt
@@ -2253,6 +3119,7 @@ export const listAppointments = /* GraphQL */ `
           _deleted
           _lastChangedAt
           locationAddressId
+          locationOrganizationId
         }
         createdAt
         updatedAt
@@ -2296,6 +3163,7 @@ export const syncAppointments = /* GraphQL */ `
           _deleted
           _lastChangedAt
           locationAddressId
+          locationOrganizationId
         }
         createdAt
         updatedAt
@@ -2339,12 +3207,24 @@ export const getBlackout = /* GraphQL */ `
           clientAddressesId
         }
         taxRate
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
         locationAddressId
+        locationOrganizationId
       }
       createdAt
       updatedAt
@@ -2377,6 +3257,7 @@ export const listBlackouts = /* GraphQL */ `
           _deleted
           _lastChangedAt
           locationAddressId
+          locationOrganizationId
         }
         createdAt
         updatedAt
@@ -2418,6 +3299,7 @@ export const syncBlackouts = /* GraphQL */ `
           _deleted
           _lastChangedAt
           locationAddressId
+          locationOrganizationId
         }
         createdAt
         updatedAt
@@ -2437,14 +3319,41 @@ export const getChatMessage = /* GraphQL */ `
       id
       message
       images
-      author
+      author {
+        id
+        cognitoId
+        disabled
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        organizationUsersId
+        owner
+      }
       authorId
+      organization {
+        id
+        name
+        users {
+          nextToken
+          startedAt
+        }
+        logoId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
       chatRoomMessagesId
+      chatMessageOrganizationId
     }
   }
 `;
@@ -2459,14 +3368,37 @@ export const listChatMessages = /* GraphQL */ `
         id
         message
         images
-        author
+        author {
+          id
+          cognitoId
+          disabled
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          organizationUsersId
+          owner
+        }
         authorId
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
         chatRoomMessagesId
+        chatMessageOrganizationId
       }
       nextToken
       startedAt
@@ -2490,14 +3422,37 @@ export const syncChatMessages = /* GraphQL */ `
         id
         message
         images
-        author
+        author {
+          id
+          cognitoId
+          disabled
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          organizationUsersId
+          owner
+        }
         authorId
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
         chatRoomMessagesId
+        chatMessageOrganizationId
       }
       nextToken
       startedAt
@@ -2514,7 +3469,6 @@ export const getChatRoom = /* GraphQL */ `
           id
           message
           images
-          author
           authorId
           createdAt
           updatedAt
@@ -2522,6 +3476,7 @@ export const getChatRoom = /* GraphQL */ `
           _deleted
           _lastChangedAt
           chatRoomMessagesId
+          chatMessageOrganizationId
         }
         nextToken
         startedAt
@@ -2622,15 +3577,32 @@ export const getRewards = /* GraphQL */ `
           clientTransactionsId
           rewardsTransactionsId
           transactionLocationId
+          transactionOrganizationId
         }
         nextToken
         startedAt
+      }
+      organization {
+        id
+        name
+        users {
+          nextToken
+          startedAt
+        }
+        logoId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      rewardsOrganizationId
     }
   }
 `;
@@ -2648,11 +3620,23 @@ export const listRewards = /* GraphQL */ `
           nextToken
           startedAt
         }
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        rewardsOrganizationId
       }
       nextToken
       startedAt
@@ -2679,11 +3663,23 @@ export const syncRewards = /* GraphQL */ `
           nextToken
           startedAt
         }
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        rewardsOrganizationId
       }
       nextToken
       startedAt
@@ -2738,15 +3734,60 @@ export const getPickUp = /* GraphQL */ `
           itemCategoryId
           itemLocationId
           itemBrandId
+          itemOrganizationId
         }
         nextToken
         startedAt
+      }
+      location {
+        id
+        locationId
+        locationName
+        address {
+          id
+          addressId
+          addressLabel
+          label
+          address1
+          address2
+          address3
+          city
+          state
+          zip
+          primary
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          clientAddressesId
+        }
+        taxRate
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        locationAddressId
+        locationOrganizationId
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      pickUpLocationId
     }
   }
 `;
@@ -2763,11 +3804,25 @@ export const listPickUps = /* GraphQL */ `
           nextToken
           startedAt
         }
+        location {
+          id
+          locationId
+          locationName
+          taxRate
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          locationAddressId
+          locationOrganizationId
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        pickUpLocationId
       }
       nextToken
       startedAt
@@ -2793,11 +3848,25 @@ export const syncPickUps = /* GraphQL */ `
           nextToken
           startedAt
         }
+        location {
+          id
+          locationId
+          locationName
+          taxRate
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          locationAddressId
+          locationOrganizationId
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        pickUpLocationId
       }
       nextToken
       startedAt
@@ -2822,11 +3891,23 @@ export const getCategoryAttribute = /* GraphQL */ `
           nextToken
           startedAt
         }
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        categoryOrganizationId
       }
       attributeType {
         id
@@ -2838,11 +3919,23 @@ export const getCategoryAttribute = /* GraphQL */ `
           nextToken
           startedAt
         }
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        attributeTypeOrganizationId
       }
       createdAt
       updatedAt
@@ -2880,6 +3973,7 @@ export const listCategoryAttributes = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          categoryOrganizationId
         }
         attributeType {
           id
@@ -2892,6 +3986,7 @@ export const listCategoryAttributes = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          attributeTypeOrganizationId
         }
         createdAt
         updatedAt
@@ -2934,6 +4029,7 @@ export const syncCategoryAttributes = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          categoryOrganizationId
         }
         attributeType {
           id
@@ -2946,6 +4042,7 @@ export const syncCategoryAttributes = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          attributeTypeOrganizationId
         }
         createdAt
         updatedAt
@@ -2990,6 +4087,7 @@ export const categoryAttributesByCategoryId = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          categoryOrganizationId
         }
         attributeType {
           id
@@ -3002,6 +4100,7 @@ export const categoryAttributesByCategoryId = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          attributeTypeOrganizationId
         }
         createdAt
         updatedAt
@@ -3046,6 +4145,7 @@ export const categoryAttributesByAttributeTypeId = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          categoryOrganizationId
         }
         attributeType {
           id
@@ -3058,6 +4158,7 @@ export const categoryAttributesByAttributeTypeId = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          attributeTypeOrganizationId
         }
         createdAt
         updatedAt

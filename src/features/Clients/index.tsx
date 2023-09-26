@@ -1,13 +1,13 @@
 import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
 import { DataStore, Predicates } from 'aws-amplify';
-import { Address, Client, Item, PickUp } from '../../models';
+import { Address, Client, Item, Location, PickUp } from '../../models';
 import { DataGrid, GridColDef, GridEventListener, GridRenderCellParams, MuiEvent } from '@mui/x-data-grid';
 import { Box, Button, Checkbox, FormControlLabel, LinearProgress, Modal} from '@mui/material';
 import AddClient from './AddClient';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import SearchBar from '../../components/SearchBar';
-import { DrawerContext } from '../../context';
+import { CognitoContext, DrawerContext } from '../../context';
 import StorePickUp from './StorePickUp';
 
 export const toTitleCase = (str: string) => {
@@ -45,6 +45,7 @@ const Clients = (props: ClientsProps) => {
     const { setDrawerContent, setDrawerClientId } = useContext(DrawerContext);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    const { organization, organizationId } = useContext(CognitoContext);
 
     useEffect(() => {
         const getClients = async () => {
@@ -173,7 +174,7 @@ const Clients = (props: ClientsProps) => {
                             if (fetchedClients.length < 1) {
                                 console.log(`Processing ${i} of ${clients.length}`);
                                 
-                                const client = await DataStore.save(new Client({ clientId, firstName, lastName, companyName, account, receiveMailInd, nextItemNumber, createTimestamp, activeTimestamp, inactiveTimestamp, modifiedBy: 'Bulk', email, phone }));
+                                const client = await DataStore.save(new Client({ clientId, firstName, lastName, companyName, account, receiveMailInd, nextItemNumber, createTimestamp, activeTimestamp, inactiveTimestamp, modifiedBy: 'Bulk', email, phone, organization, clientOrganizationId: organizationId }));
                                 await DataStore.save(new Address({addressId, addressLabel, address1, address2, address3, city, state, zip, primary, clientAddressesId: client.id}))
                             } else {
                                 const original = fetchedClients[0];
@@ -238,7 +239,16 @@ const Clients = (props: ClientsProps) => {
     }
 
     const activatePickup = async (items: Item[]) => {
-        await DataStore.save(new PickUp({ items }));
+        const locationId = localStorage.getItem('locationId');
+
+        if (locationId) {
+            const location = await DataStore.query(Location, locationId);
+
+            if (location) {
+                await DataStore.save(new PickUp({ items, location, pickUpLocationId: locationId }));
+            }    
+        }
+        
         stopValidatingPickup();
     }
 

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
 import { Button, Checkbox, FormControlLabel, LinearProgress, Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
@@ -11,6 +11,7 @@ import AddCategory from './AddCategory';
 import ViewCategoryAttributes from './ViewCategoryAttributes';
 import AttachAttribute from './AttachAttribute';
 import SearchBar from '../../components/SearchBar';
+import { CognitoContext } from '../../context';
 
 const Categories = () => {
     const [categories, setCategories] = useState<Category[]>([]);
@@ -25,6 +26,7 @@ const Categories = () => {
     const [isViewingCategoryAttributes, setIsViewingCategoryAttributes] = useState(false);
     const [isAttachingCategoryAttributes, setIsAttachingCategoryAttributes] = useState(false);
     const [loading, setLoading] = useState(true);
+    const { organization, organizationId } = useContext(CognitoContext);
 
     useEffect(() => {
         const getData = async () => {
@@ -190,7 +192,7 @@ const Categories = () => {
                             const inactive = !!brand[7];
                             const lastUpdateTimestamp = format(Date.parse(brand[9]), "yyyy-MM-dd");
 
-                            await DataStore.save(new Category({ categoryId, parent, categoryName, categoryLevel, inactive, lastUpdateTimestamp }));
+                            await DataStore.save(new Category({ categoryId, parent, categoryName, categoryLevel, inactive, lastUpdateTimestamp, organization, categoryOrganizationId: organizationId }));
                         }
 
                         add();

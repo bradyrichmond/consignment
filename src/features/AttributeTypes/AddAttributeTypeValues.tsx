@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { DataStore } from 'aws-amplify';
 import { AttributeType, AttributeTypeValue } from '../../models';
 import ModalContainer from '../../utils/ModalContainer';
 import { format } from 'date-fns';
+import { CognitoContext } from '../../context';
 
 interface AddAttributeTypeValuesProps {
     attributeType: string
@@ -15,11 +16,12 @@ interface AddAttributeTypeValuesProps {
 const AddAttributeTypeValues = (props: AddAttributeTypeValuesProps) => {
     const { close, attributeType } = props;
     const { handleSubmit, register } = useForm();
+    const { organization, organizationId } = useContext(CognitoContext);
 
     const handleAddAttributeTypeValue = async (data: any) => {
         const { attributeTypeValue } = data;
 
-        await DataStore.save(new AttributeTypeValue({ attributeTypeValue, attributeTypeValueAttributeTypeId: attributeType, lastUpdateTimestamp: format(Date.now(), 'yyyy-MM-dd') }));
+        await DataStore.save(new AttributeTypeValue({ attributeTypeValue, attributeTypeValueAttributeTypeId: attributeType, lastUpdateTimestamp: format(Date.now(), 'yyyy-MM-dd'), organization, attributeTypeValueOrganizationId: organizationId }));
         close();
     }
 

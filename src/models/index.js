@@ -82,9 +82,11 @@ const SizeType = {
   "SIXTEEN_EIGHTEEN": "SIXTEEN_EIGHTEEN"
 };
 
-const { Client, StoreCredit, Item, Transaction, Tender, Location, ConsignerSplit, Address, City, Brand, Category, AttributeType, AttributeTypeValue, CategoryPriceGuide, GiftCard, GiftCardLog, Coupon, ConsignmentDropoff, Cubby, Appointment, Blackout, ChatMessage, ChatRoom, Rewards, PickUp, CategoryAttribute } = initSchema(schema);
+const { Organization, User, Client, StoreCredit, Item, Transaction, Tender, Location, ConsignerSplit, Address, City, Brand, Category, AttributeType, AttributeTypeValue, CategoryPriceGuide, GiftCard, GiftCardLog, Coupon, ConsignmentDropoff, Cubby, Appointment, Blackout, ChatMessage, ChatRoom, Rewards, PickUp, CategoryAttribute } = initSchema(schema);
 
 export {
+  Organization,
+  User,
   Client,
   StoreCredit,
   Item,

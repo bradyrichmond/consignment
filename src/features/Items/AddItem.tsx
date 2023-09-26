@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Box } from '@mui/system';
 import { useParams } from 'react-router-dom';
 import { Stepper, Step, StepLabel, Typography } from '@mui/material';
@@ -10,6 +10,7 @@ import { DataStore } from 'aws-amplify';
 import SelectAttributes from './SelectAttributes';
 import SetPrice from './SetPrice';
 import ConfirmAddItem from './ConfirmAddItem';
+import { CognitoContext } from '../../context';
 
 const AddItem = () => {
     const { id } = useParams();
@@ -23,6 +24,7 @@ const AddItem = () => {
     const [categoryAttributeValues, setCategoryAttributeValues] = useState<AttributeTypeValue[]>([]);
     const [itemPrice, setItemPrice] = useState<string>('')
     const [atvId, setAtvId] = useState<string>('');
+    const { organization, organizationId } = useContext(CognitoContext);
 
     const handleNarrowBrand = (brandRange: string) => {
         setNarrowBrand(brandRange);
@@ -87,7 +89,7 @@ const AddItem = () => {
         
         if (client) {
             // TODO: need real userId
-            await DataStore.save(new Item({ itemCategoryId: category, itemId: `${client?.account}-${client?.nextItemNumber}`, clientItemsId: id, itemBrandId: brand?.id, price: itemPrice, statusId: '1', userId: '1', itemName: `${brand?.description} ${fetchedCategory?.categoryName}`, size, gender }));
+            await DataStore.save(new Item({ itemCategoryId: category, itemId: `${client?.account}-${client?.nextItemNumber}`, clientItemsId: id, itemBrandId: brand?.id, price: itemPrice, statusId: '1', userId: '1', itemName: `${brand?.description} ${fetchedCategory?.categoryName}`, size, gender, organization, itemOrganizationId: organizationId }));
             await DataStore.save(Client.copyOf(client, (updated) => {
                 updated.nextItemNumber = (parseInt(client.nextItemNumber) + 1).toString();
             }))

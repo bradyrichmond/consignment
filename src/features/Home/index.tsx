@@ -1,22 +1,33 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Alert, Box, Snackbar } from '@mui/material';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import Drawer from '../DrawerContent';
 import Navigation from '../Navigation';
 import { CognitoContext } from '../../context';
 import { Auth, DataStore, SortDirection } from 'aws-amplify';
-import { ConsignmentDropoff } from '../../models';
+import { ConsignmentDropoff, User } from '../../models';
 
 const Home = () => {
     const { setUserGroups } = useContext(CognitoContext);
+    const [user, setUser] = useState<User>()
     const [showSnackbar, setShowSnackbar] = useState(false);
     const [newestWaiting, setNewestWaiting] = useState<ConsignmentDropoff>();
     const [waitingCount, setWaitingCount] = useState(0);
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (!user?.organizationUsersId) {
+            // navigate to set up organization
+        }
+    }, [user])
 
     useEffect(() => {
         const getUserGroups = async () => {
             const user = await Auth.currentAuthenticatedUser();
             const userGroups = user.signInUserSession.accessToken.payload['cognito:groups'];
+            const currentUserInfo = await Auth.currentUserInfo();
+            const localUser = await DataStore.query(User, (u) => u.cognitoId.eq(currentUserInfo.id));
+            setUser(localUser[0]);
             setUserGroups(userGroups);
         }
 

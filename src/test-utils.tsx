@@ -4,6 +4,7 @@ import { Theme, ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material';
 import { CognitoContext, DrawerContext } from './context';
 import { BrowserRouter, RouterProvider } from 'react-router-dom';
+import { Organization } from './models';
 
 const light = () => {
     return createTheme({
@@ -45,10 +46,12 @@ const AllTheProviders = ({children}: {children: React.ReactNode}) => {
     const [drawerContent, setDrawerContent] = useState('');
     const [drawerClientId, setDrawerClientId] = useState('');
     const [drawerItemId, setDrawerItemId] = useState('');
+    const [organizationId, setOrganizationId] = useState('');
+    const [organization, setOrganization] = useState<Organization>(new Organization({ name: 'default' }));
     const [theme, setTheme] = useState<Theme>(light);
 
   return (
-        <CognitoContext.Provider value={{userIsLoggedIn, setUserIsLoggedIn, userGroups, setUserGroups}}>
+        <CognitoContext.Provider value={{userIsLoggedIn, setUserIsLoggedIn, userGroups, setUserGroups, organizationId, setOrganizationId, organization, setOrganization}}>
             <DrawerContext.Provider value={{drawerContent, setDrawerContent, drawerClientId, setDrawerClientId, drawerItemId, setDrawerItemId}}>
                 <ThemeProvider theme={theme}>
                   <BrowserRouter>

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
 import { Button, Checkbox, FormControlLabel, LinearProgress, Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
@@ -9,6 +9,7 @@ import { format } from 'date-fns';
 import AddBrand from './AddBrand';
 import ConfirmModal from '../../utils/ConfirmModal';
 import SearchBar from '../../components/SearchBar';
+import { CognitoContext } from '../../context';
 
 const Brands = () => {
     const [brands, setBrands] = useState<Brand[]>([]);
@@ -21,6 +22,7 @@ const Brands = () => {
     const [filterInactiveBrands, setFilterInactiveBrands] = useState(true);
     const [inactiveBrands, setInactiveBrands] = useState<string[]>([]);
     const [loading, setLoading] = useState(true);
+    const { organization, organizationId } = useContext(CognitoContext);
 
     useEffect(() => {
         const getData = async () => {
@@ -94,7 +96,7 @@ const Brands = () => {
                             const brandId = brand[0];
                             const description = brand[1];
                             const lastUpdateTimestamp = format(Date.parse(brand[2]), "yyyy-MM-dd");
-                            await DataStore.save(new Brand({ brandId, description, lastUpdateTimestamp }));
+                            await DataStore.save(new Brand({ brandId, description, lastUpdateTimestamp, organization, brandOrganizationId: organizationId }));
                         }
 
                         add();

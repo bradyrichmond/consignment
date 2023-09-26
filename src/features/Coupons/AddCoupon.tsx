@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import ModalContainer from '../../utils/ModalContainer';
 import { Box, Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { Coupon, CouponType } from '../../models';
 import { DataStore } from 'aws-amplify';
+import { CognitoContext } from '../../context';
 
 interface AddCouponProps {
     close: () => void
@@ -11,10 +12,11 @@ interface AddCouponProps {
 
 const AddCoupon = (props: AddCouponProps) => {
     const { close } = props;
+    const { organization, organizationId } = useContext(CognitoContext);
 
     const handleAddCoupon = async (data: any) => {
         const { name, amount, type } = data;
-        await DataStore.save(new Coupon({ name, amount: parseFloat(amount), type: type === CouponType.FLAT ? CouponType.FLAT : CouponType.PERCENT }));
+        await DataStore.save(new Coupon({ name, amount: parseFloat(amount), type: type === CouponType.FLAT ? CouponType.FLAT : CouponType.PERCENT, organization, couponOrganizationId: organizationId }));
         close();
     }
 

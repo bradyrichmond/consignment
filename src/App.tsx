@@ -39,6 +39,7 @@ import Chat from './features/Chat';
 import ClientPickupComplete from './features/Clients/ClientPickupComplete';
 import ClientPickup from './features/Clients/ClientPickup';
 import ConciergeHistory from './features/Concierge/History';
+import { Organization } from './models';
 Amplify.configure(awsExports);
 
 const checkProtectedRoute = (userGroups: string[], allowedGroups: string[]) => {
@@ -225,9 +226,11 @@ const App = () => {
   const [drawerContent, setDrawerContent] = useState('');
   const [drawerClientId, setDrawerClientId] = useState('');
   const [drawerItemId, setDrawerItemId] = useState('');
+  const [organizationId, setOrganizationId] = useState('');
+  const [organization, setOrganization] = useState<Organization>(new Organization({ name: 'default' }));
 
   return (
-    <CognitoContext.Provider value={{userIsLoggedIn, setUserIsLoggedIn, userGroups, setUserGroups}}>
+    <CognitoContext.Provider value={{userIsLoggedIn, setUserIsLoggedIn, userGroups, setUserGroups, organizationId, setOrganizationId, organization, setOrganization}}>
       <DrawerContext.Provider value={{drawerContent, setDrawerContent, drawerClientId, setDrawerClientId, drawerItemId, setDrawerItemId}}>
         <ThemeProvider theme={light}>
           <DndProvider backend={HTML5Backend}>

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
 import { Button, Checkbox, FormControlLabel, LinearProgress, Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
@@ -11,6 +11,7 @@ import AddAttributeType from './AddAttributeType';
 import AddAttributeTypeValues from './AddAttributeTypeValues';
 import ViewValues from './ViewValues';
 import SearchBar from '../../components/SearchBar';
+import { CognitoContext } from '../../context';
 
 const AttributeTypes = () => {
     const [attributeTypes, setAttributeTypes] = useState<AttributeType[]>([]);
@@ -25,6 +26,7 @@ const AttributeTypes = () => {
     const [inactiveAttributeTypes, setInactiveAttributeTypes] = useState<string[]>([]);
     const [isViewingValues, setIsViewingValues] = useState(false);
     const [loading, setLoading] = useState(true);
+    const { organization, organizationId } = useContext(CognitoContext);
 
     useEffect(() => {
         const getData = async () => {
@@ -116,7 +118,7 @@ const AttributeTypes = () => {
                             const attributeTypeId = attributeType[0];
                             const attributeTypeDescription = attributeType[1];
                             const lastUpdateTimestamp = format(Date.parse(attributeType[2]), "yyyy-MM-dd");
-                            await DataStore.save(new AttributeType({ attributeTypeId, attributeTypeDescription, lastUpdateTimestamp }));
+                            await DataStore.save(new AttributeType({ attributeTypeId, attributeTypeDescription, lastUpdateTimestamp, organization, attributeTypeOrganizationId: organizationId }));
                         }
 
                         add();

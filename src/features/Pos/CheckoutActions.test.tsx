@@ -1,9 +1,11 @@
 import '../../mockJsdom';
-import { Item } from '../../models';
+import { Item, Organization } from '../../models';
 import { fireEvent, render, screen, waitFor } from '../../test-utils';
 import CheckoutActions from './CheckoutActions';
 
-const items = [new Item({ userId: '1', statusId: '1', itemName: 'Test Item', price: '2.99' })]
+const organization = new Organization({ name: 'default' });
+
+const items = [new Item({ userId: '1', statusId: '1', itemName: 'Test Item', price: '2.99', organization, itemOrganizationId: organization.id })]
 
 test('add coupon modal opens', async () => {
     const addItem = jest.fn();

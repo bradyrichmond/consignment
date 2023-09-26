@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Box, Button, Modal, TextField, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { DataStore } from 'aws-amplify';
 import ModalContainer from '../../utils/ModalContainer';
 import { ConsignerSplit } from '../../models';
+import { CognitoContext } from '../../context';
 
 interface UpdateConsignerSettingsProps {
     close: () => void
@@ -50,6 +51,7 @@ const ConsignerSettings = () => {
 const UpdateConsignerSettings = ({ close }: UpdateConsignerSettingsProps) => {
     const [error, setError] = useState('');
     const { register, handleSubmit } = useForm();
+    const { organization, organizationId } = useContext(CognitoContext);
 
     const handleUpdateConsignerSettings = async (data: any) => {
         setError('')
@@ -68,7 +70,7 @@ const UpdateConsignerSettings = ({ close }: UpdateConsignerSettingsProps) => {
                 updated.consignerPercentage = percentage;
             }));
         } else {
-            await DataStore.save(new ConsignerSplit({ consignerPercentage: percentage }))
+            await DataStore.save(new ConsignerSplit({ consignerPercentage: percentage, organization, consignerSplitOrganizationId: organizationId }));
         }
         
         close();

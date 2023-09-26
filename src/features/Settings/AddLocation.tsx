@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { DataStore, Predicates, SortDirection } from 'aws-amplify';
 import ModalContainer from '../../utils/ModalContainer';
 import { Address, Location } from '../../models';
+import { CognitoContext } from '../../context';
 
 interface AddLocationProps {
     close: () => void
@@ -11,6 +12,7 @@ interface AddLocationProps {
 
 const AddLocation = ({ close }: AddLocationProps) => {
     const { register, handleSubmit } = useForm();
+    const { organization, organizationId } = useContext(CognitoContext);
 
     const handleAddLocation = async (data: any) => {
         const { locationName, addressLabel, address1, address2, address3, city, state, zipCode, taxRate } = data;
@@ -24,7 +26,7 @@ const AddLocation = ({ close }: AddLocationProps) => {
         const locationId = nextNewestLocation ? (parseInt(nextNewestLocation.locationId ?? '1000') + 1).toString() : '1';
         
         const address = await DataStore.save(new Address({ addressLabel, address1, address2, address3, city, state, zip: zipCode }));
-        await DataStore.save(new Location({ locationName, locationId, locationAddressId: address.id, address, taxRate: parseFloat(taxRate) }));
+        await DataStore.save(new Location({ locationName, locationId, locationAddressId: address.id, address, taxRate: parseFloat(taxRate), organization, locationOrganizationId: organizationId }));
         
         close();
     }
