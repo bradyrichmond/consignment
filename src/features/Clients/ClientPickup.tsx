@@ -5,8 +5,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { DataStore } from 'aws-amplify';
 import { Item, PickUp } from '../../models';
 import ClientPickupItem from './ClientPickupItem';
-import { SizeType } from '../../models';
-import { GenderType } from '../../models';
 
 const ClientPickup = () => {
     const { id } = useParams();

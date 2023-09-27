@@ -10,8 +10,6 @@ import LocationSettings from './LocationSettings';
 import ConsignerSettings from './ConsignerSettings';
 import { TenderType } from '../../models';
 import ConciergeSettings from './ConciergeSettings';
-import { SizeType } from '../../models';
-import { GenderType } from '../../models';
 
 const Settings = () => {
     const [printers, setPrinters] = useState<any>([]);

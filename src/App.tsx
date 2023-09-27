@@ -40,6 +40,9 @@ import ClientPickupComplete from './features/Clients/ClientPickupComplete';
 import ClientPickup from './features/Clients/ClientPickup';
 import ConciergeHistory from './features/Concierge/History';
 import { Organization } from './models';
+import OrganizationSetup from './features/OrganizationSetup';
+import CreateUserComplete from './features/OrganizationSetup/CreateUserComplete';
+import CreateUser from './features/OrganizationSetup/CreateUser';
 Amplify.configure(awsExports);
 
 const checkProtectedRoute = (userGroups: string[], allowedGroups: string[]) => {
@@ -138,16 +141,28 @@ export const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: s
     element: <CreateDropOff />
   },
   {
-    path: '/login',
-    element: <Login />
-  },
-  {
     path: 'client-pickup/:id',
     element: <ClientPickup />
   },
   {
     path: 'client-pickup-complete/:id',
     element: <ClientPickupComplete />
+  },
+  {
+    path: 'create-user',
+    element: <CreateUser />
+  },
+  {
+    path: 'create-user-complete',
+    element: <CreateUserComplete />
+  },
+  {
+    path: '/login',
+    element: <Login />
+  },
+  {
+    path: 'organization-setup',
+    element: <OrganizationSetup />
   }
 ]);
 

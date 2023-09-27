@@ -27,59 +27,10 @@ enum CouponType {
   FLAT
 }
 
-enum GenderType {
-  BOYS
-  GIRLS
-  UNISEX
-}
-
-enum SizeType {
-  PREEMIE
-  NEWBORN
-  ZERO_TO_THREE_MONTHS
-  THREE_MONTHS
-  THREE_TO_SIX_MONTHS
-  SIX_MONTHS
-  SIX_TO_NINE_MONTHS
-  NINE_MONTHS
-  NINE_TO_TWELVE_MONTHS
-  TWELVE_MONTHS
-  TWELVE_TO_EIGHTEEN_MONTHS
-  EIGHTEEN_TWENTY_FOUR_MONTHS
-  TWO
-  TWO_THREE
-  THREE
-  THREE_FOUR
-  FOUR
-  FOUR_FIVE
-  FIVE
-  FIVE_SIX
-  SIX
-  SIX_SEVEN
-  SEVEN
-  SEVEN_EIGHT
-  EIGHT
-  EIGHT_NINE
-  EIGHT_TEN
-  NINE
-  NINE_TEN
-  TEN
-  TEN_ELEVEN
-  TEN_TWELVE
-  ELEVEN
-  ELEVEN_TWELVE
-  TWELVE
-  TWELVE_THIRTEEN
-  TWELVE_FOURTEEN
-  THIRTEEN
-  THIRTEEN_FOURTEEN
-  FOURTEEN
-  FOURTEEN_FIFTEEN
-  FOURTEEN_SIXTEEN
-  FIFTEEN
-  FIFTEEN_SIXTEEN
-  SIXTEEN
-  SIXTEEN_EIGHTEEN
+type UserLevel @model @auth(rules: [{allow: groups, groups: ["Admins"] }]){
+  id: ID!
+  name: String!
+  allowedRoutes: [String!]!
 }
 
 type Organization @model @auth(rules: [{ allow: owner}]){
@@ -95,6 +46,7 @@ type User @model @auth(rules: [{allow: owner}, {allow: groups, groups: ["Admins"
   disabled: Boolean
   firstName: String!
   lastName: String!
+  userLevel: UserLevel!
 }
 
 type Client @model {
@@ -159,8 +111,7 @@ type Item @model {
   returned: Boolean
   createTimestamp: String
   entryTimestamp: String
-  gender: GenderType
-  size: SizeType
+  size: String
   organization: Organization! @hasOne
 }
 

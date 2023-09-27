@@ -1,5 +1,77 @@
 export const schema = {
     "models": {
+        "UserLevel": {
+            "name": "UserLevel",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "name": {
+                    "name": "name",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "allowedRoutes": {
+                    "name": "allowedRoutes",
+                    "isArray": true,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": [],
+                    "isArrayNullable": false
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "UserLevels",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "groupClaim": "cognito:groups",
+                                "provider": "userPools",
+                                "allow": "groups",
+                                "groups": [
+                                    "Admins"
+                                ],
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
         "Organization": {
             "name": "Organization",
             "fields": {
@@ -787,21 +859,10 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "gender": {
-                    "name": "gender",
-                    "isArray": false,
-                    "type": {
-                        "enum": "GenderType"
-                    },
-                    "isRequired": false,
-                    "attributes": []
-                },
                 "size": {
                     "name": "size",
                     "isArray": false,
-                    "type": {
-                        "enum": "SizeType"
-                    },
+                    "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -3392,68 +3453,9 @@ export const schema = {
                 "PERCENT",
                 "FLAT"
             ]
-        },
-        "GenderType": {
-            "name": "GenderType",
-            "values": [
-                "BOYS",
-                "GIRLS",
-                "UNISEX"
-            ]
-        },
-        "SizeType": {
-            "name": "SizeType",
-            "values": [
-                "PREEMIE",
-                "NEWBORN",
-                "ZERO_TO_THREE_MONTHS",
-                "THREE_MONTHS",
-                "THREE_TO_SIX_MONTHS",
-                "SIX_MONTHS",
-                "SIX_TO_NINE_MONTHS",
-                "NINE_MONTHS",
-                "NINE_TO_TWELVE_MONTHS",
-                "TWELVE_MONTHS",
-                "TWELVE_TO_EIGHTEEN_MONTHS",
-                "EIGHTEEN_TWENTY_FOUR_MONTHS",
-                "TWO",
-                "TWO_THREE",
-                "THREE",
-                "THREE_FOUR",
-                "FOUR",
-                "FOUR_FIVE",
-                "FIVE",
-                "FIVE_SIX",
-                "SIX",
-                "SIX_SEVEN",
-                "SEVEN",
-                "SEVEN_EIGHT",
-                "EIGHT",
-                "EIGHT_NINE",
-                "EIGHT_TEN",
-                "NINE",
-                "NINE_TEN",
-                "TEN",
-                "TEN_ELEVEN",
-                "TEN_TWELVE",
-                "ELEVEN",
-                "ELEVEN_TWELVE",
-                "TWELVE",
-                "TWELVE_THIRTEEN",
-                "TWELVE_FOURTEEN",
-                "THIRTEEN",
-                "THIRTEEN_FOURTEEN",
-                "FOURTEEN",
-                "FOURTEEN_FIFTEEN",
-                "FOURTEEN_SIXTEEN",
-                "FIFTEEN",
-                "FIFTEEN_SIXTEEN",
-                "SIXTEEN",
-                "SIXTEEN_EIGHTEEN"
-            ]
         }
     },
     "nonModels": {},
     "codegenVersion": "3.4.2",
-    "version": "8db7a441e214df9b0b65c84419ae26d6"
+    "version": "430d096049e3a58f4a021686b58500b0"
 };

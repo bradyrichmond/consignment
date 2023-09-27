@@ -23,7 +23,7 @@ const ClientPickupItem = (props: ClientPickupItemProps) => {
             <Typography variant='h3' marginBottom='2rem'>{currentItemNumber} of {totalItemNumber}</Typography>
             <Box flex='1' display='flex' justifyContent='center' alignItems='center'>
                 {item ? 
-                    <Typography variant='h4'>{`${item.gender} ${item.size} ${item.itemName}`}</Typography>
+                    <Typography variant='h4'>{`${item.size} ${item.itemName}`}</Typography>
                     :
                     <Typography variant='h4'>No more items.</Typography>
                 }

@@ -9,17 +9,10 @@ import { ConsignmentDropoff, User } from '../../models';
 
 const Home = () => {
     const { setUserGroups } = useContext(CognitoContext);
-    const [user, setUser] = useState<User>()
     const [showSnackbar, setShowSnackbar] = useState(false);
     const [newestWaiting, setNewestWaiting] = useState<ConsignmentDropoff>();
     const [waitingCount, setWaitingCount] = useState(0);
-    const navigate = useNavigate()
-
-    useEffect(() => {
-        if (!user?.organizationUsersId) {
-            // navigate to set up organization
-        }
-    }, [user])
+    const navigate = useNavigate();
 
     useEffect(() => {
         const getUserGroups = async () => {
@@ -27,7 +20,9 @@ const Home = () => {
             const userGroups = user.signInUserSession.accessToken.payload['cognito:groups'];
             const currentUserInfo = await Auth.currentUserInfo();
             const localUser = await DataStore.query(User, (u) => u.cognitoId.eq(currentUserInfo.id));
-            setUser(localUser[0]);
+            if (!localUser[0]?.organizationUsersId) {
+                navigate('/organization-setup')
+            }
             setUserGroups(userGroups);
         }
 
