@@ -46,7 +46,8 @@ import CreateUser from './features/OrganizationSetup/CreateUser';
 Amplify.configure(awsExports);
 
 const checkProtectedRoute = (userGroups: string[], allowedGroups: string[]) => {
-  return userGroups.filter((value) => allowedGroups.includes(value)).length > 0;
+  // return userGroups.filter((value) => allowedGroups.includes(value)).length > 0;
+  return true;
 }
 
 export const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: string[]) => createBrowserRouter([

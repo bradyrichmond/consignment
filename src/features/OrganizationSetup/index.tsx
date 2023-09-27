@@ -8,12 +8,12 @@ import { useNavigate } from 'react-router-dom';
 
 const OrganizationSetup = () => {
     const { handleSubmit, register } = useForm();
-    const { setOrganization, setOrganizationId } = useContext(CognitoContext);
+    const { setOrganization, setOrganizationId, organization, organizationId } = useContext(CognitoContext);
     const navigate = useNavigate();
 
     const handleCreateOrganization = async (formData: any) => {
         const organization = await DataStore.save(new Organization({ name: formData.organizationName }));
-        await DataStore.save(new UserLevel({ name: 'Admin', allowedRoutes: ['*'] }));
+        await DataStore.save(new UserLevel({ name: 'Admin', allowedRoutes: ['*'], organization, userLevelOrganizationId: organizationId }));
         setOrganization(organization);
         setOrganizationId(organization.id);
         navigate('/create-user', { state: { createAdmin: true } })

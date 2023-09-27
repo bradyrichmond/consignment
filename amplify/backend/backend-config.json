@@ -251,5 +251,12 @@
         }
       ]
     }
+  },
+  "storage": {
+    "consignmentImages": {
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "S3"
+    }
   }
 }

@@ -10,6 +10,7 @@ import LocationSettings from './LocationSettings';
 import ConsignerSettings from './ConsignerSettings';
 import { TenderType } from '../../models';
 import ConciergeSettings from './ConciergeSettings';
+import OrganizationImageUpload from './OrganizationImageUpload';
 
 const Settings = () => {
     const [printers, setPrinters] = useState<any>([]);
@@ -45,7 +46,7 @@ const Settings = () => {
             setCardReaderOptions(fetchedCardReaderIds);
         }
 
-        setTimeout(() => { setsocketStatus(JSPM.JSPrintManager.websocket_status); }, 3000);
+        // setTimeout(() => { setsocketStatus(JSPM.JSPrintManager.websocket_status); }, 3000);
         setStoredCardReaderId(localStorage.getItem('cardReaderId') ?? '');
 
         setStoredStoreId(localStorage.getItem('locationId') ?? '');
@@ -108,7 +109,6 @@ const Settings = () => {
                 <CardReaderSelector cardReaderIds={cardReaderOptions} onCardReaderChange={handleSetCardReaderId} />
             </Box> */}
             <Box marginTop='2rem'>
-                <Typography variant='h2'>Location</Typography>
                 <LocationSettings onLocationChange={handleLocationChange} locations={storeLocations} handleAddLocation={handleAddLocation} handleDeleteLocation={handleDeleteLocation} storedLocationId={storedStoreId} />
             </Box>
             {storedStoreId && 
@@ -123,6 +123,9 @@ const Settings = () => {
                     </Box>
                 </>
             }
+            <Box marginTop='2rem'>
+                <OrganizationImageUpload />
+            </Box>
         </Box>
     )
 }

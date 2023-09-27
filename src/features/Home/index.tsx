@@ -5,28 +5,39 @@ import Drawer from '../DrawerContent';
 import Navigation from '../Navigation';
 import { CognitoContext } from '../../context';
 import { Auth, DataStore, SortDirection } from 'aws-amplify';
-import { ConsignmentDropoff, User } from '../../models';
+import { ConsignmentDropoff, Organization, User } from '../../models';
 
 const Home = () => {
-    const { setUserGroups } = useContext(CognitoContext);
+    const { setUserGroups, setOrganization, setOrganizationId } = useContext(CognitoContext);
     const [showSnackbar, setShowSnackbar] = useState(false);
     const [newestWaiting, setNewestWaiting] = useState<ConsignmentDropoff>();
     const [waitingCount, setWaitingCount] = useState(0);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const getUserGroups = async () => {
+        const getUserInfo = async () => {
             const user = await Auth.currentAuthenticatedUser();
             const userGroups = user.signInUserSession.accessToken.payload['cognito:groups'];
             const currentUserInfo = await Auth.currentUserInfo();
             const localUser = await DataStore.query(User, (u) => u.cognitoId.eq(currentUserInfo.id));
-            if (!localUser[0]?.organizationUsersId) {
+            const orgId = localUser[0]?.organizationUsersId;
+
+            if (!orgId) {
                 navigate('/organization-setup')
+                return;
             }
+
             setUserGroups(userGroups);
+            setOrganizationId(orgId);
+
+            const fetchedOrganization = await DataStore.query(Organization, orgId);
+
+            if (fetchedOrganization) {
+                setOrganization(fetchedOrganization);
+            }
         }
 
-        getUserGroups();
+        getUserInfo();
 
         const waitingSub = DataStore.observeQuery(
             ConsignmentDropoff,

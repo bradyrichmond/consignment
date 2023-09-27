@@ -28,82 +28,79 @@ import ModalContainer from '../../utils/ModalContainer';
 
 // this should probably be decided by an admin too
 const navItems = [
-    {
-        label: 'Attribute Types',
-        navUrl: 'attribute-types',
-        userGroups: [],
-        icon: <CreateIcon fontSize='large' />
-    },
-    {
-        label: 'Appointments',
-        navUrl: 'appointments',
-        userGroups: [],
-        icon: <CalendarMonthIcon fontSize='large' />
-    },
-    {
-        label: 'Brands',
-        navUrl: 'brands',
-        userGroups: [],
-        icon: <StyleIcon fontSize='large' />
-    },
-    {
-        label: 'Categories',
-        navUrl: 'categories',
-        userGroups: [],
-        icon: <CategoryIcon fontSize='large' />
-    },
-    {
-        label: 'Chat',
-        navUrl: 'chat',
-        userGroups: [],
-        icon: <ForumIcon fontSize='large' />
-    },
-    {
-        label: 'Consigners',
-        navUrl: 'consigners',
-        userGroups: [],
-        icon: <ContactEmergencyIcon fontSize='large' />
-    },
+    // {
+    //     label: 'Attribute Types',
+    //     navUrl: 'attribute-types',
+    //     userGroups: [],
+    //     icon: <CreateIcon fontSize='large' />
+    // },
+    // {
+    //     label: 'Appointments',
+    //     navUrl: 'appointments',
+    //     userGroups: [],
+    //     icon: <CalendarMonthIcon fontSize='large' />
+    // },
+    // {
+    //     label: 'Brands',
+    //     navUrl: 'brands',
+    //     userGroups: [],
+    //     icon: <StyleIcon fontSize='large' />
+    // },
+    // {
+    //     label: 'Categories',
+    //     navUrl: 'categories',
+    //     userGroups: [],
+    //     icon: <CategoryIcon fontSize='large' />
+    // },
+    // {
+    //     label: 'Chat',
+    //     navUrl: 'chat',
+    //     userGroups: [],
+    //     icon: <ForumIcon fontSize='large' />
+    // },
+    // {
+    //     label: 'Consigners',
+    //     navUrl: 'consigners',
+    //     userGroups: [],
+    //     icon: <ContactEmergencyIcon fontSize='large' />
+    // },
     {
         label: 'Concierge',
         navUrl: 'concierge/employee',
-        userGroups: ['Salespeople', 'Processors', 'Managers', 'Admins'],
         icon: <RoomServiceIcon fontSize='large' />
     },
-    {
-        label: 'Coupons',
-        navUrl: 'coupons',
-        userGroups: [],
-        icon: <PriceChangeIcon fontSize='large' />   
-    },
-    {
-        label: 'Items',
-        navUrl: 'items',
-        userGroups: [],
-        icon: <ExtensionIcon fontSize='large' />
-    },
-    {
-        label: 'Point of Sale',
-        navUrl: 'pos',
-        userGroups: [],
-        icon: <PointOfSaleIcon fontSize='large' />
-    },
-    {
-        label: 'Reports',
-        navUrl: 'reports',
-        userGroups: [],
-        icon: <SsidChartIcon fontSize='large' />
-    },
+    // {
+    //     label: 'Coupons',
+    //     navUrl: 'coupons',
+    //     userGroups: [],
+    //     icon: <PriceChangeIcon fontSize='large' />   
+    // },
+    // {
+    //     label: 'Items',
+    //     navUrl: 'items',
+    //     userGroups: [],
+    //     icon: <ExtensionIcon fontSize='large' />
+    // },
+    // {
+    //     label: 'Point of Sale',
+    //     navUrl: 'pos',
+    //     userGroups: [],
+    //     icon: <PointOfSaleIcon fontSize='large' />
+    // },
+    // {
+    //     label: 'Reports',
+    //     navUrl: 'reports',
+    //     userGroups: [],
+    //     icon: <SsidChartIcon fontSize='large' />
+    // },
     {
         label: 'Settings',
         navUrl: 'settings',
-        userGroups: ['Admins'],
         icon: <TuneIcon fontSize='large' />
     },
     {
         label: 'User Management',
         navUrl: 'user-management',
-        userGroups: [],
         icon: <GroupIcon fontSize='large' />
     },
 ];
@@ -129,10 +126,7 @@ const Navigation = () => {
             <Box flex='1' display='flex' flexDirection='column' padding='2rem' height='100%'>
                 {navItems.length > 0 && 
                     navItems.map((ni) => {
-                        const allowed = userGroups.filter((value) => ni.userGroups.includes(value));
-                        if (allowed.length > 0) {
-                            return ni.label === 'Concierge' ? <ConciergeNavItem key={ni.label} label={ni.label} navUrl={ni.navUrl} icon={ni.icon} onClick={() => setActiveNav(ni.label)} active={ni.label === activeTab} expanded={expanded} /> : <NavItem key={ni.label} label={ni.label} navUrl={ni.navUrl} icon={ni.icon} onClick={() => setActiveNav(ni.label)} active={ni.label === activeTab} expanded={expanded} />;
-                        }
+                        return ni.label === 'Concierge' ? <ConciergeNavItem key={ni.label} label={ni.label} navUrl={ni.navUrl} icon={ni.icon} onClick={() => setActiveNav(ni.label)} active={ni.label === activeTab} expanded={expanded} /> : <NavItem key={ni.label} label={ni.label} navUrl={ni.navUrl} icon={ni.icon} onClick={() => setActiveNav(ni.label)} active={ni.label === activeTab} expanded={expanded} />;
                     })
                 }
             </Box>

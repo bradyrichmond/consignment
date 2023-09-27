@@ -2,6 +2,102 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const onCreateUserLevel = /* GraphQL */ `
+  subscription OnCreateUserLevel(
+    $filter: ModelSubscriptionUserLevelFilterInput
+  ) {
+    onCreateUserLevel(filter: $filter) {
+      id
+      name
+      allowedRoutes
+      organization {
+        id
+        name
+        users {
+          nextToken
+          startedAt
+        }
+        logoId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      userLevelOrganizationId
+    }
+  }
+`;
+export const onUpdateUserLevel = /* GraphQL */ `
+  subscription OnUpdateUserLevel(
+    $filter: ModelSubscriptionUserLevelFilterInput
+  ) {
+    onUpdateUserLevel(filter: $filter) {
+      id
+      name
+      allowedRoutes
+      organization {
+        id
+        name
+        users {
+          nextToken
+          startedAt
+        }
+        logoId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      userLevelOrganizationId
+    }
+  }
+`;
+export const onDeleteUserLevel = /* GraphQL */ `
+  subscription OnDeleteUserLevel(
+    $filter: ModelSubscriptionUserLevelFilterInput
+  ) {
+    onDeleteUserLevel(filter: $filter) {
+      id
+      name
+      allowedRoutes
+      organization {
+        id
+        name
+        users {
+          nextToken
+          startedAt
+        }
+        logoId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      userLevelOrganizationId
+    }
+  }
+`;
 export const onCreateOrganization = /* GraphQL */ `
   subscription OnCreateOrganization(
     $filter: ModelSubscriptionOrganizationFilterInput
@@ -15,6 +111,8 @@ export const onCreateOrganization = /* GraphQL */ `
           id
           cognitoId
           disabled
+          firstName
+          lastName
           createdAt
           updatedAt
           _version
@@ -49,6 +147,8 @@ export const onUpdateOrganization = /* GraphQL */ `
           id
           cognitoId
           disabled
+          firstName
+          lastName
           createdAt
           updatedAt
           _version
@@ -83,6 +183,8 @@ export const onDeleteOrganization = /* GraphQL */ `
           id
           cognitoId
           disabled
+          firstName
+          lastName
           createdAt
           updatedAt
           _version
@@ -113,6 +215,30 @@ export const onCreateUser = /* GraphQL */ `
       id
       cognitoId
       disabled
+      firstName
+      lastName
+      userLevel {
+        id
+        name
+        allowedRoutes
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        userLevelOrganizationId
+      }
       createdAt
       updatedAt
       _version
@@ -132,6 +258,30 @@ export const onUpdateUser = /* GraphQL */ `
       id
       cognitoId
       disabled
+      firstName
+      lastName
+      userLevel {
+        id
+        name
+        allowedRoutes
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        userLevelOrganizationId
+      }
       createdAt
       updatedAt
       _version
@@ -151,6 +301,30 @@ export const onDeleteUser = /* GraphQL */ `
       id
       cognitoId
       disabled
+      firstName
+      lastName
+      userLevel {
+        id
+        name
+        allowedRoutes
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        userLevelOrganizationId
+      }
       createdAt
       updatedAt
       _version
@@ -208,7 +382,6 @@ export const onCreateClient = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
-          gender
           size
           createdAt
           updatedAt
@@ -400,7 +573,6 @@ export const onUpdateClient = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
-          gender
           size
           createdAt
           updatedAt
@@ -592,7 +764,6 @@ export const onDeleteClient = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
-          gender
           size
           createdAt
           updatedAt
@@ -773,7 +944,6 @@ export const onCreateStoreCredit = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
-          gender
           size
           createdAt
           updatedAt
@@ -853,7 +1023,6 @@ export const onUpdateStoreCredit = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
-          gender
           size
           createdAt
           updatedAt
@@ -933,7 +1102,6 @@ export const onDeleteStoreCredit = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
-          gender
           size
           createdAt
           updatedAt
@@ -1104,7 +1272,6 @@ export const onCreateItem = /* GraphQL */ `
       returned
       createTimestamp
       entryTimestamp
-      gender
       size
       organization {
         id
@@ -1265,7 +1432,6 @@ export const onUpdateItem = /* GraphQL */ `
       returned
       createTimestamp
       entryTimestamp
-      gender
       size
       organization {
         id
@@ -1426,7 +1592,6 @@ export const onDeleteItem = /* GraphQL */ `
       returned
       createTimestamp
       entryTimestamp
-      gender
       size
       organization {
         id
@@ -1495,7 +1660,6 @@ export const onCreateTransaction = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
-          gender
           size
           createdAt
           updatedAt
@@ -1631,7 +1795,6 @@ export const onCreateTransaction = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
-          gender
           size
           createdAt
           updatedAt
@@ -1713,7 +1876,6 @@ export const onUpdateTransaction = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
-          gender
           size
           createdAt
           updatedAt
@@ -1849,7 +2011,6 @@ export const onUpdateTransaction = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
-          gender
           size
           createdAt
           updatedAt
@@ -1931,7 +2092,6 @@ export const onDeleteTransaction = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
-          gender
           size
           createdAt
           updatedAt
@@ -2067,7 +2227,6 @@ export const onDeleteTransaction = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
-          gender
           size
           createdAt
           updatedAt
@@ -4025,6 +4184,19 @@ export const onCreateChatMessage = /* GraphQL */ `
         id
         cognitoId
         disabled
+        firstName
+        lastName
+        userLevel {
+          id
+          name
+          allowedRoutes
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          userLevelOrganizationId
+        }
         createdAt
         updatedAt
         _version
@@ -4055,6 +4227,7 @@ export const onCreateChatMessage = /* GraphQL */ `
       _deleted
       _lastChangedAt
       chatRoomMessagesId
+      chatMessageAuthorId
       chatMessageOrganizationId
     }
   }
@@ -4071,6 +4244,19 @@ export const onUpdateChatMessage = /* GraphQL */ `
         id
         cognitoId
         disabled
+        firstName
+        lastName
+        userLevel {
+          id
+          name
+          allowedRoutes
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          userLevelOrganizationId
+        }
         createdAt
         updatedAt
         _version
@@ -4101,6 +4287,7 @@ export const onUpdateChatMessage = /* GraphQL */ `
       _deleted
       _lastChangedAt
       chatRoomMessagesId
+      chatMessageAuthorId
       chatMessageOrganizationId
     }
   }
@@ -4117,6 +4304,19 @@ export const onDeleteChatMessage = /* GraphQL */ `
         id
         cognitoId
         disabled
+        firstName
+        lastName
+        userLevel {
+          id
+          name
+          allowedRoutes
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          userLevelOrganizationId
+        }
         createdAt
         updatedAt
         _version
@@ -4147,6 +4347,7 @@ export const onDeleteChatMessage = /* GraphQL */ `
       _deleted
       _lastChangedAt
       chatRoomMessagesId
+      chatMessageAuthorId
       chatMessageOrganizationId
     }
   }
@@ -4168,6 +4369,7 @@ export const onCreateChatRoom = /* GraphQL */ `
           _deleted
           _lastChangedAt
           chatRoomMessagesId
+          chatMessageAuthorId
           chatMessageOrganizationId
         }
         nextToken
@@ -4200,6 +4402,7 @@ export const onUpdateChatRoom = /* GraphQL */ `
           _deleted
           _lastChangedAt
           chatRoomMessagesId
+          chatMessageAuthorId
           chatMessageOrganizationId
         }
         nextToken
@@ -4232,6 +4435,7 @@ export const onDeleteChatRoom = /* GraphQL */ `
           _deleted
           _lastChangedAt
           chatRoomMessagesId
+          chatMessageAuthorId
           chatMessageOrganizationId
         }
         nextToken
@@ -4445,7 +4649,6 @@ export const onCreatePickUp = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
-          gender
           size
           createdAt
           updatedAt
@@ -4550,7 +4753,6 @@ export const onUpdatePickUp = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
-          gender
           size
           createdAt
           updatedAt
@@ -4655,7 +4857,6 @@ export const onDeletePickUp = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
-          gender
           size
           createdAt
           updatedAt

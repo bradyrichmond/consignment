@@ -2,6 +2,110 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getUserLevel = /* GraphQL */ `
+  query GetUserLevel($id: ID!) {
+    getUserLevel(id: $id) {
+      id
+      name
+      allowedRoutes
+      organization {
+        id
+        name
+        users {
+          nextToken
+          startedAt
+        }
+        logoId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      userLevelOrganizationId
+    }
+  }
+`;
+export const listUserLevels = /* GraphQL */ `
+  query ListUserLevels(
+    $filter: ModelUserLevelFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUserLevels(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        allowedRoutes
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        userLevelOrganizationId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncUserLevels = /* GraphQL */ `
+  query SyncUserLevels(
+    $filter: ModelUserLevelFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncUserLevels(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        name
+        allowedRoutes
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        userLevelOrganizationId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
 export const getOrganization = /* GraphQL */ `
   query GetOrganization($id: ID!) {
     getOrganization(id: $id) {
@@ -12,6 +116,8 @@ export const getOrganization = /* GraphQL */ `
           id
           cognitoId
           disabled
+          firstName
+          lastName
           createdAt
           updatedAt
           _version
@@ -99,6 +205,30 @@ export const getUser = /* GraphQL */ `
       id
       cognitoId
       disabled
+      firstName
+      lastName
+      userLevel {
+        id
+        name
+        allowedRoutes
+        organization {
+          id
+          name
+          logoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        userLevelOrganizationId
+      }
       createdAt
       updatedAt
       _version
@@ -120,6 +250,19 @@ export const listUsers = /* GraphQL */ `
         id
         cognitoId
         disabled
+        firstName
+        lastName
+        userLevel {
+          id
+          name
+          allowedRoutes
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          userLevelOrganizationId
+        }
         createdAt
         updatedAt
         _version
@@ -150,6 +293,19 @@ export const syncUsers = /* GraphQL */ `
         id
         cognitoId
         disabled
+        firstName
+        lastName
+        userLevel {
+          id
+          name
+          allowedRoutes
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          userLevelOrganizationId
+        }
         createdAt
         updatedAt
         _version
@@ -210,7 +366,6 @@ export const getClient = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
-          gender
           size
           createdAt
           updatedAt
@@ -555,7 +710,6 @@ export const getStoreCredit = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
-          gender
           size
           createdAt
           updatedAt
@@ -806,7 +960,6 @@ export const getItem = /* GraphQL */ `
       returned
       createTimestamp
       entryTimestamp
-      gender
       size
       organization {
         id
@@ -916,7 +1069,6 @@ export const listItems = /* GraphQL */ `
         returned
         createTimestamp
         entryTimestamp
-        gender
         size
         organization {
           id
@@ -1031,7 +1183,6 @@ export const syncItems = /* GraphQL */ `
         returned
         createTimestamp
         entryTimestamp
-        gender
         size
         organization {
           id
@@ -1097,7 +1248,6 @@ export const getTransaction = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
-          gender
           size
           createdAt
           updatedAt
@@ -1233,7 +1383,6 @@ export const getTransaction = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
-          gender
           size
           createdAt
           updatedAt
@@ -3323,6 +3472,19 @@ export const getChatMessage = /* GraphQL */ `
         id
         cognitoId
         disabled
+        firstName
+        lastName
+        userLevel {
+          id
+          name
+          allowedRoutes
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          userLevelOrganizationId
+        }
         createdAt
         updatedAt
         _version
@@ -3353,6 +3515,7 @@ export const getChatMessage = /* GraphQL */ `
       _deleted
       _lastChangedAt
       chatRoomMessagesId
+      chatMessageAuthorId
       chatMessageOrganizationId
     }
   }
@@ -3372,6 +3535,8 @@ export const listChatMessages = /* GraphQL */ `
           id
           cognitoId
           disabled
+          firstName
+          lastName
           createdAt
           updatedAt
           _version
@@ -3398,6 +3563,7 @@ export const listChatMessages = /* GraphQL */ `
         _deleted
         _lastChangedAt
         chatRoomMessagesId
+        chatMessageAuthorId
         chatMessageOrganizationId
       }
       nextToken
@@ -3426,6 +3592,8 @@ export const syncChatMessages = /* GraphQL */ `
           id
           cognitoId
           disabled
+          firstName
+          lastName
           createdAt
           updatedAt
           _version
@@ -3452,6 +3620,7 @@ export const syncChatMessages = /* GraphQL */ `
         _deleted
         _lastChangedAt
         chatRoomMessagesId
+        chatMessageAuthorId
         chatMessageOrganizationId
       }
       nextToken
@@ -3476,6 +3645,7 @@ export const getChatRoom = /* GraphQL */ `
           _deleted
           _lastChangedAt
           chatRoomMessagesId
+          chatMessageAuthorId
           chatMessageOrganizationId
         }
         nextToken
@@ -3719,7 +3889,6 @@ export const getPickUp = /* GraphQL */ `
           returned
           createTimestamp
           entryTimestamp
-          gender
           size
           createdAt
           updatedAt

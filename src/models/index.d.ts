@@ -1,6 +1,6 @@
 import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier } from "@aws-amplify/datastore";
 // @ts-ignore
-import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from "@aws-amplify/datastore";
+import { LazyLoading, LazyLoadingDisabled, AsyncItem, AsyncCollection } from "@aws-amplify/datastore";
 
 export enum ClientType {
   CLIENT = "CLIENT",
@@ -37,8 +37,10 @@ type EagerUserLevel = {
   readonly id: string;
   readonly name: string;
   readonly allowedRoutes: string[];
+  readonly organization: Organization;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly userLevelOrganizationId: string;
 }
 
 type LazyUserLevel = {
@@ -49,8 +51,10 @@ type LazyUserLevel = {
   readonly id: string;
   readonly name: string;
   readonly allowedRoutes: string[];
+  readonly organization: AsyncItem<Organization>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly userLevelOrganizationId: string;
 }
 
 export declare type UserLevel = LazyLoading extends LazyLoadingDisabled ? EagerUserLevel : LazyUserLevel

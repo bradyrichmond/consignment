@@ -1,0 +1,12 @@
+{
+  "resourceName": "consignmentImages",
+  "policyUUID": "f9554ba4",
+  "bucketName": "consignment963f1e0c2a814aeaa17bbc377084251b",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ]
+}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Select, Typography } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Paper, Select, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { Address, Location } from "../../models";
 import AddLocation from "./AddLocation";
@@ -97,7 +97,8 @@ const LocationSettings = (props: LocationSettingsProps) => {
             >
                 <ConfirmModal validationText='Are you sure you want to delete this location?' confirm={deleteLocation} confirmText='Delete' cancel={stopDeletingLocation} cancelText='cancel' />
             </Modal>
-            <Box display='flex' flexDirection='column' bgcolor='white' padding='2rem' borderRadius='1rem' marginTop='2rem'>
+            <Paper style={{display: 'flex', flexDirection: 'column', padding: '2rem'}}>
+                <Typography variant='h2'>Location Settings</Typography>
                 {locations.length > 0 &&
                     <Box marginTop='1rem' marginBottom='1rem'>
                         {locations && 
@@ -145,7 +146,7 @@ const LocationSettings = (props: LocationSettingsProps) => {
                 <Box marginTop='2rem'>
                     <Button variant='contained' fullWidth onClick={startAddingLocation}>Add location</Button>
                 </Box>
-            </Box>
+            </Paper>
         </Box>
     )
 }

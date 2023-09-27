@@ -25,6 +25,24 @@ export const schema = {
                     "attributes": [],
                     "isArrayNullable": false
                 },
+                "organization": {
+                    "name": "organization",
+                    "isArray": false,
+                    "type": {
+                        "model": "Organization"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": [
+                            "id"
+                        ],
+                        "targetNames": [
+                            "userLevelOrganizationId"
+                        ]
+                    }
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -40,6 +58,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
+                },
+                "userLevelOrganizationId": {
+                    "name": "userLevelOrganizationId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -3457,5 +3482,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.2",
-    "version": "430d096049e3a58f4a021686b58500b0"
+    "version": "80bc852d15515e66258a0cf84d7d63a4"
 };
