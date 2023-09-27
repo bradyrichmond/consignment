@@ -126,20 +126,22 @@ export const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: s
     ]
   },
   {
-    path: '/concierge',
-    element: <Concierge />
-  },
-  {
-    path: '/concierge/client',
-    element: <Checkin />
-  },
-  {
-    path: '/concierge/client/complete',
-    element: <DropOffComplete />
-  },
-  {
-    path: '/concierge/create-dropoff',
-    element: <CreateDropOff />
+    path: 'concierge',
+    element: <Concierge />,
+    children: [
+      {
+        path: '/concierge',
+        element: <Checkin />
+      },
+      {
+        path: 'complete',
+        element: <DropOffComplete />
+      },
+      {
+        path: 'create-dropoff',
+        element: <CreateDropOff />
+      },  
+    ]
   },
   {
     path: 'client-pickup/:id',
@@ -158,7 +160,7 @@ export const buildRoutes = (isLoggedIn: boolean, pathname: string, userGroups: s
     element: <CreateUserComplete />
   },
   {
-    path: '/login',
+    path: 'login',
     element: <Login />
   },
   {
